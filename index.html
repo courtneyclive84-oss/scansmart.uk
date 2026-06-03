@@ -255,7 +255,7 @@ img { max-width: 100%; display: block; height: auto; }
    HERO — TENT
    ============================================================= */
 .hero-tent {
-  padding: clamp(64px, 12vw, 140px) var(--gutter) clamp(36px, 6vw, 72px);
+  padding: clamp(64px, 12vw, 140px) var(--gutter) clamp(20px, 3vw, 40px);
   max-width: var(--max-width);
   margin: 0 auto;
   text-align: center;
@@ -398,6 +398,8 @@ img { max-width: 100%; display: block; height: auto; }
   margin: 0 auto;
   padding: clamp(56px, 10vw, 120px) var(--gutter);
 }
+/* Tighten the empty band between the hero and the first section. */
+#doors { padding-top: clamp(28px, 4vw, 52px); }
 
 .section-eyebrow {
   font-family: var(--font-display);
@@ -917,6 +919,7 @@ img { max-width: 100%; display: block; height: auto; }
       <a href="flt.html">FLT</a>
       <a href="checkout.html">Checkout</a>
       <a href="library.html" class="lib">Library</a>
+      <a href="about.html">About</a>
       <a href="install.html" class="install-btn" onclick="installScansmart(event)">Install</a>
       <a href="https://app.scansmart.uk" class="cta">Try the scanner →</a>
     </nav>
@@ -1046,11 +1049,10 @@ img { max-width: 100%; display: block; height: auto; }
      FLT sit behind the Subscription key-gate so are poor
      first-click destinations.
      ======================================================== -->
-<section class="inst-band" aria-labelledby="inst-band-heading">
+<section class="inst-band" aria-label="For NHS, Commissioning and Research">
   <div class="inst-band-inner">
     <div class="inst-band-copy">
       <div class="inst-band-eyebrow">For NHS &middot; Commissioning &middot; Research</div>
-      <h2 id="inst-band-heading" class="inst-band-title">Looking at <span class="swm">SCANSMART</span> for your population?</h2>
       <p class="inst-band-sub">The I500 independent dataset, a Lambeth&nbsp;/&nbsp;HIN pilot in pursuit, and an NHS DTAC&nbsp;V2 pathway in progress. See what&rsquo;s evidenced, what&rsquo;s live today, and what&rsquo;s next.</p>
     </div>
     <div class="inst-band-cta">

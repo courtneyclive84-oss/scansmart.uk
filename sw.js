@@ -3464,7 +3464,7 @@
 //   §47a CANON-SYNC PROTOCOL: scope declared; no parallel session conflict.
 //   §112 LOCAL-IS-MAIN: edits land in /Users/clive/Documents/ScanSmart/scansmart-site/ (local).
 //
-const CACHE_VERSION = 'scansmart-v5.0.134-library-nav-audio';
+const CACHE_VERSION = 'scansmart-v5.0.135-nav-about-hero-gap-inst-band';
 const PRECACHE = [
   '/',
   '/install.html',
