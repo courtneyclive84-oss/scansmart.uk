@@ -1,0 +1,512 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0A1628">
+<script>
+// I500 key-gate redirect (banked 26 May 2026 — see Bible §117; per-gate-keyed architecture evening revision).
+// Inline at the very top of <head> so it fires before any other script or paint.
+// - ?embed=1 bypasses the gate (any future marketing iframe preview)
+// - sessionStorage i500_unlocked === '1' bypasses the gate (returning unlocked I500 session)
+//   I500-specific flag — separate from FLT's flt_unlocked flag per the per-gate-keyed architecture
+//   (each Partner Programme surface has its own key + own sessionStorage flag; unlock state is not shared).
+//   I500 key: i500access-526 · SHA-256 1a0d8e38...
+// - Otherwise redirect to i500-gate.html, preserving the intended destination
+// Anti-tracking posture per §31: sessionStorage only, no cookies, no fingerprinting.
+(function () {
+  try {
+    var p = new URLSearchParams(window.location.search);
+    if (p.get('embed') === '1') {
+      // Embed mode — bypass gate AND mark the document so embed-mode CSS hides the SCANSMART chrome
+      // (nav, construction strip, page-hero). The iframe shows ONLY the terminal content.
+      document.documentElement.classList.add('embed-mode');
+      return;
+    }
+    if (sessionStorage.getItem('i500_unlocked') === '1') return;
+    var target = 'i500-gate.html?next=' + encodeURIComponent(window.location.pathname.replace(/^\//, '') + window.location.search);
+    window.location.replace(target);
+  } catch (e) {
+    // sessionStorage unavailable in sandboxed contexts — send to gate; the gate page will render the form regardless.
+    window.location.replace('i500-gate.html');
+  }
+})();
+</script>
+<title>Retail Intelligence Terminal — Working draft · SCANSMART</title>
+
+<!-- Working draft surface; noindex while in development. -->
+<meta name="robots" content="noindex, nofollow">
+<meta name="description" content="Working draft of the SCANSMART Retail Intelligence Terminal. Filter the live I500 catalogue by category, brand owner, and Open Food Facts coverage status.">
+
+<link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon-16x16.png">
+<link rel="shortcut icon" href="/assets/favicon.ico">
+<link rel="apple-touch-icon" sizes="180x180" href="/assets/apple-touch-icon.png">
+<link rel="manifest" href="/manifest.webmanifest">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="SCANSMART">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;700&family=Syne:wght@600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="brand.css?v=5.0.58">
+<script src="install.js?v=5.0.134" defer></script>
+
+<style>
+/* =============================================================
+   SCANSMART — Door 3 Retail Intelligence Terminal · Internal Preview
+   Built 5 May 2026
+   Buyer-context: Tier 1-3 institutional preview (editorial / NHS / academic / retailer).
+   NOT Tier 4 (manufacturer GTM) — see Monetisation Architecture v0.1.1 + B2B Buyer-Need Matrix.
+   ============================================================= */
+.page-hero { padding: clamp(48px, 8vw, 88px) var(--gutter) 32px; max-width: 1100px; margin: 0 auto; }
+.page-hero .door-tag { display: inline-block; padding: 6px 12px; font-family: var(--font-display); font-weight: 600; font-size: 0.75rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--yellow); border: 1px solid var(--yellow); border-radius: 999px; margin-bottom: 20px; }
+.page-hero h1 { font-family: var(--font-display); font-weight: 800; font-size: clamp(2rem, 4.5vw, 3rem); line-height: 1.05; letter-spacing: -0.02em; color: var(--cream); margin-bottom: 18px; }
+.page-hero h1 .accent { color: var(--green-soft); }
+.page-hero .lede { font-size: clamp(1.05rem, 1.6vw, 1.2rem); line-height: 1.55; color: var(--cream-dim); max-width: 760px; }
+.page-hero .gates-note { font-size: 0.88rem; color: var(--muted); margin-top: 14px; font-style: italic; max-width: 760px; }
+
+.terminal-wrap { max-width: 1100px; margin: 0 auto; padding: 0 var(--gutter) 32px; }
+
+.term-bar { background: var(--navy-soft); border: 1px solid var(--line-strong); border-radius: var(--radius); padding: 18px 22px; margin-bottom: 18px; }
+.term-bar-top { display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 12px; padding-bottom: 14px; border-bottom: 1px solid var(--line); margin-bottom: 16px; }
+.term-mark { font-family: var(--font-display); font-weight: 800; font-size: 1.9rem; letter-spacing: 0.08em; color: var(--cream); line-height: 1.1; }
+.term-title { font-size: 0.82rem; color: var(--muted); margin-top: 4px; letter-spacing: 0.04em; }
+.term-tier { font-size: 0.72rem; color: var(--muted-dim); text-align: right; line-height: 1.5; letter-spacing: 0.03em; }
+.term-tier strong { color: var(--yellow); font-weight: 600; letter-spacing: 0.06em; }
+
+.term-stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
+.term-stat { background: var(--navy-deep); border-radius: 8px; padding: 14px 16px; }
+.term-stat-label { font-family: var(--font-display); font-weight: 600; font-size: 0.7rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); }
+.term-stat-value { font-family: var(--font-display); font-weight: 700; font-size: 1.6rem; color: var(--cream); margin-top: 6px; line-height: 1.1; }
+.term-stat-value.sm { font-size: 1rem; padding-top: 12px; letter-spacing: 0.02em; }
+.term-stat-meta { font-size: 0.7rem; color: var(--muted-dim); margin-top: 4px; }
+
+@media (max-width: 720px) {
+  .term-stats { grid-template-columns: repeat(2, 1fr); }
+}
+
+.term-filters { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 10px; margin-bottom: 12px; }
+.term-filters select, .term-filters input {
+  width: 100%;
+  padding: 10px 12px;
+  background: var(--navy-soft);
+  border: 1px solid var(--line-strong);
+  border-radius: 8px;
+  color: var(--cream);
+  font-family: var(--font-body);
+  font-size: 0.92rem;
+  min-width: 0;
+}
+.term-filters select:focus, .term-filters input:focus { outline: 2px solid var(--green-soft); outline-offset: 1px; }
+.term-filters input::placeholder { color: var(--muted-dim); }
+
+@media (max-width: 720px) {
+  .term-filters { grid-template-columns: 1fr 1fr; }
+}
+
+.term-count { font-size: 0.85rem; color: var(--muted); margin-bottom: 10px; padding: 0 4px; display: flex; justify-content: space-between; align-items: baseline; gap: 12px; flex-wrap: wrap; }
+.term-count strong { color: var(--cream); font-weight: 600; }
+
+.term-table-wrap { background: var(--navy-soft); border: 1px solid var(--line-strong); border-radius: var(--radius); max-height: 540px; overflow-y: auto; }
+
+.term-table { width: 100%; border-collapse: collapse; }
+.term-table thead th {
+  position: sticky; top: 0; z-index: 1;
+  background: var(--navy-deep);
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 0.72rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--muted);
+  text-align: left;
+  padding: 12px 14px;
+  border-bottom: 1px solid var(--line-strong);
+}
+.term-table tbody td {
+  padding: 14px;
+  border-bottom: 1px solid var(--line);
+  vertical-align: top;
+  font-size: 0.92rem;
+}
+.term-table tbody tr:last-child td { border-bottom: none; }
+.term-table tbody tr:hover td { background: rgba(245, 240, 232, 0.02); }
+.term-id { font-family: 'Courier New', monospace; font-size: 0.78rem; color: var(--muted-dim); }
+.term-pname { color: var(--cream); font-weight: 500; line-height: 1.3; }
+.term-pcat { color: var(--muted); font-size: 0.78rem; margin-top: 4px; }
+.term-pbrand { color: var(--cream-dim); }
+
+.term-badge { display: inline-block; padding: 4px 10px; border-radius: 6px; font-family: var(--font-display); font-weight: 600; font-size: 0.7rem; letter-spacing: 0.06em; text-transform: uppercase; }
+.term-badge-blind { background: rgba(230, 126, 34, 0.18); color: var(--amber); border: 1px solid rgba(230, 126, 34, 0.4); }
+.term-badge-sourced { background: rgba(29, 158, 117, 0.18); color: var(--green-soft); border: 1px solid rgba(29, 158, 117, 0.4); }
+.term-badge-partial { background: rgba(245, 197, 24, 0.14); color: var(--yellow); border: 1px solid rgba(245, 197, 24, 0.35); }
+
+.term-empty { padding: 32px; text-align: center; color: var(--muted); font-style: italic; }
+
+.term-footer-meta {
+  margin-top: 18px;
+  padding: 16px 18px;
+  background: var(--navy-soft);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+  font-size: 0.82rem;
+  color: var(--muted);
+}
+.term-footer-meta strong { color: var(--cream-dim); font-weight: 500; }
+.term-footer-meta a { color: var(--green-soft); border-bottom: 1px solid rgba(43, 184, 136, 0.3); }
+.term-footer-meta a:hover { opacity: 0.85; }
+
+.section-callout {
+  max-width: 1100px;
+  margin: 32px auto 64px;
+  padding: 24px var(--gutter);
+}
+.section-callout h2 { font-family: var(--font-display); font-weight: 700; font-size: 1.15rem; color: var(--cream); margin-bottom: 12px; }
+.section-callout p { color: var(--cream-dim); line-height: 1.6; margin-bottom: 10px; max-width: 760px; }
+.section-callout ul { color: var(--cream-dim); line-height: 1.7; padding-left: 20px; max-width: 760px; }
+.section-callout li { margin-bottom: 6px; }
+.section-callout small { color: var(--muted); font-size: 0.82rem; }
+
+/* Hero masthead — Door 3 preview is institutional-facing / non-homepage.
+   Centered at the top of the document body, before the page-hero section. */
+.hero-masthead {
+  text-align: center;
+  padding: clamp(32px, 5vw, 56px) var(--gutter) clamp(8px, 2vw, 16px);
+  max-width: 1100px;
+  margin: 0 auto;
+}
+.hero-masthead img {
+  display: inline-block;
+  height: auto;
+  width: 110px;
+  max-width: 100%;
+  filter: drop-shadow(0 8px 24px rgba(0, 0, 0, 0.4));
+}
+@media (max-width: 540px) {
+  .hero-masthead img { width: 92px; }
+}
+
+/* Under-construction pill-badge — sits below the masthead, above the page-hero. */
+.construction-badge {
+  display: inline-block;
+  margin-top: 14px;
+  padding: 5px 14px;
+  font-family: var(--font-display);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--yellow);
+  background: rgba(245, 197, 24, 0.06);
+  border: 1px solid rgba(245, 197, 24, 0.5);
+  border-radius: 999px;
+}
+
+/* =============================================================
+   Embed mode — applied when ?embed=1 is in the URL (per the gate-check
+   script in <head>). Hides the SCANSMART chrome (construction strip,
+   site nav, page hero, section callout) so the iframe on i500.html shows
+   only the terminal interface. Banked 26 May 2026 evening alongside the
+   i500.html iframe preview refactor.
+   ============================================================= */
+html.embed-mode { background: #000; }
+html.embed-mode body { background: #000; margin: 0; padding: 0; min-height: 100%; }
+html.embed-mode .construction-strip,
+html.embed-mode .site-nav,
+html.embed-mode .skip-link,
+html.embed-mode .page-hero,
+html.embed-mode .section-callout,
+html.embed-mode footer { display: none !important; }
+html.embed-mode .terminal-wrap { padding-top: 8px; padding-bottom: 8px; max-width: none; }
+</style>
+</head>
+<body>
+
+<a href="#main" class="skip-link">Skip to main content</a>
+<header class="site-nav">
+  <div class="site-nav-inner">
+    <a href="index.html" class="brand-banner" aria-label="SCANSMART home — Power is Knowledge Decoded"><img src="assets/hero-v16.webp" alt="SCANSMART" width="48" height="60"></a>
+    <button class="nav-toggle" aria-label="Open navigation" aria-controls="primary-nav" aria-expanded="false" onclick="const n=document.getElementById('primary-nav');n.classList.toggle('open');this.setAttribute('aria-expanded',n.classList.contains('open'))">≡</button>
+    <nav id="primary-nav" class="nav-doors" aria-label="Primary">
+      <a href="checkit.html">CheckIT</a><a href="i500.html">I500</a>
+      <a href="flt.html">FLT</a><a href="checkout.html">Checkout</a><a href="library.html" class="lib">Library</a>
+      <a href="install.html" class="install-btn" onclick="installScansmart(event)">Install</a>
+      <a href="https://app.scansmart.uk" class="cta">Try the scanner →</a>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+
+<!-- Hero masthead -->
+<div class="hero-masthead">
+  <a href="index.html" aria-label="SCANSMART home">
+    <img src="assets/hero-v16.webp"
+         alt="SCANSMART"
+         width="110" height="138"
+         loading="eager">
+  </a>
+  <div class="construction-badge" role="status" aria-label="Under construction — surface in progress">
+    Under construction
+  </div>
+</div>
+
+<section class="page-hero">
+  <div class="door-tag">Working draft</div>
+  <h1>Retail Intelligence <span class="accent">Terminal</span>.</h1>
+  <p class="lede">The live I500 catalogue, filterable by category, brand owner, and Open Food Facts coverage status. Powered by the same audit data that drives the homepage ticker.</p>
+  <p class="gates-note">Working-draft surface for editorial decision-support and Tier 1-3 institutional preview (NHS / ICB / academic / retailer). Not for external citation until the bank-ready version is published.</p>
+</section>
+
+<section class="terminal-wrap" aria-labelledby="terminal-heading">
+  <h2 id="terminal-heading" class="sr-only">Door 3 Retail Intelligence Terminal — interactive preview</h2>
+
+  <div class="term-bar">
+    <div class="term-bar-top">
+      <div>
+        <div class="term-mark">I500</div>
+        <div class="term-title">Retail Intelligence Terminal · Working draft</div>
+      </div>
+      <div class="term-tier">
+        <strong>Tier 1-3 institutional surface</strong><br>
+        Editorial / NHS / Academic / Retailer
+      </div>
+    </div>
+
+    <div class="term-stats" id="term-stats">
+      <div class="term-stat"><div class="term-stat-label">SKUs queried</div><div class="term-stat-value" id="stat-skus">—</div></div>
+      <div class="term-stat"><div class="term-stat-label">OFF blindspot</div><div class="term-stat-value" id="stat-blind">—</div></div>
+      <div class="term-stat"><div class="term-stat-label">Brand owners</div><div class="term-stat-value" id="stat-brands">—</div></div>
+      <div class="term-stat"><div class="term-stat-label">Capture date</div><div class="term-stat-value sm" id="stat-date">—</div></div>
+    </div>
+  </div>
+
+  <div class="term-filters">
+    <select id="f-cat" aria-label="Filter by category"></select>
+    <select id="f-brand" aria-label="Filter by brand owner"></select>
+    <select id="f-status" aria-label="Filter by OFF status">
+      <option value="">All sources</option>
+      <option value="N">Blindspot only — absent from OFF</option>
+      <option value="Y,Y*">Sourced — present in OFF</option>
+      <option value="P">Partial — incomplete OFF data</option>
+    </select>
+    <input id="f-q" type="search" placeholder="Search name or brand..." aria-label="Search by product name or brand">
+  </div>
+
+  <div class="term-count" id="term-count">
+    <span><strong>Loading catalogue…</strong></span>
+    <span id="term-count-meta"></span>
+  </div>
+
+  <div class="term-table-wrap">
+    <table class="term-table" aria-describedby="term-count">
+      <thead>
+        <tr>
+          <th style="width: 60px;">ID</th>
+          <th>Product</th>
+          <th style="width: 180px;">Brand owner</th>
+          <th style="width: 140px;">OFF status</th>
+        </tr>
+      </thead>
+      <tbody id="term-body">
+        <tr><td colspan="4" class="term-empty">Loading audit data…</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="term-footer-meta">
+    <div>
+      <strong>Source:</strong> I500 catalogue · OFF API audit <span id="footer-date">04 May 2026</span>
+    </div>
+    <div>
+      <strong>Methodology:</strong> <a href="methodology.html">scansmart.uk/methodology</a>
+    </div>
+    <div>
+      <strong>Use:</strong> editorial / Tier 1-3 institutional preview
+    </div>
+  </div>
+
+</section>
+
+<section class="section-callout" aria-labelledby="callout-heading">
+  <h2 id="callout-heading">What this preview is — and what it isn't.</h2>
+  <p><strong style="color:var(--cream);">It is</strong> the working-draft Door 3 surface. The data is real, sourced from the 4 May 2026 full audit of every queryable barcode in the I500 catalogue against the Open Food Facts API. Filter labels use <em>Brand owner</em> rather than <em>Competitor</em> &mdash; the buyer context is named on the surface, not implied.</p>
+  <p><strong style="color:var(--cream);">It isn't</strong> the bank-ready Tier 1-3 institutional version. Three additions remain queued before that:</p>
+  <ul>
+    <li>Condition-lens chips (diabetes / hypertension / oral health / family) once the basket-aggregate scoring federation extension lands.</li>
+    <li>Decision Record overlay (per-SKU put-back ratio) once pilot decision-volume reaches the publication threshold.</li>
+    <li>Source-priority adjudication surfaced per row.</li>
+  </ul>
+  <p style="margin-top:14px;"><small>Refresh discipline: published headline figure shifts &ge;1 percentage-point in either direction trigger a refresh. Every new SKU added to the catalogue triggers an Open Food Facts API check within 7 days.</small></p>
+</section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="footer-inner">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <div class="brand-lockup">
+          <span class="ss"><span class="swm">SCANSMART</span></span>
+          <span class="tag">Power is Knowledge Decoded</span>
+        </div>
+        <p>The School of Label Literacy. Built in South London. Open to the world.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Products</h4>
+        <ul>
+          <li><a href="checkit.html">CheckIT</a></li>
+          <li><a href="i500.html">The I500</a></li>
+          <li><a href="flt.html">FLT — Food Label Terminal</a></li>
+          <li><a href="subscribe.html">Subscriptions</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Read &amp; explore</h4>
+        <ul>
+          <li><a href="checkout.html">Weekly Checkout, Decoded</a></li>
+          <li><a href="library.html">Knowledge Library</a></li>
+          <li><a href="stories.html">CheckIT Stories</a></li>
+          <li><a href="shops.html">I500 Shop Directory</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>About</h4>
+        <ul>
+          <li><a href="about.html">About <span class="swm">SCANSMART</span></a></li>
+          <li><a href="install.html">Install on your phone</a></li>
+          <li><a href="contact.html">Contact</a></li>
+          <li><a href="privacy.html">Privacy</a></li>
+          
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div>
+        <a href="index.html" aria-label="Home — SCANSMART"><img src="assets/marque-v2.svg" alt="SCANSMART" class="marque-footer" width="240" height="80"></a>
+      </div>
+      <div>
+        &copy; 2026 <span class="swm">SCANSMART</span> Ltd &middot; Co. No. 17128797 &middot; England &amp; Wales
+        <br>
+        <small style="color:var(--muted-dim)"><span class="swm">SCANSMART</span> is a food literacy and decision-support platform. It is not a medical device and does not provide medical advice.</small>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+/* =============================================================
+   Door 3 Terminal — data fetch + filter UX
+   Reads from door3-data.json (140-SKU slim catalogue) and
+   i500-ticker.json (topline metrics + capture date).
+   Both files refresh independently of this HTML; updates flow
+   through automatically on the next deploy.
+   ============================================================= */
+(function () {
+  const $ = id => document.getElementById(id);
+  const fmt = d => {
+    try {
+      const dt = new Date(d);
+      return dt.toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' });
+    } catch (e) { return d; }
+  };
+  const escape = s => String(s).replace(/[<>&"']/g, c => ({'<':'&lt;','>':'&gt;','&':'&amp;','"':'&quot;',"'":'&#39;'}[c]));
+  const badge = s => {
+    if (s === 'N') return '<span class="term-badge term-badge-blind">Blindspot</span>';
+    if (s === 'P') return '<span class="term-badge term-badge-partial">Partial</span>';
+    return '<span class="term-badge term-badge-sourced">Sourced</span>';
+  };
+
+  let DATA = [];
+  let TICKER = {};
+
+  function buildFilters() {
+    const cats = [...new Set(DATA.map(p => p.c))].sort();
+    const brands = [...new Set(DATA.map(p => p.b))].sort();
+    $('f-cat').innerHTML = '<option value="">All categories</option>' + cats.map(c => `<option value="${escape(c)}">${escape(c)}</option>`).join('');
+    $('f-brand').innerHTML = '<option value="">All brand owners</option>' + brands.map(b => `<option value="${escape(b)}">${escape(b)}</option>`).join('');
+  }
+
+  function render() {
+    const cat = $('f-cat').value;
+    const brand = $('f-brand').value;
+    const status = $('f-status').value;
+    const q = $('f-q').value.toLowerCase().trim();
+    const allowed = status ? status.split(',') : null;
+
+    const out = DATA.filter(p => {
+      if (cat && p.c !== cat) return false;
+      if (brand && p.b !== brand) return false;
+      if (allowed && !allowed.includes(p.s)) return false;
+      if (q && !p.n.toLowerCase().includes(q) && !p.b.toLowerCase().includes(q)) return false;
+      return true;
+    });
+
+    const blind = out.filter(p => p.s === 'N').length;
+    const sourced = out.filter(p => p.s === 'Y' || p.s === 'Y*').length;
+    const partial = out.filter(p => p.s === 'P').length;
+    const pct = out.length ? Math.round(blind / out.length * 100) : 0;
+
+    $('term-count').innerHTML = `
+      <span><strong>${out.length}</strong> of ${DATA.length} SKUs</span>
+      <span id="term-count-meta">${blind} blindspot (${pct}%) · ${sourced} sourced · ${partial} partial</span>
+    `;
+
+    if (out.length === 0) {
+      $('term-body').innerHTML = '<tr><td colspan="4" class="term-empty">No SKUs match these filters. Try clearing one.</td></tr>';
+      return;
+    }
+
+    $('term-body').innerHTML = out.map(p => `<tr>
+      <td><span class="term-id">${escape(p.i)}</span></td>
+      <td><div class="term-pname">${escape(p.n)}</div><div class="term-pcat">${escape(p.c)}</div></td>
+      <td><div class="term-pbrand">${escape(p.b)}</div></td>
+      <td>${badge(p.s)}</td>
+    </tr>`).join('');
+  }
+
+  function loadTicker() {
+    return fetch('i500-ticker.json?v=' + Date.now())
+      .then(r => r.json())
+      .then(t => {
+        TICKER = t;
+        $('stat-skus').textContent = t.skus_total;
+        $('stat-blind').textContent = t.blindspot_pct + '%';
+        $('stat-brands').textContent = t.brand_owners;
+        $('stat-date').textContent = fmt(t.capture_date);
+        $('footer-date').textContent = fmt(t.capture_date);
+      })
+      .catch(e => console.warn('Ticker load failed:', e));
+  }
+
+  function loadData() {
+    return fetch('door3-data.json?v=' + Date.now())
+      .then(r => r.json())
+      .then(d => {
+        DATA = d;
+        buildFilters();
+        ['f-cat', 'f-brand', 'f-status', 'f-q'].forEach(id => {
+          $(id).addEventListener('input', render);
+          $(id).addEventListener('change', render);
+        });
+        render();
+      })
+      .catch(e => {
+        $('term-body').innerHTML = '<tr><td colspan="4" class="term-empty">Failed to load catalogue. Refresh the page.</td></tr>';
+        console.error('Data load failed:', e);
+      });
+  }
+
+  Promise.all([loadTicker(), loadData()]);
+})();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,925 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0A1628">
+<title>Interactive Periodic Table — Reference Tools · SCANSMART Knowledge Library</title>
+<meta name="description" content="Interactive periodic table of all 118 elements. Click any element for atomic number, mass, electron configuration, melting and boiling points, discovery year, and a brief description. Filter by category. Search by name, symbol, or atomic number. Food and cosmetics relevance flagged on elements that appear on ingredient labels.">
+<link rel="canonical" href="https://scansmart.uk/library-periodic-table">
+<link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon-16x16.png">
+<link rel="shortcut icon" href="/assets/favicon.ico">
+<link rel="apple-touch-icon" sizes="180x180" href="/assets/apple-touch-icon.png">
+<link rel="manifest" href="/manifest.webmanifest">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="SCANSMART">
+
+<meta property="og:image" content="https://scansmart.uk/assets/og-card.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="SCANSMART — Power is Knowledge Decoded.">
+<meta property="og:locale" content="en_GB">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="SCANSMART — Interactive Periodic Table">
+<meta name="twitter:description" content="The chemistry layer underneath every ingredient label, in one interactive grid. Free, open, mobile-responsive.">
+<meta name="twitter:image" content="https://scansmart.uk/assets/og-card.png">
+
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Organization","name":"SCANSMART Ltd","alternateName":"SCANSMART","url":"https://scansmart.uk/","logo":"https://scansmart.uk/assets/icon-512.png","image":"https://scansmart.uk/assets/og-card.png","description":"The School of Label Literacy.","foundingDate":"2026-02","address":{"@type":"PostalAddress","addressCountry":"GB","addressLocality":"London","addressRegion":"England"},"identifier":"Companies House Co. No. 17128797","sameAs":["https://app.scansmart.uk"],"slogan":"Power is Knowledge Decoded"}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebPage","name":"Interactive Periodic Table — SCANSMART Knowledge Library","url":"https://scansmart.uk/library-periodic-table","isPartOf":{"@type":"WebSite","name":"SCANSMART Knowledge Library","url":"https://scansmart.uk/library"},"publisher":{"@type":"Organization","name":"SCANSMART Ltd"},"about":"Periodic table of elements; interactive reference tool","genre":"Reference tool","inLanguage":"en-GB"}</script>
+
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;700&family=Syne:wght@600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="brand.css?v=5.0.58">
+<script src="install.js?v=5.0.134" defer></script>
+
+<style>
+/* =============================================================
+   PERIODIC TABLE — page-specific styles only.
+   Brand chrome inherited from brand.css.
+   Built 10 May 2026 evening per founder request:
+   "i think this should be in the library"
+   Architectural fit: §13.2A Two-Layer Literacy substrate;
+   §13.2B Belongs-to-Everyone (free reference material).
+   ============================================================= */
+
+.pt-controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  align-items: center;
+  margin-bottom: 24px;
+  padding: 16px;
+  background: var(--navy-soft);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+}
+.pt-search {
+  flex: 1;
+  min-width: 220px;
+  padding: 10px 14px;
+  background: var(--navy);
+  border: 1px solid var(--line-strong);
+  border-radius: 8px;
+  color: var(--cream);
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+}
+.pt-search:focus { outline: 2px solid var(--yellow); outline-offset: 2px; }
+.pt-search::placeholder { color: var(--muted); }
+
+.pt-filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.pt-filter {
+  padding: 6px 12px;
+  border-radius: 100px;
+  background: var(--navy);
+  border: 1px solid var(--line-strong);
+  color: var(--cream-dim);
+  font-family: var(--font-body);
+  font-size: 0.78rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+}
+.pt-filter:hover { background: var(--line-strong); color: var(--cream); }
+.pt-filter[aria-pressed="true"] {
+  background: var(--cream);
+  color: var(--navy);
+  border-color: var(--cream);
+}
+
+.pt-grid {
+  display: grid;
+  grid-template-columns: repeat(18, minmax(0, 1fr));
+  gap: 4px;
+  margin-bottom: 8px;
+  /* Allow horizontal scroll on narrow screens rather than crushing tiles */
+  overflow-x: auto;
+  padding-bottom: 8px;
+  min-width: 0;
+}
+.pt-fblock {
+  display: grid;
+  grid-template-columns: repeat(18, minmax(0, 1fr));
+  gap: 4px;
+  margin-top: 12px;
+  overflow-x: auto;
+  padding-bottom: 8px;
+}
+.pt-fblock-label {
+  grid-column: 1 / 4;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding-right: 12px;
+  font-family: var(--font-display);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.pt-cell {
+  aspect-ratio: 1 / 1;
+  background: var(--navy-soft);
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  padding: 4px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: transform 0.15s ease, opacity 0.18s ease, border-color 0.15s ease, box-shadow 0.18s ease;
+  position: relative;
+  overflow: hidden;
+  min-width: 0;
+}
+.pt-cell:hover {
+  transform: scale(1.18);
+  z-index: 5;
+  border-color: var(--cream);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+}
+.pt-cell .num {
+  font-family: var(--font-body);
+  font-size: 0.55rem;
+  font-weight: 500;
+  color: var(--cream-dim);
+  line-height: 1;
+}
+.pt-cell .sym {
+  font-family: var(--font-display);
+  font-size: clamp(0.85rem, 1.6vw, 1.15rem);
+  font-weight: 800;
+  color: var(--cream);
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+  margin: 1px 0;
+}
+.pt-cell .name {
+  font-family: var(--font-body);
+  font-size: 0.5rem;
+  color: var(--cream-dim);
+  text-align: center;
+  line-height: 1.05;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
+}
+.pt-cell .ss-flag {
+  position: absolute;
+  top: 2px;
+  right: 2px;
+  font-size: 0.5rem;
+  opacity: 0.85;
+  line-height: 1;
+}
+
+/* Category colour scheme — desaturated to read on the navy field while the
+   colour grouping still does the family-recognition work. */
+.cat-alkali        { background: linear-gradient(135deg, #6B2A2A 0%, #4A1818 100%); border-color: #8E3838; }
+.cat-alkaline      { background: linear-gradient(135deg, #6B4A2A 0%, #4A2F18 100%); border-color: #8E5C38; }
+.cat-transition    { background: linear-gradient(135deg, #6B5C2A 0%, #4A3F18 100%); border-color: #8E7A38; }
+.cat-post          { background: linear-gradient(135deg, #2A4A4A 0%, #182F2F 100%); border-color: #386B6B; }
+.cat-metalloid     { background: linear-gradient(135deg, #4A4A2A 0%, #2F2F18 100%); border-color: #6B6B38; }
+.cat-nonmetal      { background: linear-gradient(135deg, #2A4A6B 0%, #182F4A 100%); border-color: #38598E; }
+.cat-halogen       { background: linear-gradient(135deg, #2A6B4A 0%, #184A2F 100%); border-color: #388E5C; }
+.cat-noble         { background: linear-gradient(135deg, #4A2A6B 0%, #2F184A 100%); border-color: #6B388E; }
+.cat-lanthanide    { background: linear-gradient(135deg, #6B2A4A 0%, #4A182F 100%); border-color: #8E3868; }
+.cat-actinide      { background: linear-gradient(135deg, #6B2A6B 0%, #4A184A 100%); border-color: #8E388E; }
+.cat-unknown       { background: linear-gradient(135deg, #444 0%, #222 100%); border-color: #666; }
+
+.pt-cell.dim       { opacity: 0.18; }
+.pt-cell.match     {
+  outline: 2px solid var(--yellow);
+  outline-offset: 1px;
+  box-shadow: 0 0 12px rgba(245, 197, 24, 0.6);
+  z-index: 3;
+}
+
+/* La-Lu / Ac-Lr placeholders that jump-filter to the f-block when clicked */
+.pt-placeholder {
+  aspect-ratio: 1 / 1;
+  background: var(--navy);
+  border: 1px dashed var(--line-strong);
+  border-radius: 4px;
+  padding: 4px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-family: var(--font-display);
+  font-size: 0.6rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  color: var(--muted);
+  transition: background 0.15s ease, color 0.15s ease;
+}
+.pt-placeholder:hover { background: var(--line-strong); color: var(--cream); }
+
+/* Legend at the bottom of the grid */
+.pt-legend {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 8px;
+  margin-top: 20px;
+  padding: 14px;
+  background: var(--navy-deep);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+}
+.pt-legend-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.78rem;
+  color: var(--cream-dim);
+}
+.pt-legend-swatch {
+  width: 14px;
+  height: 14px;
+  border-radius: 3px;
+  flex-shrink: 0;
+}
+
+/* Modal — element detail panel */
+.pt-modal-bg {
+  position: fixed;
+  inset: 0;
+  background: rgba(6, 15, 28, 0.78);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+  padding: 16px;
+  overflow-y: auto;
+}
+.pt-modal-bg.open { display: flex; }
+.pt-modal {
+  background: var(--navy);
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius);
+  padding: 32px;
+  max-width: 640px;
+  width: 100%;
+  max-height: 90vh;
+  overflow-y: auto;
+  position: relative;
+  box-shadow: 0 24px 80px rgba(0, 0, 0, 0.6);
+}
+.pt-modal-close {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  background: transparent;
+  border: 0;
+  color: var(--muted);
+  font-size: 1.6rem;
+  cursor: pointer;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  transition: background 0.15s ease, color 0.15s ease;
+}
+.pt-modal-close:hover { background: var(--line-strong); color: var(--cream); }
+.pt-modal-header {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  margin-bottom: 20px;
+  padding-bottom: 18px;
+  border-bottom: 1px solid var(--line);
+}
+.pt-modal-symbol {
+  width: 80px;
+  height: 80px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius);
+  flex-shrink: 0;
+}
+.pt-modal-symbol .sym { font-family: var(--font-display); font-size: 2.2rem; font-weight: 800; color: var(--cream); line-height: 1; }
+.pt-modal-symbol .num { font-size: 0.7rem; color: var(--cream-dim); margin-top: 4px; }
+.pt-modal-name {
+  font-family: var(--font-display);
+  font-size: 1.65rem;
+  font-weight: 800;
+  color: var(--cream);
+  letter-spacing: -0.01em;
+  line-height: 1.1;
+}
+.pt-modal-cat {
+  font-family: var(--font-display);
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-top: 6px;
+}
+.pt-modal-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 14px;
+  margin-bottom: 20px;
+}
+.pt-modal-stat {
+  background: var(--navy-soft);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 12px 14px;
+}
+.pt-modal-stat-label {
+  font-family: var(--font-display);
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 4px;
+}
+.pt-modal-stat-value {
+  font-size: 0.95rem;
+  color: var(--cream);
+  font-weight: 500;
+  line-height: 1.35;
+}
+.pt-modal-desc {
+  font-size: 0.95rem;
+  color: var(--cream-dim);
+  line-height: 1.6;
+  margin-bottom: 16px;
+}
+.pt-modal-ss {
+  background: linear-gradient(135deg, rgba(245, 197, 24, 0.10) 0%, rgba(245, 197, 24, 0.02) 100%);
+  border-left: 3px solid var(--yellow);
+  border-radius: 0 8px 8px 0;
+  padding: 14px 16px;
+  margin-top: 14px;
+}
+.pt-modal-ss-label {
+  font-family: var(--font-display);
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--yellow);
+  margin-bottom: 6px;
+}
+.pt-modal-ss-text {
+  font-size: 0.92rem;
+  color: var(--cream);
+  line-height: 1.5;
+}
+
+/* Mobile adjustments */
+@media (max-width: 760px) {
+  .pt-grid, .pt-fblock { gap: 2px; }
+  .pt-cell { padding: 2px; border-radius: 2px; }
+  .pt-cell .num { font-size: 0.42rem; }
+  .pt-cell .sym { font-size: 0.72rem; }
+  .pt-cell .name { display: none; }
+  .pt-modal { padding: 22px; }
+  .pt-modal-header { gap: 12px; }
+  .pt-modal-symbol { width: 60px; height: 60px; }
+  .pt-modal-symbol .sym { font-size: 1.55rem; }
+  .pt-modal-name { font-size: 1.2rem; }
+}
+
+/* Keep the grid scrollable on very narrow screens; do NOT compress past readability */
+@media (max-width: 540px) {
+  .pt-grid, .pt-fblock {
+    min-width: 540px;
+  }
+  .pt-grid-wrap, .pt-fblock-wrap {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    margin: 0 calc(-1 * var(--gutter));
+    padding: 0 var(--gutter) 8px;
+  }
+}
+</style>
+</head>
+<body>
+
+<a href="#main" class="skip-link">Skip to main content</a>
+<header class="site-nav">
+  <div class="site-nav-inner">
+    <a href="index.html" class="brand-banner" aria-label="SCANSMART home — Power is Knowledge Decoded"><img src="assets/hero-v16.webp" alt="SCANSMART" width="48" height="60"></a>
+    <button class="nav-toggle" aria-label="Open navigation" aria-controls="primary-nav" aria-expanded="false" onclick="const n=document.getElementById('primary-nav');n.classList.toggle('open');this.setAttribute('aria-expanded',n.classList.contains('open'))">&equiv;</button>
+    <nav id="primary-nav" class="nav-doors" aria-label="Primary">
+      <a href="checkit.html">CheckIT</a><a href="i500.html">I500</a>
+      <a href="flt.html">FLT</a><a href="checkout.html">Checkout</a><a href="library.html" class="lib" aria-current="page">Library</a>
+      <a href="install.html" class="install-btn" onclick="installScansmart(event)">Install</a>
+      <a href="https://app.scansmart.uk" class="cta">Try the scanner &rarr;</a>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+
+<section class="page-hero">
+  <div class="door-tag support"><a href="library.html" style="color:inherit;border:0;">Knowledge Library</a> &middot; Reference tool</div>
+  <h1>The periodic table, <span class="accent-yellow">decoded.</span></h1>
+  <p class="lede">Every ingredient list at the strict-reading depth lands in chemistry. Sodium chloride. Methylparaben. Lead acetate. Aluminium chlorohydrate. Mercury. Fluoride. The lay reader sees the word; the strict reader engages with the substance. The periodic table is the substrate underneath, and it belongs in the Library &mdash; free, open, unattributed, mobile-responsive.</p>
+  <p style="font-size:0.92rem;color:var(--muted);margin-top:14px;font-style:italic;">Click any element for the detail panel. Filter by category. Search by name, symbol, or atomic number. Elements that appear on food and cosmetics ingredient labels carry a small <span style="color:var(--yellow);">&#x25C6;</span> mark; click for the SCANSMART relevance note.</p>
+</section>
+
+<section class="section section-narrow">
+  <div class="section-eyebrow">Why this is in the Library</div>
+  <h2>The Two-Layer Literacy substrate.</h2>
+  <p><strong>Lay reading layer:</strong> the shopper reads <em>"sodium chloride"</em> on a back-of-pack label and recognises the word for salt. <strong>Strict reading layer:</strong> the shopper reads <em>"methylisothiazolinone"</em> or <em>"aluminium chlorohydrate"</em> or <em>"lead acetate"</em> on a cosmetics or food label and engages with the chemistry of what is in the bottle. Both layers are needed. The lay layer is on the front of the pack. The strict layer is on the back of the pack &mdash; and on the back of the pack, every ingredient resolves to atoms.</p>
+  <p>This page is the strict-layer reference. It does not take a clinical position on any element. It does not replace a conversation with a GP, dietitian, or pharmacist about specific exposures or supplementation. It does what every periodic table does &mdash; names the elements, gives the atomic data, locates them in the family tree of matter &mdash; and adds a small SCANSMART overlay where an element appears commonly on food or cosmetics ingredient labels.</p>
+  <p>Per the <a href="library.html">Knowledge Library</a> Stream 4 architecture: free, open, no paywall, no medical advice. Per the <span class="swm">SCANSMART</span> Brand Bible &sect;13.2A Two-Layer Literacy Rule and &sect;13.2B Belongs-to-Everyone Rule, chemistry literacy is class-blind and language-blind &mdash; the reference layer everyone can call on.</p>
+</section>
+
+<section class="section">
+  <div class="pt-controls" role="region" aria-label="Periodic table controls">
+    <input type="search" class="pt-search" id="pt-search" placeholder="Search by name, symbol, or atomic number (e.g. iron, Fe, 26)" aria-label="Search the periodic table">
+    <div class="pt-filters" role="group" aria-label="Filter by element category">
+      <button class="pt-filter" type="button" data-cat="all" aria-pressed="true">All</button>
+      <button class="pt-filter" type="button" data-cat="alkali" aria-pressed="false">Alkali metals</button>
+      <button class="pt-filter" type="button" data-cat="alkaline" aria-pressed="false">Alkaline earth</button>
+      <button class="pt-filter" type="button" data-cat="transition" aria-pressed="false">Transition metals</button>
+      <button class="pt-filter" type="button" data-cat="post" aria-pressed="false">Post-transition</button>
+      <button class="pt-filter" type="button" data-cat="metalloid" aria-pressed="false">Metalloids</button>
+      <button class="pt-filter" type="button" data-cat="nonmetal" aria-pressed="false">Nonmetals</button>
+      <button class="pt-filter" type="button" data-cat="halogen" aria-pressed="false">Halogens</button>
+      <button class="pt-filter" type="button" data-cat="noble" aria-pressed="false">Noble gases</button>
+      <button class="pt-filter" type="button" data-cat="lanthanide" aria-pressed="false">Lanthanides</button>
+      <button class="pt-filter" type="button" data-cat="actinide" aria-pressed="false">Actinides</button>
+      <button class="pt-filter" type="button" data-cat="ss" aria-pressed="false">Found on labels &#x25C6;</button>
+    </div>
+  </div>
+
+  <div class="pt-grid-wrap">
+    <div class="pt-grid" id="pt-grid" role="grid" aria-label="Periodic table main block"></div>
+  </div>
+  <div class="pt-fblock-wrap">
+    <div class="pt-fblock" id="pt-fblock" role="grid" aria-label="Lanthanides and actinides"></div>
+  </div>
+
+  <div class="pt-legend" aria-label="Category legend">
+    <div class="pt-legend-item"><span class="pt-legend-swatch cat-alkali"></span>Alkali metals</div>
+    <div class="pt-legend-item"><span class="pt-legend-swatch cat-alkaline"></span>Alkaline earth metals</div>
+    <div class="pt-legend-item"><span class="pt-legend-swatch cat-transition"></span>Transition metals</div>
+    <div class="pt-legend-item"><span class="pt-legend-swatch cat-post"></span>Post-transition metals</div>
+    <div class="pt-legend-item"><span class="pt-legend-swatch cat-metalloid"></span>Metalloids</div>
+    <div class="pt-legend-item"><span class="pt-legend-swatch cat-nonmetal"></span>Nonmetals</div>
+    <div class="pt-legend-item"><span class="pt-legend-swatch cat-halogen"></span>Halogens</div>
+    <div class="pt-legend-item"><span class="pt-legend-swatch cat-noble"></span>Noble gases</div>
+    <div class="pt-legend-item"><span class="pt-legend-swatch cat-lanthanide"></span>Lanthanides</div>
+    <div class="pt-legend-item"><span class="pt-legend-swatch cat-actinide"></span>Actinides</div>
+    <div class="pt-legend-item"><span style="color:var(--yellow);font-size:1rem;">&#x25C6;</span>&nbsp;Found on UK ingredient labels</div>
+  </div>
+</section>
+
+<section class="section section-narrow">
+  <div class="section-eyebrow">Methodology and sources</div>
+  <h2>What is and isn't in the data.</h2>
+  <p><strong>Atomic data</strong> &mdash; atomic number, symbol, name, atomic mass, electron configuration, melting point, boiling point, period and group &mdash; sourced from the IUPAC 2021 Atomic Weights of the Elements (Prohaska et al., <em>Pure and Applied Chemistry</em> 94(5): 573&ndash;600), the IUPAC Periodic Table dated November 2024, and the NIST Atomic Reference Data tables. Where IUPAC reports a range or interval value, the central value is shown. Where a property is unknown or not measurable for synthetic super-heavy elements, the field is left as &mdash;.</p>
+  <p><strong>Discovery year and discoverer</strong> &mdash; sourced from the IUPAC element-naming registry and standard chemistry references. For elements known since antiquity (carbon, gold, copper, sulphur, iron, lead, silver, tin, mercury), the year is given as &ldquo;antiquity&rdquo; and the discoverer is left blank.</p>
+  <p><strong>Brief description</strong> &mdash; one sentence in plain language. Where an element is structurally relevant to a UK food or cosmetics ingredient label (sodium, calcium, fluorine, iodine, iron, zinc, aluminium, lead, mercury, titanium, etc.), a small <span style="color:var(--yellow);">&#x25C6;</span> mark is shown on the cell, and the detail panel carries a SCANSMART relevance note pointing to where the element commonly appears and why it matters at the moment of decision.</p>
+  <p><strong>What this page is not.</strong> This is reference material for the strict-reading layer of an ingredient label. It is not clinical advice. The SCANSMART relevance notes describe where an element appears on labels &mdash; not what dose is safe, what supplementation is appropriate, or whether any specific exposure is harmful for any specific person. Those are conversations for a GP, registered dietitian, or pharmacist, not for a periodic table.</p>
+  <p style="font-size:0.92rem;color:var(--muted);font-style:italic;">Page version v1.0 &middot; built 10 May 2026 &middot; data as at IUPAC 2024 release. Refresh cycle: annual, aligned to IUPAC periodic-table updates. Built per &sect;25 Bible inclusion-test architecture.</p>
+</section>
+
+<section class="section section-narrow">
+  <div class="section-eyebrow">Related &amp; further reading</div>
+  <h2>Where to go next.</h2>
+  <p>The structural-critique register on industry-funded ingredient research lives in <a href="library-industry-funding-bias.html">Industry Funding Bias in Nutrition Research</a>. The frozen-aisle case where chemistry-as-substrate matters most acutely (sodium-enhancement of chicken, brining of fish, additive load in prepared meals) is in <a href="library-frozen-food-uk.html">Frozen Food in the UK</a>. The cosmetics scoping where heavy-metal exposures are documented (lead in ayurvedic, mercury in skin-lightening, aluminium in deodorants) is in the <a href="library.html">Knowledge Library</a> Door 5 cosmetics deep-dives. The full <a href="library.html">Knowledge Library</a> carries five streams plus this Stream 4 reference layer.</p>
+</section>
+
+<!-- Element detail modal -->
+<div class="pt-modal-bg" id="pt-modal-bg" role="dialog" aria-modal="true" aria-labelledby="pt-modal-name">
+  <div class="pt-modal" role="document">
+    <button class="pt-modal-close" type="button" aria-label="Close detail panel" id="pt-modal-close">&times;</button>
+    <div class="pt-modal-header">
+      <div class="pt-modal-symbol" id="pt-modal-symbol">
+        <div class="sym" id="pt-modal-sym"></div>
+        <div class="num" id="pt-modal-num"></div>
+      </div>
+      <div>
+        <div class="pt-modal-name" id="pt-modal-name"></div>
+        <div class="pt-modal-cat" id="pt-modal-cat"></div>
+      </div>
+    </div>
+    <div class="pt-modal-grid">
+      <div class="pt-modal-stat"><div class="pt-modal-stat-label">Atomic mass</div><div class="pt-modal-stat-value" id="pt-modal-mass"></div></div>
+      <div class="pt-modal-stat"><div class="pt-modal-stat-label">Electron configuration</div><div class="pt-modal-stat-value" id="pt-modal-config"></div></div>
+      <div class="pt-modal-stat"><div class="pt-modal-stat-label">Melting point</div><div class="pt-modal-stat-value" id="pt-modal-mp"></div></div>
+      <div class="pt-modal-stat"><div class="pt-modal-stat-label">Boiling point</div><div class="pt-modal-stat-value" id="pt-modal-bp"></div></div>
+      <div class="pt-modal-stat"><div class="pt-modal-stat-label">Discovered</div><div class="pt-modal-stat-value" id="pt-modal-disc"></div></div>
+      <div class="pt-modal-stat"><div class="pt-modal-stat-label">Period &middot; Group</div><div class="pt-modal-stat-value" id="pt-modal-pg"></div></div>
+    </div>
+    <p class="pt-modal-desc" id="pt-modal-desc"></p>
+    <div class="pt-modal-ss" id="pt-modal-ss" hidden>
+      <div class="pt-modal-ss-label">SCANSMART relevance</div>
+      <div class="pt-modal-ss-text" id="pt-modal-ss-text"></div>
+    </div>
+  </div>
+</div>
+
+<section class="section section-narrow" style="margin-top:32px;">
+  <div class="section-eyebrow">Related &middot; Gold-standard evidence vaults</div>
+  <h2>Where this reference connects.</h2>
+  <p>For deeper evidence-vault treatment connecting this reference to the SCANSMART analytical framework, see: <a href="library-impulse-buying-triggers.html">Impulse Buying Triggers</a> &middot; <a href="library-food-marketing-to-kids.html">Food Marketing to Kids</a> &middot; <a href="library-brand-vs-manufacturer.html">Brand vs Manufacturer</a> &middot; <a href="library-reformulation-tracking.html">Reformulation Tracking</a> &middot; <a href="library-cultural-food-myths.html">Cultural Food Myths</a> &middot; <a href="library-global-staple-foods.html">Global Staple Foods</a> &middot; <a href="library-dietary-patterns.html">Dietary Patterns</a> &middot; <a href="library-carbohydrate-types.html">Carbohydrate Types</a> &middot; <a href="library-caffeine-and-health.html">Caffeine and Health</a> &middot; <a href="library-industry-funding-bias.html">Industry Funding Bias in Nutrition Research</a> &middot; <a href="library-upf-brain-cognitive.html">UPF Brain &amp; Cognitive Claims</a> &middot; <a href="library-children-oral-health.html">Children&rsquo;s Oral Health</a> &middot; <a href="library.html#behaviour-change">Behaviour Change &amp; Decision-Point Capture</a>.</p>
+  <p style="font-size:0.88rem;color:var(--muted);font-style:italic;text-align:center;margin-top:24px;">Reference-format consistency pass &middot; 11 May 2026 &middot; Stale-date reminder: re-check after periodic-table educational reference updates &middot; <span class="swm">SCANSMART</span> is a food literacy and decision-support platform. It is not a medical device and does not provide medical advice.</p>
+</section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="footer-inner">
+    <div class="footer-grid">
+      <div class="footer-brand"><div class="brand-lockup"><span class="ss"><span class="swm">SCANSMART</span></span><span class="tag">Power is Knowledge Decoded</span></div><p>The School of Label Literacy. Built in South London. Open to the world.</p></div>
+      <div class="footer-col"><h4>Products</h4><ul><li><a href="checkit.html">CheckIT scanner</a></li><li><a href="i500.html">The I500</a></li>
+          <li><a href="flt.html">FLT — Food Label Terminal</a></li><li><a href="subscribe.html">Subscriptions</a></li></ul></div>
+      <div class="footer-col"><h4>Read &amp; explore</h4><ul><li><a href="checkout.html">Weekly Checkout, Decoded</a></li><li><a href="library.html">Knowledge Library</a></li><li><a href="stories.html">CheckIT Stories</a></li><li><a href="shops.html">I500 Shop Directory</a></li></ul></div>
+      <div class="footer-col"><h4>About</h4><ul><li><a href="about.html">About <span class="swm">SCANSMART</span></a></li><li><a href="install.html">Install on your phone</a></li><li><a href="contact.html">Contact</a></li><li><a href="privacy.html">Privacy</a></li></ul></div>
+    </div>
+    <div class="footer-bottom"><div><a href="index.html" aria-label="Home — SCANSMART"><img src="assets/marque-v2.svg" alt="SCANSMART" class="marque-footer" width="240" height="80"></a></div><div>&copy; 2026 <span class="swm">SCANSMART</span> Ltd &middot; Co. No. 17128797 &middot; England &amp; Wales<br><small style="color:var(--muted-dim)"><span class="swm">SCANSMART</span> is a food literacy and decision-support platform. It is not a medical device and does not provide medical advice.</small></div></div>
+  </div>
+</footer>
+
+<script>
+// =============================================================
+// PERIODIC TABLE DATA — 118 elements
+// Compact field names: n=number, s=symbol, name, m=mass, c=category,
+// p=period, g=group (1-18 main; null for f-block), b=block (s/p/d/f),
+// e=electron config, mp=melting point °C, bp=boiling point °C,
+// y=discovery year, by=discoverer, d=description, ss=SCANSMART relevance note
+// =============================================================
+const E = [
+{n:1,s:'H',name:'Hydrogen',m:1.008,c:'nonmetal',p:1,g:1,b:'s',e:'1s¹',mp:-259,bp:-253,y:1766,by:'Henry Cavendish',d:'Lightest and most abundant element in the universe; the H in H₂O.',ss:'In every food and cosmetic on the shelf — bound into water, sugars, fats, proteins. Not flagged on labels by name; flagged on labels through every compound it appears in.'},
+{n:2,s:'He',name:'Helium',m:4.003,c:'noble',p:1,g:18,b:'s',e:'1s²',mp:-272,bp:-269,y:1868,by:'Janssen / Lockyer',d:'Second-lightest noble gas; chemically inert; second-most abundant in the universe.'},
+{n:3,s:'Li',name:'Lithium',m:6.94,c:'alkali',p:2,g:1,b:'s',e:'[He]2s¹',mp:181,bp:1342,y:1817,by:'Johan August Arfwedson',d:'Lightest metal; soft and silvery; reacts with water.'},
+{n:4,s:'Be',name:'Beryllium',m:9.012,c:'alkaline',p:2,g:2,b:'s',e:'[He]2s²',mp:1287,bp:2469,y:1798,by:'Louis-Nicolas Vauquelin',d:'Light, hard, brittle metal; toxic dust hazard in industrial settings.'},
+{n:5,s:'B',name:'Boron',m:10.81,c:'metalloid',p:2,g:13,b:'p',e:'[He]2s²2p¹',mp:2076,bp:3927,y:1808,by:'Davy / Gay-Lussac / Thénard',d:'Hard metalloid; essential plant micronutrient; used in glass and detergents.',ss:'Borax (sodium tetraborate) appears in some cleaning products; boric acid restricted in EU cosmetics.'},
+{n:6,s:'C',name:'Carbon',m:12.011,c:'nonmetal',p:2,g:14,b:'p',e:'[He]2s²2p²',mp:3550,bp:4827,y:'antiquity',by:'',d:'Backbone of organic chemistry and all known life; forms more compounds than any other element.',ss:'In every organic ingredient on every label — sugars, fats, proteins, vitamins, additives, preservatives, fragrances. Activated carbon used in food filtration; carbon black (E153) used as colour in some products.'},
+{n:7,s:'N',name:'Nitrogen',m:14.007,c:'nonmetal',p:2,g:15,b:'p',e:'[He]2s²2p³',mp:-210,bp:-196,y:1772,by:'Daniel Rutherford',d:'78% of Earth’s atmosphere; essential for proteins (amino acids) and DNA.',ss:'In every protein and amino acid on a food label. Nitrites (E249, E250) and nitrates (E251, E252) used as preservatives in cured meats — IARC Group 2A probable carcinogen when consumed in processed meat. Nitrogen gas used as inert packaging atmosphere.'},
+{n:8,s:'O',name:'Oxygen',m:15.999,c:'nonmetal',p:2,g:16,b:'p',e:'[He]2s²2p⁴',mp:-218,bp:-183,y:1774,by:'Joseph Priestley / Carl Wilhelm Scheele',d:'Essential for combustion and aerobic respiration; 21% of the atmosphere.',ss:'In every food and cosmetic compound on every label — bound into water, sugars, proteins, fats, organic preservatives. Oxidation drives spoilage; manufacturers add antioxidants (vitamin E, BHA, BHT, ascorbic acid) to slow it.'},
+{n:9,s:'F',name:'Fluorine',m:18.998,c:'halogen',p:2,g:17,b:'p',e:'[He]2s²2p⁵',mp:-220,bp:-188,y:1886,by:'Henri Moissan',d:'Most reactive non-metal; pale yellow gas at room temperature.',ss:'Sodium fluoride and stannous fluoride in toothpaste at 1,000–1,500 ppm prevents tooth decay. Fluoride added to UK water supplies in some regions. Excessive intake from multiple sources causes dental fluorosis in children. PFAS (per- and polyfluoroalkyl substances) are emerging concerns in cosmetics and food packaging.'},
+{n:10,s:'Ne',name:'Neon',m:20.18,c:'noble',p:2,g:18,b:'p',e:'[He]2s²2p⁶',mp:-249,bp:-246,y:1898,by:'William Ramsay / Morris Travers',d:'Inert noble gas; gives orange-red glow when electrified — neon signs.'},
+{n:11,s:'Na',name:'Sodium',m:22.99,c:'alkali',p:3,g:1,b:'s',e:'[Ne]3s¹',mp:98,bp:883,y:1807,by:'Humphry Davy',d:'Soft silvery alkali metal; reacts violently with water; never found free in nature.',ss:'Sodium chloride is table salt. Sodium appears on most food labels — typically reported as salt (NaCl). FSA red threshold: >1.5g salt per 100g. Sodium-enhanced chicken adds 45% more sodium than non-enhanced. Sodium nitrite, sodium benzoate, sodium phosphate, sodium bicarbonate, sodium hydroxide all common food and cosmetics additives.'},
+{n:12,s:'Mg',name:'Magnesium',m:24.305,c:'alkaline',p:3,g:2,b:'s',e:'[Ne]3s²',mp:650,bp:1090,y:1755,by:'Joseph Black',d:'Light structural metal; essential for chlorophyll and over 300 human enzymes.',ss:'Magnesium oxide and magnesium chloride appear on supplement labels. Magnesium stearate is a common tablet excipient. Antacids often contain magnesium hydroxide. Mineral water labels report magnesium content.'},
+{n:13,s:'Al',name:'Aluminium',m:26.982,c:'post',p:3,g:13,b:'p',e:'[Ne]3s²3p¹',mp:660,bp:2519,y:1825,by:'Hans Christian Ørsted',d:'Most abundant metal in Earth’s crust; light, corrosion-resistant; widely used in packaging.',ss:'Aluminium chlorohydrate and aluminium zirconium are the active antiperspirants in most deodorants — restricted in EU cosmetics to 6.25% by SCCS 2021. Aluminium hydroxide in antacids. Aluminium foil and cans contact food packaging. SCCS 2021 6.25% antiperspirant ceiling does not apply to dietary aluminium; food-additive aluminium (E173 — silver-coloured baking decoration; E541 — sodium aluminium phosphate raising agent) is regulated separately by EFSA.'},
+{n:14,s:'Si',name:'Silicon',m:28.085,c:'metalloid',p:3,g:14,b:'p',e:'[Ne]3s²3p²',mp:1414,bp:3265,y:1824,by:'Jöns Jacob Berzelius',d:'Second-most abundant element in Earth’s crust; foundation of microelectronics and glass.',ss:'Silicon dioxide (E551) is an anti-caking agent in powdered foods. Silicates appear in toothpaste and cosmetics as abrasives or thickeners. Cyclic silicones (D4, D5) restricted in EU rinse-off cosmetics from 2020.'},
+{n:15,s:'P',name:'Phosphorus',m:30.974,c:'nonmetal',p:3,g:15,b:'p',e:'[Ne]3s²3p³',mp:44,bp:280,y:1669,by:'Hennig Brand',d:'Essential for DNA, ATP and bone; never found free in nature; multiple allotropes including white, red, and black.',ss:'Phosphates (E338–E343, E450–E452) widely used as preservatives, emulsifiers, and acidity regulators in processed meats, dairy, soft drinks. Phosphoric acid (E338) is the acid in cola drinks. Excess phosphate intake associated with cardiovascular and kidney burden; dietary surveys suggest UK population intake exceeds public-health guidance.'},
+{n:16,s:'S',name:'Sulphur',m:32.06,c:'nonmetal',p:3,g:16,b:'p',e:'[Ne]3s²3p⁴',mp:115,bp:445,y:'antiquity',by:'',d:'Yellow non-metal; essential for some amino acids (cysteine, methionine); pungent in compounds.',ss:'Sulphur dioxide (E220) and sulphites (E221–E228) used as preservatives in dried fruit, wine, processed meats — known to trigger asthma in sensitive individuals; EU mandatory allergen disclosure when >10 mg/kg. Hair-care thioglycolates contain sulphur for bond-breaking in perms and relaxers.'},
+{n:17,s:'Cl',name:'Chlorine',m:35.45,c:'halogen',p:3,g:17,b:'p',e:'[Ne]3s²3p⁵',mp:-102,bp:-34,y:1774,by:'Carl Wilhelm Scheele',d:'Yellow-green halogen gas; powerful oxidiser; widely used in water disinfection.',ss:'Chloride is the partner ion in sodium chloride (table salt) — see Sodium for label appearance. Chlorine (sodium hypochlorite) used in food-processing sanitation and UK tap water. Chlorinated chicken is the famous transatlantic trade-disclosure example, illegal in UK and EU.'},
+{n:18,s:'Ar',name:'Argon',m:39.948,c:'noble',p:3,g:18,b:'p',e:'[Ne]3s²3p⁶',mp:-189,bp:-186,y:1894,by:'Lord Rayleigh / William Ramsay',d:'Most abundant noble gas in Earth’s atmosphere (~1%); inert; used in lighting and welding.'},
+{n:19,s:'K',name:'Potassium',m:39.098,c:'alkali',p:4,g:1,b:'s',e:'[Ar]4s¹',mp:64,bp:759,y:1807,by:'Humphry Davy',d:'Soft silvery alkali metal; essential for nerve and muscle function; reacts violently with water.',ss:'Potassium chloride often used as a salt-substitute in low-sodium products. Potassium sorbate (E202) is a widely used food preservative. Mineral water labels report potassium content. Bananas and citrus fruits are high in dietary potassium.'},
+{n:20,s:'Ca',name:'Calcium',m:40.078,c:'alkaline',p:4,g:2,b:'s',e:'[Ar]4s²',mp:842,bp:1484,y:1808,by:'Humphry Davy',d:'Reactive alkaline earth metal; the calcium in bones and teeth; essential for muscle and nerve function.',ss:'Calcium carbonate (E170) is a common food additive and antacid. Fortification target on UK breakfast cereals, plant-milks, fortified flour. Toothpaste abrasives. Yoghurt, cheese, milk all carry calcium content on labels. Calcium phosphate, calcium chloride, calcium lactate also widely used.'},
+{n:21,s:'Sc',name:'Scandium',m:44.956,c:'transition',p:4,g:3,b:'d',e:'[Ar]3d¹4s²',mp:1541,bp:2836,y:1879,by:'Lars Fredrik Nilson',d:'Silvery transition metal; rare-earth-adjacent; used in aerospace alloys and stadium lighting.'},
+{n:22,s:'Ti',name:'Titanium',m:47.867,c:'transition',p:4,g:4,b:'d',e:'[Ar]3d²4s²',mp:1668,bp:3287,y:1791,by:'William Gregor',d:'Strong, light, corrosion-resistant transition metal; used in implants, aerospace, and pigments.',ss:'Titanium dioxide (E171) was a widely used white food colour — banned by EU in food (May 2022) following EFSA reassessment of genotoxicity concerns; UK retained EU ban. Still permitted in cosmetics, sunscreens (UV filter), and toothpaste at regulated concentrations.'},
+{n:23,s:'V',name:'Vanadium',m:50.942,c:'transition',p:4,g:5,b:'d',e:'[Ar]3d³4s²',mp:1910,bp:3407,y:1801,by:'Andrés Manuel del Río',d:'Hard, silvery transition metal; used in steel alloys; biologically active in some marine organisms.'},
+{n:24,s:'Cr',name:'Chromium',m:51.996,c:'transition',p:4,g:6,b:'d',e:'[Ar]3d⁵4s¹',mp:1907,bp:2671,y:1797,by:'Louis-Nicolas Vauquelin',d:'Hard, silvery transition metal; gives stainless steel its corrosion resistance.',ss:'Chromium picolinate appears on some weight-loss and blood-sugar supplement labels — health-claim case is contested in peer-reviewed literature. Chromium VI is a carcinogen; chromium III is the dietary form. Chromium plating in cookware is regulated.'},
+{n:25,s:'Mn',name:'Manganese',m:54.938,c:'transition',p:4,g:7,b:'d',e:'[Ar]3d⁵4s²',mp:1246,bp:2061,y:1774,by:'Johan Gottlieb Gahn',d:'Hard, brittle transition metal; essential trace element; used in steel and battery production.',ss:'Trace mineral fortification in some breakfast cereals and supplements. Naturally present in nuts, whole grains, leafy vegetables. Excess intake from supplements without need is unnecessary.'},
+{n:26,s:'Fe',name:'Iron',m:55.845,c:'transition',p:4,g:8,b:'d',e:'[Ar]3d⁶4s²',mp:1538,bp:2861,y:'antiquity',by:'',d:'Most common transition metal in human use; the iron in haemoglobin; gives steel its strength.',ss:'Iron fortification mandatory in UK white and brown wheat flour (under Bread and Flour Regulations). Iron oxides (E172) used as food colourant and cosmetic pigment. Ferrous sulphate, ferrous fumarate on supplement labels. Iron deficiency the most common nutrient deficiency worldwide; over-supplementation also harmful.'},
+{n:27,s:'Co',name:'Cobalt',m:58.933,c:'transition',p:4,g:9,b:'d',e:'[Ar]3d⁷4s²',mp:1495,bp:2927,y:1735,by:'Georg Brandt',d:'Hard, lustrous transition metal; the cobalt in vitamin B12; used in batteries and superalloys.',ss:'The cobalt atom is the active centre of vitamin B12 (cobalamin) — fortification target in plant-milks and breakfast cereals; supplementation common for vegan diets and B12-deficiency anaemia. Cobalt blue cosmetic pigments are tightly regulated.'},
+{n:28,s:'Ni',name:'Nickel',m:58.693,c:'transition',p:4,g:10,b:'d',e:'[Ar]3d⁸4s²',mp:1455,bp:2913,y:1751,by:'Axel Fredrik Cronstedt',d:'Hard, silvery transition metal; corrosion-resistant; common allergen in jewellery and cosmetics.',ss:'Common contact-allergen (jewellery, cosmetic-tool contamination, some hair-care products). EU REACH restricts nickel release from prolonged-skin-contact items. Trace dietary nickel in nuts, chocolate, oats — usually well-tolerated except in sensitised individuals.'},
+{n:29,s:'Cu',name:'Copper',m:63.546,c:'transition',p:4,g:11,b:'d',e:'[Ar]3d¹⁰4s¹',mp:1085,bp:2562,y:'antiquity',by:'',d:'Reddish transition metal; excellent electrical conductor; essential trace nutrient.',ss:'Trace mineral on some supplement labels. Copper sulphate (E519) restricted use in food. Copper cookware regulated due to leaching concerns. Naturally present in shellfish, nuts, organ meats.'},
+{n:30,s:'Zn',name:'Zinc',m:65.38,c:'transition',p:4,g:12,b:'d',e:'[Ar]3d¹⁰4s²',mp:420,bp:907,y:1746,by:'Andreas Sigismund Marggraf',d:'Bluish-white transition metal; essential for over 300 enzymes; immune system support.',ss:'Zinc oxide is a UV filter in mineral sunscreens and an active in nappy-rash creams. Zinc gluconate, zinc sulphate, zinc picolinate appear on supplement labels. Trace mineral fortification in some breakfast cereals. Excess zinc supplementation can interfere with copper absorption.'},
+{n:31,s:'Ga',name:'Gallium',m:69.723,c:'post',p:4,g:13,b:'p',e:'[Ar]3d¹⁰4s²4p¹',mp:30,bp:2204,y:1875,by:'Paul-Émile Lecoq de Boisbaudran',d:'Soft silvery post-transition metal; melts in the hand at 30°C; used in electronics.'},
+{n:32,s:'Ge',name:'Germanium',m:72.63,c:'metalloid',p:4,g:14,b:'p',e:'[Ar]3d¹⁰4s²4p²',mp:938,bp:2833,y:1886,by:'Clemens Winkler',d:'Hard, brittle metalloid; semiconductor; predicted by Mendeleev as eka-silicon.'},
+{n:33,s:'As',name:'Arsenic',m:74.922,c:'metalloid',p:4,g:15,b:'p',e:'[Ar]3d¹⁰4s²4p³',mp:817,bp:614,y:1250,by:'Albertus Magnus',d:'Brittle metalloid; toxic in soluble forms; historic poison; IARC Group 1 carcinogen.',ss:'Naturally occurs in groundwater in some regions — UK drinking water limit 10 µg/L. Inorganic arsenic in rice (especially brown rice) exceeds adult safety thresholds at >2 servings per day for some consumers; EU and UK regulate maximum levels in rice for infant foods. EFSA and FSA guidance recommend varied diet and limits on rice for under-5s.'},
+{n:34,s:'Se',name:'Selenium',m:78.971,c:'nonmetal',p:4,g:16,b:'p',e:'[Ar]3d¹⁰4s²4p⁴',mp:221,bp:685,y:1817,by:'Jöns Jacob Berzelius',d:'Non-metal with metallic and nonmetallic forms; essential trace element; toxic at high doses.',ss:'Trace mineral in supplements; fortification target in some products. Brazil nuts are exceptionally high in selenium — 1–2 nuts per day exceeds adult RDA. Selenium sulphide in some anti-dandruff shampoos.'},
+{n:35,s:'Br',name:'Bromine',m:79.904,c:'halogen',p:4,g:17,b:'p',e:'[Ar]3d¹⁰4s²4p⁵',mp:-7,bp:59,y:1826,by:'Antoine Jérôme Balard',d:'Reddish-brown liquid halogen at room temperature; only non-metal liquid alongside mercury.',ss:'Brominated vegetable oil (BVO) banned in EU and UK as a food additive (allowed for many years in some sodas). Brominated flame retardants subject to EU and UK restriction. Some pesticide residues monitored in fresh produce.'},
+{n:36,s:'Kr',name:'Krypton',m:83.798,c:'noble',p:4,g:18,b:'p',e:'[Ar]3d¹⁰4s²4p⁶',mp:-157,bp:-153,y:1898,by:'William Ramsay / Morris Travers',d:'Inert noble gas; trace component of atmosphere; used in some lighting applications.'},
+{n:37,s:'Rb',name:'Rubidium',m:85.468,c:'alkali',p:5,g:1,b:'s',e:'[Kr]5s¹',mp:39,bp:688,y:1861,by:'Robert Bunsen / Gustav Kirchhoff',d:'Soft silvery alkali metal; reacts vigorously with water; used in atomic clocks.'},
+{n:38,s:'Sr',name:'Strontium',m:87.62,c:'alkaline',p:5,g:2,b:'s',e:'[Kr]5s²',mp:777,bp:1382,y:1790,by:'Adair Crawford',d:'Silvery alkaline earth metal; gives red colour to fireworks; named after Strontian, Scotland.',ss:'Strontium chloride and acetate appear in some sensitive-teeth toothpastes (active for dentinal hypersensitivity). Radioactive Sr-90 from nuclear fallout was a historic public-health concern.'},
+{n:39,s:'Y',name:'Yttrium',m:88.906,c:'transition',p:5,g:3,b:'d',e:'[Kr]4d¹5s²',mp:1526,bp:3336,y:1794,by:'Johan Gadolin',d:'Silvery transition metal; rare-earth-adjacent; used in lasers, superconductors, and red phosphors.'},
+{n:40,s:'Zr',name:'Zirconium',m:91.224,c:'transition',p:5,g:4,b:'d',e:'[Kr]4d²5s²',mp:1855,bp:4409,y:1789,by:'Martin Heinrich Klaproth',d:'Strong, corrosion-resistant transition metal; used in nuclear reactors and gemstone simulants (cubic zirconia).',ss:'Aluminium zirconium tetrachlorohydrex glycine is a common antiperspirant active alongside aluminium chlorohydrate; SCCS reviews ongoing.'},
+{n:41,s:'Nb',name:'Niobium',m:92.906,c:'transition',p:5,g:5,b:'d',e:'[Kr]4d⁴5s¹',mp:2477,bp:4744,y:1801,by:'Charles Hatchett',d:'Soft, silvery transition metal; superconducting at low temperatures; used in jewellery and superalloys.'},
+{n:42,s:'Mo',name:'Molybdenum',m:95.95,c:'transition',p:5,g:6,b:'d',e:'[Kr]4d⁵5s¹',mp:2623,bp:4639,y:1781,by:'Peter Jacob Hjelm',d:'Hard, silvery transition metal; essential trace element; used in high-strength steels.',ss:'Trace mineral fortification at very low levels in some supplements; deficiency rare in normal diets.'},
+{n:43,s:'Tc',name:'Technetium',m:98,c:'transition',p:5,g:7,b:'d',e:'[Kr]4d⁵5s²',mp:2157,bp:4265,y:1937,by:'Carlo Perrier / Emilio Segrè',d:'First artificially produced element; all isotopes radioactive; used in medical imaging.'},
+{n:44,s:'Ru',name:'Ruthenium',m:101.07,c:'transition',p:5,g:8,b:'d',e:'[Kr]4d⁷5s¹',mp:2334,bp:4150,y:1844,by:'Karl Ernst Claus',d:'Hard, silvery transition metal; one of the platinum group metals; used in electronics.'},
+{n:45,s:'Rh',name:'Rhodium',m:102.906,c:'transition',p:5,g:9,b:'d',e:'[Kr]4d⁸5s¹',mp:1964,bp:3695,y:1803,by:'William Hyde Wollaston',d:'Hard, silvery transition metal; one of the rarest stable metals; widely used in catalytic converters.'},
+{n:46,s:'Pd',name:'Palladium',m:106.42,c:'transition',p:5,g:10,b:'d',e:'[Kr]4d¹⁰',mp:1555,bp:2963,y:1803,by:'William Hyde Wollaston',d:'Soft, silvery platinum-group transition metal; used in catalytic converters and dentistry.'},
+{n:47,s:'Ag',name:'Silver',m:107.868,c:'transition',p:5,g:11,b:'d',e:'[Kr]4d¹⁰5s¹',mp:962,bp:2162,y:'antiquity',by:'',d:'Lustrous transition metal; best electrical conductor; long-known as currency and jewellery.',ss:'Silver (E174) used as a food colour for confectionery decoration; restricted use only. Colloidal silver is sold as a supplement but health claims are not supported by EFSA. Some antimicrobial wound dressings use ionic silver.'},
+{n:48,s:'Cd',name:'Cadmium',m:112.414,c:'transition',p:5,g:12,b:'d',e:'[Kr]4d¹⁰5s²',mp:321,bp:767,y:1817,by:'Friedrich Stromeyer',d:'Soft, bluish-white transition metal; toxic; cumulative environmental pollutant; IARC Group 1 carcinogen.',ss:'Trace contaminant in some chocolate (especially dark) and some leafy greens grown in contaminated soil. Cadmium pigments restricted in cosmetics. Cadmium-yellow oil paints regulated. Banned in EU jewellery >0.01% by REACH.'},
+{n:49,s:'In',name:'Indium',m:114.818,c:'post',p:5,g:13,b:'p',e:'[Kr]4d¹⁰5s²5p¹',mp:157,bp:2072,y:1863,by:'Ferdinand Reich / Hieronymous Theodor Richter',d:'Soft, silvery post-transition metal; used in touchscreens (indium tin oxide) and semiconductors.'},
+{n:50,s:'Sn',name:'Tin',m:118.71,c:'post',p:5,g:14,b:'p',e:'[Kr]4d¹⁰5s²5p²',mp:232,bp:2602,y:'antiquity',by:'',d:'Soft, silvery post-transition metal; long-known; the tin in bronze.',ss:'Tin lining of food cans (largely replaced by lacquered steel). Stannous fluoride is an active toothpaste ingredient. Tin (II) chloride (E512) is a permitted food additive in some preserved white asparagus. Organotin compounds restricted in cosmetics.'},
+{n:51,s:'Sb',name:'Antimony',m:121.76,c:'metalloid',p:5,g:15,b:'p',e:'[Kr]4d¹⁰5s²5p³',mp:631,bp:1587,y:'antiquity',by:'',d:'Brittle, silvery metalloid; long-known; used historically in cosmetics (kohl) — toxic in many compounds.',ss:'Antimony historically present in some traditional kohl eye cosmetics — heavy-metal contamination concerns documented in Trading Standards seizures. Antimony trioxide in some PET plastic bottles can leach into drinks if heated. EU restricts antimony in cosmetics.'},
+{n:52,s:'Te',name:'Tellurium',m:127.6,c:'metalloid',p:5,g:16,b:'p',e:'[Kr]4d¹⁰5s²5p⁴',mp:450,bp:988,y:1782,by:'Franz-Joseph Müller von Reichenstein',d:'Brittle, silvery metalloid; rare; used in solar panels and specialty alloys.'},
+{n:53,s:'I',name:'Iodine',m:126.904,c:'halogen',p:5,g:17,b:'p',e:'[Kr]4d¹⁰5s²5p⁵',mp:114,bp:184,y:1811,by:'Bernard Courtois',d:'Purple-black halogen; sublimes to violet vapour; essential thyroid nutrient.',ss:'Iodine essential for thyroid hormone synthesis. UK iodised salt is voluntary, not mandatory — UK iodine intake is borderline-deficient compared with WHO guidance. Iodine fortification in some plant-milks. Seafood and dairy main UK dietary sources. Povidone-iodine in some antiseptic products. EFSA upper limit 600 µg/day for adults.'},
+{n:54,s:'Xe',name:'Xenon',m:131.293,c:'noble',p:5,g:18,b:'p',e:'[Kr]4d¹⁰5s²5p⁶',mp:-112,bp:-108,y:1898,by:'William Ramsay / Morris Travers',d:'Inert noble gas; used in lighting, medical imaging, and some anaesthetics.'},
+{n:55,s:'Cs',name:'Caesium',m:132.905,c:'alkali',p:6,g:1,b:'s',e:'[Xe]6s¹',mp:28,bp:671,y:1860,by:'Robert Bunsen / Gustav Kirchhoff',d:'Soft, golden-yellow alkali metal; melts near room temperature; used in atomic clocks.'},
+{n:56,s:'Ba',name:'Barium',m:137.327,c:'alkaline',p:6,g:2,b:'s',e:'[Xe]6s²',mp:727,bp:1845,y:1808,by:'Humphry Davy',d:'Silvery alkaline earth metal; barium sulphate used in medical imaging contrast.',ss:'Barium sulphate is used as a medical contrast agent for upper-GI imaging. Soluble barium salts are toxic; insoluble barium sulphate is medical-grade safe.'},
+{n:57,s:'La',name:'Lanthanum',m:138.905,c:'lanthanide',p:6,g:null,b:'d',e:'[Xe]5d¹6s²',mp:920,bp:3464,y:1839,by:'Carl Gustaf Mosander',d:'First of the lanthanide series; soft, silvery; used in carbon-arc lights and camera lenses.'},
+{n:58,s:'Ce',name:'Cerium',m:140.116,c:'lanthanide',p:6,g:null,b:'f',e:'[Xe]4f¹5d¹6s²',mp:799,bp:3443,y:1803,by:'Berzelius / Hisinger / Klaproth',d:'Most abundant lanthanide; used in catalytic converters and lighter flints.'},
+{n:59,s:'Pr',name:'Praseodymium',m:140.908,c:'lanthanide',p:6,g:null,b:'f',e:'[Xe]4f³6s²',mp:931,bp:3520,y:1885,by:'Carl Auer von Welsbach',d:'Soft, silvery lanthanide; used in aircraft engines and welding goggles.'},
+{n:60,s:'Nd',name:'Neodymium',m:144.242,c:'lanthanide',p:6,g:null,b:'f',e:'[Xe]4f⁴6s²',mp:1021,bp:3074,y:1885,by:'Carl Auer von Welsbach',d:'Lanthanide used in the strongest commercial permanent magnets (NdFeB).'},
+{n:61,s:'Pm',name:'Promethium',m:145,c:'lanthanide',p:6,g:null,b:'f',e:'[Xe]4f⁵6s²',mp:1042,bp:3000,y:1945,by:'Marinsky / Glendenin / Coryell',d:'Only radioactive lanthanide; all isotopes unstable; used in some nuclear-battery applications.'},
+{n:62,s:'Sm',name:'Samarium',m:150.36,c:'lanthanide',p:6,g:null,b:'f',e:'[Xe]4f⁶6s²',mp:1074,bp:1794,y:1879,by:'Paul-Émile Lecoq de Boisbaudran',d:'Hard, silvery lanthanide; used in samarium-cobalt magnets and cancer radiotherapy.'},
+{n:63,s:'Eu',name:'Europium',m:151.964,c:'lanthanide',p:6,g:null,b:'f',e:'[Xe]4f⁷6s²',mp:822,bp:1529,y:1901,by:'Eugène-Anatole Demarçay',d:'Most reactive lanthanide; used as a red phosphor in older television screens and security inks.'},
+{n:64,s:'Gd',name:'Gadolinium',m:157.25,c:'lanthanide',p:6,g:null,b:'f',e:'[Xe]4f⁷5d¹6s²',mp:1313,bp:3273,y:1880,by:'Jean Charles Galissard de Marignac',d:'Silvery lanthanide; used in MRI contrast agents and neutron-capture applications.'},
+{n:65,s:'Tb',name:'Terbium',m:158.925,c:'lanthanide',p:6,g:null,b:'f',e:'[Xe]4f⁹6s²',mp:1356,bp:3230,y:1843,by:'Carl Gustaf Mosander',d:'Silvery lanthanide; used as green phosphor in fluorescent lamps and security strips on banknotes.'},
+{n:66,s:'Dy',name:'Dysprosium',m:162.5,c:'lanthanide',p:6,g:null,b:'f',e:'[Xe]4f¹⁰6s²',mp:1412,bp:2567,y:1886,by:'Paul-Émile Lecoq de Boisbaudran',d:'Soft, silvery lanthanide; used in nuclear control rods and high-performance magnets.'},
+{n:67,s:'Ho',name:'Holmium',m:164.930,c:'lanthanide',p:6,g:null,b:'f',e:'[Xe]4f¹¹6s²',mp:1474,bp:2700,y:1878,by:'Cleve / Soret / Delafontaine',d:'Soft, silvery lanthanide; highest magnetic moment of any element; used in lasers and nuclear control.'},
+{n:68,s:'Er',name:'Erbium',m:167.259,c:'lanthanide',p:6,g:null,b:'f',e:'[Xe]4f¹²6s²',mp:1529,bp:2868,y:1843,by:'Carl Gustaf Mosander',d:'Silvery lanthanide; used in fibre-optic amplifiers and pink colourant for cubic zirconia.'},
+{n:69,s:'Tm',name:'Thulium',m:168.934,c:'lanthanide',p:6,g:null,b:'f',e:'[Xe]4f¹³6s²',mp:1545,bp:1950,y:1879,by:'Per Teodor Cleve',d:'Rarest stable lanthanide; soft, silvery; used in some specialised lasers and X-ray sources.'},
+{n:70,s:'Yb',name:'Ytterbium',m:173.045,c:'lanthanide',p:6,g:null,b:'f',e:'[Xe]4f¹⁴6s²',mp:819,bp:1196,y:1878,by:'Jean Charles Galissard de Marignac',d:'Soft, silvery lanthanide; used in atomic clocks and steel manufacturing.'},
+{n:71,s:'Lu',name:'Lutetium',m:174.967,c:'lanthanide',p:6,g:null,b:'d',e:'[Xe]4f¹⁴5d¹6s²',mp:1663,bp:3402,y:1907,by:'Urbain / Welsbach / James',d:'Last of the lanthanide series; hardest and densest; used in petroleum refining and PET scanners.'},
+{n:72,s:'Hf',name:'Hafnium',m:178.49,c:'transition',p:6,g:4,b:'d',e:'[Xe]4f¹⁴5d²6s²',mp:2233,bp:4603,y:1923,by:'Coster / de Hevesy',d:'Hard, silvery transition metal; chemically similar to zirconium; used in nuclear reactor control rods.'},
+{n:73,s:'Ta',name:'Tantalum',m:180.948,c:'transition',p:6,g:5,b:'d',e:'[Xe]4f¹⁴5d³6s²',mp:3017,bp:5458,y:1802,by:'Anders Gustaf Ekeberg',d:'Hard, blue-grey transition metal; corrosion-resistant; used in capacitors and surgical implants.'},
+{n:74,s:'W',name:'Tungsten',m:183.84,c:'transition',p:6,g:6,b:'d',e:'[Xe]4f¹⁴5d⁴6s²',mp:3422,bp:5555,y:1783,by:'Juan José / Fausto Elhuyar',d:'Highest melting point of any metal; used in lightbulb filaments and high-strength tooling.'},
+{n:75,s:'Re',name:'Rhenium',m:186.207,c:'transition',p:6,g:7,b:'d',e:'[Xe]4f¹⁴5d⁵6s²',mp:3186,bp:5596,y:1925,by:'Noddack / Tacke / Berg',d:'One of the rarest naturally occurring elements; used in jet engines and oil-refining catalysts.'},
+{n:76,s:'Os',name:'Osmium',m:190.23,c:'transition',p:6,g:8,b:'d',e:'[Xe]4f¹⁴5d⁶6s²',mp:3033,bp:5012,y:1803,by:'Smithson Tennant',d:'Densest naturally occurring element; bluish-white; used in fountain-pen tips and electrical contacts.'},
+{n:77,s:'Ir',name:'Iridium',m:192.217,c:'transition',p:6,g:9,b:'d',e:'[Xe]4f¹⁴5d⁷6s²',mp:2466,bp:4428,y:1803,by:'Smithson Tennant',d:'Most corrosion-resistant metal; second-densest; used in spark plugs and pen nibs.'},
+{n:78,s:'Pt',name:'Platinum',m:195.084,c:'transition',p:6,g:10,b:'d',e:'[Xe]4f¹⁴5d⁹6s¹',mp:1768,bp:3825,y:1735,by:'Antonio de Ulloa',d:'Lustrous, dense transition metal; precious; used in catalytic converters, jewellery, and chemotherapy (cisplatin).'},
+{n:79,s:'Au',name:'Gold',m:196.967,c:'transition',p:6,g:11,b:'d',e:'[Xe]4f¹⁴5d¹⁰6s¹',mp:1064,bp:2856,y:'antiquity',by:'',d:'Lustrous yellow precious metal; chemically inert; long-known as currency, jewellery, and reserve.',ss:'Gold (E175) is a permitted food colour for cake decorations and confectionery — restricted use only. Gold leaf is occasionally used in luxury products. Edible gold is biologically inert at consumed quantities; ornamental rather than nutritional.'},
+{n:80,s:'Hg',name:'Mercury',m:200.59,c:'transition',p:6,g:12,b:'d',e:'[Xe]4f¹⁴5d¹⁰6s²',mp:-39,bp:357,y:'antiquity',by:'',d:'Only metal liquid at room temperature; dense, silver-white; highly toxic in most compounds.',ss:'Mercury banned in EU and UK cosmetics — but unregulated skin-lightening creams imported informally have tested positive in London Trading Standards seizures (2024). WHO 2019 mercury report names skin-lightening as the largest non-occupational mercury exposure source globally. Methylmercury accumulates in large oily fish (tuna, swordfish, marlin); FSA pregnancy guidance limits intake. Mercury thermometers and dental amalgam EU-restricted.'},
+{n:81,s:'Tl',name:'Thallium',m:204.383,c:'post',p:6,g:13,b:'p',e:'[Xe]4f¹⁴5d¹⁰6s²6p¹',mp:304,bp:1473,y:1861,by:'William Crookes',d:'Soft, malleable post-transition metal; highly toxic; historic poison; banned in most consumer uses.'},
+{n:82,s:'Pb',name:'Lead',m:207.2,c:'post',p:6,g:14,b:'p',e:'[Xe]4f¹⁴5d¹⁰6s²6p²',mp:327,bp:1749,y:'antiquity',by:'',d:'Soft, dense, low-melting post-transition metal; long-known; toxic; cumulative neurological hazard.',ss:'Lead in some traditional ayurvedic and traditional Chinese medicine products documented at toxic levels (JAMA 2008 study found 65% of US ayurvedic products contained detectable lead). Lead acetate hair-dye banned in EU and UK. Lead-glazed pottery imported from outside the EU regulatory frame periodically tests positive. Lead in old plumbing residual concern in pre-1970 UK housing — drinking-water lead limit 10 µg/L.'},
+{n:83,s:'Bi',name:'Bismuth',m:208.98,c:'post',p:6,g:15,b:'p',e:'[Xe]4f¹⁴5d¹⁰6s²6p³',mp:271,bp:1564,y:1753,by:'Claude François Geoffroy',d:'Brittle, pinkish post-transition metal; least toxic of the heavy metals; used in stomach medications.',ss:'Bismuth subsalicylate (Pepto-Bismol active) for upset stomach. Bismuth oxychloride pearlescent pigment in cosmetics. Generally considered safe at consumer doses.'},
+{n:84,s:'Po',name:'Polonium',m:209,c:'post',p:6,g:16,b:'p',e:'[Xe]4f¹⁴5d¹⁰6s²6p⁴',mp:254,bp:962,y:1898,by:'Marie Curie / Pierre Curie',d:'Highly radioactive metalloid; trace amounts in tobacco smoke; named after Marie Curie’s native Poland.'},
+{n:85,s:'At',name:'Astatine',m:210,c:'halogen',p:6,g:17,b:'p',e:'[Xe]4f¹⁴5d¹⁰6s²6p⁵',mp:302,bp:337,y:1940,by:'Corson / MacKenzie / Segrè',d:'Rarest naturally occurring element; all isotopes radioactive; less than 1g exists in Earth’s crust at any time.'},
+{n:86,s:'Rn',name:'Radon',m:222,c:'noble',p:6,g:18,b:'p',e:'[Xe]4f¹⁴5d¹⁰6s²6p⁶',mp:-71,bp:-62,y:1900,by:'Friedrich Ernst Dorn',d:'Radioactive noble gas; second-leading cause of lung cancer in non-smokers; UK Radon Atlas maps risk by postcode.'},
+{n:87,s:'Fr',name:'Francium',m:223,c:'alkali',p:7,g:1,b:'s',e:'[Rn]7s¹',mp:21,bp:650,y:1939,by:'Marguerite Perey',d:'Second-rarest naturally occurring element; intensely radioactive; only minute quantities ever isolated.'},
+{n:88,s:'Ra',name:'Radium',m:226,c:'alkaline',p:7,g:2,b:'s',e:'[Rn]7s²',mp:700,bp:1737,y:1898,by:'Marie Curie / Pierre Curie',d:'Highly radioactive alkaline earth metal; once used in luminous paint; banned for consumer uses.'},
+{n:89,s:'Ac',name:'Actinium',m:227,c:'actinide',p:7,g:null,b:'d',e:'[Rn]6d¹7s²',mp:1051,bp:3198,y:1899,by:'André-Louis Debierne',d:'First of the actinide series; intensely radioactive; used in some targeted alpha-particle cancer therapy.'},
+{n:90,s:'Th',name:'Thorium',m:232.038,c:'actinide',p:7,g:null,b:'f',e:'[Rn]6d²7s²',mp:1750,bp:4788,y:1828,by:'Jöns Jacob Berzelius',d:'Silvery, slightly radioactive actinide; potential alternative nuclear-reactor fuel.'},
+{n:91,s:'Pa',name:'Protactinium',m:231.036,c:'actinide',p:7,g:null,b:'f',e:'[Rn]5f²6d¹7s²',mp:1572,bp:4000,y:1913,by:'Fajans / Göhring',d:'Dense, silvery, intensely radioactive actinide; rare and difficult to handle.'},
+{n:92,s:'U',name:'Uranium',m:238.029,c:'actinide',p:7,g:null,b:'f',e:'[Rn]5f³6d¹7s²',mp:1135,bp:4131,y:1789,by:'Martin Heinrich Klaproth',d:'Heaviest naturally occurring element on Earth; primary nuclear fuel; named after Uranus.'},
+{n:93,s:'Np',name:'Neptunium',m:237,c:'actinide',p:7,g:null,b:'f',e:'[Rn]5f⁴6d¹7s²',mp:644,bp:3902,y:1940,by:'McMillan / Abelson',d:'First synthetic transuranium element; silvery, radioactive; named after Neptune.'},
+{n:94,s:'Pu',name:'Plutonium',m:244,c:'actinide',p:7,g:null,b:'f',e:'[Rn]5f⁶7s²',mp:639,bp:3228,y:1940,by:'Seaborg / McMillan / Kennedy / Wahl',d:'Synthetic actinide; primary fissile element in nuclear weapons; used in some nuclear reactors.'},
+{n:95,s:'Am',name:'Americium',m:243,c:'actinide',p:7,g:null,b:'f',e:'[Rn]5f⁷7s²',mp:1176,bp:2011,y:1944,by:'Seaborg / James / Morgan / Ghiorso',d:'Synthetic actinide; trace amounts used in domestic ionisation smoke detectors.'},
+{n:96,s:'Cm',name:'Curium',m:247,c:'actinide',p:7,g:null,b:'f',e:'[Rn]5f⁷6d¹7s²',mp:1340,bp:3110,y:1944,by:'Seaborg / James / Ghiorso',d:'Synthetic actinide; intensely radioactive; named after Marie and Pierre Curie.'},
+{n:97,s:'Bk',name:'Berkelium',m:247,c:'actinide',p:7,g:null,b:'f',e:'[Rn]5f⁹7s²',mp:986,bp:2627,y:1949,by:'Thompson / Ghiorso / Seaborg',d:'Synthetic actinide; named after Berkeley, California.'},
+{n:98,s:'Cf',name:'Californium',m:251,c:'actinide',p:7,g:null,b:'f',e:'[Rn]5f¹⁰7s²',mp:900,bp:1470,y:1950,by:'Thompson / Street / Ghiorso / Seaborg',d:'Synthetic actinide; powerful neutron source; used in some industrial measurement applications.'},
+{n:99,s:'Es',name:'Einsteinium',m:252,c:'actinide',p:7,g:null,b:'f',e:'[Rn]5f¹¹7s²',mp:860,bp:996,y:1952,by:'Albert Ghiorso (Argonne) / team',d:'Synthetic actinide; first identified in fallout from the 1952 Ivy Mike thermonuclear test.'},
+{n:100,s:'Fm',name:'Fermium',m:257,c:'actinide',p:7,g:null,b:'f',e:'[Rn]5f¹²7s²',mp:1527,bp:null,y:1952,by:'Albert Ghiorso / team',d:'Synthetic actinide; named after Enrico Fermi; only minute quantities ever produced.'},
+{n:101,s:'Md',name:'Mendelevium',m:258,c:'actinide',p:7,g:null,b:'f',e:'[Rn]5f¹³7s²',mp:827,bp:null,y:1955,by:'Ghiorso / Harvey / Choppin / Thompson / Seaborg',d:'Synthetic actinide; named after Dmitri Mendeleev; produced one atom at a time.'},
+{n:102,s:'No',name:'Nobelium',m:259,c:'actinide',p:7,g:null,b:'f',e:'[Rn]5f¹⁴7s²',mp:827,bp:null,y:1966,by:'Flerov / Oganessian (JINR Dubna)',d:'Synthetic actinide; named after Alfred Nobel; controversial discovery history.'},
+{n:103,s:'Lr',name:'Lawrencium',m:266,c:'actinide',p:7,g:null,b:'p',e:'[Rn]5f¹⁴7s²7p¹',mp:1627,bp:null,y:1961,by:'Ghiorso / Sikkeland / Larsh / Latimer (LBL)',d:'Last of the actinide series; named after Ernest Lawrence; only minute quantities ever produced.'},
+{n:104,s:'Rf',name:'Rutherfordium',m:267,c:'transition',p:7,g:4,b:'d',e:'[Rn]5f¹⁴6d²7s²',mp:null,bp:null,y:1964,by:'JINR Dubna / LBL Berkeley (contested)',d:'First transactinide; superheavy synthetic element; named after Ernest Rutherford.'},
+{n:105,s:'Db',name:'Dubnium',m:268,c:'transition',p:7,g:5,b:'d',e:'[Rn]5f¹⁴6d³7s²',mp:null,bp:null,y:1968,by:'JINR Dubna / LBL Berkeley (contested)',d:'Superheavy synthetic transition metal; named after the Russian research city Dubna.'},
+{n:106,s:'Sg',name:'Seaborgium',m:269,c:'transition',p:7,g:6,b:'d',e:'[Rn]5f¹⁴6d⁴7s²',mp:null,bp:null,y:1974,by:'LBL Berkeley',d:'Superheavy synthetic transition metal; named after Glenn Seaborg, the only living person at the time of naming.'},
+{n:107,s:'Bh',name:'Bohrium',m:270,c:'transition',p:7,g:7,b:'d',e:'[Rn]5f¹⁴6d⁵7s²',mp:null,bp:null,y:1981,by:'GSI Darmstadt',d:'Superheavy synthetic transition metal; named after Niels Bohr.'},
+{n:108,s:'Hs',name:'Hassium',m:269,c:'transition',p:7,g:8,b:'d',e:'[Rn]5f¹⁴6d⁶7s²',mp:null,bp:null,y:1984,by:'GSI Darmstadt',d:'Superheavy synthetic transition metal; named after the German state of Hesse.'},
+{n:109,s:'Mt',name:'Meitnerium',m:278,c:'unknown',p:7,g:9,b:'d',e:'[Rn]5f¹⁴6d⁷7s²',mp:null,bp:null,y:1982,by:'GSI Darmstadt',d:'Superheavy synthetic element; named after Lise Meitner; chemistry not yet experimentally confirmed.'},
+{n:110,s:'Ds',name:'Darmstadtium',m:281,c:'unknown',p:7,g:10,b:'d',e:'[Rn]5f¹⁴6d⁸7s²',mp:null,bp:null,y:1994,by:'GSI Darmstadt',d:'Superheavy synthetic element; named after the German city of Darmstadt.'},
+{n:111,s:'Rg',name:'Roentgenium',m:282,c:'unknown',p:7,g:11,b:'d',e:'[Rn]5f¹⁴6d⁹7s²',mp:null,bp:null,y:1994,by:'GSI Darmstadt',d:'Superheavy synthetic element; named after Wilhelm Conrad Röntgen, discoverer of X-rays.'},
+{n:112,s:'Cn',name:'Copernicium',m:285,c:'unknown',p:7,g:12,b:'d',e:'[Rn]5f¹⁴6d¹⁰7s²',mp:null,bp:null,y:1996,by:'GSI Darmstadt',d:'Superheavy synthetic element; named after Nicolaus Copernicus; predicted to be a liquid at room temperature.'},
+{n:113,s:'Nh',name:'Nihonium',m:286,c:'unknown',p:7,g:13,b:'p',e:'[Rn]5f¹⁴6d¹⁰7s²7p¹',mp:null,bp:null,y:2003,by:'RIKEN Japan',d:'First element discovered in Asia; named after Japan (Nihon).'},
+{n:114,s:'Fl',name:'Flerovium',m:289,c:'unknown',p:7,g:14,b:'p',e:'[Rn]5f¹⁴6d¹⁰7s²7p²',mp:null,bp:null,y:1998,by:'JINR Dubna',d:'Superheavy synthetic element; named after Russian physicist Georgy Flyorov.'},
+{n:115,s:'Mc',name:'Moscovium',m:290,c:'unknown',p:7,g:15,b:'p',e:'[Rn]5f¹⁴6d¹⁰7s²7p³',mp:null,bp:null,y:2003,by:'JINR Dubna / Oak Ridge',d:'Superheavy synthetic element; named after Moscow Oblast, home of JINR.'},
+{n:116,s:'Lv',name:'Livermorium',m:293,c:'unknown',p:7,g:16,b:'p',e:'[Rn]5f¹⁴6d¹⁰7s²7p⁴',mp:null,bp:null,y:2000,by:'JINR Dubna / LLNL Livermore',d:'Superheavy synthetic element; named after Lawrence Livermore National Laboratory.'},
+{n:117,s:'Ts',name:'Tennessine',m:294,c:'unknown',p:7,g:17,b:'p',e:'[Rn]5f¹⁴6d¹⁰7s²7p⁵',mp:null,bp:null,y:2010,by:'JINR Dubna / Oak Ridge / LLNL',d:'Superheavy synthetic element; second-heaviest known; named after the US state of Tennessee.'},
+{n:118,s:'Og',name:'Oganesson',m:294,c:'noble',p:7,g:18,b:'p',e:'[Rn]5f¹⁴6d¹⁰7s²7p⁶',mp:null,bp:null,y:2002,by:'JINR Dubna / LLNL',d:'Heaviest known element; named after Yuri Oganessian; predicted to be a noble gas though may behave more reactively.'}
+];
+
+// Category labels for the modal
+const CAT_LABEL = {
+  'alkali':'Alkali metal','alkaline':'Alkaline earth metal','transition':'Transition metal',
+  'post':'Post-transition metal','metalloid':'Metalloid','nonmetal':'Nonmetal',
+  'halogen':'Halogen','noble':'Noble gas','lanthanide':'Lanthanide','actinide':'Actinide',
+  'unknown':'Unknown / predicted'
+};
+
+// =============================================================
+// GRID POSITIONING
+// Main grid: 18 cols × 7 rows. Lanthanides + actinides displayed below.
+// =============================================================
+function gridPos(el){
+  // f-block: lanthanides 57-71 → row 9 cols 4-18; actinides 89-103 → row 10 cols 4-18
+  if (el.n >= 57 && el.n <= 71) return { row: 9, col: 4 + (el.n - 57) };
+  if (el.n >= 89 && el.n <= 103) return { row: 10, col: 4 + (el.n - 89) };
+  // Period 6 with La placeholder skipped at col 3; Hf-Rn at cols 4-18
+  if (el.n >= 72 && el.n <= 86) return { row: 6, col: el.n - 68 }; // 72→4, 73→5, ..., 86→18
+  // Period 7 same pattern; Rf-Og at cols 4-18
+  if (el.n >= 104 && el.n <= 118) return { row: 7, col: el.n - 100 }; // 104→4, ..., 118→18
+  // Period 1
+  if (el.n === 1) return { row: 1, col: 1 };
+  if (el.n === 2) return { row: 1, col: 18 };
+  // Period 2
+  if (el.n === 3) return { row: 2, col: 1 };
+  if (el.n === 4) return { row: 2, col: 2 };
+  if (el.n >= 5 && el.n <= 10) return { row: 2, col: el.n + 8 }; // 5→13, ..., 10→18
+  // Period 3
+  if (el.n === 11) return { row: 3, col: 1 };
+  if (el.n === 12) return { row: 3, col: 2 };
+  if (el.n >= 13 && el.n <= 18) return { row: 3, col: el.n }; // 13→13, ..., 18→18
+  // Period 4 — 19 K through 36 Kr
+  if (el.n >= 19 && el.n <= 36) return { row: 4, col: el.n - 18 };
+  // Period 5 — 37 Rb through 54 Xe
+  if (el.n >= 37 && el.n <= 54) return { row: 5, col: el.n - 36 };
+  // Period 6 first two — Cs, Ba
+  if (el.n === 55) return { row: 6, col: 1 };
+  if (el.n === 56) return { row: 6, col: 2 };
+  // Period 7 first two — Fr, Ra
+  if (el.n === 87) return { row: 7, col: 1 };
+  if (el.n === 88) return { row: 7, col: 2 };
+  return null;
+}
+
+// =============================================================
+// RENDER
+// =============================================================
+function renderGrid() {
+  const main = document.getElementById('pt-grid');
+  const fblock = document.getElementById('pt-fblock');
+  main.innerHTML = '';
+  fblock.innerHTML = '';
+
+  // Set explicit grid template rows for the main 7-row grid
+  main.style.gridTemplateRows = 'repeat(7, 1fr)';
+  fblock.style.gridTemplateRows = 'repeat(2, 1fr)';
+
+  // Add La/Ac placeholder in main grid at row 6 col 3 and row 7 col 3
+  const phLa = document.createElement('div');
+  phLa.className = 'pt-placeholder';
+  phLa.style.gridRow = '6';
+  phLa.style.gridColumn = '3';
+  phLa.textContent = '57–71';
+  phLa.setAttribute('role','button');
+  phLa.setAttribute('tabindex','0');
+  phLa.setAttribute('aria-label','Lanthanides 57 to 71 — click to filter');
+  phLa.addEventListener('click', () => setFilter('lanthanide'));
+  phLa.addEventListener('keypress', (e) => { if (e.key === 'Enter' || e.key === ' ') setFilter('lanthanide'); });
+  main.appendChild(phLa);
+
+  const phAc = document.createElement('div');
+  phAc.className = 'pt-placeholder';
+  phAc.style.gridRow = '7';
+  phAc.style.gridColumn = '3';
+  phAc.textContent = '89–103';
+  phAc.setAttribute('role','button');
+  phAc.setAttribute('tabindex','0');
+  phAc.setAttribute('aria-label','Actinides 89 to 103 — click to filter');
+  phAc.addEventListener('click', () => setFilter('actinide'));
+  phAc.addEventListener('keypress', (e) => { if (e.key === 'Enter' || e.key === ' ') setFilter('actinide'); });
+  main.appendChild(phAc);
+
+  // Add f-block series labels
+  const lanLabel = document.createElement('div');
+  lanLabel.className = 'pt-fblock-label';
+  lanLabel.style.gridRow = '1';
+  lanLabel.style.gridColumn = '1 / 4';
+  lanLabel.textContent = 'Lanthanides';
+  fblock.appendChild(lanLabel);
+  const actLabel = document.createElement('div');
+  actLabel.className = 'pt-fblock-label';
+  actLabel.style.gridRow = '2';
+  actLabel.style.gridColumn = '1 / 4';
+  actLabel.textContent = 'Actinides';
+  fblock.appendChild(actLabel);
+
+  E.forEach(el => {
+    const pos = gridPos(el);
+    if (!pos) return;
+    const cell = document.createElement('div');
+    cell.className = `pt-cell cat-${el.c}`;
+    cell.dataset.n = el.n;
+    cell.dataset.s = el.s;
+    cell.dataset.name = el.name.toLowerCase();
+    cell.dataset.cat = el.c;
+    cell.dataset.ss = el.ss ? '1' : '0';
+    cell.setAttribute('role','button');
+    cell.setAttribute('tabindex','0');
+    cell.setAttribute('aria-label', `${el.name}, atomic number ${el.n}, symbol ${el.s}`);
+    cell.innerHTML = `
+      <div class="num">${el.n}</div>
+      <div class="sym">${el.s}</div>
+      <div class="name">${el.name}</div>
+      ${el.ss ? '<div class="ss-flag" aria-label="Found on ingredient labels">◆</div>' : ''}
+    `;
+    cell.addEventListener('click', () => openModal(el));
+    cell.addEventListener('keypress', (e) => { if (e.key === 'Enter' || e.key === ' ') openModal(el); });
+
+    // Place in main or f-block grid based on row
+    if (pos.row === 9 || pos.row === 10) {
+      cell.style.gridRow = String(pos.row - 8);  // f-block grid uses rows 1, 2
+      cell.style.gridColumn = String(pos.col);
+      fblock.appendChild(cell);
+    } else {
+      cell.style.gridRow = String(pos.row);
+      cell.style.gridColumn = String(pos.col);
+      main.appendChild(cell);
+    }
+  });
+}
+
+// =============================================================
+// MODAL
+// =============================================================
+function openModal(el) {
+  const bg = document.getElementById('pt-modal-bg');
+  document.getElementById('pt-modal-symbol').className = `pt-modal-symbol cat-${el.c}`;
+  document.getElementById('pt-modal-sym').textContent = el.s;
+  document.getElementById('pt-modal-num').textContent = `№ ${el.n}`;
+  document.getElementById('pt-modal-name').textContent = el.name;
+  document.getElementById('pt-modal-cat').textContent = CAT_LABEL[el.c] || '—';
+  document.getElementById('pt-modal-mass').textContent = el.m + ' u';
+  document.getElementById('pt-modal-config').textContent = el.e;
+  document.getElementById('pt-modal-mp').textContent = el.mp === null ? '—' : el.mp + ' °C';
+  document.getElementById('pt-modal-bp').textContent = el.bp === null ? '—' : el.bp + ' °C';
+  document.getElementById('pt-modal-disc').textContent = (el.y === 'antiquity' ? 'Antiquity' : el.y) + (el.by ? ' — ' + el.by : '');
+  document.getElementById('pt-modal-pg').textContent = `Period ${el.p}` + (el.g ? ` · Group ${el.g}` : ' · f-block');
+  document.getElementById('pt-modal-desc').textContent = el.d;
+  const ssBox = document.getElementById('pt-modal-ss');
+  if (el.ss) {
+    document.getElementById('pt-modal-ss-text').textContent = el.ss;
+    ssBox.hidden = false;
+  } else {
+    ssBox.hidden = true;
+  }
+  bg.classList.add('open');
+  bg.focus();
+}
+function closeModal() {
+  document.getElementById('pt-modal-bg').classList.remove('open');
+}
+document.getElementById('pt-modal-close').addEventListener('click', closeModal);
+document.getElementById('pt-modal-bg').addEventListener('click', (e) => {
+  if (e.target.id === 'pt-modal-bg') closeModal();
+});
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape') closeModal();
+});
+
+// =============================================================
+// FILTER + SEARCH
+// =============================================================
+let activeFilter = 'all';
+function setFilter(cat) {
+  activeFilter = cat;
+  document.querySelectorAll('.pt-filter').forEach(b => {
+    b.setAttribute('aria-pressed', b.dataset.cat === cat ? 'true' : 'false');
+  });
+  applyFilters();
+}
+function applyFilters() {
+  const q = document.getElementById('pt-search').value.trim().toLowerCase();
+  document.querySelectorAll('.pt-cell').forEach(c => {
+    const cat = c.dataset.cat;
+    const matchesFilter = activeFilter === 'all'
+      || (activeFilter === 'ss' && c.dataset.ss === '1')
+      || cat === activeFilter;
+    let matchesSearch = true;
+    if (q) {
+      const name = c.dataset.name;
+      const sym = c.dataset.s.toLowerCase();
+      const n = c.dataset.n;
+      matchesSearch = name.includes(q) || sym === q || sym.startsWith(q) || n === q;
+    }
+    c.classList.toggle('dim', !matchesFilter);
+    c.classList.toggle('match', q && matchesSearch && matchesFilter);
+  });
+}
+document.querySelectorAll('.pt-filter').forEach(b => {
+  b.addEventListener('click', () => setFilter(b.dataset.cat));
+});
+document.getElementById('pt-search').addEventListener('input', applyFilters);
+
+// =============================================================
+// INITIALISE
+// =============================================================
+document.addEventListener('DOMContentLoaded', renderGrid);
+if (document.readyState === 'loading') {
+  // wait
+} else {
+  renderGrid();
+}
+
+// Local-file preview link shim — same pattern as other pages
+(function(){
+  if (location.protocol !== 'file:') return;
+  document.addEventListener('DOMContentLoaded', function() {
+    document.querySelectorAll('a[href^="/"]').forEach(function(a) {
+      var href = a.getAttribute('href');
+      if (href === '/') { a.setAttribute('href', 'index.html'); return; }
+      if (/^\/[a-z0-9-]+$/i.test(href)) {
+        a.setAttribute('href', href.substring(1) + '.html');
+      }
+    });
+  });
+})();
+
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('/sw.js').catch(() => {});
+  });
+}
+</script>
+</body>
+</html>

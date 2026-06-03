@@ -1,0 +1,15 @@
+# ScanSmart — scansmart.uk
+# Open by default. We want search engines to find every page.
+
+User-agent: *
+Allow: /
+# FLT terminal is gated by Cloudflare Access (email one-time PIN).
+# Keep it out of search results — only authorised email addresses can load it.
+Disallow: /flt-app
+Disallow: /flt-app.html
+
+# Sitemap
+Sitemap: https://scansmart.uk/sitemap.xml
+
+# We do not block any user agent for actual pages.
+# The KiP scanner at app.scansmart.uk is a separate origin with its own robots.

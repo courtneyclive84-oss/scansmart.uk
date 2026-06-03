@@ -1,0 +1,187 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0A1628">
+<meta name="robots" content="noindex,nofollow">
+<title>FLT — Access required · SCANSMART</title>
+<meta name="description" content="The Food Label Terminal is for SCANSMART subscribers. Access by key only.">
+
+<link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon-16x16.png">
+<link rel="shortcut icon" href="/assets/favicon.ico">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;700&family=Syne:wght@600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+
+<style>
+  :root {
+    --navy-deep: #0A1628;
+    --navy: #0F1E32;
+    --cream: #F0EDE5;
+    --cream-dim: #B8B5AB;
+    --muted: #8a8a8a;
+    --amber: #ffa726;
+    --red-soft: #ff6b5e;
+    --green: #27d07c;
+    --green-soft: #5BE095;
+    --mono: 'JetBrains Mono','SF Mono',Menlo,Consolas,monospace;
+    --font-display: 'Syne', -apple-system, system-ui, sans-serif;
+    --font-body: 'DM Sans', -apple-system, system-ui, sans-serif;
+  }
+  *, *::before, *::after { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; min-height: 100vh; background: var(--navy-deep); color: var(--cream); font-family: var(--font-body); }
+  body { display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 24px; }
+
+  .gate-card { width: 100%; max-width: 460px; padding: 40px 32px; background: rgba(255,255,255,0.02); border: 1px solid rgba(255,167,38,0.25); border-radius: 12px; box-shadow: 0 30px 80px rgba(0,0,0,0.4); }
+
+  .gate-eyebrow { font-family: var(--mono); font-size: 0.72rem; color: var(--amber); letter-spacing: 0.3em; text-transform: uppercase; margin: 0 0 10px; text-align: center; }
+  .gate-title { font-family: var(--font-display); font-size: 1.7rem; font-weight: 800; line-height: 1.1; letter-spacing: -0.02em; margin: 0 0 14px; text-align: center; color: var(--cream); }
+  .gate-title .accent { color: var(--red-soft); font-style: italic; }
+  .gate-lede { font-size: 0.95rem; color: var(--cream-dim); line-height: 1.55; margin: 0 0 28px; text-align: center; }
+
+  form { display: flex; flex-direction: column; gap: 12px; }
+  label { font-family: var(--mono); font-size: 0.72rem; color: var(--muted); letter-spacing: 0.2em; text-transform: uppercase; }
+  input[type="password"] { width: 100%; padding: 12px 14px; background: rgba(0,0,0,0.45); border: 1px solid rgba(255,167,38,0.35); border-radius: 6px; color: var(--cream); font-family: var(--mono); font-size: 1rem; outline: none; transition: border-color 0.15s, box-shadow 0.15s; }
+  input[type="password"]:focus { border-color: var(--amber); box-shadow: 0 0 0 3px rgba(255,167,38,0.18); }
+
+  .btn-unlock { width: 100%; padding: 13px 16px; background: var(--green); color: var(--navy-deep); border: 0; border-radius: 6px; font-family: var(--font-body); font-weight: 700; font-size: 0.95rem; letter-spacing: 0.02em; cursor: pointer; transition: background 0.15s, transform 0.05s; }
+  .btn-unlock:hover { background: var(--green-soft); }
+  .btn-unlock:active { transform: translateY(1px); }
+  .btn-unlock[disabled] { opacity: 0.6; cursor: not-allowed; }
+
+  .gate-error { color: var(--red-soft); font-size: 0.88rem; margin: 14px 0 0; text-align: center; min-height: 1.4em; }
+  .gate-error a { color: var(--red-soft); border-bottom: 1px dotted var(--red-soft); }
+  .gate-error a:hover { color: var(--cream); border-bottom-color: var(--cream); }
+
+  .gate-footer { margin-top: 28px; padding-top: 22px; border-top: 1px solid rgba(255,255,255,0.08); font-size: 0.85rem; color: var(--cream-dim); text-align: center; line-height: 1.5; }
+  .gate-footer a { color: var(--amber); text-decoration: none; border-bottom: 1px dotted rgba(255,167,38,0.5); }
+  .gate-footer a:hover { color: var(--cream); border-bottom-color: var(--cream); }
+
+  .gate-brand { display: flex; align-items: center; justify-content: center; gap: 10px; margin-bottom: 28px; }
+  .gate-brand-mark { display: inline-block; padding: 6px 10px; background: rgba(0,0,0,0.4); border: 1px solid rgba(255,167,38,0.35); border-radius: 4px; font-family: var(--mono); font-size: 0.72rem; color: var(--amber); letter-spacing: 0.15em; }
+  .gate-brand-name { font-family: var(--font-display); font-weight: 800; font-size: 1.1rem; letter-spacing: 0.05em; color: var(--cream); }
+
+  @media (max-width: 480px) {
+    .gate-card { padding: 32px 22px; }
+    .gate-title { font-size: 1.45rem; }
+  }
+</style>
+</head>
+<body>
+
+<div class="gate-card" role="dialog" aria-labelledby="gate-title">
+  <div class="gate-brand">
+    <span class="gate-brand-mark">FLT</span>
+    <span class="gate-brand-name">SCANSMART</span>
+  </div>
+
+  <p class="gate-eyebrow">Subscription required</p>
+  <h1 class="gate-title" id="gate-title">Access by <span class="accent">key</span>.</h1>
+  <p class="gate-lede">The Food Label Terminal is for SCANSMART subscribers. Enter your access key to continue.</p>
+
+  <form id="gate-form" autocomplete="off" novalidate>
+    <label for="gate-key">Access key</label>
+    <input
+      type="password"
+      id="gate-key"
+      name="gate-key"
+      autofocus
+      autocomplete="off"
+      autocorrect="off"
+      autocapitalize="off"
+      spellcheck="false"
+      required>
+    <button type="submit" class="btn-unlock" id="gate-submit">Unlock terminal</button>
+  </form>
+
+  <p class="gate-error" id="gate-error" aria-live="polite" role="status"></p>
+
+  <p class="gate-footer">
+    No subscription yet? <a href="subscribe.html">Subscribe to access</a>.<br>
+    <a href="/">← Back to SCANSMART</a>
+  </p>
+</div>
+
+<script>
+(function () {
+  'use strict';
+
+  // The SHA-256 hash of the canonical FLT access key (plaintext: fltaccess-526).
+  // Per-gate-keyed architecture (banked 26 May 2026 evening, supersedes the unified-key approach
+  // banked earlier same afternoon): each Partner Programme surface has its own key + own
+  // sessionStorage flag. FLT gate gates flt-app.html; I500 gate (separate key i500access-526) gates door3-preview.html.
+  // The key itself is not stored in source; only its hash.
+  // A client-side gate keeps casual visitors and crawlers out.
+  // It is not secure against a determined attacker viewing source.
+  // For audit-trail / per-user revocation, escalate to Cloudflare Access.
+  var EXPECTED_HASH = '22c140bbab909cfae06f8fbc254c070f83ebbc30bd8b8cbda4e99ffa22668a2a';
+
+  var form = document.getElementById('gate-form');
+  var input = document.getElementById('gate-key');
+  var submit = document.getElementById('gate-submit');
+  var errorEl = document.getElementById('gate-error');
+
+  // Where to send the user after a successful unlock.
+  // Defaults to flt-app.html; overrideable via ?next=<path>
+  var params = new URLSearchParams(window.location.search);
+  var nextRaw = params.get('next') || 'flt-app.html';
+  // Same-origin path guard: only allow relative paths, no schemes, no protocol-relative.
+  var nextPath = (/^[a-zA-Z0-9_\-./?&=%#]+$/).test(nextRaw) && !nextRaw.startsWith('//') && !nextRaw.includes(':')
+    ? nextRaw
+    : 'flt-app.html';
+
+  // Already unlocked this session — go straight through.
+  try {
+    if (sessionStorage.getItem('flt_unlocked') === '1') {
+      window.location.replace(nextPath);
+      return;
+    }
+  } catch (e) { /* sessionStorage may be unavailable in some sandboxed contexts; fall through to the form */ }
+
+  async function sha256Hex(str) {
+    var buf = new TextEncoder().encode(str);
+    var hashBuf = await crypto.subtle.digest('SHA-256', buf);
+    return Array.from(new Uint8Array(hashBuf)).map(function (b) { return b.toString(16).padStart(2, '0'); }).join('');
+  }
+
+  form.addEventListener('submit', async function (e) {
+    e.preventDefault();
+    errorEl.textContent = '';
+    submit.disabled = true;
+    submit.textContent = 'Checking…';
+
+    try {
+      var entered = input.value.trim();
+      if (!entered) {
+        errorEl.textContent = 'Please enter your access key.';
+        submit.disabled = false;
+        submit.textContent = 'Unlock terminal';
+        input.focus();
+        return;
+      }
+
+      var hash = await sha256Hex(entered);
+      if (hash === EXPECTED_HASH) {
+        try { sessionStorage.setItem('flt_unlocked', '1'); } catch (e) { /* If sessionStorage is unavailable, the user will see the gate again on next navigation, but the current navigation still succeeds. */ }
+        submit.textContent = 'Unlocked — loading terminal…';
+        window.location.replace(nextPath);
+      } else {
+        errorEl.innerHTML = 'Key not recognised. Try again or <a href="subscribe.html">subscribe for access</a>.';
+        input.value = '';
+        submit.disabled = false;
+        submit.textContent = 'Unlock terminal';
+        input.focus();
+      }
+    } catch (err) {
+      errorEl.textContent = 'Browser does not support secure key checks. Use a current browser.';
+      submit.disabled = false;
+      submit.textContent = 'Unlock terminal';
+    }
+  });
+})();
+</script>
+</body>
+</html>

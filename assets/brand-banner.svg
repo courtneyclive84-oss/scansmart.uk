@@ -1,0 +1,89 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 260 44" role="img" aria-label="ScanSmart Marque v1 — Power is Knowledge Decoded">
+  <title>ScanSmart Marque v1</title>
+  <desc>The compact horizontal brand badge. Canonical navy field, scansmart lowercase wordmark, encoded bar pattern (Code 128 Set B, LooK), canonical serial 5  d 0 6 e 0 c   1 o 3 d 7 e, cyan scan line, corner trim bars, brand sparkle.</desc>
+
+  <!-- Canonical navy field -->
+  <rect x="0" y="0" width="260" height="44" rx="6" ry="6" fill="#0A1628"/>
+
+  <!-- Inner subtle hairline frame -->
+  <rect x="0.5" y="0.5" width="259" height="43" rx="5.5" ry="5.5" fill="none" stroke="#13243C" stroke-width="0.5"/>
+
+  <!-- Decorative trim bars at four corners (cyan) -->
+  <g fill="#5BC0EB">
+    <!-- TL -->
+    <rect x="3" y="3" width="7" height="1.2"/>
+    <rect x="3" y="3" width="1.2" height="7"/>
+    <!-- TR -->
+    <rect x="250" y="3" width="7" height="1.2"/>
+    <rect x="255.8" y="3" width="1.2" height="7"/>
+    <!-- BL -->
+    <rect x="3" y="39.8" width="7" height="1.2"/>
+    <rect x="3" y="34" width="1.2" height="7"/>
+    <!-- BR -->
+    <rect x="250" y="39.8" width="7" height="1.2"/>
+    <rect x="255.8" y="34" width="1.2" height="7"/>
+  </g>
+
+  <!-- scansmart lowercase wordmark -->
+  <text x="14" y="22"
+        font-family="'DM Sans', system-ui, -apple-system, Segoe UI, sans-serif"
+        font-size="14" font-weight="700" letter-spacing="0.02em"
+        fill="#F5F1E8">scansmart</text>
+
+  <!-- Cyan scan line (decorative; brand cue) -->
+  <line x1="14" y1="27" x2="246" y2="27" stroke="#5BC0EB" stroke-width="0.5" opacity="0.55"/>
+
+  <!-- Encoded bar pattern: Code 128 Set B — "LooK" — sonorous-chord voicing.
+       Approximation render. Canonical pre-computed module-widths sealed in legal record.
+       Voicing intent: L/K = percussive (tight, mixed thin bars); o,o = held (wider bars). -->
+  <g fill="#F5F1E8">
+    <!-- L (percussive) -->
+    <rect x="116"   y="9" width="1.0" height="20"/>
+    <rect x="118.5" y="9" width="1.6" height="20"/>
+    <rect x="121.5" y="9" width="1.0" height="20"/>
+    <rect x="124"   y="9" width="2.0" height="20"/>
+    <rect x="127.5" y="9" width="1.0" height="20"/>
+    <rect x="129.8" y="9" width="1.4" height="20"/>
+
+    <!-- o (held, wider bars) -->
+    <rect x="135"   y="9" width="2.4" height="20"/>
+    <rect x="139"   y="9" width="1.4" height="20"/>
+    <rect x="142"   y="9" width="2.6" height="20"/>
+    <rect x="146.2" y="9" width="1.4" height="20"/>
+    <rect x="149.2" y="9" width="2.4" height="20"/>
+
+    <!-- o (held, wider bars) -->
+    <rect x="155"   y="9" width="2.4" height="20"/>
+    <rect x="159"   y="9" width="1.4" height="20"/>
+    <rect x="162"   y="9" width="2.6" height="20"/>
+    <rect x="166.2" y="9" width="1.4" height="20"/>
+    <rect x="169.2" y="9" width="2.4" height="20"/>
+
+    <!-- K (percussive) -->
+    <rect x="175"   y="9" width="1.0" height="20"/>
+    <rect x="177.3" y="9" width="1.4" height="20"/>
+    <rect x="180"   y="9" width="2.0" height="20"/>
+    <rect x="183.5" y="9" width="1.0" height="20"/>
+    <rect x="186"   y="9" width="1.6" height="20"/>
+    <rect x="189"   y="9" width="1.0" height="20"/>
+
+    <!-- Stop bar (heavier; closes the encoded run) -->
+    <rect x="192"   y="9" width="2.4" height="20"/>
+  </g>
+
+  <!-- Canonical serial — preserved exactly per §14.3.1.
+       Sized to fit the bar zone width, with the leading "5" anchored just left of the first bar. -->
+  <text x="114" y="38"
+        text-anchor="start"
+        font-family="'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace"
+        font-size="4" letter-spacing="0.05em"
+        fill="#7A8FA0" xml:space="preserve">5  d 0 6 e 0 c   1 o 3 d 7 e</text>
+
+  <!-- Brand sparkle -->
+  <g fill="#5BC0EB" transform="translate(228 12)">
+    <path d="M5 0 L6 4 L10 5 L6 6 L5 10 L4 6 L0 5 L4 4 Z" opacity="0.95"/>
+  </g>
+
+  <!-- Subtle cyan accent dot (lower right, balances sparkle) -->
+  <circle cx="240" cy="34" r="1" fill="#5BC0EB" opacity="0.7"/>
+</svg>

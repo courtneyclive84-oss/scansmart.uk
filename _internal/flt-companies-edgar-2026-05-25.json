@@ -1,0 +1,635 @@
+{
+  "source": "SEC EDGAR submissions API (data.sec.gov/submissions)",
+  "capturedAt": "2026-05-25T13:40:36.249175+00:00",
+  "records": [
+    {
+      "name": "Kraft Heinz Co",
+      "cik": "0001637459",
+      "ticker": "KHC",
+      "currentTickers": [
+        "KHC"
+      ],
+      "currentExchanges": [
+        "Nasdaq"
+      ],
+      "isActiveSecRegistrant": true,
+      "deregistration": null,
+      "sic": "2030",
+      "sicDescription": "Canned, Frozen & Preservd Fruit, Veg & Food Specialties",
+      "fiscalYearEnd": "1226",
+      "businessAddress": {
+        "street1": "ONE PPG PLACE",
+        "street2": null,
+        "city": "PITTSBURGH",
+        "stateOrCountry": "PA",
+        "zipCode": "15222",
+        "stateOrCountryDescription": "PA",
+        "isForeignLocation": null,
+        "foreignStateTerritory": null,
+        "country": null,
+        "countryCode": null
+      },
+      "phone": "412-456-5700",
+      "website": "",
+      "investorWebsite": "",
+      "category": "Large accelerated filer",
+      "entityType": "operating",
+      "stateOfIncorporation": "DE",
+      "formerNames": [
+        {
+          "name": "H.J. Heinz Holding Corp",
+          "from": "2015-03-25T04:00:00.000Z",
+          "to": "2015-07-01T04:00:00.000Z"
+        }
+      ],
+      "latestAnnual": {
+        "date": "2026-02-12",
+        "url": "https://www.sec.gov/Archives/edgar/data/1637459/000163745926000009/khc-20251227.htm",
+        "accession": "0001637459-26-000009",
+        "form": "10-K"
+      },
+      "latestQuarterly": {
+        "date": "2026-05-06",
+        "url": "https://www.sec.gov/Archives/edgar/data/1637459/000163745926000022/khc-20260328.htm",
+        "accession": "0001637459-26-000022",
+        "form": "10-Q"
+      },
+      "latest8K": {
+        "date": "2026-05-21",
+        "url": "https://www.sec.gov/Archives/edgar/data/1637459/000119312526234627/d101070d8k.htm",
+        "accession": "0001193125-26-234627",
+        "form": "8-K"
+      },
+      "flt_brand_references": "appears in: heinz",
+      "source": "SEC EDGAR submissions API",
+      "sourceUrl": "https://data.sec.gov/submissions/CIK0001637459.json",
+      "capturedAt": "2026-05-25T13:39:23.790640+00:00",
+      "status": "ACTIVE",
+      "statusNote": null
+    },
+    {
+      "name": "Mondelez International, Inc.",
+      "cik": "0001103982",
+      "ticker": "MDLZ",
+      "currentTickers": [
+        "MDLZ"
+      ],
+      "currentExchanges": [
+        "Nasdaq"
+      ],
+      "isActiveSecRegistrant": true,
+      "deregistration": null,
+      "sic": "2000",
+      "sicDescription": "Food and Kindred Products",
+      "fiscalYearEnd": "1231",
+      "businessAddress": {
+        "street1": "905 WEST FULTON MARKET",
+        "street2": "SUITE 200",
+        "city": "CHICAGO",
+        "stateOrCountry": "IL",
+        "zipCode": "60607",
+        "stateOrCountryDescription": "IL",
+        "isForeignLocation": null,
+        "foreignStateTerritory": null,
+        "country": null,
+        "countryCode": null
+      },
+      "phone": "847-943-4000",
+      "website": "",
+      "investorWebsite": "",
+      "category": "Large accelerated filer",
+      "entityType": "operating",
+      "stateOfIncorporation": "IL",
+      "formerNames": [
+        {
+          "name": "KRAFT FOODS INC",
+          "from": "2000-01-24T05:00:00.000Z",
+          "to": "2012-09-28T04:00:00.000Z"
+        }
+      ],
+      "latestAnnual": {
+        "date": "2026-02-04",
+        "url": "https://www.sec.gov/Archives/edgar/data/1103982/000162828026005345/mdlz-20251231.htm",
+        "accession": "0001628280-26-005345",
+        "form": "10-K"
+      },
+      "latestQuarterly": {
+        "date": "2026-04-28",
+        "url": "https://www.sec.gov/Archives/edgar/data/1103982/000162828026027937/mdlz-20260331.htm",
+        "accession": "0001628280-26-027937",
+        "form": "10-Q"
+      },
+      "latest8K": {
+        "date": "2026-04-28",
+        "url": "https://www.sec.gov/Archives/edgar/data/1103982/000162828026027915/mdlz-20260428.htm",
+        "accession": "0001628280-26-027915",
+        "form": "8-K"
+      },
+      "flt_brand_references": "appears in: cadbury, oreo, milka, toblerone, ritz, philadelphia",
+      "source": "SEC EDGAR submissions API",
+      "sourceUrl": "https://data.sec.gov/submissions/CIK0001103982.json",
+      "capturedAt": "2026-05-25T13:39:24.165387+00:00",
+      "status": "ACTIVE",
+      "statusNote": null
+    },
+    {
+      "name": "PEPSICO INC",
+      "cik": "0000077476",
+      "ticker": "PEP",
+      "currentTickers": [
+        "PEP"
+      ],
+      "currentExchanges": [
+        "Nasdaq"
+      ],
+      "isActiveSecRegistrant": true,
+      "deregistration": null,
+      "sic": "2080",
+      "sicDescription": "Beverages",
+      "fiscalYearEnd": "1226",
+      "businessAddress": {
+        "street1": "700 ANDERSON HILL RD",
+        "street2": null,
+        "city": "PURCHASE",
+        "stateOrCountry": "NY",
+        "zipCode": "10577",
+        "stateOrCountryDescription": "NY",
+        "isForeignLocation": null,
+        "foreignStateTerritory": null,
+        "country": null,
+        "countryCode": null
+      },
+      "phone": "9142532000",
+      "website": "",
+      "investorWebsite": "",
+      "category": "Large accelerated filer",
+      "entityType": "operating",
+      "stateOfIncorporation": "NC",
+      "formerNames": [],
+      "latestAnnual": {
+        "date": "2026-02-03",
+        "url": "https://www.sec.gov/Archives/edgar/data/77476/000007747626000007/pep-20251227.htm",
+        "accession": "0000077476-26-000007",
+        "form": "10-K"
+      },
+      "latestQuarterly": {
+        "date": "2026-04-16",
+        "url": "https://www.sec.gov/Archives/edgar/data/77476/000007747626000017/pep-20260321.htm",
+        "accession": "0000077476-26-000017",
+        "form": "10-Q"
+      },
+      "latest8K": {
+        "date": "2026-05-22",
+        "url": "https://www.sec.gov/Archives/edgar/data/77476/000110465926065758/tm2615167d1_8k.htm",
+        "accession": "0001104659-26-065758",
+        "form": "8-K"
+      },
+      "flt_brand_references": "appears in: walkers, quaker, tropicana (39% stake), lays, doritos, mountain dew",
+      "source": "SEC EDGAR submissions API",
+      "sourceUrl": "https://data.sec.gov/submissions/CIK0000077476.json",
+      "capturedAt": "2026-05-25T13:39:24.539169+00:00",
+      "status": "ACTIVE",
+      "statusNote": null
+    },
+    {
+      "name": "COCA COLA CO",
+      "cik": "0000021344",
+      "ticker": "KO",
+      "currentTickers": [
+        "KO"
+      ],
+      "currentExchanges": [
+        "NYSE"
+      ],
+      "isActiveSecRegistrant": true,
+      "deregistration": null,
+      "sic": "2080",
+      "sicDescription": "Beverages",
+      "fiscalYearEnd": "1231",
+      "businessAddress": {
+        "street1": "ONE COCA COLA PLAZA",
+        "street2": null,
+        "city": "ATLANTA",
+        "stateOrCountry": "GA",
+        "zipCode": "30313",
+        "stateOrCountryDescription": "GA",
+        "isForeignLocation": null,
+        "foreignStateTerritory": null,
+        "country": null,
+        "countryCode": null
+      },
+      "phone": "404-676-2121",
+      "website": "",
+      "investorWebsite": "",
+      "category": "Large accelerated filer",
+      "entityType": "operating",
+      "stateOfIncorporation": "DE",
+      "formerNames": [],
+      "latestAnnual": {
+        "date": "2026-02-20",
+        "url": "https://www.sec.gov/Archives/edgar/data/21344/000162828026010047/ko-20251231.htm",
+        "accession": "0001628280-26-010047",
+        "form": "10-K"
+      },
+      "latestQuarterly": {
+        "date": "2026-04-30",
+        "url": "https://www.sec.gov/Archives/edgar/data/21344/000162828026028802/ko-20260403.htm",
+        "accession": "0001628280-26-028802",
+        "form": "10-Q"
+      },
+      "latest8K": {
+        "date": "2026-05-01",
+        "url": "https://www.sec.gov/Archives/edgar/data/21344/000162828026029230/ko-20260429.htm",
+        "accession": "0001628280-26-029230",
+        "form": "8-K"
+      },
+      "flt_brand_references": "appears in: coca-cola, innocent, schweppes (US), fanta, sprite, minute maid",
+      "source": "SEC EDGAR submissions API",
+      "sourceUrl": "https://data.sec.gov/submissions/CIK0000021344.json",
+      "capturedAt": "2026-05-25T13:39:24.891185+00:00",
+      "status": "ACTIVE",
+      "statusNote": null
+    },
+    {
+      "name": "KELLANOVA",
+      "cik": "0000055067",
+      "ticker": "K",
+      "currentTickers": [],
+      "currentExchanges": [],
+      "isActiveSecRegistrant": false,
+      "deregistration": {
+        "date": "2025-12-22",
+        "url": "https://www.sec.gov/Archives/edgar/data/55067/000119312525327851/d73797d1512g.htm",
+        "accession": "0001193125-25-327851",
+        "form": "15-12G"
+      },
+      "sic": "2040",
+      "sicDescription": "Grain Mill Products",
+      "fiscalYearEnd": "1228",
+      "businessAddress": {
+        "street1": "412 N WELLS ST",
+        "street2": null,
+        "city": "CHICAGO",
+        "stateOrCountry": "IL",
+        "zipCode": "60654",
+        "stateOrCountryDescription": "IL",
+        "isForeignLocation": null,
+        "foreignStateTerritory": null,
+        "country": null,
+        "countryCode": null
+      },
+      "phone": "2699612000",
+      "website": "",
+      "investorWebsite": "",
+      "category": "Large accelerated filer",
+      "entityType": "operating",
+      "stateOfIncorporation": "DE",
+      "formerNames": [
+        {
+          "name": "KELLOGG CO",
+          "from": "1994-04-29T00:00:00.000Z",
+          "to": "2023-09-28T00:00:00.000Z"
+        }
+      ],
+      "latestAnnual": {
+        "date": "2025-02-21",
+        "url": "https://www.sec.gov/Archives/edgar/data/55067/000162828025007118/k-20241228.htm",
+        "accession": "0001628280-25-007118",
+        "form": "10-K"
+      },
+      "latestQuarterly": {
+        "date": "2025-10-30",
+        "url": "https://www.sec.gov/Archives/edgar/data/55067/000005506725000191/k-20250927.htm",
+        "accession": "0000055067-25-000191",
+        "form": "10-Q"
+      },
+      "latest8K": {
+        "date": "2025-12-11",
+        "url": "https://www.sec.gov/Archives/edgar/data/55067/000119312525315130/d90636d8k.htm",
+        "accession": "0001193125-25-315130",
+        "form": "8-K"
+      },
+      "flt_brand_references": "appears in: pringles 2024 only \u2014 DEREGISTERED Dec 2025; acquired by Mars Inc",
+      "source": "SEC EDGAR submissions API",
+      "sourceUrl": "https://data.sec.gov/submissions/CIK0000055067.json",
+      "capturedAt": "2026-05-25T13:39:25.249007+00:00",
+      "status": "DEREGISTERED",
+      "statusNote": "Filed 15-12G on 2025-12-22 \u2014 public registration terminated",
+      "brandOwnershipImpact": "Pringles ownership chain updates: Kellanova (2024) \u2192 Mars, Incorporated (2025). Mars Inc. announced acquisition Aug 2024; close + Form 15-12G filing Dec 2025. Source: SEC EDGAR Form 15-12G filing (CIK 0000055067, dated 2025-12-22)."
+    },
+    {
+      "name": "WK Kellogg Co",
+      "cik": "0001959348",
+      "ticker": "KLG",
+      "currentTickers": [],
+      "currentExchanges": [],
+      "isActiveSecRegistrant": false,
+      "deregistration": {
+        "date": "2025-10-06",
+        "url": "https://www.sec.gov/Archives/edgar/data/1959348/000119312525232073/d80708d1512g.htm",
+        "accession": "0001193125-25-232073",
+        "form": "15-12G"
+      },
+      "sic": "2040",
+      "sicDescription": "Grain Mill Products",
+      "fiscalYearEnd": "0103",
+      "businessAddress": {
+        "street1": "ONE KELLOGG SQUARE",
+        "street2": null,
+        "city": "BATTLE CREEK",
+        "stateOrCountry": "MI",
+        "zipCode": "49017",
+        "stateOrCountryDescription": "MI",
+        "isForeignLocation": null,
+        "foreignStateTerritory": null,
+        "country": null,
+        "countryCode": null
+      },
+      "phone": "269-961-2000",
+      "website": "",
+      "investorWebsite": "",
+      "category": "Large accelerated filer",
+      "entityType": "operating",
+      "stateOfIncorporation": "DE",
+      "formerNames": [
+        {
+          "name": "NORTH AMERICA CEREAL CO.",
+          "from": "2023-02-10T00:00:00.000Z",
+          "to": "2023-02-10T00:00:00.000Z"
+        }
+      ],
+      "latestAnnual": {
+        "date": "2025-02-25",
+        "url": "https://www.sec.gov/Archives/edgar/data/1959348/000162828025007817/klg-20241228.htm",
+        "accession": "0001628280-25-007817",
+        "form": "10-K"
+      },
+      "latestQuarterly": {
+        "date": "2025-08-07",
+        "url": "https://www.sec.gov/Archives/edgar/data/1959348/000162828025038605/klg-20250628.htm",
+        "accession": "0001628280-25-038605",
+        "form": "10-Q"
+      },
+      "latest8K": {
+        "date": "2025-09-26",
+        "url": "https://www.sec.gov/Archives/edgar/data/1959348/000119312525219988/d37512d8k.htm",
+        "accession": "0001193125-25-219988",
+        "form": "8-K"
+      },
+      "flt_brand_references": "appears in: kellogg's cereals (post-2023 split \u2014 N. America cereals only)",
+      "source": "SEC EDGAR submissions API",
+      "sourceUrl": "https://data.sec.gov/submissions/CIK0001959348.json",
+      "capturedAt": "2026-05-25T13:39:25.665618+00:00",
+      "status": "DEREGISTERED",
+      "statusNote": "Filed 15-12G on 2025-10-06 \u2014 public registration terminated",
+      "brandOwnershipImpact": "WK Kellogg's brands (Frosties, Corn Flakes, Special K, Rice Krispies, Froot Loops \u2014 North-America cereals post the 2023 Kellanova/WK Kellogg split) ownership chain updates: The Kellogg Company \u2192 Kellanova + WK Kellogg Co (2023 split) \u2192 Ferrero Group (2025). Source: SEC EDGAR Form 15-12G filing (CIK 0001959348, dated 2025-10-06)."
+    },
+    {
+      "name": "PROCTER & GAMBLE Co",
+      "cik": "0000080424",
+      "ticker": "PG",
+      "currentTickers": [
+        "PG"
+      ],
+      "currentExchanges": [
+        "NYSE"
+      ],
+      "isActiveSecRegistrant": true,
+      "deregistration": {
+        "date": "2025-03-06",
+        "url": "https://www.sec.gov/Archives/edgar/data/80424/000008042425000016/gesop1515d333128859.htm",
+        "accession": "0000080424-25-000016",
+        "form": "15-15D"
+      },
+      "sic": "2840",
+      "sicDescription": "Soap, Detergents, Cleang Preparations, Perfumes, Cosmetics",
+      "fiscalYearEnd": "0630",
+      "businessAddress": {
+        "street1": "ONE PROCTER & GAMBLE PLAZA",
+        "street2": null,
+        "city": "CINCINNATI",
+        "stateOrCountry": "OH",
+        "zipCode": "45202",
+        "stateOrCountryDescription": "OH",
+        "isForeignLocation": null,
+        "foreignStateTerritory": null,
+        "country": null,
+        "countryCode": null
+      },
+      "phone": "5139831100",
+      "website": "",
+      "investorWebsite": "",
+      "category": "Large accelerated filer",
+      "entityType": "operating",
+      "stateOfIncorporation": "OH",
+      "formerNames": [],
+      "latestAnnual": {
+        "date": "2025-08-04",
+        "url": "https://www.sec.gov/Archives/edgar/data/80424/000008042425000076/pg-20250630.htm",
+        "accession": "0000080424-25-000076",
+        "form": "10-K"
+      },
+      "latestQuarterly": {
+        "date": "2026-04-24",
+        "url": "https://www.sec.gov/Archives/edgar/data/80424/000008042426000060/pg-20260331.htm",
+        "accession": "0000080424-26-000060",
+        "form": "10-Q"
+      },
+      "latest8K": {
+        "date": "2026-04-24",
+        "url": "https://www.sec.gov/Archives/edgar/data/80424/000008042426000057/pg-20260424.htm",
+        "accession": "0000080424-26-000057",
+        "form": "8-K"
+      },
+      "flt_brand_references": "appears in: pringles 1968-2012 (historical)",
+      "source": "SEC EDGAR submissions API",
+      "sourceUrl": "https://data.sec.gov/submissions/CIK0000080424.json",
+      "capturedAt": "2026-05-25T13:39:26.049568+00:00",
+      "status": "ACTIVE",
+      "statusNote": "Has historical Form 15 (individual security retirement, not parent deregistration)"
+    },
+    {
+      "name": "Nomad Foods Ltd",
+      "cik": "0001651717",
+      "ticker": "NOMD",
+      "currentTickers": [
+        "NOMD"
+      ],
+      "currentExchanges": [
+        "NYSE"
+      ],
+      "isActiveSecRegistrant": true,
+      "deregistration": null,
+      "sic": "2000",
+      "sicDescription": "Food and Kindred Products",
+      "fiscalYearEnd": "1231",
+      "businessAddress": {
+        "street1": "FORGE",
+        "street2": "43 CHURCH STREET WEST",
+        "city": "WOKING",
+        "stateOrCountry": "X0",
+        "zipCode": "GU21 6HT",
+        "stateOrCountryDescription": "United Kingdom",
+        "isForeignLocation": null,
+        "foreignStateTerritory": null,
+        "country": null,
+        "countryCode": null
+      },
+      "phone": "00442089183200",
+      "website": "",
+      "investorWebsite": "",
+      "category": "Large accelerated filer",
+      "entityType": "other",
+      "stateOfIncorporation": "D8",
+      "formerNames": [],
+      "latestAnnual": {
+        "date": "2026-02-26",
+        "url": "https://www.sec.gov/Archives/edgar/data/1651717/000165171726000006/nomd-20251231.htm",
+        "accession": "0001651717-26-000006",
+        "form": "20-F"
+      },
+      "latestQuarterly": {
+        "date": "2026-05-13",
+        "url": "https://www.sec.gov/Archives/edgar/data/1651717/000119312526220556/d742898d6k.htm",
+        "accession": "0001193125-26-220556",
+        "form": "6-K"
+      },
+      "latest8K": null,
+      "flt_brand_references": "appears in: bird's eye (post-2015 Iglo merger)",
+      "source": "SEC EDGAR submissions API",
+      "sourceUrl": "https://data.sec.gov/submissions/CIK0001651717.json",
+      "capturedAt": "2026-05-25T13:39:26.439356+00:00",
+      "status": "ACTIVE",
+      "statusNote": null
+    },
+    {
+      "name": "BERKSHIRE HATHAWAY INC",
+      "cik": "0001067983",
+      "ticker": "BRK-A",
+      "currentTickers": [
+        "BRK-B",
+        "BRK-A"
+      ],
+      "currentExchanges": [
+        "NYSE",
+        "NYSE"
+      ],
+      "isActiveSecRegistrant": true,
+      "deregistration": null,
+      "sic": "6331",
+      "sicDescription": "Fire, Marine & Casualty Insurance",
+      "fiscalYearEnd": "1231",
+      "businessAddress": {
+        "street1": "3555 FARNAM STREET",
+        "street2": null,
+        "city": "OMAHA",
+        "stateOrCountry": "NE",
+        "zipCode": "68131",
+        "stateOrCountryDescription": "NE",
+        "isForeignLocation": null,
+        "foreignStateTerritory": null,
+        "country": null,
+        "countryCode": null
+      },
+      "phone": "4023461400",
+      "website": "",
+      "investorWebsite": "",
+      "category": "Large accelerated filer",
+      "entityType": "operating",
+      "stateOfIncorporation": "DE",
+      "formerNames": [
+        {
+          "name": "NBH INC",
+          "from": "1998-08-10T04:00:00.000Z",
+          "to": "1999-01-05T05:00:00.000Z"
+        }
+      ],
+      "latestAnnual": {
+        "date": "2026-03-02",
+        "url": "https://www.sec.gov/Archives/edgar/data/1067983/000119312526083899/brka-20251231.htm",
+        "accession": "0001193125-26-083899",
+        "form": "10-K"
+      },
+      "latestQuarterly": {
+        "date": "2026-05-04",
+        "url": "https://www.sec.gov/Archives/edgar/data/1067983/000119312526202243/brka-20260331.htm",
+        "accession": "0001193125-26-202243",
+        "form": "10-Q"
+      },
+      "latest8K": {
+        "date": "2026-05-07",
+        "url": "https://www.sec.gov/Archives/edgar/data/1067983/000119312526212148/d74313d8k.htm",
+        "accession": "0001193125-26-212148",
+        "form": "8-K"
+      },
+      "flt_brand_references": "appears in: heinz 2013-2015 (50% with 3G), Kraft Heinz 26.6% stake current",
+      "source": "SEC EDGAR submissions API",
+      "sourceUrl": "https://data.sec.gov/submissions/CIK0001067983.json",
+      "capturedAt": "2026-05-25T13:39:26.911079+00:00",
+      "status": "ACTIVE",
+      "statusNote": null
+    },
+    {
+      "name": "UNILEVER PLC",
+      "cik": "0000217410",
+      "ticker": "UL",
+      "currentTickers": [
+        "UL",
+        "UNLYF"
+      ],
+      "currentExchanges": [
+        "NYSE",
+        "OTC"
+      ],
+      "isActiveSecRegistrant": true,
+      "deregistration": null,
+      "sic": "2840",
+      "sicDescription": "Soap, Detergents, Cleang Preparations, Perfumes, Cosmetics",
+      "fiscalYearEnd": "1231",
+      "businessAddress": {
+        "street1": "UNILEVER HOUSE",
+        "street2": "100 VICTORIA EMBANKMENT",
+        "city": "LONDON",
+        "stateOrCountry": null,
+        "zipCode": "EC4Y 0DY",
+        "stateOrCountryDescription": null,
+        "isForeignLocation": 1,
+        "foreignStateTerritory": "ENGLAND",
+        "country": "United Kingdom",
+        "countryCode": "X0"
+      },
+      "phone": "447557030211",
+      "website": "",
+      "investorWebsite": "",
+      "category": "Large accelerated filer",
+      "entityType": "other",
+      "stateOfIncorporation": "",
+      "formerNames": [],
+      "latestAnnual": {
+        "date": "2026-03-12",
+        "url": "https://www.sec.gov/Archives/edgar/data/217410/000021741026000007/ul-20251231.htm",
+        "accession": "0000217410-26-000007",
+        "form": "20-F"
+      },
+      "latestQuarterly": {
+        "date": "2026-05-15",
+        "url": "https://www.sec.gov/Archives/edgar/data/217410/000165495426004985/a6034e.htm",
+        "accession": "0001654954-26-004985",
+        "form": "6-K"
+      },
+      "latest8K": null,
+      "flt_brand_references": "appears in: marmite, ben & jerry's, bird's eye (1957-2006), magnum, dove, hellmann's",
+      "source": "SEC EDGAR submissions API",
+      "sourceUrl": "https://data.sec.gov/submissions/CIK0000217410.json",
+      "capturedAt": "2026-05-25T13:39:27.510027+00:00",
+      "status": "ACTIVE",
+      "statusNote": null
+    }
+  ],
+  "errors": [],
+  "notes": [
+    "CIKs verified against SEC canonical company_tickers.json + EDGAR full-text search",
+    "Status field derived from currentTickers + currentExchanges (active listing indicators), not Form-15 presence alone \u2014 Form 15 can fire for individual security retirements without affecting parent registration",
+    "Brand-ownership-chain impacts surfaced for entities that deregistered after our existing BRAND_OWNERSHIP database snapshot"
+  ]
+}

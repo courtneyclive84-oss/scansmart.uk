@@ -1,0 +1,876 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0A1628">
+<title>Knowledge Library — Peer-reviewed papers, competitive analysis, SCANSMART's analytical positions · SCANSMART</title>
+<meta name="description" content="A curated, plain-language directory of three streams: peer-reviewed scientific papers on food science (UPF, bliss point, salt + hypertension, sugar + diabetes); SCANSMART's competitive analysis findings; and SCANSMART's own analytical positions. Open to everyone. No paywall.">
+<link rel="canonical" href="https://scansmart.uk/library">
+<!-- Favicons + manifest + theme -->
+<link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon-16x16.png">
+<link rel="shortcut icon" href="/assets/favicon.ico">
+<link rel="apple-touch-icon" sizes="180x180" href="/assets/apple-touch-icon.png">
+<link rel="manifest" href="/manifest.webmanifest">
+<!-- iOS PWA — makes Add to Home Screen install as a standalone app, not a browser bookmark -->
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="SCANSMART">
+
+<!-- Open Graph + Twitter -->
+<meta property="og:image" content="https://scansmart.uk/assets/og-card.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="SCANSMART — Power is Knowledge Decoded. The School of Label Literacy.">
+<meta property="og:locale" content="en_GB">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="SCANSMART — Knowledge Library">
+<meta name="twitter:description" content="The School of Label Literacy.">
+<meta name="twitter:image" content="https://scansmart.uk/assets/og-card.png">
+
+<!-- Structured data (Schema.org) -->
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Organization","name":"SCANSMART Ltd","alternateName":"SCANSMART","url":"https://scansmart.uk/","logo":"https://scansmart.uk/assets/icon-512.png","image":"https://scansmart.uk/assets/og-card.png","description":"The School of Label Literacy. CheckIT, the I500, FLT, the Knowledge Library, and the Partner Programme.","foundingDate":"2026-02","address":{"@type":"PostalAddress","addressCountry":"GB","addressLocality":"London","addressRegion":"England"},"identifier":"Companies House Co. No. 17128797","sameAs":["https://app.scansmart.uk"],"slogan":"Power is Knowledge Decoded"}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebPage","name":"Knowledge Library","url":"https://scansmart.uk/library","isPartOf":{"@type":"WebSite","name":"SCANSMART","url":"https://scansmart.uk/"},"publisher":{"@type":"Organization","name":"SCANSMART Ltd"}}</script>
+
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;700&family=Syne:wght@600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="brand.css?v=5.0.58">
+<script src="install.js?v=5.0.134" defer></script>
+<style>
+  /* Library page — sticky "Jump to" bar */
+  .lib-jump {
+    position: sticky;
+    top: 0;
+    z-index: 40;
+    background: var(--navy-deep);
+    border-bottom: 1px solid var(--line-strong);
+    padding: 10px 16px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+  .lib-jump-label {
+    font-family: var(--font-display);
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--muted);
+    white-space: nowrap;
+  }
+  .lib-jump select {
+    flex: 1 1 280px;
+    min-width: 220px;
+    max-width: 560px;
+    padding: 9px 12px;
+    background: var(--navy-soft);
+    color: var(--cream);
+    border: 1px solid var(--line-strong);
+    border-radius: 6px;
+    font-family: var(--font-display);
+    font-size: 0.92rem;
+    font-weight: 500;
+    cursor: pointer;
+    appearance: none;
+    -webkit-appearance: none;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'><path fill='none' stroke='%23F5F0E8' stroke-width='2' d='M1 1l5 5 5-5'/></svg>");
+    background-repeat: no-repeat;
+    background-position: right 12px center;
+    padding-right: 34px;
+  }
+  .lib-jump select:focus {
+    outline: 2px solid var(--red-soft);
+    outline-offset: 1px;
+  }
+  .lib-jump select optgroup {
+    background: var(--navy);
+    color: var(--yellow);
+    font-style: normal;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    font-size: 0.85rem;
+  }
+  .lib-jump select option {
+    background: var(--navy);
+    color: var(--cream);
+    padding: 6px;
+  }
+  .lib-jump-top {
+    font-family: var(--font-display);
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--cream-dim);
+    padding: 8px 12px;
+    border: 1px solid var(--line-strong);
+    border-radius: 6px;
+    text-decoration: none;
+    transition: background 0.18s ease, color 0.18s ease;
+  }
+  .lib-jump-top:hover {
+    background: var(--line-strong);
+    color: var(--cream);
+  }
+
+  /* Floating back-to-top button */
+  .back-to-top {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    z-index: 50;
+    width: 46px;
+    height: 46px;
+    border-radius: 50%;
+    background: var(--red);
+    color: var(--cream);
+    border: none;
+    cursor: pointer;
+    font-size: 1.3rem;
+    font-weight: 700;
+    line-height: 1;
+    box-shadow: 0 4px 14px rgba(0,0,0,0.35);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.25s ease, transform 0.25s ease, background 0.18s ease;
+    transform: translateY(8px);
+  }
+  .back-to-top.visible {
+    opacity: 1;
+    pointer-events: auto;
+    transform: translateY(0);
+  }
+  .back-to-top:hover { background: var(--red-soft); }
+  .back-to-top:focus { outline: 2px solid var(--cream); outline-offset: 2px; }
+
+  /* Smooth scrolling site-wide on the Library page; offset anchors so headings clear the sticky bar */
+  html { scroll-behavior: smooth; }
+  :target { scroll-margin-top: 80px; }
+
+  @media (max-width: 600px) {
+    .lib-jump { padding: 8px 12px; gap: 8px; }
+    .lib-jump-label { font-size: 0.66rem; letter-spacing: 0.1em; }
+    .lib-jump select { font-size: 0.88rem; padding: 8px 30px 8px 10px; }
+    .lib-jump-top { padding: 6px 10px; font-size: 0.72rem; }
+    .back-to-top { bottom: 16px; right: 16px; width: 42px; height: 42px; }
+  }
+</style>
+</head>
+<body>
+
+<a href="#main" class="skip-link">Skip to main content</a>
+<header class="site-nav">
+  <div class="site-nav-inner">
+    <a href="index.html" class="brand-banner" aria-label="SCANSMART home — Power is Knowledge Decoded"><img src="assets/hero-v16.webp" alt="SCANSMART" width="48" height="60"></a>
+    <button class="nav-toggle" aria-label="Open navigation" aria-controls="primary-nav" aria-expanded="false" onclick="const n=document.getElementById('primary-nav');n.classList.toggle('open');this.setAttribute('aria-expanded',n.classList.contains('open'))">≡</button>
+    <nav id="primary-nav" class="nav-doors" aria-label="Primary">
+      <a href="checkit.html">CheckIT</a><a href="i500.html">I500</a>
+      <a href="flt.html">FLT</a><a href="checkout.html">Checkout</a><a href="library.html" class="lib" aria-current="page">Library</a>
+      <a href="install.html" class="install-btn" onclick="installScansmart(event)">Install</a>
+      <a href="https://app.scansmart.uk" class="cta">Try the scanner →</a>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+
+<!-- Sticky Jump-to bar — gives readers a fast lane to any decoder or section without scrolling. -->
+<div class="lib-jump" role="navigation" aria-label="Jump to a Library section or decoder">
+  <span class="lib-jump-label" id="lib-jump-label">Jump to:</span>
+  <select id="lib-jump-select" aria-labelledby="lib-jump-label" onchange="libraryJump(this)">
+    <option value="">Pick a decoder or section…</option>
+
+    <optgroup label="🎧 Audio companion — listen on this page">
+      <option value="#audio-companion">Listen — 16 audio episodes</option>
+    </optgroup>
+
+    <optgroup label="Label decoders — fundamentals">
+      <option value="library-method.html">The SCANSMART Method</option>
+      <option value="library-ingredient-rules.html">Ingredient List Rules</option>
+      <option value="library-allergens.html">The 14 UK Allergens</option>
+      <option value="library-gluten-free.html">Gluten-Free</option>
+      <option value="library-date-labels.html">Date Labels</option>
+      <option value="library-barcodes.html">Barcodes</option>
+    </optgroup>
+
+    <optgroup label="Label decoders — front-of-pack &amp; claims">
+      <option value="library-front-of-pack.html">Front-of-Pack Systems</option>
+      <option value="library-nutrition-claims.html">Nutrition Claims</option>
+      <option value="library-country-of-origin.html">Country of Origin</option>
+      <option value="library-calories.html">Calories &amp; Energy</option>
+      <option value="library-symbols.html">Symbols &amp; Trustmarks</option>
+    </optgroup>
+
+    <optgroup label="Label decoders — ingredients &amp; nutrients">
+      <option value="library-salt.html">Hidden Names for Salt</option>
+      <option value="library-sugar.html">Hidden Names for Sugar</option>
+      <option value="library-sweeteners.html">Sweeteners (Non-Sugar)</option>
+      <option value="library-fats.html">Hidden Names for Fats</option>
+      <option value="library-e-numbers.html">E Numbers (Additives)</option>
+      <option value="library-upf.html">Ultra-Processed Foods (UPF)</option>
+    </optgroup>
+
+    <optgroup label="FSMA gold-standard evidence vaults">
+      <option value="library-carbohydrate-types.html">Carbohydrate Types (foundational)</option>
+      <option value="library-dietary-patterns.html">Dietary Patterns</option>
+      <option value="library-global-staple-foods.html">Global Staple Foods</option>
+      <option value="library-cultural-food-myths.html">Cultural Food Myths (diaspora deep dive)</option>
+      <option value="library-canned-goods.html">Canned Goods</option>
+      <option value="library-impulse-buying-triggers.html">Impulse Buying Triggers</option>
+      <option value="library-food-marketing-to-kids.html">Food Marketing to Kids</option>
+      <option value="library-childhood-obesity.html">Childhood Obesity and Food Labelling</option>
+      <option value="library-brand-vs-manufacturer.html">Brand vs Manufacturer</option>
+      <option value="library-reformulation-tracking.html">Reformulation Tracking</option>
+      <option value="library-alcohol-labelling.html">Alcohol Labelling</option>
+      <option value="library-bottled-water.html">Bottled Water</option>
+      <option value="library-protein-claims.html">Protein Claims</option>
+    </optgroup>
+
+    <optgroup label="Evidence vaults &amp; reports">
+      <option value="library-upf-brain-cognitive.html">UPF, Brain &amp; Cognitive evidence</option>
+      <option value="library-children-oral-health.html">Children's Oral Health evidence</option>
+      <option value="library-caffeine-and-health.html">Caffeine &amp; Health evidence</option>
+      <option value="library-industry-funding-bias.html">Industry Funding Bias evidence</option>
+      <option value="library-recipe-for-change-charter.html">Recipe for Change Charter</option>
+      <option value="library-frozen-food-uk.html">Frozen Food UK report</option>
+    </optgroup>
+
+    <optgroup label="Reference tools">
+      <option value="library-periodic-table.html">Interactive Periodic Table</option>
+    </optgroup>
+
+    <optgroup label="On this page — sections">
+      <option value="#fundamentals-heading">Label fundamentals</option>
+      <option value="#frontpack-heading">Front-of-pack &amp; claims</option>
+      <option value="#fsma-heading">FSMA gold-standard evidence vaults</option>
+      <option value="#toc-heading">Contents — what's in the Library</option>
+      <option value="#stream-1">Stream 1 — Peer-reviewed science</option>
+      <option value="#stream-1-6">Stream 1.6 — Civic &amp; policy context</option>
+      <option value="#stream-2">Stream 2 — Competitive analysis</option>
+      <option value="#stream-3">Stream 3 — Analytical positions</option>
+      <option value="#stream-4">Stream 4 — Reference tools</option>
+    </optgroup>
+
+    <optgroup label="On this page — Stream 1 sub-topics">
+      <option value="#upf-brain">Ultra-processed food, brain &amp; cognition</option>
+      <option value="#behaviour-change">Behaviour change at the decision point</option>
+      <option value="#bliss-point">Bliss point and food engineering</option>
+      <option value="#salt-hypertension">Salt and hypertension</option>
+      <option value="#sugar-diabetes">Sugar and diabetes</option>
+      <option value="#dietary-fats">Dietary fats</option>
+      <option value="#food-additives">Food additives (E numbers)</option>
+      <option value="#industry-funding-bias">Industry funding bias</option>
+      <option value="#oral-health">Children's oral health</option>
+      <option value="#caffeine">Caffeine and energy drinks</option>
+    </optgroup>
+  </select>
+  <a href="#" class="lib-jump-top" aria-label="Back to top of page" onclick="libraryScrollTop(event)">↑ Top</a>
+</div>
+
+<section class="page-hero" style="padding-top:clamp(28px,4vw,48px);padding-bottom:clamp(16px,2.5vw,24px);">
+  <div class="door-tag support">The Library · Reference &amp; evidence</div>
+  <h1>The science. The analysis. The positions. <span class="accent-yellow">All open.</span></h1>
+  <p class="lede">A curated, plain-language directory of three streams: peer-reviewed scientific papers on food science; <span class="swm">SCANSMART</span>&rsquo;s curated competitive analysis findings; and <span class="swm">SCANSMART</span>&rsquo;s own analytical positions. No paywall. No abstract-only teases. Citations link to free versions where they exist.</p>
+</section>
+
+<section class="section section-narrow" id="audio-companion" aria-labelledby="audio-companion-heading" style="margin-top:0;padding-top:0;padding-bottom:clamp(24px,4vw,40px);">
+  <div style="padding:24px 28px;background:rgba(245,166,35,0.06);border-left:4px solid var(--amber);border-radius:0 8px 8px 0;">
+    <p style="font-family:var(--font-display);font-size:0.72rem;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--amber);margin:0 0 8px;">Audio companion &middot; Library</p>
+    <h2 id="audio-companion-heading" style="margin:0 0 10px;font-size:1.45rem;">How Big Food Engineered Your Cravings</h2>
+    <p style="margin:0 0 16px;font-size:0.95rem;color:var(--cream-dim);">NotebookLM-generated audio companions to the <span class="swm">SCANSMART</span> Library. Same evidence base as the written pages &mdash; different format, for readers who&rsquo;d rather listen. Pick an episode from the menu below the player.</p>
+    <audio id="audio-companion-player" controls preload="metadata" style="width:100%;max-width:640px;display:block;" src="https://media.scansmart.uk/How_Big_Food_Engineered_Your_Cravings.m4a">
+      Your browser does not support the audio element. <a id="audio-companion-download" href="https://media.scansmart.uk/How_Big_Food_Engineered_Your_Cravings.m4a">Download the file directly.</a>
+    </audio>
+    <div style="margin-top:16px;max-width:640px;">
+      <label for="audio-companion-select" style="display:block;font-family:var(--font-display);font-size:0.72rem;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--amber);margin:0 0 6px;">Choose an episode</label>
+      <select id="audio-companion-select" style="width:100%;padding:10px 12px;font-size:0.95rem;font-family:inherit;color:var(--cream);background:rgba(10,22,40,0.85);border:1px solid var(--amber);border-radius:6px;cursor:pointer;">
+        <option value="How_Big_Food_Engineered_Your_Cravings.m4a" data-title="How Big Food Engineered Your Cravings" selected>How Big Food Engineered Your Cravings (48 min)</option>
+        <option value="Why_food_scanners_fail_diaspora_communities.m4a" data-title="Why Food Scanners Fail Diaspora Communities">Why Food Scanners Fail Diaspora Communities (60 min)</option>
+        <option value="Mapping_the_food_digital_health_ignores.m4a" data-title="Mapping the Food Digital Health Ignores">Mapping the Food Digital Health Ignores (50 min)</option>
+        <option value="Why_frozen_food_beats_supermarket_fresh.m4a" data-title="Why Frozen Food Beats Supermarket Fresh">Why Frozen Food Beats Supermarket Fresh (48 min)</option>
+        <option value="Weaponizing_supermarket_barcodes_for_public_health.m4a" data-title="Weaponizing Supermarket Barcodes for Public Health">Weaponizing Supermarket Barcodes for Public Health (47 min)</option>
+        <option value="Why_Your_Liver_Treats_Juice_Like_Soda.m4a" data-title="Why Your Liver Treats Juice Like Soda">Why Your Liver Treats Juice Like Soda (43 min)</option>
+        <option value="Why_80_million_users_are_worthless.m4a" data-title="Why 80 Million Users Are Worthless">Why 80 Million Users Are Worthless (43 min)</option>
+        <option value="Mapping_the_93_percent_food_blind_spot.m4a" data-title="Mapping the 93% Food Blind Spot">Mapping the 93% Food Blind Spot (39 min)</option>
+        <option value="ScanSmart_and_the_Parallel_Food_Record.m4a" data-title="SCANSMART and the Parallel Food Record">SCANSMART and the Parallel Food Record (35 min)</option>
+        <option value="Why_KiP_Is_Now_Called_CheckIT.m4a" data-title="Why KiP Is Now Called CheckIT">Why KiP Is Now Called CheckIT (23 min)</option>
+        <option value="Why_Acidic_Drinks_Melt_Your_Teeth.m4a" data-title="Why Acidic Drinks Melt Your Teeth">Why Acidic Drinks Melt Your Teeth (23 min)</option>
+        <option value="The_Hidden_Engineering_of_Global_Staples.m4a" data-title="The Hidden Engineering of Global Staples">The Hidden Engineering of Global Staples (23 min)</option>
+        <option value="PepsiCo_sells_the_sickness_and_the_cure.m4a" data-title="PepsiCo Sells the Sickness and the Cure">PepsiCo Sells the Sickness and the Cure (20 min)</option>
+        <option value="Weaponizing_pester_power_against_diabetes.m4a" data-title="Weaponizing Pester Power Against Diabetes">Weaponizing Pester Power Against Diabetes (20 min)</option>
+        <option value="Open_Food_Facts_Decodes_Grocery_Labels.m4a" data-title="Open Food Facts Decodes Grocery Labels">Open Food Facts Decodes Grocery Labels (19 min)</option>
+        <option value="Why_flash_freezing_beats_fresh_food.m4a" data-title="Why Flash Freezing Beats Fresh Food">Why Flash Freezing Beats Fresh Food (18 min)</option>
+      </select>
+    </div>
+  </div>
+  <script>
+    (function () {
+      var sel = document.getElementById('audio-companion-select');
+      var player = document.getElementById('audio-companion-player');
+      var dl = document.getElementById('audio-companion-download');
+      var heading = document.getElementById('audio-companion-heading');
+      if (!sel || !player) return;
+      var base = 'https://media.scansmart.uk/';
+      sel.addEventListener('change', function () {
+        var opt = sel.options[sel.selectedIndex];
+        var url = base + sel.value;
+        player.src = url;
+        player.load();
+        if (dl) dl.href = url;
+        if (heading) heading.textContent = opt.getAttribute('data-title') || heading.textContent;
+      });
+    })();
+  </script>
+</section>
+
+<section class="section section-narrow" aria-labelledby="fundamentals-heading">
+  <div class="section-eyebrow">Start here</div>
+  <h2 id="fundamentals-heading">Label fundamentals.</h2>
+  <p>Five pages that teach you to read any UK food label. Start with <strong>The <span class="swm">SCANSMART</span> Method</strong> for the five-step walkthrough &mdash; it ties every other decoder together. The three companion decoders below cover the universal label elements: how the ingredient list is structured, the 14 mandatory allergens that must be highlighted, and what the date phrases legally mean.</p>
+  <div style="margin-top:24px;display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px;">
+    <div style="padding:18px;background:rgba(10,22,40,0.04);border-left:4px solid var(--muted);border-radius:0 6px 6px 0;">
+      <p style="font-family:var(--font-display);font-size:0.72rem;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--muted-dim);margin:0 0 6px;">The Method</p>
+      <p style="margin:0 0 8px;font-size:0.95rem;"><strong><a href="library-method.html">&rarr; The <span class="swm">SCANSMART</span> Method, Decoded</a></strong></p>
+      <p style="margin:0;font-size:0.88rem;color:var(--muted-dim);">A five-step walkthrough for reading any UK food label, with a worked example. The entry-point page.</p>
+    </div>
+    <div style="padding:18px;background:rgba(10,22,40,0.04);border-left:4px solid var(--muted);border-radius:0 6px 6px 0;">
+      <p style="font-family:var(--font-display);font-size:0.72rem;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--muted-dim);margin:0 0 6px;">Decoder 1</p>
+      <p style="margin:0 0 8px;font-size:0.95rem;"><strong><a href="library-ingredient-rules.html">&rarr; Ingredient List Rules, Decoded</a></strong></p>
+      <p style="margin:0;font-size:0.88rem;color:var(--muted-dim);">Descending order, the QUID percentage, the 2% rule, allergen highlighting. The unlock key.</p>
+    </div>
+    <div style="padding:18px;background:rgba(10,22,40,0.04);border-left:4px solid var(--muted);border-radius:0 6px 6px 0;">
+      <p style="font-family:var(--font-display);font-size:0.72rem;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--muted-dim);margin:0 0 6px;">Decoder 2</p>
+      <p style="margin:0 0 8px;font-size:0.95rem;"><strong><a href="library-allergens.html">&rarr; The 14 UK Allergens, Decoded</a></strong></p>
+      <p style="margin:0 0 6px;font-size:0.88rem;color:var(--muted-dim);">The mandatory list, the hidden names, Natasha's Law for PPDS food.</p>
+      <p style="margin:0;font-size:0.82rem;color:var(--muted-dim);"><em>Deep-dive:</em> <a href="library-gluten-free.html">Gluten-Free, Decoded</a></p>
+    </div>
+    <div style="padding:18px;background:rgba(10,22,40,0.04);border-left:4px solid var(--muted);border-radius:0 6px 6px 0;">
+      <p style="font-family:var(--font-display);font-size:0.72rem;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--muted-dim);margin:0 0 6px;">Decoder 3</p>
+      <p style="margin:0 0 8px;font-size:0.95rem;"><strong><a href="library-date-labels.html">&rarr; Date Labels, Decoded</a></strong></p>
+      <p style="margin:0;font-size:0.88rem;color:var(--muted-dim);">Use by vs best before vs display until. Only one is the safety line.</p>
+    </div>
+    <div style="padding:18px;background:rgba(10,22,40,0.04);border-left:4px solid var(--muted);border-radius:0 6px 6px 0;">
+      <p style="font-family:var(--font-display);font-size:0.72rem;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--muted-dim);margin:0 0 6px;">Decoder 4</p>
+      <p style="margin:0 0 8px;font-size:0.95rem;"><strong><a href="library-barcodes.html">&rarr; Barcodes, Decoded</a></strong></p>
+      <p style="margin:0;font-size:0.88rem;color:var(--muted-dim);">EAN-13, EAN-8, QR, Data Matrix. The country prefix is the most-misread part of the pack.</p>
+    </div>
+  </div>
+</section>
+
+<section class="section section-narrow" aria-labelledby="frontpack-heading">
+  <div class="section-eyebrow">Reading the front-of-pack</div>
+  <h2 id="frontpack-heading">Front-of-pack &amp; claims.</h2>
+  <p>The marketing surface of a food pack is regulated. Three decoders cover what the front of the pack is legally allowed to say, what each claim guarantees, and where the product comes from.</p>
+  <div style="margin-top:24px;display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px;">
+    <div style="padding:18px;background:rgba(10,22,40,0.04);border-left:4px solid var(--muted);border-radius:0 6px 6px 0;">
+      <p style="font-family:var(--font-display);font-size:0.72rem;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--muted-dim);margin:0 0 6px;">Decoder 5</p>
+      <p style="margin:0 0 8px;font-size:0.95rem;"><strong><a href="library-front-of-pack.html">&rarr; Front-of-Pack Systems, Decoded</a></strong></p>
+      <p style="margin:0;font-size:0.88rem;color:var(--muted-dim);">Traffic lights, Reference Intakes, Nutri-Score, and the per-100g vs per-portion distinction.</p>
+    </div>
+    <div style="padding:18px;background:rgba(10,22,40,0.04);border-left:4px solid var(--muted);border-radius:0 6px 6px 0;">
+      <p style="font-family:var(--font-display);font-size:0.72rem;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--muted-dim);margin:0 0 6px;">Decoder 6</p>
+      <p style="margin:0 0 8px;font-size:0.95rem;"><strong><a href="library-nutrition-claims.html">&rarr; Nutrition Claims, Decoded</a></strong></p>
+      <p style="margin:0;font-size:0.88rem;color:var(--muted-dim);">Every "low fat", "high fibre", "no added sugar" claim has a legal threshold. The full register.</p>
+    </div>
+    <div style="padding:18px;background:rgba(10,22,40,0.04);border-left:4px solid var(--muted);border-radius:0 6px 6px 0;">
+      <p style="font-family:var(--font-display);font-size:0.72rem;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--muted-dim);margin:0 0 6px;">Decoder 7</p>
+      <p style="margin:0 0 8px;font-size:0.95rem;"><strong><a href="library-country-of-origin.html">&rarr; Country of Origin, Decoded</a></strong></p>
+      <p style="margin:0;font-size:0.88rem;color:var(--muted-dim);">Made in UK vs Produce of UK vs Packed in UK. Plus beef/pork/poultry/lamb/fish rules.</p>
+    </div>
+    <div style="padding:18px;background:rgba(10,22,40,0.04);border-left:4px solid var(--muted);border-radius:0 6px 6px 0;">
+      <p style="font-family:var(--font-display);font-size:0.72rem;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--muted-dim);margin:0 0 6px;">Decoder 8</p>
+      <p style="margin:0 0 8px;font-size:0.95rem;"><strong><a href="library-calories.html">&rarr; Calories &amp; Energy, Decoded</a></strong></p>
+      <p style="margin:0;font-size:0.88rem;color:var(--muted-dim);">kJ vs kcal, the per-gram conversions, Reference Intake, low-calorie thresholds. The energy line, decoded.</p>
+    </div>
+    <div style="padding:18px;background:rgba(10,22,40,0.04);border-left:4px solid var(--muted);border-radius:0 6px 6px 0;">
+      <p style="font-family:var(--font-display);font-size:0.72rem;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--muted-dim);margin:0 0 6px;">Decoder 9</p>
+      <p style="margin:0 0 8px;font-size:0.95rem;"><strong><a href="library-symbols.html">&rarr; Symbols &amp; Trustmarks, Decoded</a></strong></p>
+      <p style="margin:0;font-size:0.88rem;color:var(--muted-dim);">Red Tractor, Lion eggs, Fairtrade, OPRL recycling, Vegan Society, microwave-safe, the &lsquo;e&rsquo; mark. The visual layer of the pack.</p>
+    </div>
+  </div>
+</section>
+
+<section class="section section-narrow" aria-labelledby="fsma-heading">
+  <div class="section-eyebrow">FSMA gold-standard evidence vaults</div>
+  <h2 id="fsma-heading">The Food Standards &amp; Marketing Analytics series.</h2>
+  <p>Thirteen long-form evidence vaults, peer-reviewed-citation-anchored, in the SCANSMART gold-standard format per the &sect;30b canonical rule: a substantive headline finding with peer-reviewed effect sizes, a regulatory map of the UK 2026 landscape, an international-precedent section, high-risk groups, conflicts and uncertainties named honestly, decoder moves split by context, and a defamation-safety statement. All sources peer-reviewed or institutional; named-party references public-record-only; educational register throughout. The 13 cover the full SCANSMART analytical framework &mdash; from foundational chemistry (Carbohydrate Types) through dietary-pattern analysis, traditional staple foods, diaspora-community cultural literacy, the canned-goods shelf-stable category, the engineered shopping environment, food marketing to children, childhood obesity and the UK labelling stack, the brand-and-manufacturer transparency gap, time-axis reformulation tracking, the alcohol-labelling Article 16(4) regulatory carve-out, the bottled-water manufactured-demand pattern, and the protein-claim 12%/20% energy-share threshold.</p>
+  <div style="margin-top:24px;display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px;">
+    <div style="padding:18px;background:rgba(10,22,40,0.04);border-left:4px solid var(--accent-green);border-radius:0 6px 6px 0;">
+      <p style="font-family:var(--font-display);font-size:0.72rem;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--muted-dim);margin:0 0 6px;">Foundational</p>
+      <p style="margin:0 0 8px;font-size:0.95rem;"><strong><a href="library-carbohydrate-types.html">&rarr; Carbohydrate Types</a></strong></p>
+      <p style="margin:0;font-size:0.88rem;color:var(--muted-dim);">Mono/di/oligo/polysaccharides; free sugars; resistant starch RS1&ndash;RS5; dietary fibre; GI/GL; the food matrix; whole vs refined evidence (Aune 2016 <em>BMJ</em>; Reynolds 2019 <em>Lancet</em>). The gold-standard depth template.</p>
+    </div>
+    <div style="padding:18px;background:rgba(10,22,40,0.04);border-left:4px solid var(--accent-green);border-radius:0 6px 6px 0;">
+      <p style="font-family:var(--font-display);font-size:0.72rem;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--muted-dim);margin:0 0 6px;">Pattern-level</p>
+      <p style="margin:0 0 8px;font-size:0.95rem;"><strong><a href="library-dietary-patterns.html">&rarr; Dietary Patterns</a></strong></p>
+      <p style="margin:0;font-size:0.88rem;color:var(--muted-dim);">Mediterranean (PREDIMED), DASH, plant-based, low-FODMAP, intermittent fasting, ketogenic, paleo, traditional cuisine-anchored. The Western dietary pattern as the engineered invisible default.</p>
+    </div>
+    <div style="padding:18px;background:rgba(10,22,40,0.04);border-left:4px solid var(--accent-green);border-radius:0 6px 6px 0;">
+      <p style="font-family:var(--font-display);font-size:0.72rem;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--muted-dim);margin:0 0 6px;">Substrate</p>
+      <p style="margin:0 0 8px;font-size:0.95rem;"><strong><a href="library-global-staple-foods.html">&rarr; Global Staple Foods</a></strong></p>
+      <p style="margin:0;font-size:0.88rem;color:var(--muted-dim);">Wheat, rice, maize, potato, cassava, yam, sorghum, millet, teff, plantain, pulses. Khoury 2014 global-diet-homogenisation evidence; UK fortification under Bread and Flour Regulations 1998; ABCD grain-trade concentration.</p>
+    </div>
+    <div style="padding:18px;background:rgba(10,22,40,0.04);border-left:4px solid var(--accent-green);border-radius:0 6px 6px 0;">
+      <p style="font-family:var(--font-display);font-size:0.72rem;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--muted-dim);margin:0 0 6px;">Cultural lens</p>
+      <p style="margin:0 0 8px;font-size:0.95rem;"><strong><a href="library-cultural-food-myths.html">&rarr; Cultural Food Myths</a></strong></p>
+      <p style="margin:0;font-size:0.88rem;color:var(--muted-dim);">Diaspora-community deep dive. Nutrition transition (Popkin 1993&ndash;2012); SABRE UK cardiometabolic differential; South Asian, African and African-Caribbean, East Asian, Middle Eastern, Latin American cuisine myths decoded against peer-reviewed evidence.</p>
+    </div>
+    <div style="padding:18px;background:rgba(10,22,40,0.04);border-left:4px solid var(--accent-green);border-radius:0 6px 6px 0;">
+      <p style="font-family:var(--font-display);font-size:0.72rem;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--muted-dim);margin:0 0 6px;">Shelf category</p>
+      <p style="margin:0 0 8px;font-size:0.95rem;"><strong><a href="library-canned-goods.html">&rarr; Canned Goods</a></strong></p>
+      <p style="margin:0;font-size:0.88rem;color:var(--muted-dim);">Thermal-cycle nutrient retention (Rickman 2007 <em>JSFA</em>; G&auml;rtner 1997 <em>AJCN</em> lycopene bioavailability); engineered salt and sugar loads; BPA can-lining chemistry and the EFSA April 2023 TDI 20,000-fold revision; tinned fish nutritional ceiling; drained-weight rule; cultural-cuisine diaspora staples; food-bank equity economics.</p>
+    </div>
+    <div style="padding:18px;background:rgba(10,22,40,0.04);border-left:4px solid var(--accent-green);border-radius:0 6px 6px 0;">
+      <p style="font-family:var(--font-display);font-size:0.72rem;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--muted-dim);margin:0 0 6px;">Environment-side</p>
+      <p style="margin:0 0 8px;font-size:0.95rem;"><strong><a href="library-impulse-buying-triggers.html">&rarr; Impulse Buying Triggers</a></strong></p>
+      <p style="margin:0;font-size:0.88rem;color:var(--muted-dim);">Engineered shopping environment. Slotting allowances (FTC 2001/2003); end-cap economics (Curhan 1974; Dr&egrave;ze 1994); SI 2021/1368 HFSS placement; Maryland HB 895 digital-shelf precedent.</p>
+    </div>
+    <div style="padding:18px;background:rgba(10,22,40,0.04);border-left:4px solid var(--accent-green);border-radius:0 6px 6px 0;">
+      <p style="font-family:var(--font-display);font-size:0.72rem;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--muted-dim);margin:0 0 6px;">Environment-side</p>
+      <p style="margin:0 0 8px;font-size:0.95rem;"><strong><a href="library-food-marketing-to-kids.html">&rarr; Food Marketing to Kids</a></strong></p>
+      <p style="margin:0;font-size:0.88rem;color:var(--muted-dim);">Developmental psychology (Kunkel APA 2004); acute-exposure intake effects (Boyland 2016 <em>AJCN</em>); character branding (Roberto 2010 <em>Pediatrics</em>); ASA/CAP HFSS rules; Quebec 1980 ban; WHO 2023.</p>
+    </div>
+    <div style="padding:18px;background:rgba(10,22,40,0.04);border-left:4px solid var(--accent-green);border-radius:0 6px 6px 0;">
+      <p style="font-family:var(--font-display);font-size:0.72rem;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--muted-dim);margin:0 0 6px;">Policy-level</p>
+      <p style="margin:0 0 8px;font-size:0.95rem;"><strong><a href="library-childhood-obesity.html">&rarr; Childhood Obesity and Food Labelling</a></strong></p>
+      <p style="margin:0;font-size:0.88rem;color:var(--muted-dim);">NCMP 2024/25 (Year 6 22.2%; Reception 10.5% highest non-pandemic); SDIL childhood-obesity result (Rogers 2023 <em>PLOS Med</em>: ~8% Year 6 girls); UK labelling stack instrument by instrument; Chile Law 20.606 mandatory warning labels; the reformulation lever (Scarborough 2020; Pell 2021); equity tension (Adams 2016); UPF gap (Hall 2019 <em>Cell Metabolism</em>). DRAFT-IN-REVIEW pending &sect;56.</p>
+    </div>
+    <div style="padding:18px;background:rgba(10,22,40,0.04);border-left:4px solid var(--accent-green);border-radius:0 6px 6px 0;">
+      <p style="font-family:var(--font-display);font-size:0.72rem;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--muted-dim);margin:0 0 6px;">Pack-side</p>
+      <p style="margin:0 0 8px;font-size:0.95rem;"><strong><a href="library-brand-vs-manufacturer.html">&rarr; Brand vs Manufacturer</a></strong></p>
+      <p style="margin:0;font-size:0.88rem;color:var(--muted-dim);">The brand on the front is rarely the company that made the product. Private label, contract manufacturing, the GS1 barcode, Companies House cross-reference. Public-record named examples throughout.</p>
+    </div>
+    <div style="padding:18px;background:rgba(10,22,40,0.04);border-left:4px solid var(--accent-green);border-radius:0 6px 6px 0;">
+      <p style="font-family:var(--font-display);font-size:0.72rem;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--muted-dim);margin:0 0 6px;">Time-axis</p>
+      <p style="margin:0 0 8px;font-size:0.95rem;"><strong><a href="library-reformulation-tracking.html">&rarr; Reformulation Tracking</a></strong></p>
+      <p style="margin:0;font-size:0.88rem;color:var(--muted-dim);">Brand stable, formulation mutable. SDIL peer-reviewed evaluation (Scarborough 2020 <em>PLOS Med</em> 34.3%; Pell 2021 <em>BMJ</em>; Bandy 2020 <em>BMC Med</em>); PHE Sugar and Salt Programmes; silent commercial reformulation.</p>
+    </div>
+    <div style="padding:18px;background:rgba(10,22,40,0.04);border-left:4px solid var(--accent-green);border-radius:0 6px 6px 0;">
+      <p style="font-family:var(--font-display);font-size:0.72rem;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--muted-dim);margin:0 0 6px;">Regulatory carve-out</p>
+      <p style="margin:0 0 8px;font-size:0.95rem;"><strong><a href="library-alcohol-labelling.html">&rarr; Alcohol Labelling</a></strong></p>
+      <p style="margin:0;font-size:0.88rem;color:var(--muted-dim);">The Article 16(4) EU 1169/2011 carve-out. IARC Group 1 (1988); WHO 2023 Lancet PH "no safe amount"; Rumgay 2021 <em>Lancet Oncology</em> 741,300 cases; UK harm cost &pound;27.44bn (IAS 2024); Ireland 2023 cancer-warning law; UK 10-Year Health Plan July 2025 commitment.</p>
+    </div>
+    <div style="padding:18px;background:rgba(10,22,40,0.04);border-left:4px solid var(--accent-green);border-radius:0 6px 6px 0;">
+      <p style="font-family:var(--font-display);font-size:0.72rem;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--muted-dim);margin:0 0 6px;">Manufactured demand</p>
+      <p style="margin:0 0 8px;font-size:0.95rem;"><strong><a href="library-bottled-water.html">&rarr; Bottled Water</a></strong></p>
+      <p style="margin:0;font-size:0.88rem;color:var(--muted-dim);">The Natural Mineral Water Regulations 2007 three-category framework. UK tap at &gt;99% DWI compliance vs 500&ndash;2,000&times; cost premium; 2004 Dasani Sidcup withdrawal; 2007 Aquafina P.W.S.; UN UNU-INWEH 2023 SDG 6 framing; Qian 2024 <em>PNAS</em> nanoplastics; Villanueva 2021 Barcelona LCA (3,500&times; resource use; 1,400&times; species loss).</p>
+    </div>
+    <div style="padding:18px;background:rgba(10,22,40,0.04);border-left:4px solid var(--accent-green);border-radius:0 6px 6px 0;">
+      <p style="font-family:var(--font-display);font-size:0.72rem;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--muted-dim);margin:0 0 6px;">Claim threshold</p>
+      <p style="margin:0 0 8px;font-size:0.95rem;"><strong><a href="library-protein-claims.html">&rarr; Protein Claims</a></strong></p>
+      <p style="margin:0;font-size:0.88rem;color:var(--muted-dim);">Regulation 1924/2006 12% / 20% energy-share thresholds; no disqualifying-nutrient gate. UK COMA 1991 RNI 0.75 g/kg/day vs NDNS average 76 g/day (19&ndash;64); Granic 2020 older-adult exception; Fernan 2018 and McKeon-Hallman 2024 <em>Foods</em> health-halo; <em>Nutrients</em> 2024 PAHO NPM 90.8% less-healthy; Clean Label Project 2024&ndash;25 protein-powder heavy-metal evidence; IARC 2015 processed-meat Group 1.</p>
+    </div>
+  </div>
+</section>
+
+<section class="section section-narrow" aria-labelledby="toc-heading">
+  <div class="section-eyebrow">Contents</div>
+  <h2 id="toc-heading">What&rsquo;s in the Library.</h2>
+  <div class="lib-toc" style="margin-top:24px;">
+    <p style="font-weight:700;color:var(--cream);margin:0 0 8px 0;"><a href="#fundamentals-heading" style="color:inherit;">Label fundamentals &mdash; The Method, Ingredient Rules, Allergens, Date Labels, Barcodes</a></p>
+    <p style="font-weight:700;color:var(--cream);margin:0 0 8px 0;"><a href="#frontpack-heading" style="color:inherit;">Front-of-pack &amp; claims &mdash; FOP Systems, Nutrition Claims, Country of Origin, Calories, Symbols</a></p>
+    <p style="font-weight:700;color:var(--cream);margin:0 0 8px 0;"><a href="#fsma-heading" style="color:inherit;">FSMA gold-standard evidence vaults &mdash; Carbohydrate Types, Dietary Patterns, Global Staple Foods, Cultural Food Myths, Canned Goods, Impulse Buying Triggers, Food Marketing to Kids, Childhood Obesity and Food Labelling, Brand vs Manufacturer, Reformulation Tracking, Alcohol Labelling, Bottled Water, Protein Claims</a></p>
+    <div class="lib-toc-stream">
+      <p style="font-weight:700;color:var(--cream);margin-bottom:8px;"><a href="#stream-1" style="color:inherit;">Stream 1 &mdash; Peer-reviewed science</a></p>
+      <ul style="list-style:none;padding:0;margin:0 0 18px 0;font-size:0.95rem;line-height:1.85;">
+        <li><a href="#upf-brain">Ultra-processed food, brain, and cognition</a></li>
+        <li><a href="#behaviour-change">Behaviour change at the decision point</a></li>
+        <li><a href="#bliss-point">Bliss point and food engineering</a></li>
+        <li><a href="#salt-hypertension">Salt and hypertension</a></li>
+        <li><a href="#sugar-diabetes">Sugar and diabetes / metabolic syndrome</a></li>
+        <li><a href="#dietary-fats">Dietary fats</a></li>
+        <li><a href="#food-additives">Food additives (E numbers)</a></li>
+        <li><a href="#industry-funding-bias">Industry funding bias in nutrition research</a></li>
+        <li><a href="#oral-health">Children&rsquo;s oral health</a></li>
+        <li><a href="#caffeine">Caffeine and energy drinks</a></li>
+      </ul>
+    </div>
+    <p style="font-weight:700;color:var(--cream);margin:0 0 8px 0;"><a href="#stream-1-6" style="color:inherit;">Stream 1.6 &mdash; Civic-society and policy context</a></p>
+    <p style="font-weight:700;color:var(--cream);margin:0 0 8px 0;"><a href="#stream-2" style="color:inherit;">Stream 2 &mdash; Competitive analysis</a></p>
+    <p style="font-weight:700;color:var(--cream);margin:0 0 8px 0;"><a href="#stream-3" style="color:inherit;">Stream 3 &mdash; <span class="swm">SCANSMART</span>&rsquo;s analytical positions</a></p>
+    <p style="font-weight:700;color:var(--cream);margin:0 0 8px 0;"><a href="#stream-4" style="color:inherit;">Stream 4 &mdash; Reference tools</a></p>
+  </div>
+</section>
+
+
+<section class="section section-narrow">
+  <div class="section-eyebrow" id="stream-1">Stream 1 — Peer-reviewed science</div>
+  <h2>What the literature actually says.</h2>
+  <p><span class="swm">SCANSMART</span> cites peer-reviewed work; we don&rsquo;t make medical claims of our own. Each entry below is a paper from the published literature with a plain-language summary in Dr RooT&rsquo;s analyst voice &mdash; what the paper actually found, what it doesn&rsquo;t show, and the relevant caveats.</p>
+
+  <h3 id="upf-brain" style="margin-top:32px;">Ultra-processed food, brain, and cognition</h3>
+  <p style="margin-top:-8px;font-size:0.95rem;"><strong><a href="library-upf-brain-cognitive.html">&rarr; Read the full UPF Brain &amp; Cognitive Claims evidence vault</a></strong> &mdash; the source-validated peer-reviewed corpus from which the entries below are drawn (Gearhardt 2026 <em>Milbank Quarterly</em>, Bhave 2024 <em>Neurology</em>, Helsinki/UK Biobank 2025; citation and language discipline applied).</p>
+  <p style="margin-top:8px;font-size:0.95rem;"><strong><a href="library-upf.html">&rarr; Read the full Ultra-Processed Foods, Decoded reference</a></strong> &mdash; the companion decoder. Every NOVA-4 ingredient category that turns ordinary food into ultra-processed food, decoded by category. Built from NOVA classification, EFSA evidence, and peer-reviewed research.</p>
+
+  <div class="lib-entry">
+    <div class="lib-headline">Ultra-processed food and cognitive decline: a long-term observational signal worth taking seriously.</div>
+    <div class="lib-citation">Gomes Gonçalves N, et al. (2024). Association Between Consumption of Ultraprocessed Foods and Cognitive Decline. <em>Neurology</em>, 102(1).</div>
+    <div class="lib-summary">A 10-year longitudinal cohort study of over 10,000 Brazilian adults found that higher ultra-processed food consumption (more than 20% of daily energy intake) was associated with faster cognitive decline. The effect was strongest for executive function. As an observational study, it cannot prove causation; it does establish a robust association across a large, long-followed sample. The paper does <em>not</em> identify the specific mechanism &mdash; whether it is the additives, the energy density, the displacement of whole foods, or some combination.</div>
+  </div>
+
+  <div class="lib-entry">
+    <div class="lib-headline">Tobacco-tactics framing for the ultra-processed food industry: how Big Food learned from Big Tobacco.</div>
+    <div class="lib-citation">Nestle M, Lustig RH (2026). Industry Influence and the UPF Question. <em>Milbank Quarterly</em>, 104(1).</div>
+    <div class="lib-summary">A policy-perspective paper drawing structural parallels between the playbook the tobacco industry used to delay regulation in the 1980s-90s and the playbook the ultra-processed food industry is using today &mdash; sponsored research, expert-witness recruitment, regulatory capture, and category-definition disputes. Not original empirical work; the value is in naming the pattern. Useful framing for partner conversations with public-health bodies.</div>
+  </div>
+
+  <div class="lib-entry">
+    <div class="lib-headline">UK Biobank brain-imaging analysis: structural differences associated with UPF consumption.</div>
+    <div class="lib-citation">Authors of UK Biobank UPF brain study (2025). <em>Forthcoming / preprint</em>.</div>
+    <div class="lib-summary">A neuroimaging study using the UK Biobank cohort (~40,000 participants with MRI scans) found small but statistically significant structural differences in brain regions associated with reward processing among participants with high UPF intake. The magnitudes are small at individual level; the population-scale signal is real. <strong>Important caveat:</strong> observational, cannot establish causation, and the cohort skews older and whiter than the UK general population. Useful for grant applications and partner conversations as evidence the literature is converging.</div>
+  </div>
+
+  <h3 id="behaviour-change" style="margin-top:32px;">Behaviour change at the decision point</h3>
+
+  <div class="lib-entry">
+    <div class="lib-headline">Change4Life and the BCT taxonomy gap: why national food-behaviour programmes plateau.</div>
+    <div class="lib-citation">Ahmadi N et al. (2022) <em>Frontiers in Public Health</em>; Ahmadi N et al. (2023) <em>Frontiers in Nutrition</em>; Ahmadi N et al. (2025) <em>BMC Public Health</em>. Behaviour Change Wheel: Michie S, van Stralen MM &amp; West R (2011) <em>Implementation Science</em>; BCTTv1: Michie S et al. (2013) <em>Annals of Behavioural Medicine</em>.</div>
+    <div class="lib-summary">The Behavioural Change Technique (BCT) taxonomy used in UK public-health programmes &mdash; including the long-running Change4Life campaign and its Food Scanner app &mdash; addresses 18 of the 93 documented BCTs. Decision-point capture &mdash; intervening at the moment of purchase rather than at education time &mdash; is among the BCTs the existing national programmes systematically under-use. The peer-reviewed evaluation literature backs this gap empirically: Ahmadi 2022 documents the absence of decision-point-capture mechanics in the Change4Life Food Scanner; Ahmadi 2023 finds 71% of users showed low acceptability for the app as a purchasing-decision tool; Ahmadi 2025 reports the app's effect was awareness-raising rather than behaviour change at the shelf, with the most-promising signal being the within-household discussion the scan prompted. CheckIT's <em>Buy / Put back / Just looking</em> instrument, shipped to production at <a href="https://app.scansmart.uk">app.scansmart.uk</a> on 25 April 2026, is the first deployed implementation, to our knowledge, of decision-point capture at the moment-of-purchase scan event.</div>
+  </div>
+
+  <p style="margin-top:14px;font-size:0.92rem;color:var(--muted);font-style:italic;">For the full Behaviour Change &amp; Decision-Point Capture evidence vault &mdash; covering the BCT taxonomy gap argument, the three Ahmadi evaluations in detail, the BCTTv1 framework mapping, the CheckIT instrument design, and the NICE ESF Tier B evidence requirements &mdash; enquire about <a href="partner.html">institutional access</a>. The institutional vault is shared with NHS commissioners, HIN partners, academic collaborators, and foundation funders on request.</p>
+
+  <h3 id="bliss-point" style="margin-top:32px;">Bliss point and food engineering</h3>
+
+  <div class="lib-entry">
+    <div class="lib-headline">The bliss point as engineered category: why the food industry can predictably make us want more.</div>
+    <div class="lib-citation">Moskowitz HR, multiple primary sources; popular synthesis in Moss M (2013), <em>Salt Sugar Fat: How the Food Giants Hooked Us</em>, Random House. Kessler DA (2009), <em>The End of Overeating</em>, Rodale.</div>
+    <div class="lib-summary">Howard Moskowitz&rsquo;s research formalised the &ldquo;bliss point&rdquo; &mdash; the precise concentration of a key ingredient (typically sugar, fat, or salt) at which sensory pleasure peaks before declining. Food manufacturers use this to engineer products to maximise consumption. Michael Moss&rsquo;s book documents the practice across major US manufacturers; David Kessler&rsquo;s book describes the cognitive-loop architecture (cue, craving, reward) that bliss-point-engineered products exploit. <em>Bliss point research is not health research; it is consumer-science research.</em> The relevance to <span class="swm">SCANSMART</span> is that the engineered nature of the products is what CheckIT&rsquo;s decode is exposing.</div>
+  </div>
+
+  <h3 id="salt-hypertension" style="margin-top:32px;">Salt and hypertension</h3>
+  <p style="margin-top:-8px;font-size:0.95rem;"><strong><a href="library-salt.html">&rarr; Read the full Hidden Names for Salt, Decoded reference</a></strong> &mdash; the label-decoder companion to the science below. Every name salt hides behind on a UK food label, decoded by type. Built from FSA, NHS, and EFSA evidence.</p>
+
+  <div class="lib-entry">
+    <div class="lib-headline">INTERSALT and DASH: the foundational evidence base for salt-reduction at population scale.</div>
+    <div class="lib-citation">INTERSALT Cooperative Research Group (1988). Intersalt: an international study of electrolyte excretion and blood pressure. <em>BMJ</em>, 297(6644). Sacks FM, et al. (2001). Effects on Blood Pressure of Reduced Dietary Sodium. <em>NEJM</em>, 344(1).</div>
+    <div class="lib-summary">INTERSALT (1988) established the cross-population correlation between sodium intake and blood pressure. The DASH (Dietary Approaches to Stop Hypertension) Sodium Trial (2001) was the controlled trial that showed lowering sodium intake measurably reduces blood pressure. Together they form the evidence basis for current UK salt-reduction policy. Both predate the rise of ultra-processed food but remain canonical.</div>
+  </div>
+
+  <h3 id="sugar-diabetes" style="margin-top:32px;">Sugar and diabetes / metabolic syndrome</h3>
+  <p style="margin-top:-8px;font-size:0.95rem;"><strong><a href="library-sugar.html">&rarr; Read the full Hidden Names for Sugar, Decoded reference</a></strong> &mdash; the label-decoder companion to the science below. Over 60 names sugar hides behind on a UK food label, decoded by type. Built from FSA evidence and peer-reviewed research.</p>
+  <p style="margin-top:8px;font-size:0.95rem;"><strong><a href="library-sweeteners.html">&rarr; Read the full Sweeteners (Non-Sugar), Decoded reference</a></strong> &mdash; the companion decoder. Artificial sweeteners (aspartame, sucralose, ace-K), plant-derived (stevia, monk fruit), and sugar alcohols (xylitol, erythritol, sorbitol). EFSA ADIs and the polyol laxative-warning rule.</p>
+
+  <div class="lib-entry">
+    <div class="lib-headline">61 names for sugar: why &ldquo;no added sugar&rdquo; on the front of pack does not mean what shoppers think it means.</div>
+    <div class="lib-citation">UCSF SugarScience corpus; multiple primary references via <a href="https://sugarscience.ucsf.edu/">sugarscience.ucsf.edu</a>.</div>
+    <div class="lib-summary">UCSF&rsquo;s SugarScience programme has documented 61 distinct names that food manufacturers use for added sugar on ingredient labels &mdash; sucrose, dextrose, maltodextrin, agave nectar, corn syrup, glucose syrup, invert sugar, fruit-juice concentrate, and 53 others. Front-of-pack &ldquo;no added sugar&rdquo; claims often refer narrowly to one or two of these names while several others appear in the actual ingredient list. CheckIT&rsquo;s scanner detects all 61rsquo;s scanner detects all 61 and aggregates them.</div>
+  </div>
+
+  <h3 id="dietary-fats" style="margin-top:32px;">Dietary fats</h3>
+  <p style="margin-top:-8px;font-size:0.95rem;"><strong><a href="library-fats.html">&rarr; Read the full Hidden Names for Fats, Decoded reference</a></strong> &mdash; the label-decoder companion. Saturated, mono- and polyunsaturated, trans, tropical oils, palm-derived ingredients, and modified emulsifier fats. Built from FSA and EFSA evidence with the retained EU 2g/100g industrial trans-fat limit.</p>
+
+  <div class="lib-entry">
+    <div class="lib-headline">UK saturated-fat intake sits above the &lt;11% guideline.</div>
+    <div class="lib-citation">Public Health England / OHID National Diet and Nutrition Survey (rolling cohort); SACN Saturated Fats and Health report (2019).</div>
+    <div class="lib-summary">UK adults consume around 12.5% of daily energy from saturated fat against a guideline of less than 11%. SACN's 2019 review concluded that reducing saturated fat reduces total and LDL cholesterol and lowers cardiovascular risk. The Mensink trans-fat meta-analyses underpin the regulatory position on industrial trans fats; the retained EU Regulation 2019/649 limits industrial trans to 2g per 100g of fat in food.</div>
+  </div>
+
+  <h3 id="food-additives" style="margin-top:32px;">Food additives (E numbers)</h3>
+  <p style="margin-top:-8px;font-size:0.95rem;"><strong><a href="library-e-numbers.html">&rarr; Read the full E Numbers, Decoded reference</a></strong> &mdash; every approved UK/EU food additive, decoded into plain English. 220+ E numbers searchable by category, verdict, and name. Built from the FSA, EFSA, and IARC evidence base.</p>
+
+  <div class="lib-entry">
+    <div class="lib-headline">E numbers, organised by function: a guide to the categories.</div>
+    <div class="lib-summary">An E number is a UK/EU designation for a food additive that has been assessed and approved for use. The numbering is grouped by what the additive does: colours (E100&ndash;E199), preservatives (E200&ndash;E299), antioxidants and acidity regulators (E300&ndash;E399), thickeners and emulsifiers (E400&ndash;E499), pH and anti-caking agents (E500&ndash;E599), flavour enhancers (E600&ndash;E699), and sweeteners (E950&ndash;E969). The decoder explains what each additive does, lists it under its category, and links to the FSA, EFSA, and IARC reference points where they exist.</div>
+  </div>
+
+  <h3 id="industry-funding-bias" style="margin-top:32px;">Industry funding bias in nutrition research</h3>
+  <p style="margin-top:-8px;font-size:0.95rem;"><strong><a href="library-industry-funding-bias.html">&rarr; Read the full Industry Funding Bias verified evidence base</a></strong> &mdash; Path 1 verification across two passes; primary peer-reviewed sources fetched and read verbatim. Lesser 2007, Sacks 2020, NAS 2023, Coca-Cola GEBN, the WHO collaboration strategy via CDC, ICPAPH conferences and 36,931 pages of emails.</p>
+
+  <div class="lib-entry">
+    <div class="lib-headline">Industry-funded nutrition studies favour their sponsors at odds ratio 7.61.</div>
+    <div class="lib-citation">Lesser LI, et al. (2007). Relationship between funding source and conclusion among nutrition-related scientific articles. <em>PLOS Medicine</em>, 4(1):e5.</div>
+    <div class="lib-summary">A systematic review of 206 peer-reviewed nutrition studies found that industry-funded research was 7.61 times more likely to reach conclusions favourable to the funder&rsquo;s commercial interests than independently-funded research on the same questions. The odds ratio holds across study type and category. The structural finding is that funding source predicts conclusion direction at a magnitude that cannot be explained by random variation. The manufacturer is creator of the gap; the funded research that biases the science is part of how the gap stays invisible.</div>
+  </div>
+
+  <div class="lib-entry">
+    <div class="lib-headline">Industry-funded studies are 5.7&times; more likely to produce findings favourable to the sponsor.</div>
+    <div class="lib-citation">Sacks G, et al. (2020). Comparison of food industry policies and commitments on marketing to children and product (re)formulation in Australia, Canada, Mexico, New Zealand and the USA. <em>PLOS ONE</em>, 15(7):e0233634. Plus subsequent meta-analytic confirmation.</div>
+    <div class="lib-summary">A 2020 study quantifying the funding-bias effect across the global food and beverage industry found industry-sponsored research produces favourable findings at 5.7 times the rate of independently-funded research. Independent confirmation of the Lesser 2007 pattern using contemporary methodology. The structural disclosure failure is named: the studies that shape regulatory thinking are disproportionately the ones funded by the entities being regulated.</div>
+  </div>
+
+  <div class="lib-entry">
+    <div class="lib-headline">National Academies of Sciences review: industry-funded studies up to 30&times; more likely to favour the sponsor.</div>
+    <div class="lib-citation">National Academies of Sciences, Engineering, and Medicine (2023). Review summarised at the Harvard T.H. Chan School of Public Health Nutrition Source. Per the Industry Funding Bias evidence base verified 1 May 2026.</div>
+    <div class="lib-summary">A 2023 National Academies review covering decades of industry-funded nutrition research found funding-source bias as high as 30 times for some specific categories of finding. The review is the canonical institutional reference for the structural pattern; cited by Harvard Nutrition Source verbatim for the framing. The structural critique here is precise: industry-funded science is not "biased research" in the casual sense &mdash; it is research where the conclusion direction is statistically predictable from who paid for it.</div>
+  </div>
+
+  <div class="lib-entry">
+    <div class="lib-headline">The Coca-Cola GEBN case: $1.5M start-up plus $4M to co-founders to fund a "global energy balance" research network.</div>
+    <div class="lib-citation">Serodio P, et al. (2018). Coca-Cola &mdash; a model of transparency in research partnerships? <em>Public Health Nutrition</em>, 21(10). PMC10200649. Plus the BMJ 2020 follow-up (Shaun Griffin) on the 36,931-page email release.</div>
+    <div class="lib-summary">A documented case of a major beverage manufacturer funding the start-up ($1.5M plus an additional ~$4M to its co-founders) of the Global Energy Balance Network &mdash; a research initiative positioned as an independent academic body but structured to produce framings favourable to the sponsor. The 2015 New York Times exposure and the subsequent academic literature document how the funding relationship was concealed and how the research outputs systematically deflected attention from sugar towards "energy balance" as the framing for obesity discourse. Subsequent investigation via the BMJ disclosed 36,931 pages of internal emails between Coca-Cola and academic / WHO contacts. The structural pattern repeats across the food-and-beverage industry; the Coca-Cola case is canonical because it is well-documented.</div>
+  </div>
+
+  <div class="lib-entry">
+    <div class="lib-headline">WHO and CDC strategy documents on industry-funded research influence.</div>
+    <div class="lib-citation">Maani Hessari N, et al. (2019). Public meets private: conversations between Coca-Cola and the CDC. <em>Milbank Quarterly</em>, 97(1). DOI 10.1111/1468-0009.12368.</div>
+    <div class="lib-summary">A peer-reviewed analysis of the documented contacts between Coca-Cola and the US Centers for Disease Control on framing of obesity and physical-activity research. The Milbank study is one of the load-bearing references for the structural critique; the WHO and CDC institutional positions on industry-funded research influence have been shaped substantively by the Coca-Cola GEBN exposure and the broader pattern it sits inside.</div>
+  </div>
+
+  <h3 id="oral-health" style="margin-top:32px;">Children&rsquo;s oral health</h3>
+  <p style="margin-top:-8px;font-size:0.95rem;"><strong><a href="library-children-oral-health.html">&rarr; Read the full Children&rsquo;s Oral Health evidence vault</a></strong> &mdash; the &pound;51.2m NHS extraction figure, the SDIL 12% reduction (28.6% in 0&ndash;4s), the NDEP 2024 deprivation multiplier, the dietary-acidity erosion channel, and the oral&ndash;systemic links (diabetes, CVD, pregnancy, Alzheimer&rsquo;s) at education-layer framing only. Citation discipline applied; no medical claims.</p>
+
+  <div class="lib-entry">
+    <div class="lib-headline">Children&rsquo;s tooth extractions are the leading cause of hospital admission for 5&ndash;9 year olds in England.</div>
+    <div class="lib-citation">NHS Digital Hospital Episode Statistics; Office for Health Improvement and Disparities oral health surveillance; Lancet 2024 oral health series. Per the KiP Oral Health Research Brief, April 2026.</div>
+    <div class="lib-summary">Tooth extraction under general anaesthetic is the most common reason 5&ndash;9 year olds in England are admitted to hospital, and the rates correlate with deprivation indices at borough level. The Lancet 2024 oral health series places the UK pattern in international context. The structural finding is that the conditions producing the extractions are preventable and dietary; the public-health failure is in the structural environment that makes high-sugar high-acidity products the path of least resistance for households under time and budget pressure. The manufacturer is creator of the gap; the gap shows up at the dentist before it shows up anywhere else.</div>
+  </div>
+
+  <h3 id="caffeine" style="margin-top:32px;">Caffeine and energy drinks</h3>
+  <p style="margin-top:-8px;font-size:0.95rem;"><strong><a href="library-caffeine-and-health.html">&rarr; Read the full Caffeine and Health evidence vault</a></strong> &mdash; EFSA 2015 ceiling, Poole 2017 BMJ umbrella, Pang 2021 stroke meta-analysis (n &gt; 2.4M), Smyth 2024 INTERSTROKE challenge, Lu 2024 UK Biobank cardiometabolic. Coffee evidence and caffeine evidence kept separate throughout. The molecule-vs-engineered-vehicle structural critique applied to the energy-drink shelf.</p>
+
+  <div class="lib-entry">
+    <div class="lib-headline">EFSA 2015: 400 mg/day caffeine ceiling for non-pregnant adults; 200 mg/day in pregnancy.</div>
+    <div class="lib-citation">EFSA NDA Panel (2015). Scientific Opinion on the safety of caffeine. <em>EFSA Journal</em>. DOI 10.2903/j.efsa.2015.4102.</div>
+    <div class="lib-summary">The canonical European safety reference. Caffeine the molecule, from all dietary sources. Single doses up to 200 mg, habitual intake up to 400 mg/day, raise no safety concerns for healthy non-pregnant adults. Pregnancy ceiling 200 mg/day to avoid foetal risk. Children and adolescents: 3 mg per kg body weight per day. NHS, RCOG, ACOG, and the UK Food Standards Agency align with the pregnancy figure. One large 500 ml energy drink takes an adult to 40% of the daily ceiling on its own.</div>
+  </div>
+
+  <div class="lib-entry">
+    <div class="lib-headline">Coffee evidence and caffeine evidence are not the same body of literature.</div>
+    <div class="lib-citation">Poole R, et al. (2017). Coffee consumption and health: umbrella review of meta-analyses. <em>BMJ</em>, 359:j5024. Plus Pang Y et al. (2021) <em>J Stroke Cerebrovasc Dis</em> PMID 33188952; Lu Z et al. (2024) <em>J Clin Endocrinol Metab</em> DOI 10.1210/clinem/dgae552.</div>
+    <div class="lib-summary">The protective associations across type 2 diabetes, Parkinson disease, several liver conditions, and stroke at moderate intake come from <em>coffee</em>, not caffeine in isolation. Decaffeinated coffee shares many of the protective liver and metabolic associations &mdash; suggesting the effect is largely <em>not</em> the caffeine. The popular conflation of coffee and caffeine does most of the marketing work; the regulatory and academic literatures keep them separate. Every line of evidence in our vault is tagged for what it is actually about.</div>
+  </div>
+
+  <div class="lib-entry">
+    <div class="lib-headline">The upper bound of safe coffee intake is contested across study designs.</div>
+    <div class="lib-citation">Pang Y, et al. (2021). <em>J Stroke Cerebrovasc Dis</em>. PMID 33188952. Smyth A, et al. (2024). Tea, coffee and risk of stroke: an INTERSTROKE international case-control study. <em>Int J Stroke</em>, 19(9):1053&ndash;1063. DOI 10.1177/17474930241264685.</div>
+    <div class="lib-summary">Pang 2021 (prospective cohort meta-analysis, n &gt; 2.4 million) shows a U-shaped curve with strongest protection at 3&ndash;4 cups per day and a plateau beyond. Smyth 2024 INTERSTROKE (international case-control, n &asymp; 27,000) finds higher stroke odds at &gt; 4 cups per day in the general population. Both findings hold within their study designs; the contradiction is between designs, not between subgroups within either. Resolution would require an individual-participant-data meta-analysis spanning both designs. The honest reading is: the upper bound is genuinely contested.</div>
+  </div>
+
+  <div class="lib-entry">
+    <div class="lib-headline">The structural critique: caffeine the molecule vs caffeine the engineered delivery vehicle.</div>
+    <div class="lib-citation">EFSA NDA Panel (2015) caffeine safety opinion; Mensink fatty-acid meta-analyses; cross-referenced with the Industry Funding Bias evidence base.</div>
+    <div class="lib-summary">Most of the protective associations in the literature come from cohorts whose dominant caffeine source is filter coffee or tea, consumed without large added-sugar loads. The category-level findings do not transfer cleanly to energy drinks (high sugar, taurine, novel stimulant blends), sweetened ready-to-drink coffees, or caffeine-fortified snacks. Caffeine is dose-dependent and well-studied; the engineered products that deliver it are formulated to overshoot the dose. The manufacturer is creator of the gap &mdash; sourcing, formulating, marketing at adolescents, funding the research that biases the science.</div>
+  </div>
+
+  <p style="margin-top:24px;font-size:0.92rem;color:var(--muted);font-style:italic;">More entries are added as new peer-reviewed work meets the citation discipline. If you&rsquo;re a researcher with a recent paper that should be on this list, get in touch via the <a href="contact.html">contact form</a>.</p>
+</section>
+
+<section class="section section-narrow">
+  <div class="section-eyebrow" id="stream-1-6">Stream 1.6 &mdash; Civic-society and policy context</div>
+  <h2>What the country is asking for.</h2>
+  <p>The structural critique <span class="swm">SCANSMART</span>&rsquo;s public-facing voice carries is no longer a position ahead of the population &mdash; it is the position the population has measurably reached. Civic-society campaigns and regulator action both register the same direction. Library entries here document those moments at the level of who is asking for what, when, and on what evidence. <span class="swm">SCANSMART</span> documents the moments; we do not co-opt them.</p>
+
+  <div class="lib-entry">
+    <div class="lib-headline">The Recipe for Change Citizens&rsquo; Charter &mdash; 45 organisations, 79% YouGov no-confidence finding.</div>
+    <div class="lib-citation">Sustain, the Food Foundation, the Obesity Health Alliance + 42 coalition organisations. <em>We&rsquo;re Fed Up!</em> report (23 April 2026). YouGov fieldwork April 2026.</div>
+    <div class="lib-summary">On 22&ndash;23 April 2026 a 45-organisation coalition launched a Citizens&rsquo; Charter to be handed to MPs in Westminster autumn 2026. YouGov polling commissioned for the launch found <strong>79% of British adults are not confident food companies will reduce sugar, salt, and saturated fat without government intervention</strong>; <strong>79% say government should do more to make a balanced diet affordable</strong>; and <strong>47% say it is harder to eat a balanced diet now than it was twenty years ago</strong>. The Charter&rsquo;s headline demand is to extend the Soft Drinks Industry Levy to additional categories of unhealthy food and reinvest the revenue in children&rsquo;s health. The 79% figure is the population-level mirror of the structural argument the peer-reviewed evidence base in Stream 1 carries from the science side.</div>
+    <div style="margin-top:8px;font-size:0.95rem;"><strong><a href="library-recipe-for-change-charter.html">&rarr; Read the full Recipe for Change Charter entry</a></strong></div>
+  </div>
+
+  <div class="lib-entry">
+    <div class="lib-headline">The first ASA HFSS advertising rulings &mdash; engineered prominence is the new test.</div>
+    <div class="lib-citation">ASA case files, 15 April 2026. Practitioner readouts: Mills &amp; Reeve (April 2026); Stevens &amp; Bolton; Freshfields. ITV News coverage 15 April 2026.</div>
+    <div class="lib-summary">On 15 April 2026 the Advertising Standards Authority published its first rulings under the new less-healthy-food advertising restrictions in force since 5 January 2026. Lidl Northern Ireland was banned for an Instagram post featuring a Pain Suisse; Iceland was banned for a paid-for Instagram post featuring sausage rolls. Both rulings turned on the regulator&rsquo;s finding that engineered prominence is the new test &mdash; close-up framing and on-screen commentary count as promotion regardless of whether the post was about the product directly. The rulings target the retailer-as-advertiser; the structural fact upstream is that the manufacturer engineers the per-100g recipe that determines whether a product qualifies as HFSS in the first place. The Door 4 reading lives at <a href="checkout-2026-05-11-asa-hfss-rulings.html">checkout-2026-05-11-asa-hfss-rulings</a>; the Library entry here is the civic-context summary of the regulator-side enforcement landing.</div>
+    <div style="margin-top:8px;font-size:0.95rem;"><strong><a href="checkout-2026-05-11-asa-hfss-rulings.html">&rarr; Read the full Door 4 piece on the rulings</a></strong></div>
+  </div>
+
+  <p style="margin-top:24px;font-size:0.92rem;color:var(--muted);font-style:italic;">Future Stream 1.6 entries will accumulate as further civic-society and regulatory moments are documented. The Library carries the structural reading; the Door 4 Checkout pieces carry the per-product translation; both surface from the same architecture of response.</p>
+</section>
+
+<section class="section section-narrow">
+  <div class="section-eyebrow" id="stream-2">Stream 2 — Competitive analysis</div>
+  <h2>What we&rsquo;ve learned from the rest of the field.</h2>
+  <p><span class="swm">SCANSMART</span> published a Competitive Positioning Report in April 2026 (v1.3, signed off 27 April) covering ten food-tech and adjacent comparables across eleven feature gaps. The full institutional report is reserved for partner conversations; the public summary findings appear below.</p>
+
+  <div class="lib-entry">
+    <div class="lib-headline">Yuka has the consumer scale but not the audit depth.</div>
+    <div class="lib-summary">Yuka (~80M users globally) demonstrated the consumer appetite for label-decode UX. What Yuka does not have, and structurally cannot easily build, is the institutional B2B data product, the recurring publication, the curated knowledge library, or the community-shop-network footprint that supplies the data the major databases miss. <span class="swm">SCANSMART</span>&rsquo;s position is not Yuka-with-extras; it is a different category combining elements that exist in different companies but never together.</div>
+  </div>
+
+  <div class="lib-entry">
+    <div class="lib-headline">Open Food Facts is the open substrate, not a brand.</div>
+    <div class="lib-summary">Open Food Facts (OFF) is a community-built open food database, now a UN Digital Public Good. <span class="swm">SCANSMART</span> depends on OFF as the primary backbone of CheckIT and contributes back to it. OFF is data infrastructure; <span class="swm">SCANSMART</span> is the brand layer that translates OFF into consumer-readable decisions, fills the gaps where OFF is thin (independent shops, cultural-specific products), and licenses the curated layer to institutional buyers.</div>
+  </div>
+
+  <div class="lib-entry">
+    <div class="lib-headline">Mintel, Kantar, Nielsen IQ have institutional B2B data but no consumer side and paywalled by design.</div>
+    <div class="lib-summary">The major retail intelligence platforms have the institutional muscle <span class="swm">SCANSMART</span> aspires to build commercially. They do not have a free consumer scanner, a public Weekly Checkout, or a free Knowledge Library. They are analyst products with paywalled access; <span class="swm">SCANSMART</span> is institutional infrastructure with a free public substrate. Different positioning at the brand level even where the institutional data overlaps in scope.</div>
+  </div>
+
+  <div class="lib-entry">
+    <div class="lib-headline">Carbon Brief is the closest publishing-discipline model in adjacent territory.</div>
+    <div class="lib-summary">Carbon Brief (climate-policy publishing, free, evidence-led, recurring weekly Brief, institutional credibility, no paywalls) is the closest structural analogue to <span class="swm">SCANSMART</span>&rsquo;s combined publication-and-substrate model &mdash; in a different domain (climate, not food) and without a consumer app. Useful reference architecture for the recurring-publication discipline.</div>
+  </div>
+
+  <p style="margin-top:24px;font-size:0.92rem;color:var(--muted);font-style:italic;">For the full Competitive Positioning Report v1.3 with the eleven feature gaps and the five Sets-the-New-Level rules in detail, enquire about <a href="partner.html">institutional access</a> &mdash; the institutional report is shared with foundation funders, academic collaborators, and serious commissioning partners on request.</p>
+</section>
+
+<section class="section section-narrow">
+  <div class="section-eyebrow" id="stream-3">Stream 3 — <span class="swm">SCANSMART</span>&rsquo;s analytical positions</div>
+  <h2>What we believe, made public.</h2>
+
+  <div class="lib-entry">
+    <div class="lib-headline">The Six Layers of Intelligence Stack.</div>
+    <div class="lib-summary"><span class="swm">SCANSMART</span>&rsquo;s data architecture is structured as six layers: (1) the I500 product corpus, (2) the Decision Record (anonymous behavioural signal), (3) the traffic-light verdict layer, (4) profile-tuned thresholds (diabetes / hypertension / family / general), (5) the SaK alternative-finding layer, (6) the audit-evidence layer (per Competitive Positioning Report v1.3). Each layer has a distinct value proposition for distinct buyer segments; together they form the institutional value stack.</div>
+  </div>
+
+  <div class="lib-entry">
+    <div class="lib-headline">The Two-Layer Literacy Rule.</div>
+    <div class="lib-summary"><span class="swm">SCANSMART</span> presents every piece of food information at two depths: Layer 1 (the headline verdict in plain language &mdash; teaspoons, sachets, traffic light) and Layer 2 (the deeper context for those who want it &mdash; the citation, the threshold, the alternative). This isn&rsquo;t a UX preference; it&rsquo;s a structural commitment to inclusion. Reaches every reading level without dumbing down the substance.</div>
+  </div>
+
+  <div class="lib-entry">
+    <div class="lib-headline">The Belongs-to-Everyone Rule.</div>
+    <div class="lib-summary">The brand is not a gated product; it is infrastructure that meets people where they are. The free public substrate (CheckIT, Weekly Checkout, Knowledge Library, Shop Directory, Stories) is genuinely free for everyone. Institutional revenue from the I500 enterprise licence funds the public substrate without committing funders to perpetual support. This is the architectural commitment that distinguishes <span class="swm">SCANSMART</span> from consumer-app companies needing growth-at-all-costs.</div>
+  </div>
+
+  <div class="lib-entry">
+    <div class="lib-headline">The Sets-the-New-Level rules.</div>
+    <div class="lib-summary">Five rules from the Competitive Positioning Report that name what <span class="swm">SCANSMART</span> sets at the category level: (1) cultural specificity is a feature, not a niche; (2) institutional revenue funds public-good substrate; (3) audit depth beats audit breadth in the postcodes that matter most; (4) decision-point capture is the behavioural-change unlock the existing literature has under-used; (5) brand canon is operational discipline, not marketing copy.</div>
+  </div>
+
+  <div class="lib-entry">
+    <div class="lib-headline">Universal Food Illiteracy &mdash; class-blind, language-blind, app-blind, condition-blind.</div>
+    <div class="lib-summary">Food illiteracy is class-blind, language-blind, app-blind, condition-blind. The free tier of <span class="swm">SCANSMART</span> exists because nobody should have to pay for a clear honest read on a product at the point of decision. This is the synthesis-layer naming of a posture present across the Two-Layer Literacy Rule, the Belongs-to-Everyone Rule, and the Universal Blindness Framing &mdash; pulled into a single principle. Three operational disciplines follow: explain like I&rsquo;m smart but busy; the free tier is the food-literacy backbone; every feature passes the three-question check (does it reduce food-illiteracy for ordinary people, does it preserve clarity in the free tier, does it serve household literacy not dashboard sales).</div>
+  </div>
+
+  <div class="lib-entry">
+    <div class="lib-headline">The structural critique &mdash; manufacturer is creator of the gap.</div>
+    <div class="lib-summary">The gap between back-of-pack data and moment-of-decision readability is structural. The shopkeeper standing at the till is not the villain. The retailer is not the villain. The manufacturer is the creator of the gap &mdash; they source the ingredients, they employ the food scientists who engineer the per-portion / per-100g divergence, they decide the serving size declared on the side of the box, they fund the research that biases the nutrition science around their own products (per the industry-funding-bias evidence above). The structural critique posture sharpens, not softens, the manufacturer&rsquo;s role; the softener "manufacturer is not the villain" was wrong canon and was corrected on 1 May 2026. <span class="swm">SCANSMART</span> writes from the corrected posture across all surfaces.</div>
+  </div>
+
+  <div class="lib-entry">
+    <div class="lib-headline">The editorial-globalises / operational-stays-UK split.</div>
+    <div class="lib-summary">Editorial surfaces (Door 4 Checkout pieces, Door 5 Cosmetics scoping and deep-dives, the Frozen Food Report, future research, the Knowledge Library) are readable globally, with multi-language reading-layer commitment (first ten priority languages: Hindi, Bengali, Urdu, Punjabi, Yoruba, Twi, Polish, French, Spanish, Portuguese &mdash; tracking the Family Plan diaspora-community demographic). Operational surfaces (BigStore Audit, I500, NIFDN federation, CheckIT v4.10 Choice-Stage Write data captures, Door 3 institutional contracts, Lambeth pilot pathway) stay UK-anchored as currently architected. The split is the architectural call resolving the apparent tension between global readership and the UK institutional pitch the I500 community-data moat depends on.</div>
+  </div>
+
+  <div class="lib-entry">
+    <div class="lib-headline">The free / paid architecture &mdash; community-sourced, institution-monetised.</div>
+    <div class="lib-summary">Three tiers, not two. <strong>Free</strong> community-facing surfaces (CheckIT per-product reads, Door 1 / Door 2 / Door 4 / Door 5 published pieces, Knowledge Library, Shop Directory, Stories). <strong>Consumer Family / Crew subscription</strong> for households who want advanced features (multi-profile, scan history, cross-condition flips, basket history, premium content). <strong>Institutional Door 3</strong> paywall, internally split into Snapshot (analyst-tier; structured snapshots and selective named-product reveals) and Full Dataset (enterprise; full row-level corpus, ingredient-centric query layer, reformulation timeseries, API). The reference architecture is Bloomberg-shape three-tier with institutional sub-tiering. <span class="swm">SCANSMART</span> applies the pattern in food-and-cosmetics-intelligence space; the pattern is mature, the contribution is the application. See <a href="subscribe.html">the subscriptions page</a> for the comparison table.</div>
+  </div>
+</section>
+
+<section class="section section-narrow">
+  <div class="section-eyebrow" id="stream-4">Stream 4 &mdash; Reference tools</div>
+  <h2>The strict-reading layer.</h2>
+  <p>Reference material that supports the strict-reading depth of the &sect;13.2A Two-Layer Literacy Rule. Not editorial, not evidence vault &mdash; the substrate underneath label decoding. Free, open, mobile-responsive, no paywall.</p>
+
+  <div class="lib-entry">
+    <div class="lib-headline">Interactive periodic table &mdash; the chemistry layer underneath every ingredient label.</div>
+    <div class="lib-citation">Atomic data sourced from IUPAC 2021 Atomic Weights (Prohaska et al., <em>Pure and Applied Chemistry</em> 94(5): 573&ndash;600), the IUPAC Periodic Table dated November 2024, and NIST Atomic Reference Data tables. SCANSMART relevance overlay built 10 May 2026.</div>
+    <div class="lib-summary">Click any of the 118 elements to see atomic number, mass, electron configuration, melting and boiling points, and discovery info in plain language. Filter by category (alkali metals, halogens, noble gases, transition metals, lanthanides, actinides, etc.) or search by name, symbol, or atomic number. Elements that appear on UK food and cosmetics ingredient labels carry a small &#x25C6; mark; clicking opens the SCANSMART relevance note explaining where the element shows up and why it matters at the moment of decision &mdash; sodium-enhancement, fluoride at toothpaste concentrations, aluminium in deodorants, lead in some traditional medicines, mercury in unregulated skin-lightening, titanium dioxide banned as food colour but retained in cosmetics, sulphites as allergen disclosure, nitrites and IARC Group 2A processed-meat carcinogenicity, iron fortification mandatory in UK flour, and so on. The reference layer for any reader who scans an ingredient list and wants to know what the chemistry actually is.</div>
+    <div style="margin-top:8px;font-size:0.95rem;"><strong><a href="library-periodic-table.html">&rarr; Open the interactive periodic table</a></strong></div>
+  </div>
+
+  <div class="lib-entry">
+    <div class="lib-headline">Audio &amp; video companions &mdash; alternative formats of the Library research.</div>
+    <div class="lib-summary">Selected pieces have audio and video formats generated from the same source material. Same evidence, different format &mdash; for readers who&rsquo;d rather listen while walking, or watch instead of read. The first audio companion sits at the top of this page.</div>
+    <div style="margin-top:8px;font-size:0.95rem;"><strong><a href="#audio-companion">&rarr; Jump to the audio companion</a></strong></div>
+  </div>
+
+  <p style="margin-top:24px;font-size:0.92rem;color:var(--muted);font-style:italic;">More reference tools queued: a units-of-decision converter (g salt &harr; sachets; g sugar &harr; teaspoons; mg sodium &harr; g salt; kJ &harr; kcal); an additive-numbers index (E-numbers cross-referenced with names, function, restriction status, source); a label-symbol decoder (recycling marks, organic certifications, vegan / vegetarian / halal / kosher / FSC / Fairtrade / red-tractor / RSPCA / etc.); an ingredient-list parser walkthrough. All as Stream 4 reference layer; all free; all open; all mobile-responsive.</p>
+</section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="footer-inner">
+    <div class="footer-grid">
+      <div class="footer-brand"><div class="brand-lockup"><span class="ss"><span class="swm">SCANSMART</span></span><span class="tag">Power is Knowledge Decoded</span></div><p>The School of Label Literacy. Built in South London. Open to the world.</p></div>
+      <div class="footer-col"><h4>Products</h4><ul><li><a href="checkit.html">CheckIT</a></li><li><a href="i500.html">The I500</a></li>
+          <li><a href="flt.html">FLT — Food Label Terminal</a></li><li><a href="subscribe.html">Subscriptions</a></li></ul></div>
+      <div class="footer-col"><h4>Read &amp; explore</h4><ul><li><a href="checkout.html">Weekly Checkout, Decoded</a></li><li><a href="library.html">Knowledge Library</a></li><li><a href="stories.html">CheckIT Stories</a></li><li><a href="shops.html">I500 Shop Directory</a></li></ul></div>
+      <div class="footer-col"><h4>About</h4><ul><li><a href="about.html">About <span class="swm">SCANSMART</span></a></li><li><a href="install.html">Install on your phone</a></li><li><a href="contact.html">Contact</a></li><li><a href="privacy.html">Privacy</a></li></ul></div>
+    </div>
+    <div class="footer-bottom"><div><a href="index.html" aria-label="Home — SCANSMART"><img src="assets/marque-v2.svg" alt="SCANSMART" class="marque-footer" width="240" height="80"></a></div><div>&copy; 2026 <span class="swm">SCANSMART</span> Ltd &middot; Co. No. 17128797 &middot; England &amp; Wales<br><small style="color:var(--muted-dim)"><span class="swm">SCANSMART</span> is a food literacy and decision-support platform. It is not a medical device and does not provide medical advice.</small></div></div>
+  </div>
+</footer>
+
+
+<script>
+// Local-file preview link shim — rewrites /foo to foo.html so clicking
+// nav links works when opening index.html directly from disk via file://
+// On https:// production this is a no-op (Cloudflare Pages handles routing).
+(function(){
+  if (location.protocol !== 'file:') return;
+  document.addEventListener('DOMContentLoaded', function() {
+    document.querySelectorAll('a[href^="/"]').forEach(function(a) {
+      var href = a.getAttribute('href');
+      if (href === '/') { a.setAttribute('href', 'index.html'); return; }
+      // Match /single-segment-name with no further path or query
+      if (/^\/[a-z0-9-]+$/i.test(href)) {
+        a.setAttribute('href', href.substring(1) + '.html');
+      }
+    });
+  });
+})();
+
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('/sw.js').catch(() => {});
+  });
+}
+
+// Bulletproof scroll-to-top — tries smooth scroll, then animates manually if the browser ignored it,
+// then hard-jumps as a last resort. Works regardless of CSS scroll-behavior or sticky-element interference.
+function libraryScrollTop(e) {
+  if (e && e.preventDefault) e.preventDefault();
+  var startY = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0;
+  if (startY === 0) return false;
+  // Try the native smooth scroll first
+  try { window.scrollTo({ top: 0, left: 0, behavior: 'smooth' }); } catch (err) {}
+  // Verify it actually moved; if not, animate manually
+  setTimeout(function () {
+    var nowY = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0;
+    if (nowY >= startY - 4) {
+      // Native smooth scroll did nothing — manual animation fallback
+      var duration = 450;
+      var t0 = null;
+      function step(ts) {
+        if (!t0) t0 = ts;
+        var p = Math.min(1, (ts - t0) / duration);
+        var eased = 1 - Math.pow(1 - p, 3); // ease-out cubic
+        var y = Math.round(startY * (1 - eased));
+        window.scrollTo(0, y);
+        document.documentElement.scrollTop = y;
+        document.body.scrollTop = y;
+        if (p < 1) requestAnimationFrame(step);
+      }
+      requestAnimationFrame(step);
+    }
+  }, 60);
+  return false;
+}
+
+// Library jump-to dropdown — scrolls to in-page anchors or navigates to decoder pages.
+function libraryJump(sel) {
+  var v = sel.value;
+  if (!v) return;
+  if (v.charAt(0) === '#') {
+    var el = document.querySelector(v);
+    if (el) {
+      try { el.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
+      catch (err) { el.scrollIntoView(); }
+      history.replaceState(null, '', v);
+    }
+    sel.selectedIndex = 0;
+  } else {
+    window.location.href = v;
+  }
+}
+
+// Floating back-to-top button — fades in once the reader has scrolled past the hero.
+(function () {
+  var btn = document.createElement('button');
+  btn.className = 'back-to-top';
+  btn.type = 'button';
+  btn.setAttribute('aria-label', 'Back to top');
+  btn.innerHTML = '↑';
+  btn.addEventListener('click', libraryScrollTop);
+  document.body.appendChild(btn);
+  window.addEventListener('scroll', function () {
+    if (window.scrollY > 600) {
+      btn.classList.add('visible');
+    } else {
+      btn.classList.remove('visible');
+    }
+  }, { passive: true });
+})();
+</script>
+</body>
+</html>

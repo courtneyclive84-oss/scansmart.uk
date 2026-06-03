@@ -1,0 +1,1195 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0A1628">
+<title>SCANSMART — The School of Label Literacy</title>
+<meta name="description" content="SCANSMART is the platform behind CheckIT, the I500, FLT, the Knowledge Library, and the Partner Programme. Community-sourced food data; institutional clinical pathway; open knowledge for everyone.">
+<link rel="canonical" href="https://scansmart.uk/">
+
+<!-- PWA scanner-redirect — fires when the homepage is loaded as the start_url
+     of the SCANSMART PWA (display-mode standalone + source=pwa query). Redirects
+     to CheckIT so tapping the home-screen icon opens the scanner directly.
+     Already-installed PWAs (whose start_url is /?source=pwa) get this behaviour
+     without needing to be re-installed. Regular browser visitors are not affected.
+     Note: redirects to app.scansmart.uk (different origin) — iOS will open in
+     Safari (out of standalone shell). If app.scansmart.uk is itself an installed
+     PWA, the system may launch that instead. -->
+<script>
+(function () {
+  try {
+    var standalone =
+      (window.matchMedia && window.matchMedia('(display-mode: standalone)').matches) ||
+      window.navigator.standalone === true;
+    if (standalone && window.location.search.indexOf('source=pwa') !== -1) {
+      window.location.replace('https://app.scansmart.uk/?source=pwa');
+    }
+  } catch (e) { /* fail silently — keep the homepage usable */ }
+})();
+</script>
+
+<!-- =================================================================
+     SEARCH ENGINE VERIFICATION
+     Paste the verification token from each console below when set up.
+     Preferred verification methods are DNS TXT records (cleaner; doesn't
+     pollute HTML; verified once at scansmart.uk root). These meta tags
+     are the fallback path if DNS verification isn't preferred.
+
+     - Google Search Console: search.google.com/search-console
+       Add property → scansmart.uk → choose "URL prefix" verification
+       method → copy the meta tag token here.
+     - Bing Webmaster Tools: bing.com/webmasters
+       Add a site → scansmart.uk → choose meta tag method → copy token here.
+     - Yandex (optional, useful for Russian/Eastern Europe reach):
+       webmaster.yandex.com → similar flow.
+     ================================================================= -->
+<!-- <meta name="google-site-verification" content="PASTE_GSC_TOKEN_HERE"> -->
+<meta name="msvalidate.01" content="C8A2249CDBF86A5050436E9FC259FD0C">
+<!-- <meta name="yandex-verification" content="PASTE_YANDEX_TOKEN_HERE"> -->
+
+<!-- Favicons + manifest + theme -->
+<link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon-16x16.png">
+<link rel="shortcut icon" href="/assets/favicon.ico">
+<link rel="apple-touch-icon" sizes="180x180" href="/assets/apple-touch-icon.png">
+<link rel="manifest" href="/manifest.webmanifest">
+<!-- iOS PWA — makes Add to Home Screen install as a standalone app, not a browser bookmark -->
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="SCANSMART">
+
+<!-- Open Graph + Twitter -->
+<meta property="og:image" content="https://scansmart.uk/assets/og-card.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="SCANSMART — Power is Knowledge Decoded. The School of Label Literacy.">
+<meta property="og:locale" content="en_GB">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="SCANSMART — Power is Knowledge Decoded">
+<meta name="twitter:description" content="The School of Label Literacy.">
+<meta name="twitter:image" content="https://scansmart.uk/assets/og-card.png">
+
+<!-- Structured data (Schema.org) -->
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Organization","name":"SCANSMART Ltd","alternateName":"SCANSMART","url":"https://scansmart.uk/","logo":"https://scansmart.uk/assets/icon-512.png","image":"https://scansmart.uk/assets/og-card.png","description":"The School of Label Literacy. CheckIT, the I500, FLT, the Knowledge Library, and the Partner Programme.","foundingDate":"2026-02","address":{"@type":"PostalAddress","addressCountry":"GB","addressLocality":"London","addressRegion":"England"},"identifier":"Companies House Co. No. 17128797","sameAs":["https://app.scansmart.uk"],"slogan":"Power is Knowledge Decoded"}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebSite","name":"SCANSMART","url":"https://scansmart.uk/","isPartOf":{"@type":"WebSite","name":"SCANSMART","url":"https://scansmart.uk/"},"publisher":{"@type":"Organization","name":"SCANSMART Ltd"}}</script>
+
+
+<!-- Open Graph / social cards (placeholders; refine on Hero v2 render) -->
+<meta property="og:type" content="website">
+<meta property="og:title" content="SCANSMART — The School of Label Literacy">
+<meta property="og:description" content="The platform behind CheckIT, the I500, FLT, the Knowledge Library, and the Partner Programme.">
+<meta property="og:url" content="https://scansmart.uk/">
+<meta property="og:site_name" content="SCANSMART">
+<meta property="og:image" content="https://scansmart.uk/assets/hero-v16-social.png">
+
+<!-- Brand fonts: matches KiP_landing.html pattern (Syne for display, DM Sans for body) -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;700&family=Syne:wght@600;700;800&display=swap" rel="stylesheet">
+
+<!-- Shared brand chrome — pulled in for the .install-btn + .install-modal styles
+     (this page's inline <style> below carries the rest of the home-page-specific look) -->
+<link rel="stylesheet" href="brand.css?v=5.0.58">
+
+<!-- Cloudflare Web Analytics: privacy-respecting, no cookies, no consent banner. Beacon injected at the edge. -->
+<script src="install.js?v=5.0.134" defer></script>
+
+<style>
+/* =============================================================
+   SCANSMART — Home Page
+   Brand: dark forest palette
+   Typography: Syne (display) + DM Sans (body)
+   ============================================================= */
+
+:root {
+  --navy: #0A1628;
+  --navy-deep: #060F1C;
+  --navy-soft: #14253D;
+  --cream: #F5F0E8;
+  --cream-dim: #E8E1D4;
+  --red: #C0392B;
+  --red-soft: #D85645;
+  --green: #1D9E75;
+  --green-soft: #2BB888;
+  --amber: #E67E22;
+  --yellow: #F5C518;
+  --muted: #8899AA;
+  --muted-dim: #5C6B7C;
+  --line: rgba(245, 240, 232, 0.08);
+  --line-strong: rgba(245, 240, 232, 0.16);
+
+  --font-display: 'Syne', system-ui, -apple-system, sans-serif;
+  --font-body: 'DM Sans', system-ui, -apple-system, sans-serif;
+
+  --max-width: 1200px;
+  --gutter: clamp(20px, 5vw, 48px);
+  --radius: 12px;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html {
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  background: var(--navy);
+  color: var(--cream);
+  font-family: var(--font-body);
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+}
+
+a { color: inherit; text-decoration: none; transition: opacity 0.18s ease; }
+a:hover { opacity: 0.78; }
+
+img { max-width: 100%; display: block; height: auto; }
+
+::selection { background: var(--red); color: var(--cream); }
+
+/* =============================================================
+   NAV BAR
+   ============================================================= */
+.site-nav {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  background: rgba(10, 22, 40, 0.88);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border-bottom: 1px solid var(--line);
+}
+
+.site-nav-inner {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  /* Safe-area-inset so iPhone Dynamic Island / notch doesn't clip the nav */
+  padding: max(18px, env(safe-area-inset-top, 0px)) max(var(--gutter), env(safe-area-inset-right, 0px)) 18px max(var(--gutter), env(safe-area-inset-left, 0px));
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.brand-lockup {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  font-family: var(--font-display);
+  letter-spacing: -0.01em;
+}
+.brand-lockup .ss { font-size: 1.35rem; font-weight: 800; color: var(--cream); }
+.brand-lockup .tag { font-size: 0.72rem; font-weight: 400; color: var(--muted); letter-spacing: 0.08em; text-transform: uppercase; }
+
+.nav-doors {
+  display: flex;
+  gap: 4px;
+  align-items: center;
+}
+.nav-doors a {
+  padding: 8px 14px;
+  border-radius: 8px;
+  font-size: 0.92rem;
+  font-weight: 500;
+  color: var(--cream-dim);
+  transition: background 0.18s ease, color 0.18s ease;
+}
+.nav-doors a:hover { background: var(--line-strong); color: var(--cream); opacity: 1; }
+
+.nav-doors a.cta {
+  background: var(--red);
+  color: var(--cream);
+  font-weight: 700;
+}
+.nav-doors a.cta:hover { background: var(--red-soft); }
+
+.nav-toggle {
+  display: none;
+  background: none;
+  border: 0;
+  color: var(--cream);
+  font-size: 1.5rem;
+  cursor: pointer;
+  padding: 4px 8px;
+}
+
+/* Mobile nav: brand on left, [Install][Try][≡] clustered on right.
+   Section links (CheckIT, I500, Checkout, Library) collapse into the
+   hamburger; opening it shows the full menu as a dropdown. */
+@media (max-width: 820px) {
+  .site-nav-inner { justify-content: flex-end; gap: 8px; }
+  .brand-banner { margin-right: auto; }
+  .nav-doors { display: flex; gap: 6px; align-items: center; flex-wrap: nowrap; order: 1; }
+  .nav-doors > a:not(.install-btn):not(.cta) { display: none; }
+  .nav-toggle { display: block; order: 2; }
+  .nav-doors.open {
+    display: flex;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    flex-direction: column;
+    background: var(--navy-deep);
+    padding: 12px var(--gutter);
+    border-bottom: 1px solid var(--line);
+    gap: 4px;
+    align-items: stretch;
+  }
+  .nav-doors.open > a { display: block; padding: 12px 14px; text-align: center; }
+  /* Specificity-matching override so section links DO appear when hamburger opens */
+  .nav-doors.open > a:not(.install-btn):not(.cta) { display: block; }
+  .nav-doors > a.install-btn, .nav-doors > a.cta { font-size: 0.82rem; padding: 8px 12px; }
+}
+@media (max-width: 380px) {
+  .nav-doors > a.install-btn, .nav-doors > a.cta { font-size: 0.78rem; padding: 7px 10px; }
+}
+
+/* =============================================================
+   HERO — TENT
+   ============================================================= */
+.hero-tent {
+  padding: clamp(64px, 12vw, 140px) var(--gutter) clamp(36px, 6vw, 72px);
+  max-width: var(--max-width);
+  margin: 0 auto;
+  text-align: center;
+  position: relative;
+}
+
+.hero-tent::before {
+  content: "";
+  position: absolute;
+  top: 10%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80%;
+  max-width: 700px;
+  height: 60%;
+  background: radial-gradient(ellipse at center, rgba(192, 57, 43, 0.12) 0%, transparent 70%);
+  z-index: 0;
+  pointer-events: none;
+}
+
+.hero-content { position: relative; z-index: 1; }
+
+/* Hero masthead — Marque at hero scale. */
+.hero-marque {
+  margin: 0 auto 24px;
+  max-width: 520px;
+  width: 100%;
+  filter: drop-shadow(0 16px 48px rgba(0, 0, 0, 0.45));
+}
+.hero-marque img, .hero-marque svg {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+@media (max-width: 540px) {
+  .hero-marque { max-width: 92%; margin-bottom: 20px; }
+}
+
+/* Slogan strapline — sits below the Marque, carries POWER IS KNOWLEDGE DECODED
+   as a separate Syne-styled text element so the slogan is no longer locked
+   inside an image. Now restylable, selectable, indexable as text. */
+.hero-slogan {
+  margin: 0 auto 36px;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: clamp(0.95rem, 1.8vw, 1.15rem);
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--cream-dim);
+  text-align: center;
+}
+.hero-slogan .accent { color: var(--yellow); }
+
+.hero-eyebrow {
+  font-family: var(--font-display);
+  font-size: 0.85rem;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--yellow);
+  margin-bottom: 24px;
+}
+
+.hero-headline {
+  font-family: var(--font-display);
+  font-size: clamp(2.25rem, 6vw, 4rem);
+  font-weight: 800;
+  line-height: 1.05;
+  letter-spacing: -0.025em;
+  color: var(--cream);
+  margin-bottom: 24px;
+  max-width: 880px;
+  margin-left: auto;
+  margin-right: auto;
+}
+.hero-headline .accent { color: var(--red-soft); }
+.hero-headline .quiet { color: var(--muted); font-weight: 600; }
+
+.hero-sub {
+  font-size: clamp(1.05rem, 1.6vw, 1.25rem);
+  line-height: 1.55;
+  color: var(--cream-dim);
+  max-width: 680px;
+  margin: 0 auto 36px;
+  font-weight: 400;
+}
+
+.hero-cta-row {
+  display: flex;
+  gap: 14px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+.btn {
+  display: inline-block;
+  padding: 14px 28px;
+  border-radius: 8px;
+  font-weight: 700;
+  font-size: 1rem;
+  font-family: var(--font-body);
+  letter-spacing: 0.01em;
+  text-decoration: none;
+  transition: transform 0.18s ease, background 0.18s ease, opacity 0.18s ease;
+  border: 0;
+  cursor: pointer;
+}
+.btn:hover { transform: translateY(-1px); opacity: 1; }
+.btn-primary { background: var(--red); color: var(--cream); }
+.btn-primary:hover { background: var(--red-soft); }
+/* Hero CTA — matches the door-tag label colour (yellow) so it reads as
+   a tappable interface element, not body text. Lifted with shadow on
+   the navy field for prominence on mobile. Adjusted 5 May 2026 evening
+   per Ras's note that the previous ghost-button styling read as
+   non-functional text on the phone. */
+.btn-ghost {
+  background: rgba(245, 197, 24, 0.08);
+  color: var(--yellow);
+  border: 1.5px solid var(--yellow);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.35);
+  transform: translateY(0);
+  transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+}
+.btn-ghost:hover {
+  background: rgba(245, 197, 24, 0.16);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.45);
+}
+.btn-ghost:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+/* =============================================================
+   FOUR DOORS
+   ============================================================= */
+.section {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: clamp(56px, 10vw, 120px) var(--gutter);
+}
+
+.section-eyebrow {
+  font-family: var(--font-display);
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 14px;
+  text-align: center;
+}
+
+.section-title {
+  font-family: var(--font-display);
+  font-size: clamp(1.75rem, 4vw, 2.5rem);
+  font-weight: 800;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+  color: var(--cream);
+  margin-bottom: 12px;
+  text-align: center;
+}
+
+.section-sub {
+  text-align: center;
+  color: var(--cream-dim);
+  font-size: 1.05rem;
+  max-width: 620px;
+  margin: 0 auto 56px;
+  line-height: 1.55;
+}
+
+.doors-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+.doors-grid .door-1,
+.doors-grid .door-5 {
+  grid-column: 1 / -1;
+}
+@media (max-width: 720px) {
+  .doors-grid { grid-template-columns: 1fr; }
+  .doors-grid .door-1,
+  .doors-grid .door-5 { grid-column: auto; }
+}
+
+/* =============================================================
+   I500 DOOR — LIVE DATA ROW
+   Sits inside the I500 door card (door-2). Reads from
+   i500-ticker.json so figures refresh on cadence with the audit.
+   ============================================================= */
+.door-live {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-top: 14px;
+  padding: 12px 14px;
+  background: rgba(43, 184, 136, 0.06);
+  border-left: 2px solid var(--green-soft);
+  border-radius: 4px;
+  font-size: 0.85rem;
+  line-height: 1.4;
+  color: var(--cream-dim);
+}
+/* Three-column grid: dot · number · descriptor.
+   Number column locked at 3ch with tabular numerals so 149 and 84%
+   align in the same column. */
+.door-live-row {
+  display: grid;
+  grid-template-columns: 12px 3ch 1fr;
+  align-items: baseline;
+  gap: 10px;
+}
+.door-live-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--green-soft);
+  display: inline-block;
+  flex-shrink: 0;
+  margin-top: 2px;
+  animation: door-live-pulse 2.4s ease-in-out infinite;
+  justify-self: start;
+}
+@keyframes door-live-pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.45; }
+}
+.door-live-num {
+  text-align: left;
+}
+/* Monospace stack on the number cell — only true monospace guarantees that
+   1 / 4 / 9 / 8 / % all occupy identical character-cells. tabular-nums in
+   Syne aligns digits but lets the % drift; SF Mono / Menlo / Courier locks
+   every character to the same width regardless of glyph. Trade-off: numbers
+   read as live-data / terminal register rather than display-font register —
+   appropriate for a live state badge. */
+.door-live-num strong {
+  display: inline-block;
+  font-family: 'SF Mono', 'Menlo', 'Monaco', 'Consolas', 'Courier New', monospace;
+  font-weight: 700;
+  color: var(--cream);
+  font-size: 0.95em;
+  letter-spacing: 0;
+}
+.door-live-label {
+  color: var(--cream-dim);
+}
+.door-live-meta {
+  color: var(--muted);
+  font-style: italic;
+  font-size: 0.78rem;
+  padding-left: calc(12px + 10px);
+  margin-top: 4px;
+}
+.door-live-desc {
+  color: var(--cream-dim);
+  font-weight: 400;
+  font-size: 0.82rem;
+}
+/* Deep-link from the door-live block to the detailed terminal at
+   /door3-preview.html. Uses a <span role="link"> + click handler
+   instead of a nested <a> (nested anchors are an HTML parse error).
+   stopPropagation prevents the outer door card's link from also
+   firing when the inner link is clicked. */
+.door-live-link {
+  display: inline-block;
+  margin-top: 8px;
+  padding: 6px 0 0;
+  padding-left: calc(12px + 10px);
+  color: var(--green-soft);
+  font-size: 0.8rem;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  cursor: pointer;
+  border-top: 1px dashed rgba(43, 184, 136, 0.2);
+  width: 100%;
+  transition: color 0.18s ease, opacity 0.18s ease;
+}
+.door-live-link:hover {
+  color: var(--cream);
+  opacity: 1;
+}
+.door-live-link:focus-visible {
+  outline: 2px solid var(--green-soft);
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
+/* Tighten the gap between the hero CTA and the doors section eyebrow */
+#doors {
+  padding-top: clamp(28px, 4.5vw, 56px);
+}
+
+.door {
+  background: linear-gradient(180deg, var(--navy-soft) 0%, rgba(20, 37, 61, 0.4) 100%);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 32px 28px;
+  transition: transform 0.22s ease, border-color 0.22s ease, background 0.22s ease;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  text-decoration: none;
+  color: inherit;
+  position: relative;
+  overflow: hidden;
+}
+.door:hover {
+  transform: translateY(-4px);
+  border-color: var(--line-strong);
+  opacity: 1;
+}
+.door::after {
+  content: "→";
+  position: absolute;
+  top: 28px;
+  right: 28px;
+  font-size: 1.4rem;
+  color: var(--muted);
+  transition: transform 0.22s ease, color 0.22s ease;
+}
+.door:hover::after {
+  transform: translateX(4px);
+  color: var(--cream);
+}
+
+.door-tag {
+  font-family: var(--font-display);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.door-1 .door-tag { color: var(--red-soft); }
+.door-2 .door-tag { color: var(--green-soft); }
+.door-3 .door-tag { color: var(--yellow); }
+.door-4 .door-tag { color: var(--amber); }
+.door-5 .door-tag { color: #5BC0EB; }
+
+.door-title {
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+  color: var(--cream);
+  line-height: 1.15;
+}
+
+.door-sub {
+  font-size: 0.95rem;
+  color: var(--cream-dim);
+  line-height: 1.55;
+}
+
+.door-cta {
+  margin-top: 8px;
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: var(--cream);
+}
+
+/* =============================================================
+   FEATURED — LATEST CHECKOUT
+   ============================================================= */
+.featured {
+  background: var(--navy-deep);
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+}
+
+.featured-card {
+  max-width: 880px;
+  margin: 0 auto;
+  background: linear-gradient(135deg, rgba(230, 126, 34, 0.08) 0%, rgba(245, 197, 24, 0.04) 100%);
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius);
+  padding: 36px;
+}
+.featured-tag {
+  font-family: var(--font-display);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--amber);
+  margin-bottom: 12px;
+}
+.featured-headline {
+  font-family: var(--font-display);
+  font-size: clamp(1.4rem, 3vw, 1.85rem);
+  font-weight: 700;
+  line-height: 1.25;
+  color: var(--cream);
+  margin-bottom: 16px;
+}
+.featured-meta {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+  font-size: 0.88rem;
+  color: var(--muted);
+  margin-bottom: 20px;
+}
+.featured-meta .traffic-light {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+.featured-meta .dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--red);
+  display: inline-block;
+}
+.featured-link {
+  font-weight: 600;
+  color: var(--amber);
+  font-size: 0.95rem;
+}
+.featured-link:hover { color: var(--yellow); opacity: 1; }
+
+/* =============================================================
+   TRUST STRIP
+   ============================================================= */
+.trust-strip {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 56px var(--gutter);
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 32px;
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+}
+.trust-item {
+  text-align: center;
+}
+.trust-label {
+  font-family: var(--font-display);
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 6px;
+}
+.trust-value {
+  font-size: 0.92rem;
+  color: var(--cream-dim);
+  line-height: 1.4;
+}
+
+/* =============================================================
+   INSTITUTIONAL ENTRY BAND
+   Above-the-fold entry point for NHS / commissioning / research.
+   ============================================================= */
+.inst-band {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: clamp(32px, 5vw, 56px) var(--gutter);
+}
+.inst-band-inner {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 28px;
+  padding: 30px clamp(24px, 4vw, 44px);
+  background: linear-gradient(135deg, rgba(245,197,24,0.07), rgba(29,158,117,0.05));
+  border: 1px solid var(--line-strong);
+  border-left: 3px solid var(--yellow);
+  border-radius: 14px;
+}
+.inst-band-copy { flex: 1 1 460px; }
+.inst-band-eyebrow {
+  font-family: var(--font-display);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--yellow);
+  margin-bottom: 10px;
+}
+.inst-band-title {
+  font-family: var(--font-display);
+  font-size: clamp(1.3rem, 2.6vw, 1.8rem);
+  font-weight: 800;
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+  color: var(--cream);
+  margin: 0 0 10px;
+}
+.inst-band-sub {
+  font-size: 0.98rem;
+  line-height: 1.55;
+  color: var(--cream-dim);
+  margin: 0;
+  max-width: 620px;
+}
+.inst-band-cta {
+  flex: 0 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 12px;
+}
+.btn-inst { background: var(--yellow); color: var(--navy-deep); }
+.btn-inst:hover { background: #ffd633; }
+.inst-band-link {
+  font-family: var(--font-display);
+  font-size: 0.84rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  color: var(--muted);
+}
+.inst-band-link:hover { color: var(--cream); opacity: 1; }
+@media (max-width: 640px) {
+  .inst-band-inner { padding: 26px 22px; }
+  .inst-band-cta { align-items: stretch; width: 100%; }
+  .btn-inst { text-align: center; }
+}
+
+/* =============================================================
+   FOOTER
+   ============================================================= */
+.site-footer {
+  background: var(--navy-deep);
+  padding: clamp(48px, 8vw, 80px) var(--gutter) 32px;
+  border-top: 1px solid var(--line);
+}
+.footer-inner {
+  max-width: var(--max-width);
+  margin: 0 auto;
+}
+.footer-grid {
+  display: grid;
+  grid-template-columns: 1.5fr repeat(3, 1fr);
+  gap: 40px;
+  margin-bottom: 48px;
+}
+@media (max-width: 720px) {
+  .footer-grid { grid-template-columns: 1fr 1fr; gap: 32px; }
+}
+@media (max-width: 480px) {
+  .footer-grid { grid-template-columns: 1fr; }
+}
+
+.footer-brand .brand-lockup { margin-bottom: 14px; }
+.footer-brand p {
+  font-size: 0.92rem;
+  color: var(--muted);
+  line-height: 1.55;
+  max-width: 280px;
+}
+
+.footer-col h4 {
+  font-family: var(--font-display);
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--cream);
+  margin-bottom: 18px;
+}
+.footer-col ul { list-style: none; padding: 0; }
+.footer-col li { margin-bottom: 10px; }
+.footer-col a {
+  font-size: 0.92rem;
+  color: var(--muted);
+}
+.footer-col a:hover { color: var(--cream); opacity: 1; }
+
+.footer-bottom {
+  border-top: 1px solid var(--line);
+  padding-top: 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 16px;
+  font-size: 0.84rem;
+  color: var(--muted-dim);
+}
+.footer-bottom a { color: var(--muted); }
+.footer-bottom a:hover { color: var(--cream); opacity: 1; }
+
+.marque-placeholder {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 0.95rem;
+  letter-spacing: 0.02em;
+  color: var(--cream);
+  padding: 8px 14px;
+  background: var(--navy-soft);
+  border: 1px dashed var(--line-strong);
+  border-radius: 6px;
+}
+.marque-placeholder code {
+  font-family: 'SF Mono', Menlo, Consolas, monospace;
+  font-size: 0.78rem;
+  color: var(--muted);
+  letter-spacing: 0.1em;
+}
+
+/* =============================================================
+   ACCESSIBILITY
+   ============================================================= */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0,0,0,0);
+  white-space: nowrap;
+  border: 0;
+}
+*:focus-visible {
+  outline: 2px solid var(--yellow);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+/* =============================================================
+   REDUCED MOTION
+   ============================================================= */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+</style>
+</head>
+<body>
+
+<a href="#main" class="skip-link">Skip to main content</a>
+
+<!-- Nav bar — sticky; collapses to hamburger at mobile. -->
+<header class="site-nav">
+  <div class="site-nav-inner">
+    <a href="index.html" class="brand-banner" aria-label="SCANSMART home — Power is Knowledge Decoded"><img src="assets/hero-v16.webp" alt="SCANSMART" width="48" height="60"></a>
+    <button class="nav-toggle" aria-label="Open navigation" aria-controls="primary-nav" aria-expanded="false" onclick="document.getElementById('primary-nav').classList.toggle('open');this.setAttribute('aria-expanded',this.getAttribute('aria-expanded')==='true'?'false':'true')">≡</button>
+    <nav id="primary-nav" class="nav-doors" aria-label="Primary">
+      <a href="checkit.html">CheckIT</a>
+      <a href="i500.html">I500</a>
+      <a href="flt.html">FLT</a>
+      <a href="checkout.html">Checkout</a>
+      <a href="library.html" class="lib">Library</a>
+      <a href="install.html" class="install-btn" onclick="installScansmart(event)">Install</a>
+      <a href="https://app.scansmart.uk" class="cta">Try the scanner →</a>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+
+<!-- Hero. -->
+<section class="hero-tent" aria-labelledby="hero-heading">
+  <div class="hero-content">
+
+    <!-- Hero masthead. -->
+    <div class="hero-marque">
+      <!-- Pre-rendered PNG sidesteps the SVG font-loading race. -->
+      <img src="assets/marque-v2-hero.png?v=5.0.30"
+           alt="SCANSMART"
+           width="520"
+           loading="eager">
+    </div>
+    <p class="hero-slogan">
+      Power is Knowledge <span class="accent">Decoded</span>
+    </p>
+
+    <h1 id="hero-heading" class="hero-headline">
+      The School of <span class="accent">Label</span> Literacy.
+    </h1>
+
+    <p class="hero-sub">
+      Built by deciphering food, drink, and cosmetics labels. <span class="swm">SCANSMART</span> is the platform behind <strong>CheckIT</strong>, the <span class="i500-mark">I500</span>, <strong>FLT</strong>, and the <strong>Knowledge Library</strong>.
+    </p>
+
+  </div>
+</section>
+
+<!-- Six ways in — Common Room + 4 Classes + Library. 1+4+1 grid. -->
+<section id="doors" class="section" aria-labelledby="doors-heading">
+  <div class="section-eyebrow">Five ways in</div>
+  <h2 id="doors-heading" class="section-title">Pick your space.</h2>
+  <p class="section-sub">
+    <span class="swm">SCANSMART</span> is built like a school. The Common Room is open to everyone. Three classes go deeper. Barcode label information is broken down for you and is available in the Library. The same evidence and decode engine sits behind all five.
+  </p>
+
+  <div class="doors-grid">
+
+    <a href="checkit.html" class="door door-1" aria-label="The Common Room: CheckIT, the consumer scanner — open to everyone">
+      <span class="door-tag">Common Room · For everyone</span>
+      <h3 class="door-title">CheckIT</h3>
+      <p class="door-sub">Scan any barcode. CheckIT shows you what&rsquo;s really inside in plain language &mdash; teaspoons of sugar, sachets of salt, traffic-light verdict in seconds. Pick a lifestyle preference (sugar / salt / caffeine) or just General. Free. Works offline. The open space where everyone starts.</p>
+      <span class="door-cta">Open the scanner</span>
+    </a>
+
+    <a href="i500.html" class="door door-2" aria-label="Class 1: The Independent Database — the I500 community-audited corpus">
+      <span class="door-tag">Class 1 · The Independent Database</span>
+      <h3 class="door-title">The I500</h3>
+      <p class="door-sub">The Independent 500 &mdash; products from local independent shops the major databases miss. Halal, Caribbean, South Asian, kosher, cultural-specific groceries verified by community audit. Licensed for retail intelligence and clinical research.</p>
+
+      <!-- Live data row — reads from i500-ticker.json. Figures refresh as SKUs are added; dated refresh stamp visible. -->
+      <div class="door-live" aria-label="I500 catalogue live state">
+        <div class="door-live-row">
+          <span class="door-live-dot" aria-hidden="true"></span>
+          <span class="door-live-num"><strong id="i500-products">—</strong></span>
+          <span class="door-live-label">products catalogued</span>
+        </div>
+        <div class="door-live-row">
+          <span class="door-live-dot" aria-hidden="true"></span>
+          <span class="door-live-num"><strong id="i500-missing">—</strong></span>
+          <span class="door-live-label">missing from the main food<br>database</span>
+        </div>
+        <div class="door-live-meta">Updated <span id="i500-updated">—</span></div>
+      </div>
+
+      <span class="door-cta">Access the I500 →</span>
+    </a>
+
+    <a href="checkout.html" class="door door-4" aria-label="Class 2: The Weekly Supermarket Checkout, Decoded">
+      <span class="door-tag">Class 2 · Read every Monday</span>
+      <h3 class="door-title">The Weekly Supermarket Checkout, Decoded</h3>
+      <p class="door-sub">Britain&rsquo;s top-selling supermarket products this week, label-decoded into teaspoons and sachets. Paired with the I500 alternatives that beat them. New entry every Monday morning.</p>
+      <span class="door-cta">Read this week&rsquo;s Checkout →</span>
+    </a>
+
+    <a href="library.html" class="door door-6" aria-label="The Library: peer-reviewed evidence, civic-society context, SCANSMART analytical positions">
+      <span class="door-tag">The Library · Reference &amp; evidence</span>
+      <h3 class="door-title">Knowledge Library</h3>
+      <p class="door-sub">Peer-reviewed evidence on UPF (Ultra Processed Food), salt, sugar, caffeine, oral health, industry funding bias. Civic-society and policy context. <span class="swm">SCANSMART</span>&rsquo;s structural findings from the I500 audit. Analytical positions on record. Open to everyone, no paywall. Audio and video companions also available.</p>
+      <span class="door-cta">Open the Library →</span>
+    </a>
+
+    <a href="flt.html" class="door door-5" aria-label="Class 3: FLT, the Food Label Terminal for professional analysts, buyers, researchers, and journalists">
+      <span class="door-tag">Class 3 · For analysts, buyers, researchers, journalists</span>
+      <h3 class="door-title">FLT &mdash; Food Label Terminal</h3>
+      <p class="door-sub">The professional analyst terminal. Bloomberg-style keyboard-first interface, seven panels, I500 + Open Food Facts + FSA recalls + EFSA additive safety + reformulation history + UK food news WIRE. For NHS procurement, retail category managers, regulators, food-brand teams, academic researchers, journalists.</p>
+      <span class="door-cta">Open FLT &rarr;</span>
+    </a>
+
+  </div>
+</section>
+
+<!-- ========================================================
+     FEATURED — LATEST CHECKOUT
+     Lifts the most recent Weekly Supermarket Checkout entry
+     up to the home page. Generates social-share moments.
+     ======================================================== -->
+<section class="featured" aria-labelledby="featured-heading">
+  <div class="section">
+    <div class="featured-card">
+      <div class="featured-tag">This week&rsquo;s Checkout</div>
+      <h2 id="featured-heading" class="featured-headline">
+        Ten loaves on shelves this week. Read what&rsquo;s really in them.
+      </h2>
+      <div class="featured-meta">
+        <span class="traffic-light"><span class="dot"></span> Captured Monday 1 June 2026, 09:00 BST</span>
+        <span>Built from the live in-store audit &mdash; new entry every Monday morning</span>
+      </div>
+      <a href="checkout-2026-06-01-bread.html" class="featured-link">Read this week&rsquo;s Checkout &rarr;</a>
+    </div>
+  </div>
+</section>
+
+<!-- ========================================================
+     INSTITUTIONAL ENTRY BAND
+     Moved BELOW the consumer content (hero → trust → doors →
+     Checkout) per founder direction 2 June 2026: a consumer
+     landing page shouldn't lead with an NHS invitation — it's
+     not a trade site. Still ungated → the-project.html; I500 +
+     FLT sit behind the Subscription key-gate so are poor
+     first-click destinations.
+     ======================================================== -->
+<section class="inst-band" aria-labelledby="inst-band-heading">
+  <div class="inst-band-inner">
+    <div class="inst-band-copy">
+      <div class="inst-band-eyebrow">For NHS &middot; Commissioning &middot; Research</div>
+      <h2 id="inst-band-heading" class="inst-band-title">Looking at <span class="swm">SCANSMART</span> for your population?</h2>
+      <p class="inst-band-sub">The I500 independent dataset, a Lambeth&nbsp;/&nbsp;HIN pilot in pursuit, and an NHS DTAC&nbsp;V2 pathway in progress. See what&rsquo;s evidenced, what&rsquo;s live today, and what&rsquo;s next.</p>
+    </div>
+    <div class="inst-band-cta">
+      <a href="the-project.html" class="btn btn-inst">See the evidence &amp; pilot &rarr;</a>
+      <a href="contact.html" class="inst-band-link">Get in touch &rarr;</a>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<!-- Footer. -->
+<footer class="site-footer">
+  <div class="footer-inner">
+
+    <div class="footer-grid">
+
+      <div class="footer-brand">
+        <div class="brand-lockup">
+          <span class="ss"><span class="swm">SCANSMART</span></span>
+          <span class="tag">Power is Knowledge Decoded</span>
+        </div>
+        <p>The School of Label Literacy. Built in South London. Open to the world.</p>
+      </div>
+
+      <div class="footer-col">
+        <h4>Products</h4>
+        <ul>
+          <li><a href="checkit.html">CheckIT</a></li>
+          <li><a href="i500.html">The I500</a></li>
+          <li><a href="flt.html">FLT — Food Label Terminal</a></li>
+          <li><a href="subscribe.html">Subscriptions</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h4>Read &amp; explore</h4>
+        <ul>
+          <li><a href="checkout.html">Weekly Checkout, Decoded</a></li>
+          <li><a href="library.html">Knowledge Library</a></li>
+          <li><a href="stories.html">CheckIT Stories</a></li>
+          <li><a href="shops.html">I500 Shop Directory</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h4>About</h4>
+        <ul>
+          <li><a href="about.html">About <span class="swm">SCANSMART</span></a></li>
+          <li><a href="install.html">Install on your phone</a></li>
+          <li><a href="contact.html">Contact</a></li>
+          <li><a href="privacy.html">Privacy</a></li>
+          
+        </ul>
+      </div>
+
+    </div>
+
+    <div class="footer-bottom">
+      <div>
+        <a href="index.html" aria-label="Home — SCANSMART"><img src="assets/marque-v2.svg" alt="SCANSMART" class="marque-footer" width="240" height="80"></a>
+      </div>
+      <div>
+        &copy; 2026 <span class="swm">SCANSMART</span> Ltd &middot; Co. No. 17128797 &middot; England &amp; Wales
+        <br>
+        <small style="color:var(--muted-dim)"><span class="swm">SCANSMART</span> is a food literacy and decision-support platform. It is not a medical device and does not provide medical advice.</small>
+      </div>
+    </div>
+
+  </div>
+</footer>
+
+
+
+<script>
+// Local-file preview link shim — rewrites /foo to foo.html so clicking
+// nav links works when opening index.html directly from disk via file://
+// On https:// production this is a no-op (Cloudflare Pages handles routing).
+(function(){
+  if (location.protocol !== 'file:') return;
+  document.addEventListener('DOMContentLoaded', function() {
+    document.querySelectorAll('a[href^="/"]').forEach(function(a) {
+      var href = a.getAttribute('href');
+      if (href === '/') { a.setAttribute('href', 'index.html'); return; }
+      // Match /single-segment-name with no further path or query
+      if (/^\/[a-z0-9-]+$/i.test(href)) {
+        a.setAttribute('href', href.substring(1) + '.html');
+      }
+    });
+  });
+})();
+
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('/sw.js').catch(() => {});
+  });
+}
+
+// Live Decision Record stats — fetches once per page load from kip-data Worker.
+// Falls back silently to the static text already in the DOM if anything goes wrong.
+(async () => {
+  try {
+    const r = await fetch('https://kip-data.courtneyclive84.workers.dev/stats', {
+      method: 'GET',
+      headers: { 'accept': 'application/json' }
+    });
+    if (!r.ok) return;
+    const data = await r.json();
+    const el = document.getElementById('trust-evidence-stat');
+    if (!el) return;
+    const events = (data.scan_events || 0).toLocaleString('en-GB');
+    const subs = (data.submissions || 0).toLocaleString('en-GB');
+    if (data.scan_events > 0) {
+      el.innerHTML = 'Decision Record: <strong style="color:var(--cream)">' +
+        events + '</strong> scans across <strong style="color:var(--cream)">' +
+        subs + '</strong> sessions';
+    }
+  } catch (e) { /* keep static fallback */ }
+})();
+
+// I500 door live data — populates the catalogue stats inside the I500 door card
+// from i500-ticker.json. Falls back silently to em-dashes if anything goes wrong.
+(async () => {
+  try {
+    const r = await fetch('i500-ticker.json?v=' + Date.now());
+    if (!r.ok) return;
+    const t = await r.json();
+    const products = document.getElementById('i500-products');
+    const missing = document.getElementById('i500-missing');
+    const updated = document.getElementById('i500-updated');
+    if (products) products.textContent = t.skus_total;
+    if (missing) missing.textContent = Math.round(t.blindspot_pct) + '%';
+    if (updated) {
+      try {
+        updated.textContent = new Date(t.capture_date).toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
+      } catch (e) { updated.textContent = t.capture_date; }
+    }
+  } catch (e) { /* keep static fallback */ }
+})();
+</script>
+</body>
+</html>

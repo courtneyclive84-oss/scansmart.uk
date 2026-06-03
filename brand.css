@@ -1,0 +1,513 @@
+/* SCANSMART v5.0 — Shared brand chrome
+   Brand canon per Bible §5 + §10. Used by every page on scansmart.uk
+   so design changes are made once, not 13 times.
+   30 April 2026 */
+
+:root {
+  --navy: #0A1628;
+  --navy-deep: #060F1C;
+  --navy-soft: #14253D;
+  --cream: #F5F0E8;
+  --cream-dim: #E8E1D4;
+  --red: #C0392B;
+  --red-soft: #D85645;
+  --green: #1D9E75;
+  --green-soft: #2BB888;
+  --amber: #E67E22;
+  --yellow: #F5C518;
+  --muted: #8899AA;
+  --muted-dim: #5C6B7C;
+  --line: rgba(245, 240, 232, 0.08);
+  --line-strong: rgba(245, 240, 232, 0.16);
+  --font-display: 'Syne', system-ui, -apple-system, sans-serif;
+  --font-body: 'DM Sans', system-ui, -apple-system, sans-serif;
+  --max-width: 1200px;
+  --gutter: clamp(20px, 5vw, 48px);
+  --radius: 12px;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+body {
+  background: var(--navy); color: var(--cream);
+  font-family: var(--font-body); font-weight: 400; font-size: 16px; line-height: 1.6;
+  -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+}
+a { color: inherit; text-decoration: none; transition: opacity 0.18s ease; }
+a:hover { opacity: 0.78; }
+img { max-width: 100%; display: block; height: auto; }
+::selection { background: var(--red); color: var(--cream); }
+
+/* SCANSMART wordmark — used inline in body text so the brand mark always renders
+   in the display font (Syne), matching the Marque v1 footer treatment. Without this
+   class, SCANSMART in body sentences renders in DM Sans (the body font) and visually
+   "switches" between display and body type — diluting the wordmark identity.
+   Pattern follows the NASA / IBM / ASOS convention: wordmark always in its own
+   font even when it appears inside running prose. Wrap: <span class="swm">SCANSMART</span> */
+.swm {
+  font-family: var(--font-display);
+  font-weight: 700;
+  letter-spacing: 0.02em;
+}
+
+/* I500 wordmark wrapper — peer brand-mark to .swm. Banked 5 May 2026
+   evening per Ras: "I500 is the standard going forward". Same pattern
+   as .swm — display font (Syne), distinctive weight + letter-spacing
+   so I500 reads as a brand mark when inline in body prose, not as
+   running text. Heavier weight than .swm (800 vs 700) and slightly
+   wider tracking (0.04em vs 0.02em) — distinguishes from the parent
+   SCANSMART wordmark while staying in the brand family.
+   Wrap: <span class="i500-mark">I500</span> */
+.i500-mark {
+  font-family: var(--font-display);
+  font-weight: 800;
+  letter-spacing: 0.04em;
+}
+
+/* Site-wide construction strip — banked 5 May 2026 evening per Ras:
+   "the whole site is under construction not one room". Sits above the
+   sticky nav, non-sticky so it scrolls away once the visitor engages
+   with content. Visible on every page so any landing point announces
+   the in-progress status. Will be removed when the site reaches
+   bank-ready status across all surfaces. */
+.construction-strip {
+  background: rgba(245, 197, 24, 0.10);
+  border-bottom: 1px solid rgba(245, 197, 24, 0.4);
+  padding: 9px 16px;
+  text-align: center;
+  font-family: 'Syne', system-ui, sans-serif;
+  font-size: 0.78rem;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  color: #F5C518;
+  text-transform: uppercase;
+}
+.construction-strip-text {
+  display: inline-block;
+  max-width: 100%;
+}
+.construction-strip strong {
+  font-weight: 800;
+  color: #F5E68A;
+}
+@media (max-width: 540px) {
+  .construction-strip { padding: 8px 12px; font-size: 0.72rem; letter-spacing: 0.06em; }
+}
+
+/* nav */
+.site-nav { position: sticky; top: 0; z-index: 50; background: rgba(10, 22, 40, 0.88); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); border-bottom: 1px solid var(--line); }
+/* Safe-area-inset padding so iPhone Dynamic Island / notch doesn't clip the nav.
+   apple-mobile-web-app-status-bar-style=black-translucent renders content under
+   the status bar; without env(safe-area-inset-top) the brand banner and CTAs
+   sit behind the island and become un-tappable. max() keeps the desktop padding
+   when there's no inset (regular browser, devices without notch). */
+.site-nav-inner {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: max(14px, env(safe-area-inset-top, 0px)) max(var(--gutter), env(safe-area-inset-right, 0px)) 14px max(var(--gutter), env(safe-area-inset-left, 0px));
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+.brand-lockup { display: flex; align-items: baseline; gap: 8px; font-family: var(--font-display); letter-spacing: -0.01em; }
+.brand-lockup .ss { font-size: 1.35rem; font-weight: 800; color: var(--cream); }
+.brand-lockup .tag { font-size: 0.72rem; font-weight: 400; color: var(--muted); letter-spacing: 0.08em; text-transform: uppercase; }
+
+/* Hero v16 — primary brand banner in the nav (desktop + mobile).
+   Per CLAUDE.md ⭐ Hero v16 masthead rule (banked 27 April 2026 evening).
+   Hero v16 is the canonical phone-card brand mark; shrunk for navbar placement.
+   The "+ SCANSMART" wordmark inside the Hero v16 image carries identity at this scale.
+   On mobile the brand banner shrinks rather than disappears — the brand mark always stays. */
+.brand-banner { display: inline-flex; align-items: center; line-height: 0; padding: 2px 0; transition: opacity 0.18s ease; }
+.brand-banner img, .brand-banner svg { display: block; height: 60px; width: auto; }
+.brand-banner:hover { opacity: 0.9; }
+.brand-banner:focus-visible { outline: 2px solid var(--yellow); outline-offset: 4px; border-radius: 4px; }
+@media (max-width: 820px) {
+  .brand-banner img, .brand-banner svg { height: 50px; }
+}
+@media (max-width: 420px) {
+  .brand-banner img, .brand-banner svg { height: 42px; }
+  .site-nav-inner { padding: 10px var(--gutter); }
+}
+.nav-doors { display: flex; gap: 4px; align-items: center; }
+.nav-doors a { padding: 8px 14px; border-radius: 8px; font-size: 0.92rem; font-weight: 500; color: var(--cream-dim); transition: background 0.18s ease, color 0.18s ease; }
+.nav-doors a:hover { background: var(--line-strong); color: var(--cream); opacity: 1; }
+.nav-doors a[aria-current="page"] { background: var(--line-strong); color: var(--cream); }
+.nav-doors a.cta { background: var(--red); color: var(--cream); font-weight: 700; }
+.nav-doors a.cta:hover { background: var(--red-soft); }
+
+/* Install button — sits next to the Try the scanner CTA in the nav.
+   Green to differentiate from the red Try CTA. Carries a download
+   icon so the affordance is unambiguous. Click handler is wired to
+   installScansmart() in install.js — Android/desktop Chrome trigger
+   the native install dialog; iPhone Safari opens an inline modal;
+   anything else falls through to the /install page. */
+.nav-doors a.install-btn {
+  background: var(--green);
+  color: var(--cream);
+  font-weight: 700;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+.nav-doors a.install-btn:hover { background: var(--green-soft); opacity: 1; }
+.nav-doors a.install-btn::before {
+  content: "\2193";
+  display: inline-block;
+  font-weight: 700;
+  font-size: 0.95rem;
+  line-height: 1;
+}
+
+/* Install modal — opened by the install-btn on iPhone Safari (where
+   beforeinstallprompt isn't available). Shows the 4-beat path inline
+   instead of forcing a navigation to the install page.
+   Modal HTML injected by install.js. */
+.install-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+}
+.install-modal.is-open {
+  display: flex;
+  animation: installModalIn 0.22s ease-out;
+}
+@keyframes installModalIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+.install-modal-backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(6, 15, 28, 0.78);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+}
+.install-modal-card {
+  position: relative;
+  background: var(--navy-soft);
+  border: 1px solid var(--line-strong);
+  border-radius: 14px;
+  max-width: 460px;
+  width: 100%;
+  padding: 32px 28px 24px;
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.55);
+  color: var(--cream-dim);
+  animation: installCardIn 0.28s ease-out;
+}
+@keyframes installCardIn {
+  from { opacity: 0; transform: translateY(20px) scale(0.96); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+.install-modal-card h2 {
+  font-family: var(--font-display);
+  font-size: 1.35rem;
+  font-weight: 800;
+  color: var(--cream);
+  margin: 0 0 16px;
+  letter-spacing: -0.01em;
+  padding-right: 36px;
+}
+.install-modal-close {
+  position: absolute;
+  top: 12px;
+  right: 14px;
+  background: none;
+  border: 0;
+  color: var(--muted);
+  font-size: 1.6rem;
+  font-weight: 400;
+  cursor: pointer;
+  padding: 4px 10px;
+  line-height: 1;
+  border-radius: 6px;
+}
+.install-modal-close:hover { background: var(--line-strong); color: var(--cream); }
+.install-modal-path {
+  font-family: var(--font-display);
+  font-size: 0.98rem;
+  font-weight: 700;
+  color: var(--cream);
+  background: linear-gradient(135deg, rgba(245, 197, 24, 0.12) 0%, rgba(245, 197, 24, 0.02) 100%);
+  border-left: 3px solid var(--yellow);
+  border-radius: 0 8px 8px 0;
+  padding: 12px 16px;
+  margin: 0 0 20px;
+  line-height: 1.4;
+}
+.install-modal-path .path-arrow {
+  display: inline-block;
+  margin: 0 4px;
+  color: var(--yellow);
+  font-weight: 400;
+}
+.install-modal-steps {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 20px;
+  counter-reset: imstep;
+}
+.install-modal-steps li {
+  counter-increment: imstep;
+  position: relative;
+  padding: 10px 0 10px 38px;
+  border-bottom: 1px solid var(--line);
+  font-size: 0.94rem;
+  line-height: 1.5;
+}
+.install-modal-steps li:last-child { border-bottom: 0; }
+.install-modal-steps li::before {
+  content: counter(imstep);
+  position: absolute;
+  left: 0;
+  top: 10px;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: var(--red);
+  color: var(--cream);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 0.82rem;
+}
+.install-modal-steps strong { color: var(--cream); }
+.install-modal-link {
+  display: inline-block;
+  color: var(--yellow);
+  font-size: 0.9rem;
+  font-weight: 600;
+  border-bottom: 1px solid var(--line-strong);
+  padding-bottom: 1px;
+}
+.install-modal-link:hover { border-bottom-color: var(--yellow); opacity: 1; }
+
+/* ===========================================================================
+   "Open in browser" floating link — only visible when running as standalone
+   PWA (display-mode: standalone). Lets the user open the same page in their
+   regular browser to see the URL, share, bookmark, etc. Injected by install.js
+   into the body when isStandalone is detected.
+   =========================================================================== */
+.pwa-browser-link {
+  position: fixed;
+  /* Safe-area-inset so the floating pill clears the iPhone home indicator */
+  bottom: max(16px, calc(env(safe-area-inset-bottom, 0px) + 8px));
+  right: max(16px, env(safe-area-inset-right, 0px));
+  z-index: 70;
+}
+.pwa-browser-link a,
+.pwa-browser-link button {
+  display: inline-block;
+  background: rgba(20, 37, 61, 0.86);
+  border: 1px solid var(--line-strong);
+  color: var(--cream-dim);
+  font-family: var(--font-body);
+  font-weight: 500;
+  font-size: 0.78rem;
+  padding: 8px 14px;
+  border-radius: 100px;
+  cursor: pointer;
+  text-decoration: none;
+  transition: background 0.18s ease, color 0.18s ease, border-color 0.18s ease;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+}
+.pwa-browser-link a:hover,
+.pwa-browser-link a:focus-visible,
+.pwa-browser-link button:hover,
+.pwa-browser-link button:focus-visible {
+  background: var(--navy-soft);
+  color: var(--cream);
+  border-color: var(--cream-dim);
+  outline: none;
+  opacity: 1;
+}
+
+/* Toast notification — shown by install.js when clipboard fallback runs */
+.pwa-toast {
+  position: fixed;
+  left: 50%;
+  bottom: 72px;
+  transform: translateX(-50%) translateY(20px);
+  z-index: 90;
+  background: var(--navy-deep);
+  color: var(--cream);
+  border: 1px solid var(--yellow);
+  border-radius: 10px;
+  padding: 12px 18px;
+  font-size: 0.92rem;
+  font-family: var(--font-body);
+  font-weight: 500;
+  max-width: calc(100vw - 32px);
+  text-align: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.22s ease, transform 0.22s ease;
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.5);
+}
+.pwa-toast.is-visible {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+  pointer-events: auto;
+}
+
+.nav-toggle { display: none; background: none; border: 0; color: var(--cream); font-size: 1.5rem; cursor: pointer; padding: 4px 8px; }
+
+/* Mobile nav: brand on left, [Install][Try][≡] clustered on right.
+   Section links (KiP, I500, Partner, Checkout, Library) collapse into the
+   hamburger; opening it shows the full menu as a dropdown. */
+@media (max-width: 820px) {
+  .site-nav-inner { justify-content: flex-end; gap: 8px; }
+  .brand-banner { margin-right: auto; }
+  .nav-doors { display: flex; gap: 6px; align-items: center; flex-wrap: nowrap; order: 1; }
+  .nav-doors > a:not(.install-btn):not(.cta) { display: none; }
+  .nav-toggle { display: block; order: 2; }
+  .nav-doors.open { display: flex; position: absolute; top: 100%; left: 0; right: 0; flex-direction: column; background: var(--navy-deep); padding: 12px var(--gutter); border-bottom: 1px solid var(--line); gap: 4px; align-items: stretch; }
+  .nav-doors.open > a { display: block; padding: 12px 14px; text-align: center; }
+  /* Specificity-matching override so section links DO appear when hamburger opens */
+  .nav-doors.open > a:not(.install-btn):not(.cta) { display: block; }
+  /* Compact button text inline (when hamburger is closed) */
+  .nav-doors > a.install-btn, .nav-doors > a.cta { font-size: 0.82rem; padding: 8px 12px; }
+}
+@media (max-width: 380px) {
+  .nav-doors > a.install-btn, .nav-doors > a.cta { font-size: 0.78rem; padding: 7px 10px; }
+}
+
+/* buttons */
+.btn { display: inline-block; padding: 14px 28px; border-radius: 8px; font-weight: 700; font-size: 1rem; font-family: var(--font-body); letter-spacing: 0.01em; text-decoration: none; transition: transform 0.18s ease, background 0.18s ease, opacity 0.18s ease; border: 0; cursor: pointer; }
+.btn:hover { transform: translateY(-1px); opacity: 1; }
+.btn-primary { background: var(--red); color: var(--cream); }
+.btn-primary:hover { background: var(--red-soft); }
+.btn-ghost { background: transparent; color: var(--cream); border: 1px solid var(--line-strong); }
+.btn-ghost:hover { background: var(--line-strong); }
+
+/* page hero */
+.page-hero { padding: clamp(56px, 10vw, 120px) var(--gutter) clamp(40px, 7vw, 80px); max-width: var(--max-width); margin: 0 auto; text-align: center; }
+.page-hero .door-tag { font-family: var(--font-display); font-size: 0.78rem; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; margin-bottom: 18px; }
+.page-hero .door-tag.kip { color: var(--red-soft); }
+.page-hero .door-tag.i500 { color: var(--green-soft); }
+.page-hero .door-tag.partner { color: var(--yellow); }
+.page-hero .door-tag.checkout { color: var(--amber); }
+.page-hero .door-tag.support { color: var(--muted); }
+.page-hero h1 { font-family: var(--font-display); font-size: clamp(2rem, 5.5vw, 3.5rem); font-weight: 800; line-height: 1.1; letter-spacing: -0.025em; color: var(--cream); margin-bottom: 22px; max-width: 880px; margin-left: auto; margin-right: auto; }
+.page-hero h1 .accent { color: var(--red-soft); }
+.page-hero h1 .accent-green { color: var(--green-soft); }
+.page-hero h1 .accent-yellow { color: var(--yellow); }
+.page-hero h1 .accent-amber { color: var(--amber); }
+.page-hero .lede { font-size: clamp(1.05rem, 1.5vw, 1.2rem); line-height: 1.6; color: var(--cream-dim); max-width: 680px; margin: 0 auto 32px; }
+.hero-cta-row { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
+
+/* section */
+.section { max-width: var(--max-width); margin: 0 auto; padding: clamp(48px, 8vw, 100px) var(--gutter); }
+.section-narrow { max-width: 820px; }
+.section-eyebrow { font-family: var(--font-display); font-size: 0.78rem; font-weight: 600; letter-spacing: 0.18em; text-transform: uppercase; color: var(--muted); margin-bottom: 14px; }
+.section h2 { font-family: var(--font-display); font-size: clamp(1.6rem, 3.5vw, 2.25rem); font-weight: 800; line-height: 1.2; letter-spacing: -0.02em; color: var(--cream); margin-bottom: 18px; }
+.section h3 { font-family: var(--font-display); font-size: 1.25rem; font-weight: 700; color: var(--cream); margin-bottom: 10px; margin-top: 24px; }
+.section p { font-size: 1.02rem; color: var(--cream-dim); margin-bottom: 18px; line-height: 1.65; }
+.section p strong { color: var(--cream); font-weight: 700; }
+.section ul, .section ol { padding-left: 1.2rem; margin-bottom: 18px; color: var(--cream-dim); }
+.section li { margin-bottom: 8px; line-height: 1.6; }
+.section a { color: var(--yellow); border-bottom: 1px solid var(--line-strong); }
+.section a:hover { border-bottom-color: var(--yellow); opacity: 1; }
+
+/* feature cards */
+.feature-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 20px; margin-top: 36px; }
+.feature-card { background: linear-gradient(180deg, var(--navy-soft) 0%, rgba(20, 37, 61, 0.4) 100%); border: 1px solid var(--line); border-radius: var(--radius); padding: 24px; }
+.feature-card .ico { font-family: var(--font-display); font-size: 0.7rem; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; color: var(--red-soft); margin-bottom: 10px; }
+.feature-card h3 { font-family: var(--font-display); font-size: 1.15rem; font-weight: 700; color: var(--cream); margin-bottom: 8px; margin-top: 0; }
+.feature-card p { font-size: 0.92rem; color: var(--cream-dim); margin: 0; line-height: 1.55; }
+
+/* CTA band */
+.cta-band { background: linear-gradient(135deg, rgba(192, 57, 43, 0.12) 0%, rgba(216, 86, 69, 0.06) 100%); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); margin-top: 48px; }
+.cta-band .section { text-align: center; padding-top: clamp(56px, 8vw, 80px); padding-bottom: clamp(56px, 8vw, 80px); }
+.cta-band h2 { margin-bottom: 14px; }
+.cta-band p { max-width: 580px; margin-left: auto; margin-right: auto; margin-bottom: 28px; }
+
+/* form */
+.form-wrap { max-width: 580px; margin: 36px auto 0; background: var(--navy-soft); border: 1px solid var(--line); border-radius: var(--radius); padding: 32px; }
+.form-row { display: flex; flex-direction: column; gap: 6px; margin-bottom: 18px; }
+.form-row label { font-size: 0.82rem; color: var(--muted); font-weight: 500; letter-spacing: 0.04em; text-transform: uppercase; }
+.form-row input, .form-row textarea, .form-row select { background: var(--navy); border: 1px solid var(--line-strong); border-radius: 6px; padding: 12px 14px; font-family: var(--font-body); font-size: 0.98rem; color: var(--cream); transition: border-color 0.18s ease; }
+.form-row input:focus, .form-row textarea:focus, .form-row select:focus { outline: 2px solid var(--yellow); outline-offset: 1px; border-color: var(--yellow); }
+.form-row textarea { min-height: 120px; resize: vertical; }
+.form-row.honeypot { position: absolute; left: -9999px; height: 0; overflow: hidden; }
+.form-actions { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; }
+.form-msg { font-size: 0.92rem; color: var(--muted); margin-left: 8px; }
+.form-msg.ok { color: var(--green-soft); }
+.form-msg.err { color: var(--red-soft); }
+
+/* footer */
+.site-footer { background: var(--navy-deep); padding: clamp(48px, 8vw, 80px) var(--gutter) 32px; border-top: 1px solid var(--line); }
+.footer-inner { max-width: var(--max-width); margin: 0 auto; }
+.footer-grid { display: grid; grid-template-columns: 1.5fr repeat(3, 1fr); gap: 40px; margin-bottom: 48px; }
+@media (max-width: 720px) { .footer-grid { grid-template-columns: 1fr 1fr; gap: 32px; } }
+@media (max-width: 480px) { .footer-grid { grid-template-columns: 1fr; } }
+.footer-brand .brand-lockup { margin-bottom: 14px; }
+.footer-brand p { font-size: 0.92rem; color: var(--muted); line-height: 1.55; max-width: 280px; }
+.footer-col h4 { font-family: var(--font-display); font-size: 0.78rem; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; color: var(--cream); margin-bottom: 18px; }
+.footer-col ul { list-style: none; padding: 0; }
+.footer-col li { margin-bottom: 10px; }
+.footer-col a { font-size: 0.92rem; color: var(--muted); }
+.footer-col a:hover { color: var(--cream); opacity: 1; }
+.footer-bottom { border-top: 1px solid var(--line); padding-top: 24px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px; font-size: 0.84rem; color: var(--muted-dim); }
+.footer-bottom a { color: var(--muted); }
+/* Canonical Marque v1 — footer/signature placement per legal record (27 April 2026).
+   Lives in the footer of every page. The compact horizontal brand badge with verified
+   Code 128 LooK encoded bars, scansmart wordmark fused with bars, canonical serial,
+   sparkle bottom-right. SVG at assets/marque-v1.svg. */
+.marque-footer { display: block; width: 240px; max-width: 100%; height: auto; }
+@media (max-width: 480px) { .marque-footer { width: 200px; } }
+
+/* Legacy placeholder styling — kept in case any orphaned references remain in inline
+   <style> blocks on index.html / kip.html. Safe to remove once those are cleaned. */
+.marque-placeholder { display: inline-flex; align-items: center; gap: 10px; font-family: var(--font-display); font-weight: 700; font-size: 0.95rem; letter-spacing: 0.02em; color: var(--cream); padding: 8px 14px; background: var(--navy-soft); border: 1px dashed var(--line-strong); border-radius: 6px; }
+.marque-placeholder code { font-family: 'SF Mono', Menlo, Consolas, monospace; font-size: 0.78rem; color: var(--muted); letter-spacing: 0.1em; }
+
+/* utility */
+.sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
+*:focus-visible { outline: 2px solid var(--yellow); outline-offset: 3px; border-radius: 4px; }
+@media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; scroll-behavior: auto !important; } }
+
+/* table — used on subscription pricing */
+.compare-table { width: 100%; border-collapse: collapse; margin-top: 28px; font-size: 0.95rem; }
+.compare-table th, .compare-table td { padding: 16px 14px; text-align: left; border-bottom: 1px solid var(--line); vertical-align: top; }
+.compare-table th { font-family: var(--font-display); font-weight: 700; color: var(--cream); background: var(--navy-soft); font-size: 0.95rem; }
+.compare-table td { color: var(--cream-dim); }
+.compare-table .tier-name { font-family: var(--font-display); font-weight: 700; color: var(--cream); font-size: 1.05rem; }
+.compare-table .tier-price { font-family: var(--font-display); font-weight: 800; color: var(--yellow); font-size: 1.4rem; }
+.compare-table .tier-audience { color: var(--muted); font-size: 0.85rem; }
+
+/* checkout entry */
+.checkout-entry { background: var(--navy-soft); border: 1px solid var(--line); border-radius: var(--radius); padding: 32px; margin-bottom: 28px; }
+.checkout-entry .date { font-family: var(--font-display); font-size: 0.78rem; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; color: var(--amber); margin-bottom: 10px; }
+.checkout-entry h3 { font-family: var(--font-display); font-size: 1.4rem; font-weight: 700; color: var(--cream); margin-bottom: 16px; line-height: 1.25; margin-top: 0; }
+.checkout-table { width: 100%; border-collapse: collapse; margin: 16px 0; }
+.checkout-table th, .checkout-table td { padding: 10px 12px; text-align: left; font-size: 0.92rem; border-bottom: 1px solid var(--line); color: var(--cream-dim); }
+.checkout-table th { color: var(--muted); font-weight: 500; font-size: 0.78rem; letter-spacing: 0.08em; text-transform: uppercase; }
+.tl-dot { display: inline-block; width: 10px; height: 10px; border-radius: 50%; vertical-align: middle; margin-right: 6px; }
+.tl-dot.red { background: var(--red); }
+.tl-dot.amber { background: var(--amber); }
+.tl-dot.green { background: var(--green); }
+
+/* library entry */
+.lib-entry { padding: 24px 0; border-bottom: 1px solid var(--line); }
+.lib-entry:last-child { border-bottom: 0; }
+.lib-entry .lib-headline { font-family: var(--font-display); font-size: 1.1rem; font-weight: 700; color: var(--cream); margin-bottom: 6px; }
+.lib-entry .lib-citation { font-family: 'SF Mono', Menlo, Consolas, monospace; font-size: 0.82rem; color: var(--muted); margin-bottom: 10px; }
+.lib-entry .lib-summary { font-size: 0.95rem; color: var(--cream-dim); line-height: 1.6; margin-bottom: 10px; }
+.lib-entry .lib-link { font-size: 0.85rem; color: var(--yellow); border: 0; }
+
+/* shell notice */
+.shell-notice { background: linear-gradient(135deg, rgba(245, 197, 24, 0.08) 0%, rgba(230, 126, 34, 0.04) 100%); border: 1px dashed var(--line-strong); border-radius: var(--radius); padding: 24px; margin: 32px 0; color: var(--cream-dim); font-size: 0.95rem; }
+.shell-notice strong { color: var(--yellow); display: block; margin-bottom: 6px; font-family: var(--font-display); font-size: 0.78rem; letter-spacing: 0.16em; text-transform: uppercase; }
+
+.skip-link { position: absolute; left: -9999px; top: 0; background: var(--yellow); color: var(--navy); padding: 12px 18px; font-weight: 700; font-family: var(--font-body); border-radius: 0 0 8px 0; z-index: 100; }
+.skip-link:focus { left: 0; outline: 2px solid var(--cream); outline-offset: 2px; }

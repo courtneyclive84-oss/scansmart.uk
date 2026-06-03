@@ -1,0 +1,39 @@
+# ─────────────────────────────────────────────────────────────────────────────
+# kip-forms Worker — Cloudflare wrangler config
+# Built 28 May 2026
+# ─────────────────────────────────────────────────────────────────────────────
+
+name = "kip-forms"
+main = "src/index.js"
+compatibility_date = "2026-05-28"
+
+# Route binding — set AFTER deploy and after api.scansmart.uk DNS record exists.
+# Uncomment + run `wrangler deploy` once the api subdomain is live in Cloudflare.
+# Alternative: set the route in the Cloudflare Dashboard → Workers & Pages →
+# kip-forms → Triggers → Add custom domain or route.
+#
+# [[routes]]
+# pattern = "api.scansmart.uk/forms/*"
+# zone_name = "scansmart.uk"
+
+# D1 database binding — points the Worker at the inquiries database.
+# Ras's call: same database as kip-data (kip-tester-data) OR a new database
+# (kip-inquiries). I'd lean toward a new database for separation-of-concerns,
+# matching the rationale for a separate Worker. Replace `database_id` below
+# with the actual UUID from `wrangler d1 list` after creation.
+#
+# [[d1_databases]]
+# binding = "DB"
+# database_name = "kip-inquiries"
+# database_id = "REPLACE_WITH_D1_DATABASE_UUID"
+
+# Secrets — DO NOT put real values here. Set them via:
+#   wrangler secret put TURNSTILE_SECRET   (paste your Turnstile secret key when prompted)
+#   wrangler secret put RESEND_API_KEY     (paste your Resend API key when prompted)
+# These are encrypted at rest by Cloudflare and never appear in source.
+
+# Observability — optional, useful for debugging form failures in production.
+# Uncomment to enable; logs appear in Cloudflare Dashboard → kip-forms → Logs.
+#
+# [observability]
+# enabled = true

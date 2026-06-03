@@ -1,0 +1,279 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0A1628">
+<title>Door 4 Methodology — How we decode the Weekly Supermarket Checkout · SCANSMART</title>
+<meta name="description" content="The methodology behind every Door 4 piece. Data sources, scoring approach, ranking logic, capture-date discipline, correction protocol, editorial review, voice rule, citation format. Reused across the rotation.">
+<link rel="canonical" href="https://scansmart.uk/methodology">
+<!-- Favicons + manifest + theme -->
+<link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon-16x16.png">
+<link rel="shortcut icon" href="/assets/favicon.ico">
+<link rel="apple-touch-icon" sizes="180x180" href="/assets/apple-touch-icon.png">
+<link rel="manifest" href="/manifest.webmanifest">
+<!-- iOS PWA — makes Add to Home Screen install as a standalone app, not a browser bookmark -->
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="SCANSMART">
+
+<!-- Open Graph + Twitter -->
+<meta property="og:image" content="https://scansmart.uk/assets/og-card.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="SCANSMART — Power is Knowledge Decoded. The School of Label Literacy.">
+<meta property="og:locale" content="en_GB">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="SCANSMART — Door 4 Methodology">
+<meta name="twitter:description" content="The methodology behind every Door 4 piece. Reused across the rotation.">
+<meta name="twitter:image" content="https://scansmart.uk/assets/og-card.png">
+
+<!-- Structured data (Schema.org) -->
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Organization","name":"SCANSMART Ltd","alternateName":"SCANSMART","url":"https://scansmart.uk/","logo":"https://scansmart.uk/assets/icon-512.png","image":"https://scansmart.uk/assets/og-card.png","description":"The School of Label Literacy. CheckIT, the I500, FLT, the Knowledge Library, and the Partner Programme.","foundingDate":"2026-02","address":{"@type":"PostalAddress","addressCountry":"GB","addressLocality":"London","addressRegion":"England"},"identifier":"Companies House Co. No. 17128797","sameAs":["https://app.scansmart.uk"],"slogan":"Power is Knowledge Decoded"}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebPage","name":"Door 4 Methodology","url":"https://scansmart.uk/methodology","isPartOf":{"@type":"WebSite","name":"SCANSMART","url":"https://scansmart.uk/"},"publisher":{"@type":"Organization","name":"SCANSMART Ltd"}}</script>
+
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;700&family=Syne:wght@600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="brand.css?v=5.0.58">
+<script src="install.js?v=5.0.134" defer></script>
+</head>
+<body>
+
+<a href="#main" class="skip-link">Skip to main content</a>
+<header class="site-nav">
+  <div class="site-nav-inner">
+    <a href="index.html" class="brand-banner" aria-label="SCANSMART home — Power is Knowledge Decoded"><img src="assets/hero-v16.webp" alt="SCANSMART" width="48" height="60"></a>
+    <button class="nav-toggle" aria-label="Open navigation" aria-controls="primary-nav" aria-expanded="false" onclick="const n=document.getElementById('primary-nav');n.classList.toggle('open');this.setAttribute('aria-expanded',n.classList.contains('open'))">≡</button>
+    <nav id="primary-nav" class="nav-doors" aria-label="Primary">
+      <a href="checkit.html">CheckIT</a><a href="i500.html">I500</a>
+      <a href="flt.html">FLT</a><a href="checkout.html">Checkout</a>
+      <a href="library.html" class="lib">Library</a>
+      <a href="install.html" class="install-btn" onclick="installScansmart(event)">Install</a>
+      <a href="https://app.scansmart.uk" class="cta">Try the scanner →</a>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+
+<section class="page-hero">
+  <div class="door-tag checkout">Class 3 · Methodology</div>
+  <h1>How we decode the Weekly Supermarket Checkout.</h1>
+  <p class="lede">The methodology behind every Door 4 piece. Linked from every weekly Checkout, top and bottom. Reused across the rotation; updated only when the methodology itself changes. We update this page when the method changes; we do not change individual pieces silently.</p>
+</section>
+
+<section class="section section-narrow">
+  <div class="section-eyebrow">What Door 4 is for</div>
+  <h2>The structural gap is the work.</h2>
+  <p>Door 4 reads what is on the back of the pack and translates it into the units the moment of decision in the aisle actually uses &mdash; teaspoons of sugar, half-gram salt sachets, FSA traffic lights, and where it matters, ingredient acidity. The point is the structural distance between the back-of-pack data and the moment of decision; the gap is structural, and <span class="swm">SCANSMART</span> works that gap.</p>
+  <p>The shopkeeper is not the villain. The retailer is not the villain. <strong>The manufacturer is the creator of the gap</strong> &mdash; sourcing the ingredients, employing the food scientists who engineer the bliss point, funding the research that biases nutrition science. The structural critique names the manufacturer&rsquo;s role honestly while protecting the people downstream of those decisions.</p>
+</section>
+
+<section class="section section-narrow">
+  <div class="section-eyebrow">Data sources</div>
+  <h2>Where the figures come from.</h2>
+  <p>Each Door 4 piece pulls from a defined set of public, government, or trade-press sources. The piece tells you which sources contributed which figures and on which date.</p>
+
+  <h3 style="margin-top:24px;">Retailer websites</h3>
+  <p>Tesco, Sainsbury&rsquo;s, Asda, Morrisons, Lidl, Aldi, Iceland, Marks &amp; Spencer, Waitrose. Best-seller tags, category top-ranked listings, declared per-100g and per-portion nutrition, pack size and serving size. Captured on the date stamped at the top of each piece.</p>
+
+  <h3>FSA (Food Standards Agency) traffic-light methodology</h3>
+  <p>Per-100g and per-portion thresholds for sugar, salt, and saturated fat. Government-published at <a href="https://www.food.gov.uk/">food.gov.uk</a>. Door 4 applies these thresholds; we do not invent our own.</p>
+
+  <h3>NOVA classification (Monteiro)</h3>
+  <p>Peer-reviewed framework for classifying food by extent of processing. Used where ultra-processing is structurally relevant to the category (ready meals, snacks, manufactured cereals).</p>
+
+  <h3>DHSC and OHID reformulation registers</h3>
+  <p>Government-published voluntary commitments by manufacturers to reduce sugar, salt, and calories. Used to track what was promised against what changed on the per-100g declaration.</p>
+
+  <h3>Kantar, IRI / Circana, NielsenIQ press releases</h3>
+  <p>Free public market summaries. Used for &ldquo;this week&rsquo;s market position&rdquo; context. Door 4 does not subscribe to these panels and does not cite figures from paid panel access; only the public press-release tier.</p>
+
+  <h3>Trade press</h3>
+  <p><em>The Grocer, Just-Food, Retail Week, British Retail Consortium.</em> Used for reformulation news, manufacturer announcements, and regulatory translation.</p>
+
+  <h3>Manufacturer ESG and annual disclosures</h3>
+  <p>Cited where a manufacturer makes a public reformulation or sustainability claim that the per-100g data can verify or contradict.</p>
+
+  <h3>Open Food Facts</h3>
+  <p>Used as a comparison reference and a fallback when retailer data is incomplete. Never the primary source for products in the <span class="swm">SCANSMART</span> Independent 500 (I500) database.</p>
+
+  <h3><span class="swm">SCANSMART</span> Independent 500 (I500)</h3>
+  <p>Our own audited database of products from independent UK retailers &mdash; the diaspora-grocer shelf the major databases miss. Used as the alternative side of the swap mechanic; products in the I500 are how a Door 4 piece can point a reader to a better local option, not just a verdict on the supermarket pack. <strong>Aggregate findings from the I500 publish freely on Door 4 and on the <a href="library.html">Knowledge Library</a>; the row-level corpus stays behind the institutional licence &mdash; see <a href="partner.html">institutional enquiries</a>.</strong></p>
+</section>
+
+<section class="section section-narrow">
+  <div class="section-eyebrow">Scoring approach</div>
+  <h2>Calculated against published thresholds, not invented scores.</h2>
+  <p>Every figure on a Door 4 piece is calculated against published thresholds, not against a <span class="swm">SCANSMART</span>-invented score.</p>
+
+  <h3 style="margin-top:24px;">FSA traffic-light per-100g and per-portion</h3>
+  <p>Green / Amber / Red is calculated from the FSA published thresholds for sugar, salt, and saturated fat. We display both per-100g and per-portion. Where they diverge &mdash; a per-portion figure that looks acceptable hiding a per-100g figure that is alarming &mdash; we show both because the divergence is the structural finding.</p>
+
+  <h3>Teaspoons of sugar</h3>
+  <p>One teaspoon equals four grams of sugar. We render the per-portion figure as the number of teaspoons.</p>
+
+  <h3>Salt sachets</h3>
+  <p>One salt sachet equals half a gram of salt. We render the per-portion figure as the number of sachets.</p>
+
+  <h3>Acidity dimension</h3>
+  <p>For categories where acidity is a load-bearing structural concern (soft drinks, energy drinks, juices, sport drinks, some confectionery), we cite published pH measurements and dental erosion guidance. The acidity dimension is missing from FSA traffic-lights despite being the dominant dental erosion driver in the UK. Door 4 deploys this dimension when the category warrants.</p>
+
+  <h3>No biological-consequence claims</h3>
+  <p>We describe FSA threshold status. We do not describe biological consequence. <em>&ldquo;This product is RED on sugar per FSA per-100g threshold&rdquo;</em> is a defensible factual statement. <em>&ldquo;This product causes diabetes&rdquo;</em> is not, and we do not write it. Door 4 is a wellness-and-decision-support resource, not a clinical or medical product.</p>
+</section>
+
+<section class="section section-narrow">
+  <div class="section-eyebrow">Ranking logic</div>
+  <h2>The retailers curate; <span class="swm">SCANSMART</span> analyses.</h2>
+  <p>When a Door 4 piece presents a Top 10, the ranking is by retailer best-seller tag &mdash; <em>these are this week&rsquo;s actual top sellers as the retailers themselves identify them.</em> The ranking is not by sugar content, not by salt content, not by <span class="swm">SCANSMART</span>-assigned score. This is deliberate: ranking by sugar would put <span class="swm">SCANSMART</span> in the role of curator, which carries defamation exposure. Ranking by retailer best-seller leaves the retailers as curator and <span class="swm">SCANSMART</span> as analyst, which is the correct role.</p>
+  <p>The piece states the ranking method explicitly. If a particular piece varies the ranking method (for example, ranking by FSA traffic-light count to surface the most-RED products in a category), the piece states the method and the reason at the top.</p>
+</section>
+
+<section class="section section-narrow">
+  <div class="section-eyebrow">Sample size and rotation</div>
+  <h2>Ten categories, fortnightly deep-rotation.</h2>
+  <p>Door 4 covers ten categories on a weekly rotation: breakfast cereals, bread and bakery, soft drinks and juices, yoghurts and dairy, ready meals, sauces and condiments, seasonings and stocks, canned vegetables and pulses, rice and pasta, snacks. A full cycle runs ten weeks; each category gets roughly five deep outings per year. Reactive content (regulatory news, ASA rulings, manufacturer ESG disclosures) is published as it arises in addition to the weekly category piece, not in alternation with it.</p>
+  <p>Three to four UK retailer chains are sampled per piece. Five South London high streets are in the audit rotation as the geographic anchor &mdash; Peckham, Brixton, Streatham, Tooting, Lewisham &mdash; refreshed roughly monthly. Where a piece extends beyond South London catchments, the piece states so.</p>
+</section>
+
+<section class="section section-narrow">
+  <div class="section-eyebrow">Capture-date discipline</div>
+  <h2>Every figure carries the date it was pulled.</h2>
+  <p>Retailer-website data is volatile &mdash; products reformulate, packaging updates, and best-seller tags shift by week. Capture-date stamping prevents <em>&ldquo;this changed yesterday&rdquo;</em> disputes. The methodology page version is also dated; when the methodology updates, prior pieces remain associated with the methodology version under which they were written.</p>
+</section>
+
+<section class="section section-narrow">
+  <div class="section-eyebrow">Operational workflow (v0.1.1)</div>
+  <h2>How the weekly audit actually runs.</h2>
+  <p>The audit is operated by Cowork (the AI agent paired with the founder) on a scheduled trigger every Monday at 09:00 BST. Two scheduled tasks fire in parallel:</p>
+  <ul>
+    <li><strong>weekly-south-london-big-store-top10-audit</strong> &mdash; solids across the rotating South London store list (cereals, bread, ready meals, sauces, seasonings, canned veg, rice/pasta, snacks).</li>
+    <li><strong>weekly-drinks-audit</strong> &mdash; liquids (sugared carbonates, energy drinks, juices/squashes/sports drinks), with the acidity dimension that distinguishes Door 4.</li>
+  </ul>
+  <p>Each task reads its SKU list from a maintained barcode CSV (<code>~/Documents/ScanSmart/Audits/Drinks_Audit/UK_Drinks_Barcodes.csv</code> and <code>~/Documents/ScanSmart/Audits/BigStore_Audit/UK_BigStore_Barcodes.csv</code>) and follows the source priority chain: <strong>Open Food Facts direct barcode fetch &rarr; Chrome MCP navigation to manufacturer UK product page &rarr; Chrome MCP navigation to retailer product page &rarr; mark cell as <em>unverified</em></strong>. This priority order is load-bearing: OFF search is blocked for anonymous sessions, and major-brand manufacturer sites run anti-bot protection that cancels plain WebFetch redirects; Chrome MCP renders JavaScript and clears Cloudflare challenges. Retailer sites are last resort because they are slow under Chrome MCP and 403 under plain WebFetch.</p>
+  <p>Each task produces two filesystem outputs: a dated markdown brief (<code>Big_Store_Audit_YYYY-MM-DD.md</code> or <code>Drinks_Audit_YYYY-MM-DD.md</code>) with the LinkedIn-ready summary, the clinical lead, the table, and the data-integrity notes; and a running spreadsheet (<code>BigStore_Top10_Running.xlsx</code> or <code>Drinks_Top10_Running.xlsx</code>) appended with the week's rows. Both outputs live under <code>~/Documents/ScanSmart/Audits/</code>.</p>
+  <p>If the barcode CSV is missing or empty when a scheduled task fires, the first job of the run is to build it from Kantar / IRI / NielsenIQ press releases via WebSearch plus general UK market knowledge of category-dominant SKUs; the CSV is then committed for future runs to reuse and refine.</p>
+</section>
+
+<section class="section section-narrow">
+  <div class="section-eyebrow">Catch-up rule (v0.1.1)</div>
+  <h2>Missed Monday windows are caught up within seven days; never silently skipped.</h2>
+  <p>If a Monday capture window is missed for any reason (scheduled task failed to fire, founder offline, source access blocked, parallel session priority) the audit is run at the next available Cowork session within seven days. The dated entry retains the Monday URL slug (<code>checkout-YYYY-MM-DD</code> with the missed Monday's date) but the capture timestamp inside the entry is honest about when the data was actually pulled: <em>&ldquo;Capture window scheduled Monday DD MM YYYY, 09:00 BST. Captured [actual day] [actual date] after a [N]-day delay.&rdquo;</em></p>
+  <p>If the catch-up cannot complete within seven days, the missed week is published as a one-line note in the next entry's <em>How this was put together</em> section, and the next category in the rotation runs on schedule. The audit calendar slips by one slot; the rotation does not double up.</p>
+  <p>Audits dated more than seven days after their scheduled Monday must declare the gap in their lede; they do not silently backfill the calendar.</p>
+</section>
+
+<section class="section section-narrow">
+  <div class="section-eyebrow">Audit &rarr; Checkout transformation (v0.1.1)</div>
+  <h2>From audit data to dated Checkout entry.</h2>
+  <p>The Monday audit task produces the markdown brief and the running spreadsheet (the data layer). The publication step transforms these into the dated Checkout HTML entry that surfaces on <code>scansmart.uk/checkout-YYYY-MM-DD-{category-slug}</code> (the surfacing layer). The transformation runs the same Monday morning, immediately after the audit task completes, in three steps:</p>
+  <ol>
+    <li><strong>Generate</strong> &mdash; the dated HTML is generated from the markdown brief using the Checkout structural template (<code>checkout-2026-05-04-cereals.html</code> stands as the canonical reference template; later weeks may evolve the template, in which case the methodology page records the version bump). The brief's LinkedIn-ready summary becomes the hero lede; the table populates the top-10 rows; the manufacturer-profile sidebar lifts the highest-load brand from the running spreadsheet; the methodology link auto-inserts.</li>
+    <li><strong>Index</strong> &mdash; the new dated entry is added to <code>checkout.html</code> as the new Latest, the prior Latest moves down into Archive, and the <em>Coming Monday</em> teaser is updated to the next category in the ten-week rotation. The sitemap.xml is updated with the new URL and a <code>lastmod</code> matching the publication date. The <code>_redirects</code> file is unchanged (dated URLs never need redirects on first publication).</li>
+    <li><strong>Cache-bump and bank</strong> &mdash; <code>sw.js</code> CACHE_VERSION suffix is bumped to <code>scansmart-vX.X.X-checkout-YYYY-MM-DD-{slug}</code> so returning visitors get the new entry on next visit. A Notion mirror session record is banked under the KiP Project Hub citing the audit week, the category, the LinkedIn summary, and any data-integrity flags from the markdown brief.</li>
+  </ol>
+  <p>The transformation is operated by Cowork, not by a templating engine, because each entry's structural critique, manufacturer-profile sidebar, and pattern-reading section require editorial judgment that varies by category and by what the data shows that week. The structural template provides the format scaffolding; Cowork populates the analytical content.</p>
+</section>
+
+<section class="section section-narrow">
+  <div class="section-eyebrow">Correction protocol</div>
+  <h2>Errors are corrected publicly and dated; we do not silently revert.</h2>
+  <p>If we publish a figure that turns out to be wrong, we publish a correction with a dated note appended to the original piece. The original error is preserved. We do not silently revert. This is the same correction discipline used in academic journals and serious financial press &mdash; accountable, transparent, and dated.</p>
+  <p>If a manufacturer disputes a figure, the dispute is reviewed against the source data on file (retailer-website screenshot, capture-date, published threshold). Where the dispute is valid, the correction is published. Where the dispute is invalid, the original figure stands and the manufacturer&rsquo;s position is welcome as an addendum.</p>
+</section>
+
+<section class="section section-narrow">
+  <div class="section-eyebrow">Editorial review</div>
+  <h2>Four-lens internal review before publication.</h2>
+  <p>Every Door 4 piece passes through a four-lens internal review before publication:</p>
+  <ul>
+    <li><strong>Risk.</strong> Has the piece avoided defamation exposure? Have the FSA thresholds been correctly applied? Has the capture-date been stamped?</li>
+    <li><strong>Regulatory.</strong> Have the claims stayed within wellness-not-medical scope? Have any regulatory references (FSA, DHSC, OHID, ASA) been correctly cited?</li>
+    <li><strong>Voice.</strong> Is the <em>gap is structural; the shopkeeper is not the villain; the retailer is not the villain; the manufacturer is the creator of the gap</em> tone preserved? Is the Dr RooT analyst register intact? Does the piece name the manufacturer&rsquo;s role honestly without crossing into defamation?</li>
+    <li><strong>Architecture.</strong> Is the source provenance documented per row? Is the methodology page link verified live?</li>
+  </ul>
+  <p>This review is internal advisory. It does not substitute for real-world institutional credibility on partner pitches or commissioning briefs, which carry their own external citation discipline.</p>
+</section>
+
+<section class="section section-narrow">
+  <div class="section-eyebrow">Voice rule</div>
+  <h2>The gap is structural; the manufacturer is the structural actor who created it.</h2>
+  <p>Door 4 is not a campaign against the shopkeeper or the retailer. They are downstream of the decisions; they stock what is supplied to them, work in shops they did not engineer, sell at tills they did not design. The structural critique protects them.</p>
+  <p>The manufacturer is a different matter. Manufacturers source the ingredients deliberately, employ the food scientists who engineer products to optimise palatability and shelf-life deliberately, fund the research that biases nutrition science deliberately (per the BMJ 2007 / NAS review evidence base on industry-funded research outcomes; per the Coca-Cola Global Energy Balance Network case; per the Sugar Research Foundation 1960s deflection &mdash; documented in the <a href="library.html">Knowledge Library</a>).</p>
+  <p>Door 4 names the manufacturer&rsquo;s role honestly. We translate the data on the back of the pack into the units the moment of decision uses; we describe the structural gap between back-of-pack and moment-of-decision; we name the manufacturer who engineered that gap. We do this in citation-rich Dr RooT analyst register against published government standards (FSA, DHSC, OHID, ASA) &mdash; defamation discipline holds; structural-critique honesty holds.</p>
+</section>
+
+<section class="section section-narrow">
+  <div class="section-eyebrow">Citation format</div>
+  <h2>Standard journalistic discipline; dates load-bearing.</h2>
+  <p>External citations on Door 4 follow standard journalistic discipline. Publication date is load-bearing on every peer-reviewed reference. Government and regulatory references cite the issuing body (FSA, DHSC, OHID, MHRA, ASA, NICE, NHS Digital) and the date of the cited release.</p>
+  <p>Internal references &mdash; to the I500, to the Decision Record, to the <span class="swm">SCANSMART</span> audit pipeline, to this methodology page &mdash; are cited in stable in-house format: <em>&ldquo;<span class="swm">SCANSMART</span> [Source Name] v[Version], [Date].&rdquo;</em> We do not link out to internal infrastructure URLs.</p>
+</section>
+
+<section class="section section-narrow">
+  <div class="section-eyebrow">Versioning</div>
+  <h2>This methodology page is versioned.</h2>
+  <p>The current version is shown in the page footer with the last update date. Material changes to the methodology produce a new version; minor copy fixes do not. Where a Door 4 piece predates the current methodology version, the piece is associated with the version that was live when it was published.</p>
+</section>
+
+<section class="section section-narrow">
+  <div class="section-eyebrow">Independence</div>
+  <h2>No manufacturer sponsorship. No retailer sponsorship. No paid placements.</h2>
+  <p>Door 4 does not accept manufacturer sponsorship, retailer sponsorship, or paid promotional placements. Independence is a structural requirement of the analyst-not-curator posture. Funding for <span class="swm">SCANSMART</span>&rsquo;s wider work comes from institutional licensing of the I500 dataset (Snapshot and Full Dataset tiers per <a href="subscribe.html">our subscriptions posture</a>) and <a href="partner.html">institutional engagements</a>; none of that funding flows into editorial decisions on Door 4.</p>
+</section>
+
+<section class="section section-narrow">
+  <div class="section-eyebrow">What Door 4 is not</div>
+  <h2>Wellness and decision support, not clinical guidance.</h2>
+  <p>Door 4 is not medical advice. It is not clinical guidance. It is not a campaign against any specific brand. It is not a substitute for a conversation with your GP, a registered dietitian, or any other health professional. Door 4 translates published nutrition declarations into the units the moment of decision uses. The decision itself is yours.</p>
+</section>
+
+<section class="section section-narrow">
+  <p style="font-size:0.88rem;color:var(--muted);font-style:italic;text-align:center;margin-top:24px;">Methodology v0.1.1 &middot; Published 5 May 2026 &middot; Last updated 19 May 2026 (v0.1.1 patch: operational workflow + catch-up rule + Audit&rarr;Checkout transformation; cadence reconciled from fortnightly to weekly per executable SKILL.md) &middot; Reviewed across legal risk, regulatory, voice, and architecture lenses. Linked from every Door 4 piece. Versioned and dated.</p>
+</section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="footer-inner">
+    <div class="footer-grid">
+      <div class="footer-brand"><div class="brand-lockup"><span class="ss"><span class="swm">SCANSMART</span></span><span class="tag">Power is Knowledge Decoded</span></div><p>The School of Label Literacy. Built in South London. Open to the world.</p></div>
+      <div class="footer-col"><h4>Products</h4><ul><li><a href="checkit.html">CheckIT</a></li><li><a href="i500.html">The I500</a></li>
+          <li><a href="flt.html">FLT — Food Label Terminal</a></li><li><a href="subscribe.html">Subscriptions</a></li></ul></div>
+      <div class="footer-col"><h4>Read &amp; explore</h4><ul><li><a href="checkout.html">Weekly Checkout, Decoded</a></li><li><a href="library.html">Knowledge Library</a></li><li><a href="stories.html">CheckIT Stories</a></li><li><a href="shops.html">I500 Shop Directory</a></li></ul></div>
+      <div class="footer-col"><h4>About</h4><ul><li><a href="about.html">About <span class="swm">SCANSMART</span></a></li><li><a href="install.html">Install on your phone</a></li><li><a href="contact.html">Contact</a></li><li><a href="privacy.html">Privacy</a></li></ul></div>
+    </div>
+    <div class="footer-bottom"><div><a href="index.html" aria-label="Home — SCANSMART"><img src="assets/marque-v2.svg" alt="SCANSMART" class="marque-footer" width="240" height="80"></a></div><div>&copy; 2026 <span class="swm">SCANSMART</span> Ltd &middot; Co. No. 17128797 &middot; England &amp; Wales<br><small style="color:var(--muted-dim)"><span class="swm">SCANSMART</span> is a food literacy and decision-support platform. It is not a medical device and does not provide medical advice.</small></div></div>
+  </div>
+</footer>
+
+
+<script>
+// Local-file preview link shim — rewrites /foo to foo.html so clicking
+// nav links works when opening index.html directly from disk via file://
+// On https:// production this is a no-op (Cloudflare Pages handles routing).
+(function(){
+  if (location.protocol !== 'file:') return;
+  document.addEventListener('DOMContentLoaded', function() {
+    document.querySelectorAll('a[href^="/"]').forEach(function(a) {
+      var href = a.getAttribute('href');
+      if (href === '/') { a.setAttribute('href', 'index.html'); return; }
+      // Match /single-segment-name with no further path or query
+      if (/^\/[a-z0-9-]+$/i.test(href)) {
+        a.setAttribute('href', href.substring(1) + '.html');
+      }
+    });
+  });
+})();
+
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('/sw.js').catch(() => {});
+  });
+}
+</script>
+</body>
+</html>

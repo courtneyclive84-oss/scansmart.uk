@@ -1,0 +1,580 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0A1628">
+<title>CheckIT — The food scanner that decodes the label · SCANSMART</title>
+<meta name="description" content="CheckIT scans the barcode and decodes it visually.">
+<link rel="canonical" href="https://scansmart.uk/checkit">
+<!-- Favicons + manifest + theme -->
+<link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon-16x16.png">
+<link rel="shortcut icon" href="/assets/favicon.ico">
+<link rel="apple-touch-icon" sizes="180x180" href="/assets/apple-touch-icon.png">
+<link rel="manifest" href="/manifest.webmanifest">
+<!-- iOS PWA — makes Add to Home Screen install as a standalone app, not a browser bookmark -->
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="SCANSMART">
+
+<!-- Open Graph + Twitter -->
+<meta property="og:image" content="https://scansmart.uk/assets/og-card.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="SCANSMART — Power is Knowledge Decoded. The School of Label Literacy.">
+<meta property="og:locale" content="en_GB">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="SCANSMART — CheckIT">
+<meta name="twitter:description" content="The School of Label Literacy.">
+<meta name="twitter:image" content="https://scansmart.uk/assets/og-card.png">
+
+<!-- Structured data (Schema.org) -->
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Organization","name":"SCANSMART Ltd","alternateName":"SCANSMART","url":"https://scansmart.uk/","logo":"https://scansmart.uk/assets/icon-512.png","image":"https://scansmart.uk/assets/og-card.png","description":"The School of Label Literacy. CheckIT, the I500, FLT, the Knowledge Library, and the Partner Programme.","foundingDate":"2026-02","address":{"@type":"PostalAddress","addressCountry":"GB","addressLocality":"London","addressRegion":"England"},"identifier":"Companies House Co. No. 17128797","sameAs":["https://app.scansmart.uk"],"slogan":"Power is Knowledge Decoded"}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebPage","name":"CheckIT","url":"https://scansmart.uk/checkit","isPartOf":{"@type":"WebSite","name":"SCANSMART","url":"https://scansmart.uk/"},"publisher":{"@type":"Organization","name":"SCANSMART Ltd"}}</script>
+
+
+<meta property="og:type" content="product">
+<meta property="og:title" content="CheckIT — The food scanner that decodes the label">
+<meta property="og:description" content="Scan any barcode. Know exactly what's hiding inside in plain English, in seconds.">
+<meta property="og:url" content="https://scansmart.uk/checkit">
+<meta property="og:site_name" content="SCANSMART">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;700&family=Syne:wght@600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+
+<!-- Shared brand chrome — pulled in for the .install-btn + .install-modal styles
+     (this page's inline <style> below carries the rest of the page-specific look) -->
+<link rel="stylesheet" href="brand.css?v=5.0.58">
+
+<script src="install.js?v=5.0.134" defer></script>
+
+<style>
+:root {
+  --navy: #0A1628; --navy-deep: #060F1C; --navy-soft: #14253D;
+  --cream: #F5F0E8; --cream-dim: #E8E1D4;
+  --red: #C0392B; --red-soft: #D85645;
+  --green: #1D9E75; --green-soft: #2BB888;
+  --amber: #E67E22; --yellow: #F5C518;
+  --muted: #8899AA; --muted-dim: #5C6B7C;
+  --line: rgba(245, 240, 232, 0.08); --line-strong: rgba(245, 240, 232, 0.16);
+  --font-display: 'Syne', system-ui, -apple-system, sans-serif;
+  --font-body: 'DM Sans', system-ui, -apple-system, sans-serif;
+  --max-width: 1200px; --gutter: clamp(20px, 5vw, 48px); --radius: 12px;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+body { background: var(--navy); color: var(--cream); font-family: var(--font-body); font-weight: 400; font-size: 16px; line-height: 1.6; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; overflow-x: hidden; }
+a { color: inherit; text-decoration: none; transition: opacity 0.18s ease; }
+a:hover { opacity: 0.78; }
+img { max-width: 100%; display: block; height: auto; }
+::selection { background: var(--red); color: var(--cream); }
+
+.site-nav { position: sticky; top: 0; z-index: 50; background: rgba(10, 22, 40, 0.88); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); border-bottom: 1px solid var(--line); }
+/* Safe-area-inset so iPhone Dynamic Island / notch doesn't clip the nav */
+.site-nav-inner { max-width: var(--max-width); margin: 0 auto; padding: max(18px, env(safe-area-inset-top, 0px)) max(var(--gutter), env(safe-area-inset-right, 0px)) 18px max(var(--gutter), env(safe-area-inset-left, 0px)); display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+.brand-lockup { display: flex; align-items: baseline; gap: 8px; font-family: var(--font-display); letter-spacing: -0.01em; }
+.brand-lockup .ss { font-size: 1.35rem; font-weight: 800; color: var(--cream); }
+.brand-lockup .tag { font-size: 0.72rem; font-weight: 400; color: var(--muted); letter-spacing: 0.08em; text-transform: uppercase; }
+.brand-banner { display: inline-flex; align-items: center; line-height: 0; padding: 2px 0; transition: opacity 0.18s ease; }
+.brand-banner img, .brand-banner svg { display: block; height: 60px; width: auto; }
+.brand-banner:hover { opacity: 0.9; }
+.brand-banner:focus-visible { outline: 2px solid var(--yellow); outline-offset: 4px; border-radius: 4px; }
+@media (max-width: 820px) { .brand-banner img, .brand-banner svg { height: 50px; } }
+@media (max-width: 420px) { .brand-banner img, .brand-banner svg { height: 42px; } }
+.nav-doors { display: flex; gap: 4px; align-items: center; }
+.nav-doors a { padding: 8px 14px; border-radius: 8px; font-size: 0.92rem; font-weight: 500; color: var(--cream-dim); transition: background 0.18s ease, color 0.18s ease; }
+.nav-doors a:hover { background: var(--line-strong); color: var(--cream); opacity: 1; }
+.nav-doors a[aria-current="page"] { background: var(--line-strong); color: var(--cream); }
+.nav-doors a.cta { background: var(--red); color: var(--cream); font-weight: 700; }
+.nav-doors a.cta:hover { background: var(--red-soft); }
+.nav-toggle { display: none; background: none; border: 0; color: var(--cream); font-size: 1.5rem; cursor: pointer; padding: 4px 8px; }
+/* Mobile nav: brand on left, [Install][Try][≡] clustered on right.
+   Section links (KiP, I500, Partner, Checkout, Library) collapse into the
+   hamburger; opening it shows the full menu as a dropdown. */
+@media (max-width: 820px) {
+  .site-nav-inner { justify-content: flex-end; gap: 8px; }
+  .brand-banner { margin-right: auto; }
+  .nav-doors { display: flex; gap: 6px; align-items: center; flex-wrap: nowrap; order: 1; }
+  .nav-doors > a:not(.install-btn):not(.cta) { display: none; }
+  .nav-toggle { display: block; order: 2; }
+  .nav-doors.open { display: flex; position: absolute; top: 100%; left: 0; right: 0; flex-direction: column; background: var(--navy-deep); padding: 12px var(--gutter); border-bottom: 1px solid var(--line); gap: 4px; align-items: stretch; }
+  .nav-doors.open > a { display: block; padding: 12px 14px; text-align: center; }
+  /* Specificity-matching override so section links DO appear when hamburger opens */
+  .nav-doors.open > a:not(.install-btn):not(.cta) { display: block; }
+  .nav-doors > a.install-btn, .nav-doors > a.cta { font-size: 0.82rem; padding: 8px 12px; }
+}
+@media (max-width: 380px) {
+  .nav-doors > a.install-btn, .nav-doors > a.cta { font-size: 0.78rem; padding: 7px 10px; }
+}
+
+.btn { display: inline-block; padding: 14px 28px; border-radius: 8px; font-weight: 700; font-size: 1rem; font-family: var(--font-body); letter-spacing: 0.01em; text-decoration: none; transition: transform 0.18s ease, background 0.18s ease, opacity 0.18s ease; border: 0; cursor: pointer; }
+.btn:hover { transform: translateY(-1px); opacity: 1; }
+.btn-primary { background: var(--red); color: var(--cream); }
+.btn-primary:hover { background: var(--red-soft); }
+.btn-ghost { background: transparent; color: var(--cream); border: 1px solid var(--line-strong); }
+.btn-ghost:hover { background: var(--line-strong); }
+
+.page-hero { padding: clamp(56px, 10vw, 120px) var(--gutter) clamp(40px, 7vw, 80px); max-width: var(--max-width); margin: 0 auto; text-align: center; }
+.page-hero .door-tag { font-family: var(--font-display); font-size: 0.78rem; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; color: var(--red-soft); margin-bottom: 18px; }
+.page-hero h1 { font-family: var(--font-display); font-size: clamp(2rem, 5.5vw, 3.5rem); font-weight: 800; line-height: 1.1; letter-spacing: -0.025em; color: var(--cream); margin-bottom: 22px; max-width: 880px; margin-left: auto; margin-right: auto; }
+.page-hero h1 .accent { color: var(--red-soft); }
+.page-hero .lede { font-size: clamp(1.05rem, 1.5vw, 1.2rem); line-height: 1.6; color: var(--cream-dim); max-width: 680px; margin: 0 auto 32px; }
+.hero-cta-row { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
+
+/* CheckIT split-grid hero — mirrors .flt-hero-grid pattern (FLT institutional surface)
+   mapped to the CheckIT consumer surface. Left column: copy. Right column: Crew illustration.
+   Mobile collapses to single column at 900px per FLT pattern. */
+.checkit-hero { padding: clamp(48px, 8vw, 96px) var(--gutter) clamp(40px, 6vw, 80px); max-width: var(--max-width); margin: 0 auto; }
+.checkit-hero-grid { display: grid; grid-template-columns: 1fr 1.2fr; gap: 48px; align-items: center; }
+@media (max-width: 900px) { .checkit-hero-grid { grid-template-columns: 1fr; gap: 32px; } }
+.checkit-hero h1 { font-family: var(--font-display); font-size: clamp(2rem, 5vw, 3.2rem); font-weight: 800; line-height: 1.08; letter-spacing: -0.025em; color: var(--cream); margin-bottom: 22px; }
+.checkit-hero h1 .accent { color: var(--red-soft); font-style: italic; }
+.checkit-hero .lede { font-size: clamp(1.02rem, 1.4vw, 1.15rem); line-height: 1.6; color: var(--cream-dim); margin-bottom: 28px; max-width: 540px; }
+.checkit-hero .lede strong { color: var(--cream); font-weight: 700; }
+.checkit-tagline { font-family: 'JetBrains Mono','SF Mono',Menlo,Consolas,monospace; font-size: 0.8rem; color: var(--red-soft); letter-spacing: 0.3em; text-transform: uppercase; font-weight: 700; margin-bottom: 16px; }
+.checkit-door-tag { font-family: var(--font-display); font-size: 0.78rem; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; color: var(--green-soft); padding: 4px 12px; border: 1px solid rgba(43,184,136,0.35); border-radius: 999px; display: inline-block; margin-bottom: 18px; }
+.checkit-cta-row { display: flex; gap: 12px; flex-wrap: wrap; }
+.checkit-hero-visual { position: relative; }
+.checkit-hero-visual img { display: block; width: 100%; height: auto; border-radius: 12px; box-shadow: 0 30px 80px rgba(0,0,0,0.5), 0 0 0 1px var(--line); }
+.checkit-hero-caption { font-family: 'JetBrains Mono','SF Mono',Menlo,Consolas,monospace; font-size: 0.78rem; color: var(--muted); text-align: center; letter-spacing: 0.12em; margin-top: 14px; }
+.checkit-hero-caption .acc { color: var(--red-soft); }
+
+/* Stats strip — mirrors .flt-stats pattern, mapped to CheckIT consumer numbers.
+   Numbers populate live from the kip-data Worker /stats endpoint + i500-ticker.json.
+   Static fallback values in the HTML reflect current reality (read against D1, 20 May 2026). */
+.checkit-stats { background: var(--navy-soft); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); padding: 36px 0; }
+/* Grid: 3 columns at desktop (post 26 May 2026 evening — was 4 before I500-cohort stat removed
+   in v5.0.104). Drops to 1 column on mobile. */
+.checkit-stats-grid { max-width: var(--max-width); margin: 0 auto; padding: 0 var(--gutter); display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; text-align: center; }
+@media (max-width: 700px) { .checkit-stats-grid { grid-template-columns: 1fr; } }
+.checkit-stat .num { font-family: var(--font-display); font-size: 2.6rem; color: var(--red-soft); font-weight: 800; line-height: 1; letter-spacing: -0.02em; }
+.checkit-stat .lbl { font-family: 'JetBrains Mono','SF Mono',Menlo,Consolas,monospace; font-size: 0.78rem; color: var(--cream-dim); letter-spacing: 0.14em; text-transform: uppercase; margin-top: 10px; font-weight: 500; }
+/* .sub line — bumped 26 May 2026 evening: legibility patch per founder catch.
+   Was: 0.62rem, --muted-dim, 0.12em letter-spacing, uppercase.
+   Now: 0.72rem, --muted, 0.04em letter-spacing, sentence-case so "Per §31 Six Principles" reads cleanly. */
+.checkit-stat .sub { font-family: 'JetBrains Mono','SF Mono',Menlo,Consolas,monospace; font-size: 0.72rem; color: var(--muted); letter-spacing: 0.04em; text-transform: none; margin-top: 6px; line-height: 1.4; }
+
+.section { max-width: var(--max-width); margin: 0 auto; padding: clamp(48px, 8vw, 100px) var(--gutter); }
+.section-narrow { max-width: 820px; }
+.section-eyebrow { font-family: var(--font-display); font-size: 0.78rem; font-weight: 600; letter-spacing: 0.18em; text-transform: uppercase; color: var(--muted); margin-bottom: 14px; }
+.section h2 { font-family: var(--font-display); font-size: clamp(1.6rem, 3.5vw, 2.25rem); font-weight: 800; line-height: 1.2; letter-spacing: -0.02em; color: var(--cream); margin-bottom: 18px; }
+.section h3 { font-family: var(--font-display); font-size: 1.25rem; font-weight: 700; color: var(--cream); margin-bottom: 10px; }
+.section p { font-size: 1.02rem; color: var(--cream-dim); margin-bottom: 18px; line-height: 1.65; }
+.section p strong { color: var(--cream); font-weight: 700; }
+.section ul { padding-left: 1.2rem; margin-bottom: 18px; color: var(--cream-dim); }
+.section ul li { margin-bottom: 8px; line-height: 1.6; }
+
+.feature-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 20px; margin-top: 36px; }
+.feature-card { background: linear-gradient(180deg, var(--navy-soft) 0%, rgba(20, 37, 61, 0.4) 100%); border: 1px solid var(--line); border-radius: var(--radius); padding: 24px; }
+.feature-card .ico { font-family: var(--font-display); font-size: 0.7rem; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; color: var(--red-soft); margin-bottom: 10px; }
+.feature-card h3 { font-family: var(--font-display); font-size: 1.15rem; font-weight: 700; color: var(--cream); margin-bottom: 8px; }
+.feature-card p { font-size: 0.92rem; color: var(--cream-dim); margin: 0; line-height: 1.55; }
+
+/* Step icons in #how section — inline SVG mini-renderings of the actual CheckIT app UI states.
+   Drawn 20 May 2026 to mirror the real scanner / verdict / decision screens at app.scansmart.uk.
+   Real-product screenshots queued for next-session swap-in when the workspace mount sync resolves. */
+.step-icon { width: 96px; height: 96px; margin-bottom: 14px; display: block; }
+.step-icon svg { width: 100%; height: 100%; display: block; }
+
+.character-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; margin-top: 36px; }
+@media (max-width: 720px) { .character-row { grid-template-columns: 1fr; } }
+.character { background: var(--navy-soft); border: 1px solid var(--line); border-radius: var(--radius); padding: 28px 24px; text-align: center; }
+.character .name { font-family: var(--font-display); font-size: 1.5rem; font-weight: 800; margin-bottom: 4px; }
+.character .role { font-size: 0.85rem; color: var(--muted); margin-bottom: 12px; letter-spacing: 0.05em; text-transform: uppercase; }
+.character .bio { font-size: 0.95rem; color: var(--cream-dim); line-height: 1.55; }
+.character.kip .name { color: var(--red-soft); }
+.character.sak .name { color: var(--green-soft); }
+.character.dr .name { color: var(--yellow); }
+
+.cta-band { background: linear-gradient(135deg, rgba(192, 57, 43, 0.12) 0%, rgba(216, 86, 69, 0.06) 100%); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); margin-top: 48px; }
+.cta-band .section { text-align: center; padding-top: clamp(56px, 8vw, 80px); padding-bottom: clamp(56px, 8vw, 80px); }
+.cta-band h2 { margin-bottom: 14px; }
+.cta-band p { max-width: 580px; margin-left: auto; margin-right: auto; margin-bottom: 28px; }
+
+/* footer */
+.site-footer { background: var(--navy-deep); padding: clamp(48px, 8vw, 80px) var(--gutter) 32px; border-top: 1px solid var(--line); }
+.footer-inner { max-width: var(--max-width); margin: 0 auto; }
+.footer-grid { display: grid; grid-template-columns: 1.5fr repeat(3, 1fr); gap: 40px; margin-bottom: 48px; }
+@media (max-width: 720px) { .footer-grid { grid-template-columns: 1fr 1fr; gap: 32px; } }
+@media (max-width: 480px) { .footer-grid { grid-template-columns: 1fr; } }
+.footer-brand .brand-lockup { margin-bottom: 14px; }
+.footer-brand p { font-size: 0.92rem; color: var(--muted); line-height: 1.55; max-width: 280px; }
+.footer-col h4 { font-family: var(--font-display); font-size: 0.78rem; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; color: var(--cream); margin-bottom: 18px; }
+.footer-col ul { list-style: none; padding: 0; }
+.footer-col li { margin-bottom: 10px; }
+.footer-col a { font-size: 0.92rem; color: var(--muted); }
+.footer-col a:hover { color: var(--cream); opacity: 1; }
+.footer-bottom { border-top: 1px solid var(--line); padding-top: 24px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px; font-size: 0.84rem; color: var(--muted-dim); }
+.footer-bottom a { color: var(--muted); }
+.marque-placeholder { display: inline-flex; align-items: center; gap: 10px; font-family: var(--font-display); font-weight: 700; font-size: 0.95rem; letter-spacing: 0.02em; color: var(--cream); padding: 8px 14px; background: var(--navy-soft); border: 1px dashed var(--line-strong); border-radius: 6px; }
+.marque-placeholder code { font-family: 'SF Mono', Menlo, Consolas, monospace; font-size: 0.78rem; color: var(--muted); letter-spacing: 0.1em; }
+
+.sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
+*:focus-visible { outline: 2px solid var(--yellow); outline-offset: 3px; border-radius: 4px; }
+@media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; scroll-behavior: auto !important; } }
+</style>
+</head>
+<body>
+
+<a href="#main" class="skip-link">Skip to main content</a>
+<header class="site-nav">
+  <div class="site-nav-inner">
+    <a href="index.html" class="brand-banner" aria-label="SCANSMART home — Power is Knowledge Decoded"><img src="assets/hero-v16.webp" alt="SCANSMART" width="48" height="60"></a>
+    <button class="nav-toggle" aria-label="Open navigation" aria-controls="primary-nav" aria-expanded="false" onclick="document.getElementById('primary-nav').classList.toggle('open');this.setAttribute('aria-expanded',this.getAttribute('aria-expanded')==='true'?'false':'true')">≡</button>
+    <nav id="primary-nav" class="nav-doors" aria-label="Primary">
+      <a href="checkit.html" aria-current="page">CheckIT</a>
+      <a href="i500.html">I500</a>
+      <a href="flt.html">FLT</a>
+      <a href="checkout.html">Checkout</a>
+      <a href="library.html" class="lib">Library</a>
+      <a href="install.html" class="install-btn" onclick="installScansmart(event)">Install</a>
+      <a href="https://app.scansmart.uk" class="cta">Try the scanner →</a>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+
+<!-- HERO — split-grid mirror of FLT pattern (banked 20 May 2026).
+     Left column: door-tag / tagline / h1 / lede / CTAs. Right column: Crew illustration.
+     The illustration plays the role the FLT live-terminal iframe plays — "the thing itself"
+     showing what CheckIT is, in the shopping context the consumer surface lives in.
+     Image asset: assets/checkit-hero-crew-2026-05-20.webp (canonical, 1600w + 1200w + 800w srcset).
+     Source PNG preserved per §14.3.1 at assets/Gemini_Generated_Image_e3v2g0e3v2g0e3v2.png. -->
+<section class="checkit-hero">
+  <div class="checkit-hero-grid">
+    <div>
+      <div class="checkit-door-tag">Common Room · For everyone</div>
+      <div class="checkit-tagline">Scan &middot; Decode &middot; Decide</div>
+      <h1>Scan any barcode. <span class="accent">Know what&rsquo;s inside.</span></h1>
+      <p class="lede">
+        <strong>CheckIT turns food labels into plain English.</strong>
+        Teaspoons of sugar. Sachets of salt. Traffic-light reading tuned to your lifestyle preference if you&rsquo;ve picked one &mdash; <em>Watching my sugar</em>, <em>Watching my salt</em>, <em>Watching my caffeine</em>, or just General. Free. Works offline. No account needed.
+      </p>
+      <div class="checkit-cta-row">
+        <a href="https://app.scansmart.uk" class="btn btn-primary">Open the scanner</a>
+        <a href="#how" class="btn btn-ghost">How it works</a>
+      </div>
+    </div>
+
+    <div class="checkit-hero-visual">
+      <img
+        src="assets/checkit-hero-crew-2026-05-20.webp"
+        srcset="assets/checkit-hero-crew-2026-05-20-800w.webp 800w, assets/checkit-hero-crew-2026-05-20-1200w.webp 1200w, assets/checkit-hero-crew-2026-05-20-1600w.webp 1600w"
+        sizes="(max-width: 900px) 100vw, 60vw"
+        alt="The CheckIT Crew at work in a supermarket aisle &mdash; KiP, the red-apple explainer, holds a magnifying glass over a salt molecule and a phone showing a nutrition scan; Dr RooT, the tree-rooted analyst in a lab coat, holds a tablet showing a Food Nutrition Chart; SaK, the green-pear scanner, points a barcode scanner at a product flagging SALT DETECTED. Behind them, the CheckIT wordmark glows as a neon sign &mdash; Check in amber, IT in emerald."
+        width="1600" height="744"
+        fetchpriority="high"
+        decoding="async"
+      >
+      <div class="checkit-hero-caption">&uarr; <span class="acc">KIP &middot; DR ROOT &middot; SAK</span> &mdash; the Crew of CheckIT, at the shelf</div>
+    </div>
+  </div>
+</section>
+
+<!-- STATS STRIP — Decision Record live numbers + free/no-login commitment.
+     Mirrors .flt-stats pattern. Static fallback values reflect D1 read at 20 May 2026; the inline
+     script at the foot of the page updates these from kip-data Worker /stats.
+     I500 catalogue stat removed 26 May 2026 evening — the 155-figure is I500-cohort-specific
+     and was misleading on CheckIT (CheckIT scans any barcoded product via OFF + I500 + others;
+     the 155 is the field-audited independent-shop subset). The I500 stat lives canonically on /i500. -->
+<div class="checkit-stats" aria-label="CheckIT key numbers">
+  <div class="checkit-stats-grid">
+    <div class="checkit-stat">
+      <div class="num" id="checkit-stat-scans">28</div>
+      <div class="lbl">Scans logged</div>
+      <div class="sub">Decision Record &middot; live</div>
+    </div>
+    <div class="checkit-stat">
+      <div class="num" id="checkit-stat-putback">6</div>
+      <div class="lbl">Put back at the shelf</div>
+      <div class="sub">Behaviour change captured</div>
+    </div>
+    <div class="checkit-stat">
+      <div class="num">&pound;0</div>
+      <div class="lbl">No account &middot; no tracking</div>
+      <div class="sub">Per &sect;31 Six Principles</div>
+    </div>
+  </div>
+</div>
+
+<section id="how" class="section">
+  <div class="section-eyebrow">How CheckIT works</div>
+  <h2>3 taps then the result.</h2>
+  <p>Point your phone&rsquo;s camera at any barcode. CheckIT reads the label, decodes what&rsquo;s really in it, and tells you in plain language &mdash; not industry jargon. The whole loop takes about five seconds.</p>
+
+  <div class="feature-grid">
+    <div class="feature-card">
+      <!-- Scan icon — mirrors CheckIT's yellow-outlined camera viewfinder card with a barcode inside -->
+      <div class="step-icon" aria-hidden="true">
+        <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+          <rect x="10" y="15" width="80" height="70" rx="8" fill="none" stroke="#F5C518" stroke-width="3"/>
+          <path d="M 14 25 L 14 19 L 20 19 M 80 19 L 86 19 L 86 25 M 86 75 L 86 81 L 80 81 M 20 81 L 14 81 L 14 75" fill="none" stroke="#F5C518" stroke-width="3" stroke-linecap="round"/>
+          <g transform="translate(30, 42)" fill="#F5F0E8">
+            <rect x="0" y="0" width="3" height="16"/>
+            <rect x="5" y="0" width="2" height="16"/>
+            <rect x="9" y="0" width="4" height="16"/>
+            <rect x="15" y="0" width="2" height="16"/>
+            <rect x="19" y="0" width="3" height="16"/>
+            <rect x="24" y="0" width="2" height="16"/>
+            <rect x="28" y="0" width="4" height="16"/>
+            <rect x="34" y="0" width="3" height="16"/>
+            <rect x="39" y="0" width="2" height="16"/>
+          </g>
+        </svg>
+      </div>
+      <div class="ico">Step 1</div>
+      <h3>Scan</h3>
+      <p>Open CheckIT, point at the barcode. Works offline once you&rsquo;ve scanned a product before. No login, no sign-up.</p>
+    </div>
+    <div class="feature-card">
+      <!-- Decode icon — 2x2 grid of traffic-light tiles, mirroring the actual verdict layout
+           (top-left SALT red / top-right SUGAR green / bottom-left FAT amber / bottom-right SAT FAT red,
+           as it appears on the live Corned Beef Princes example) -->
+      <div class="step-icon" aria-hidden="true">
+        <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+          <rect x="12" y="15" width="34" height="32" rx="4" fill="none" stroke="#C0392B" stroke-width="2.5"/>
+          <circle cx="29" cy="37" r="3.5" fill="#C0392B"/>
+          <rect x="54" y="15" width="34" height="32" rx="4" fill="none" stroke="#1D9E75" stroke-width="2.5"/>
+          <circle cx="71" cy="37" r="3.5" fill="#1D9E75"/>
+          <rect x="12" y="53" width="34" height="32" rx="4" fill="none" stroke="#E67E22" stroke-width="2.5"/>
+          <circle cx="29" cy="75" r="3.5" fill="#E67E22"/>
+          <rect x="54" y="53" width="34" height="32" rx="4" fill="none" stroke="#C0392B" stroke-width="2.5"/>
+          <circle cx="71" cy="75" r="3.5" fill="#C0392B"/>
+        </svg>
+      </div>
+      <div class="ico">Step 2</div>
+      <h3>Decode</h3>
+      <p>Sugar in teaspoons. Salt in sachets. Traffic-light reading (green / amber / red) tuned to your lifestyle preference if you&rsquo;ve picked one &mdash; <em>Watching my sugar</em>, <em>Watching my salt</em>, <em>Watching my caffeine</em>, or General.</p>
+    </div>
+    <div class="feature-card">
+      <!-- Decide icon — three pill buttons stacked, mirroring the actual CheckIT decision UI:
+           yellow outline Buy / coral-filled Put back (highlighted as the action) / green outline Just looking -->
+      <div class="step-icon" aria-hidden="true">
+        <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+          <rect x="15" y="14" width="70" height="20" rx="10" fill="none" stroke="#F5C518" stroke-width="2.5"/>
+          <text x="50" y="28" text-anchor="middle" font-family="Syne, sans-serif" font-weight="700" font-size="11" fill="#F5C518">Buy</text>
+          <rect x="15" y="40" width="70" height="20" rx="10" fill="#D85645" stroke="#D85645" stroke-width="2.5"/>
+          <text x="50" y="54" text-anchor="middle" font-family="Syne, sans-serif" font-weight="700" font-size="11" fill="#F5F0E8">Put back</text>
+          <rect x="15" y="66" width="70" height="20" rx="10" fill="none" stroke="#2BB888" stroke-width="2.5"/>
+          <text x="50" y="80" text-anchor="middle" font-family="Syne, sans-serif" font-weight="700" font-size="9.5" fill="#2BB888">Just looking</text>
+        </svg>
+      </div>
+      <div class="ico">Step 3</div>
+      <h3>Decide</h3>
+      <p>Tap <strong>Buy</strong>, <strong>Put back</strong>, or <strong>Just looking</strong>. CheckIT remembers what you decided, no judgement. Your scan history is yours.</p>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="section-eyebrow">What CheckIT shows you</div>
+  <h2>The label, decoded.</h2>
+  <p>Most food labels are written for regulators, not for you. CheckIT translates them into the language your body actually speaks &mdash; and surfaces the things the front of the pack doesn&rsquo;t want you to notice.</p>
+
+  <div class="feature-grid">
+    <div class="feature-card">
+      <div class="ico">Sugar visual</div>
+      <h3>Teaspoons, not grams</h3>
+      <p>4g of sugar = 1 teaspoon. CheckIT shows you the actual teaspoons hiding in a serving. A &ldquo;low-fat&rdquo; yogurt with 16g of sugar is 4 teaspoons.</p>
+    </div>
+    <div class="feature-card">
+      <div class="ico">Salt visual</div>
+      <h3>Sachets, not milligrams</h3>
+      <p>0.6g of salt = 1 standard McDonald&rsquo;s sachet. CheckIT shows you how many sachets are dissolved into a serving. A bowl of soup can be 4 sachets.</p>
+    </div>
+    <div class="feature-card">
+      <div class="ico">Traffic light</div>
+      <h3>Green / amber / red, tuned to your preference</h3>
+      <p>Pick a lifestyle preference and the thresholds tighten on the thing you&rsquo;re watching. <em>Watching my sugar</em> tightens on sugars; <em>Watching my salt</em> tightens on sodium; <em>Watching my caffeine</em> tightens on caffeine content. General leaves the standard FSA traffic-light thresholds in place.</p>
+    </div>
+    <div class="feature-card">
+      <div class="ico">Hidden sugars</div>
+      <h3>60+ hidden sugar names</h3>
+      <p>Sucrose, maltodextrin, dextrose, agave, glucose syrup, invert sugar, fruit-juice concentrate, and 50+ others. CheckIT catches every one of them and adds them up.</p>
+    </div>
+    <div class="feature-card">
+      <div class="ico">SaK alternatives</div>
+      <h3>SaK suggests better swaps</h3>
+      <p>When CheckIT flags red, SaK (Scan and Know) looks for alternatives in the same category that beat the original on sugar or salt &mdash; including products from the I500 community-shop network.</p>
+    </div>
+    <div class="feature-card">
+      <div class="ico">Decision Record</div>
+      <h3>Your taps build the evidence base</h3>
+      <p>Every Bought / Put back / Just looking tap helps the I500 hit-rate evidence base grow. Anonymous by default. No name, no location, just the choice. <a href="privacy.html" style="color:var(--yellow);">Read the privacy posture →</a></p>
+    </div>
+  </div>
+</section>
+
+<section class="section section-narrow">
+  <div class="section-eyebrow">Lifestyle-preference profiles</div>
+  <h2>Pick what you&rsquo;re watching.</h2>
+  <p>Three lifestyle-preference profiles plus a General default. Pick one and the traffic-light thresholds tune to the thing you&rsquo;re reading for. Switch any time. None of these are medical settings &mdash; they&rsquo;re reading lenses.</p>
+
+  <div class="feature-grid">
+    <div class="feature-card">
+      <div class="ico">Sugar</div>
+      <h3>Watching my sugar</h3>
+      <p>Tighter sugar thresholds. Hidden-sugar names highlighted at every scan. Free-sugars vs. naturally-occurring distinction surfaced where the label allows.</p>
+    </div>
+    <div class="feature-card">
+      <div class="ico">Salt</div>
+      <h3>Watching my salt</h3>
+      <p>Tighter sodium thresholds. Sachets-per-serving framed visibly. Hidden-sodium names (e.g. monosodium glutamate, sodium nitrate) flagged at the ingredient level.</p>
+    </div>
+    <div class="feature-card">
+      <div class="ico">Caffeine</div>
+      <h3>Watching my caffeine</h3>
+      <p>Caffeine content surfaced where labelled (UK regulations require declaration above 150 mg/L). EFSA daily-limit context available via Knowledge Library tap-through.</p>
+    </div>
+    <div class="feature-card">
+      <div class="ico">General</div>
+      <h3>General (default)</h3>
+      <p>Standard FSA traffic-light thresholds. The reading lens you start with before you pick a watch. Always available; never locked.</p>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="section-eyebrow">The Crew of CheckIT</div>
+  <h2>Three voices in your pocket.</h2>
+  <p>CheckIT isn&rsquo;t a single app voice. The Crew is three characters with three jobs &mdash; the explainer, the suggester, and the analyst. Each shows up at the right moment in your scan.</p>
+
+  <div class="character-row">
+    <div class="character kip">
+      <div class="name">KiP</div>
+      <div class="role">The explainer</div>
+      <div class="bio">Knowledge is Power. KiP carries the headline verdict at every scan &mdash; the teaspoons, the sachets, the traffic light. Plain language. No jargon. Always your first point of contact.</div>
+    </div>
+    <div class="character sak">
+      <div class="name">SaK</div>
+      <div class="role">The alternative-finder</div>
+      <div class="bio">Scan and Know. When the verdict flags red, SaK looks for better swaps in the same category &mdash; including products verified at independent shops in the I500 community network.</div>
+    </div>
+    <div class="character dr">
+      <div class="name">Dr RooT</div>
+      <div class="role">The analyst</div>
+      <div class="bio">When you want the deep answer &mdash; what does this nutrient actually do, why does the threshold matter, what does the research say &mdash; Dr RooT pulls the analysis without making medical claims.</div>
+    </div>
+  </div>
+</section>
+
+<section class="section section-narrow">
+  <div class="section-eyebrow">What CheckIT is, and isn&rsquo;t</div>
+  <h2>A food literacy tool. Not a medical app.</h2>
+  <p>CheckIT is built to help you read food the way it&rsquo;s actually written. It tells you what&rsquo;s in the package and what those numbers mean. It does not diagnose, prescribe, treat, or replace clinical advice.</p>
+  <p><strong>If you&rsquo;re managing a clinical condition</strong>, CheckIT works alongside your GP, dietitian, or specialist nurse &mdash; not instead of them. The verdicts it shows are calibrated against published nutritional thresholds; the product advice you should follow is the advice your clinical team gives you.</p>
+  <p><span class="swm">SCANSMART</span> Ltd does not hold or process medical records. Your lifestyle-preference profile is a reading lens, not clinical data. Per the published privacy posture, CheckIT captures what you scan and what you decide; it does not capture who you are. <a href="privacy.html" style="color:var(--yellow);">Full privacy posture →</a></p>
+</section>
+
+<section class="cta-band">
+  <div class="section section-narrow">
+    <h2>Open CheckIT. Scan something. See what&rsquo;s actually in it.</h2>
+    <p>Free. No account needed. Works on any phone with a camera. Takes 30 seconds to install to your home screen as a Progressive Web App &mdash; no App Store download required.</p>
+    <a href="https://app.scansmart.uk" class="btn btn-primary">Open the scanner now</a>
+  </div>
+</section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="footer-inner">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <div class="brand-lockup"><span class="ss"><span class="swm">SCANSMART</span></span><span class="tag">Power is Knowledge Decoded</span></div>
+        <p>The School of Label Literacy. Built in South London. Open to the world.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Products</h4>
+        <ul>
+          <li><a href="checkit.html">CheckIT</a></li>
+          <li><a href="i500.html">The I500</a></li>
+          <li><a href="flt.html">FLT — Food Label Terminal</a></li>
+          <li><a href="subscribe.html">Subscriptions</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Read &amp; explore</h4>
+        <ul>
+          <li><a href="checkout.html">Weekly Checkout, Decoded</a></li>
+          <li><a href="library.html">Knowledge Library</a></li>
+          <li><a href="stories.html">CheckIT Stories</a></li>
+          <li><a href="shops.html">I500 Shop Directory</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>About</h4>
+        <ul>
+          <li><a href="about.html">About <span class="swm">SCANSMART</span></a></li>
+          <li><a href="install.html">Install on your phone</a></li>
+          <li><a href="contact.html">Contact</a></li>
+          <li><a href="privacy.html">Privacy</a></li>
+          
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div><a href="index.html" aria-label="Home — SCANSMART"><img src="assets/marque-v2.svg" alt="SCANSMART" class="marque-footer" width="240" height="80"></a></div>
+      <div>&copy; 2026 <span class="swm">SCANSMART</span> Ltd &middot; Co. No. 17128797 &middot; England &amp; Wales<br><small style="color:var(--muted-dim)"><span class="swm">SCANSMART</span> is a food literacy and decision-support platform. It is not a medical device and does not provide medical advice.</small></div>
+    </div>
+  </div>
+</footer>
+
+
+<script>
+// Local-file preview link shim — rewrites /foo to foo.html so clicking
+// nav links works when opening index.html directly from disk via file://
+// On https:// production this is a no-op (Cloudflare Pages handles routing).
+(function(){
+  if (location.protocol !== 'file:') return;
+  document.addEventListener('DOMContentLoaded', function() {
+    document.querySelectorAll('a[href^="/"]').forEach(function(a) {
+      var href = a.getAttribute('href');
+      if (href === '/') { a.setAttribute('href', 'index.html'); return; }
+      // Match /single-segment-name with no further path or query
+      if (/^\/[a-z0-9-]+$/i.test(href)) {
+        a.setAttribute('href', href.substring(1) + '.html');
+      }
+    });
+  });
+})();
+
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('/sw.js').catch(() => {});
+  });
+}
+
+// Live Decision Record stats — fetches once per page load from kip-data Worker.
+// Pattern mirrors index.html. Falls back silently to the static numbers already
+// in the DOM if anything goes wrong. Static fallbacks reflect D1 read at 20 May 2026.
+(async () => {
+  try {
+    const r = await fetch('https://kip-data.courtneyclive84.workers.dev/stats', {
+      method: 'GET',
+      headers: { 'accept': 'application/json' }
+    });
+    if (!r.ok) return;
+    const data = await r.json();
+    const scansEl = document.getElementById('checkit-stat-scans');
+    const putbackEl = document.getElementById('checkit-stat-putback');
+    if (scansEl && data.scan_events !== undefined) {
+      scansEl.textContent = (data.scan_events || 0).toLocaleString('en-GB');
+    }
+    if (putbackEl && Array.isArray(data.decisions)) {
+      const pb = data.decisions.find(d => d.decision === 'put_back');
+      if (pb && typeof pb.n === 'number') {
+        putbackEl.textContent = pb.n.toLocaleString('en-GB');
+      }
+    }
+  } catch (e) { /* keep static fallback */ }
+})();
+
+// I500 catalogue stat removed 26 May 2026 evening — see stats-strip comment above.
+// The i500-ticker.json fetch lives canonically on /i500 where the 155 figure belongs.
+</script>
+</body>
+</html>

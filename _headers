@@ -1,0 +1,7 @@
+/*
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: strict-origin-when-cross-origin
+  X-Frame-Options: SAMEORIGIN
+  Cross-Origin-Opener-Policy: same-origin
+  Permissions-Policy: camera=(), geolocation=(), microphone=(), payment=(), usb=(), accelerometer=(), gyroscope=(), magnetometer=()
+  Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline' https://static.cloudflareinsights.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; img-src 'self' data: https://world.openfoodfacts.org https://images.openfoodfacts.org; font-src 'self' https://fonts.gstatic.com; media-src 'self' https://media.scansmart.uk; connect-src 'self' https://world.openfoodfacts.org https://search.openfoodfacts.org https://data.food.gov.uk https://api.rss2json.com https://kip-data.courtneyclive84.workers.dev https://kip-forms.courtneyclive84.workers.dev https://cloudflareinsights.com; object-src 'none'; base-uri 'none'; form-action 'self'; frame-ancestors 'self'; upgrade-insecure-requests

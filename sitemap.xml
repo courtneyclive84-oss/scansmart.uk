@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url><loc>https://scansmart.uk/</loc><lastmod>2026-05-11</lastmod><changefreq>weekly</changefreq><priority>1.0</priority></url>
+  <url><loc>https://scansmart.uk/install</loc><lastmod>2026-05-09</lastmod><changefreq>monthly</changefreq><priority>0.95</priority></url>
+  <url><loc>https://scansmart.uk/checkit</loc><lastmod>2026-05-09</lastmod><changefreq>monthly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://scansmart.uk/i500</loc><lastmod>2026-05-09</lastmod><changefreq>monthly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://scansmart.uk/flt</loc><lastmod>2026-05-16</lastmod><changefreq>monthly</changefreq><priority>0.9</priority></url>
+  <!-- /flt-app is Cloudflare Access-gated (email one-time PIN); excluded from sitemap. -->
+
+  <!-- /partner demoted to an institutional-enquiries holding page (Partner Programme deferred until post-pilot); kept live, low priority. -->
+  <url><loc>https://scansmart.uk/partner</loc><lastmod>2026-06-02</lastmod><changefreq>yearly</changefreq><priority>0.3</priority></url>
+  <url><loc>https://scansmart.uk/checkout</loc><lastmod>2026-05-19</lastmod><changefreq>weekly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://scansmart.uk/methodology</loc><lastmod>2026-05-08</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+
+  <!-- Library hub + label-literacy entry point -->
+  <url><loc>https://scansmart.uk/library</loc><lastmod>2026-05-11</lastmod><changefreq>weekly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://scansmart.uk/library-method</loc><lastmod>2026-05-11</lastmod><changefreq>monthly</changefreq><priority>0.9</priority></url>
+
+  <!-- Library — foundational decoders (consistency-pass 11 May 2026) -->
+  <url><loc>https://scansmart.uk/library-ingredient-rules</loc><lastmod>2026-05-11</lastmod><changefreq>monthly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://scansmart.uk/library-allergens</loc><lastmod>2026-05-11</lastmod><changefreq>monthly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://scansmart.uk/library-date-labels</loc><lastmod>2026-05-11</lastmod><changefreq>monthly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://scansmart.uk/library-front-of-pack</loc><lastmod>2026-05-11</lastmod><changefreq>monthly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://scansmart.uk/library-nutrition-claims</loc><lastmod>2026-05-11</lastmod><changefreq>monthly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://scansmart.uk/library-country-of-origin</loc><lastmod>2026-05-11</lastmod><changefreq>monthly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://scansmart.uk/library-gluten-free</loc><lastmod>2026-05-11</lastmod><changefreq>monthly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://scansmart.uk/library-barcodes</loc><lastmod>2026-05-11</lastmod><changefreq>monthly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://scansmart.uk/library-calories</loc><lastmod>2026-05-11</lastmod><changefreq>monthly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://scansmart.uk/library-symbols</loc><lastmod>2026-05-11</lastmod><changefreq>monthly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://scansmart.uk/library-periodic-table</loc><lastmod>2026-05-11</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+
+  <!-- Library — ingredient decoders (consistency-pass 11 May 2026) -->
+  <url><loc>https://scansmart.uk/library-salt</loc><lastmod>2026-05-11</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://scansmart.uk/library-sugar</loc><lastmod>2026-05-11</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://scansmart.uk/library-fats</loc><lastmod>2026-05-11</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://scansmart.uk/library-sweeteners</loc><lastmod>2026-05-11</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://scansmart.uk/library-upf</loc><lastmod>2026-05-11</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://scansmart.uk/library-e-numbers</loc><lastmod>2026-05-11</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+
+  <!-- Library — FSMA gold-standard evidence vaults (gold-standard pass 11 May 2026) -->
+  <url><loc>https://scansmart.uk/library-carbohydrate-types</loc><lastmod>2026-05-11</lastmod><changefreq>monthly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://scansmart.uk/library-impulse-buying-triggers</loc><lastmod>2026-05-11</lastmod><changefreq>monthly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://scansmart.uk/library-food-marketing-to-kids</loc><lastmod>2026-05-11</lastmod><changefreq>monthly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://scansmart.uk/library-childhood-obesity</loc><lastmod>2026-05-30</lastmod><changefreq>monthly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://scansmart.uk/library-reformulation-tracking</loc><lastmod>2026-05-11</lastmod><changefreq>monthly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://scansmart.uk/library-dietary-patterns</loc><lastmod>2026-05-11</lastmod><changefreq>monthly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://scansmart.uk/library-brand-vs-manufacturer</loc><lastmod>2026-05-11</lastmod><changefreq>monthly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://scansmart.uk/library-cultural-food-myths</loc><lastmod>2026-05-11</lastmod><changefreq>monthly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://scansmart.uk/library-global-staple-foods</loc><lastmod>2026-05-11</lastmod><changefreq>monthly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://scansmart.uk/library-canned-goods</loc><lastmod>2026-05-11</lastmod><changefreq>monthly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://scansmart.uk/library-alcohol-labelling</loc><lastmod>2026-05-11</lastmod><changefreq>monthly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://scansmart.uk/library-bottled-water</loc><lastmod>2026-05-11</lastmod><changefreq>monthly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://scansmart.uk/library-protein-claims</loc><lastmod>2026-05-11</lastmod><changefreq>monthly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://scansmart.uk/library-caffeine-and-health</loc><lastmod>2026-05-11</lastmod><changefreq>monthly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://scansmart.uk/library-industry-funding-bias</loc><lastmod>2026-05-11</lastmod><changefreq>monthly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://scansmart.uk/library-upf-brain-cognitive</loc><lastmod>2026-05-11</lastmod><changefreq>monthly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://scansmart.uk/library-children-oral-health</loc><lastmod>2026-05-11</lastmod><changefreq>monthly</changefreq><priority>0.85</priority></url>
+
+  <!-- Library — reference / audit findings (consistency-pass 11 May 2026) -->
+  <url><loc>https://scansmart.uk/library-frozen-food-uk</loc><lastmod>2026-05-11</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://scansmart.uk/library-recipe-for-change-charter</loc><lastmod>2026-05-11</lastmod><changefreq>monthly</changefreq><priority>0.75</priority></url>
+
+  <!-- Weekly Checkout — dated publications -->
+  <url><loc>https://scansmart.uk/checkout-2026-05-04-cereals</loc><lastmod>2026-05-04</lastmod><changefreq>yearly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://scansmart.uk/checkout-2026-05-11-asa-hfss-rulings</loc><lastmod>2026-05-11</lastmod><changefreq>yearly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://scansmart.uk/checkout-2026-05-18-soft-drinks</loc><lastmod>2026-05-19</lastmod><changefreq>yearly</changefreq><priority>0.7</priority></url>
+
+  <!-- Other public pages -->
+  <url><loc>https://scansmart.uk/subscribe</loc><lastmod>2026-05-02</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://scansmart.uk/stories</loc><lastmod>2026-05-02</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://scansmart.uk/shops</loc><lastmod>2026-05-02</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://scansmart.uk/about</loc><lastmod>2026-05-09</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://scansmart.uk/press</loc><lastmod>2026-05-02</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://scansmart.uk/contact</loc><lastmod>2026-05-02</lastmod><changefreq>yearly</changefreq><priority>0.5</priority></url>
+  <url><loc>https://scansmart.uk/privacy</loc><lastmod>2026-05-02</lastmod><changefreq>yearly</changefreq><priority>0.4</priority></url>
+</urlset>

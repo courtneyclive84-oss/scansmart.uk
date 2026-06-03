@@ -1,0 +1,718 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0A1628">
+<title>FLT — Food Label Terminal · The institutional standard for label intelligence · SCANSMART</title>
+<meta name="description" content="The Food Label Terminal (FLT) is SCANSMART's institutional intelligence surface for any barcoded product — seven panels integrating OFF, the I500, live UK FSA recalls, EFSA additive safety, reformulation history, Eco-Score, FSA-14 allergens and a multi-stream intelligence rail. Built for NHS procurement, retail category managers, regulators, brands and academic researchers.">
+<link rel="canonical" href="https://scansmart.uk/flt">
+
+<link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon-16x16.png">
+<link rel="shortcut icon" href="/assets/favicon.ico">
+<link rel="apple-touch-icon" sizes="180x180" href="/assets/apple-touch-icon.png">
+<link rel="manifest" href="/manifest.webmanifest">
+
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="SCANSMART">
+
+<meta property="og:type" content="website">
+<meta property="og:title" content="FLT — Food Label Terminal · SCANSMART">
+<meta property="og:description" content="Label intelligence on any barcoded product — seven panels, one screen, integrated across OFF, I500, FSA, EFSA and live regulator feeds.">
+<meta property="og:url" content="https://scansmart.uk/flt">
+<meta property="og:image" content="https://scansmart.uk/assets/og-card.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:locale" content="en_GB">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="FLT — Food Label Terminal · SCANSMART">
+<meta name="twitter:description" content="Label intelligence on any barcoded product — seven panels, one screen.">
+<meta name="twitter:image" content="https://scansmart.uk/assets/og-card.png">
+
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebPage","name":"FLT — Food Label Terminal","url":"https://scansmart.uk/flt","isPartOf":{"@type":"WebSite","name":"SCANSMART","url":"https://scansmart.uk/"},"publisher":{"@type":"Organization","name":"SCANSMART Ltd"},"description":"Label intelligence on any barcoded product — seven panels, one screen, integrated across OFF, I500, FSA, EFSA and live regulator feeds."}</script>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;700&family=Syne:wght@600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="brand.css?v=5.0.58">
+<script src="install.js?v=5.0.134" defer></script>
+
+<style>
+/* Page-specific FLT chrome — sits on top of brand.css */
+:root { --cyan: #5BC0EB; --cyan-soft: #A8E0FF; --barcode-blue: #1E3A8A; --barcode-blue-deep: #0A2D5E; --mono: 'JetBrains Mono','SF Mono',Menlo,Consolas,monospace; }
+
+/* Door-tag colour for FLT — amber, distinct from Partner red */
+.page-hero .door-tag.flt { color: var(--amber); border: 1px solid rgba(230,126,34,0.45); padding: 4px 12px; border-radius: 999px; display:inline-block; }
+
+/* Product-level tagline — KNOWLEDGE. DECODED. in mono coral */
+.flt-tagline { font-family: var(--mono); font-size: 0.8rem; color: var(--red-soft); letter-spacing: 0.3em; text-transform: uppercase; font-weight: 700; margin-bottom: 16px; }
+
+/* Hero with split layout — copy left, terminal preview right */
+.flt-hero { padding: clamp(48px, 8vw, 96px) var(--gutter) clamp(40px, 6vw, 80px); max-width: var(--max-width); margin: 0 auto; }
+.flt-hero-grid { display: grid; grid-template-columns: 0.85fr 2fr; gap: 48px; align-items: start; }
+@media (max-width: 900px) { .flt-hero-grid { grid-template-columns: 1fr; } }
+.flt-hero h1 { font-family: var(--font-display); font-size: clamp(2rem, 5vw, 3.2rem); font-weight: 800; line-height: 1.08; letter-spacing: -0.025em; margin-bottom: 22px; }
+.flt-hero h1 .accent { color: var(--red-soft); font-style: italic; }
+.flt-hero .lede { font-size: 1.05rem; color: var(--cream-dim); margin-bottom: 28px; max-width: 540px; }
+.flt-hero .lede strong { color: var(--cream); font-weight: 700; }
+.flt-cta-row { display: flex; gap: 12px; flex-wrap: wrap; }
+.btn-launch { background: var(--green); color: var(--navy-deep); }
+.btn-launch:hover { background: var(--green-soft); }
+.btn-apply { background: var(--red); color: var(--cream); }
+.btn-apply:hover { background: var(--red-soft); }
+.flt-doc-link { display: inline-block; margin-top: 14px; font-size: 0.92rem; color: var(--muted); font-family: var(--mono); }
+.flt-doc-link a { color: var(--muted); border-bottom: 1px dotted var(--muted-dim); }
+
+/* Hero — live-terminal column (Option 3, banked 20 May 2026: Marque removed from hero, full live terminal iframe replaces both the Marque and the static mockup) */
+.flt-hero-visual { display: flex; flex-direction: column; gap: 12px; }
+
+/* Live terminal iframe embed — full-column real terminal, not a static mockup */
+.flt-iframe-wrap { display: block; background: #000; border: 1px solid rgba(230,126,34,0.4); border-radius: 8px; overflow: hidden; box-shadow: 0 30px 80px rgba(30,58,138,0.4), 0 0 0 1px rgba(0,0,0,0.5); position: relative; }
+.flt-iframe { display: block; width: 100%; height: 640px; border: 0; background: #000; }
+@media (max-width: 1100px) { .flt-iframe { height: 560px; } }
+@media (max-width: 900px) { .flt-iframe { height: 520px; } }
+@media (max-width: 600px) { .flt-iframe { height: 460px; } }
+.flt-iframe-overlay { position: absolute; top: 8px; right: 8px; font-family: var(--mono); font-size: 9.5px; color: var(--amber); background: rgba(0,0,0,0.7); border: 1px solid rgba(230,126,34,0.4); padding: 4px 8px; border-radius: 3px; letter-spacing: 0.12em; pointer-events: none; }
+.flt-iframe-overlay::before { content: "● "; color: var(--green); animation: pulse 2s infinite; }
+.flt-iframe-fs { position: absolute; bottom: 8px; right: 8px; font-family: var(--mono); font-size: 9.5px; color: var(--amber); background: rgba(0,0,0,0.7); border: 1px solid rgba(230,126,34,0.4); padding: 4px 10px; border-radius: 3px; letter-spacing: 0.08em; text-decoration: none; transition: background .15s, border-color .15s; }
+.flt-iframe-fs:hover { background: rgba(230,126,34,0.15); border-color: var(--amber); }
+
+/* Legacy mock terminal CSS — retained but unused; the mock block has been replaced by the live iframe per Option 3 (20 May 2026) */
+.flt-mock { background: #000; border: 1px solid rgba(230,126,34,0.4); border-radius: 6px; overflow: hidden; font-family: var(--mono); font-size: 10px; line-height: 1.4; color: #e0e0e0; box-shadow: 0 20px 40px rgba(0,0,0,0.4); }
+.flt-mock-top { display: flex; gap: 10px; align-items: center; padding: 6px 10px; background: #000; border-bottom: 1px solid rgba(230,126,34,0.4); font-size: 9.5px; color: var(--amber); }
+.flt-mock-top .name { font-weight: 700; letter-spacing: 1px; }
+.flt-mock-top .live { margin-left: auto; color: var(--green); }
+.flt-mock-top .live::before { content: "● "; animation: pulse 2s infinite; }
+@keyframes pulse { 50% { opacity: 0.4; } }
+.flt-mock-tick { padding: 5px 10px; background: #0a0500; border-bottom: 1px solid #1f1f1f; font-size: 9px; color: var(--amber); white-space: nowrap; overflow: hidden; }
+.flt-mock-tick .up { color: var(--green); }
+.flt-mock-tick .flag { color: var(--yellow); }
+.flt-mock-grid { display: grid; grid-template-columns: 1.1fr 1fr; gap: 1px; background: #1f1f1f; min-height: 240px; }
+.flt-mock-panel { background: #0a0a0a; padding: 8px 10px; overflow: hidden; }
+.flt-mock-panel .ph { color: var(--amber); font-size: 9px; letter-spacing: 0.5px; margin-bottom: 6px; display: flex; justify-content: space-between; }
+.flt-mock-panel .ph code { color: #666; }
+.flt-kv { display: grid; grid-template-columns: auto 1fr; gap: 3px 8px; }
+.flt-kv .k { color: #888; }
+.flt-mock-scores { display: grid; grid-template-columns: repeat(3,1fr); gap: 4px; margin-top: 8px; }
+.flt-score { border: 1px solid #222; padding: 4px; text-align: center; }
+.flt-score .l { font-size: 7.5px; color: #888; letter-spacing: 0.5px; }
+.flt-score .v { font-size: 18px; font-weight: 700; color: var(--green-soft); }
+.flt-mock-row { display: flex; justify-content: space-between; padding: 2px 0; border-bottom: 1px solid #161616; color: #ccc; font-size: 9.5px; }
+.flt-mock-bar { height: 5px; background: #1a1a1a; border-radius: 1px; overflow: hidden; margin-top: 2px; }
+.flt-mock-bar > div { height: 100%; background: var(--amber); }
+.flt-mock-ac { background: #0a0a0a; border-top: 1px solid rgba(230,126,34,0.4); border-bottom: 1px solid rgba(230,126,34,0.4); font-size: 9px; }
+.flt-mock-ac-head { padding: 4px 10px; color: #888; letter-spacing: 0.5px; border-bottom: 1px solid #1f1f1f; background: #0a0500; }
+.flt-mock-ac-row { display: grid; grid-template-columns: 60px 1fr 50px 26px 22px; gap: 6px; padding: 4px 10px; color: #888; align-items: center; }
+.flt-mock-ac-row.sel { background: #1a1306; color: #ccc; }
+.flt-mock-ac-row .b { color: var(--amber); }
+.flt-mock-ac-row .i500 { color: var(--red-soft); font-weight: 700; }
+.flt-mock-ac-row .ns { color: var(--green); }
+.flt-mock-cmd { background: #000; border-top: 1px solid rgba(230,126,34,0.4); padding: 5px 10px; font-size: 10px; color: var(--amber); }
+.flt-mock-cmd::before { content: "> "; font-weight: 700; }
+.flt-cursor { display: inline-block; width: 6px; height: 11px; background: var(--amber); margin-left: 2px; vertical-align: middle; animation: blink 1.1s steps(1) infinite; }
+@keyframes blink { 50% { opacity: 0; } }
+.flt-mock-caption { font-family: var(--mono); font-size: 10px; color: var(--muted); text-align: center; letter-spacing: 1px; margin-top: 8px; }
+.flt-mock-caption .acc { color: var(--amber); }
+
+/* Stats strip below hero */
+.flt-stats { background: var(--navy-soft); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); padding: 36px 0; }
+.flt-stats-grid { max-width: var(--max-width); margin: 0 auto; padding: 0 var(--gutter); display: grid; grid-template-columns: repeat(4,1fr); gap: 24px; text-align: center; }
+@media (max-width: 700px) { .flt-stats-grid { grid-template-columns: 1fr 1fr; } }
+.flt-stat .num { font-family: var(--font-display); font-size: 2.6rem; color: var(--red-soft); font-weight: 800; line-height: 1; letter-spacing: -0.02em; }
+.flt-stat .lbl { font-family: var(--mono); font-size: 0.7rem; color: var(--muted); letter-spacing: 0.18em; text-transform: uppercase; margin-top: 8px; }
+
+/* Six-panel feature grid */
+.flt-panels { display: grid; grid-template-columns: repeat(3,1fr); gap: 1px; background: var(--line); border: 1px solid var(--line); border-radius: 12px; overflow: hidden; margin-top: 32px; }
+@media (max-width: 820px) { .flt-panels { grid-template-columns: 1fr 1fr; } }
+@media (max-width: 520px) { .flt-panels { grid-template-columns: 1fr; } }
+.flt-panel { background: var(--navy-soft); padding: 26px 24px; min-height: 190px; transition: background .15s ease, box-shadow .15s ease; position: relative; }
+.flt-panel .fkey { font-family: var(--mono); font-size: 0.72rem; color: var(--amber); letter-spacing: 0.18em; margin-bottom: 10px; font-weight: 700; }
+.flt-panel h3 { font-family: var(--font-display); font-size: 1.15rem; font-weight: 700; margin-bottom: 10px; color: var(--cream); }
+.flt-panel p { font-size: 0.92rem; color: var(--cream-dim); line-height: 1.55; margin-bottom: 0; }
+.flt-panel-link { display: block; height: 100%; color: inherit; text-decoration: none; }
+.flt-panel-link::after { content: "↗"; position: absolute; top: 22px; right: 22px; color: var(--amber); font-size: 0.85rem; opacity: 0; transition: opacity .15s ease, transform .15s ease; }
+.flt-panel:hover { background: rgba(230,126,34,0.06); box-shadow: inset 0 0 0 1px rgba(230,126,34,0.35); cursor: pointer; }
+.flt-panel:hover .flt-panel-link::after { opacity: 1; transform: translateX(2px); }
+.flt-panel-link:focus-visible { outline: 2px solid var(--amber); outline-offset: -3px; border-radius: 4px; }
+
+/* I500 spotlight */
+.flt-i500 { background: linear-gradient(180deg, var(--navy) 0%, #0d1830 100%); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); padding: clamp(48px, 8vw, 96px) var(--gutter); position: relative; overflow: hidden; }
+.flt-i500-row { max-width: var(--max-width); margin: 0 auto; display: grid; grid-template-columns: 1fr 1.05fr; gap: 60px; align-items: center; }
+@media (max-width: 900px) { .flt-i500-row { grid-template-columns: 1fr; } }
+.flt-i500-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 32px; }
+.flt-i500-stat { padding: 18px; background: var(--navy-soft); border: 1px solid var(--line); border-radius: 8px; }
+.flt-i500-stat .n { font-family: var(--font-display); font-size: 2.2rem; color: var(--red-soft); font-weight: 800; line-height: 1; }
+.flt-i500-stat .l { font-size: 0.78rem; color: var(--muted); margin-top: 8px; font-family: var(--mono); letter-spacing: 0.08em; text-transform: uppercase; }
+.flt-i500-card { background: var(--navy-soft); border: 1px solid var(--line); border-radius: 10px; padding: 28px; box-shadow: 0 20px 60px rgba(0,0,0,0.3); }
+.flt-i500-card .hd { display: flex; justify-content: space-between; padding-bottom: 14px; border-bottom: 1px solid var(--line); margin-bottom: 16px; }
+.flt-i500-card .hd .b { font-family: var(--mono); font-size: 0.72rem; color: var(--amber); letter-spacing: 0.15em; text-transform: uppercase; }
+.flt-i500-card .hd .name { font-family: var(--font-display); font-size: 1.2rem; font-weight: 700; margin-top: 4px; }
+.flt-i500-card .hd .badge { background: var(--red-soft); color: var(--navy-deep); font-family: var(--mono); font-size: 0.7rem; padding: 4px 10px; font-weight: 700; letter-spacing: 0.1em; border-radius: 3px; }
+.flt-i500-card .kv { display: grid; grid-template-columns: auto 1fr; gap: 6px 16px; font-size: 0.88rem; }
+.flt-i500-card .kv .k { font-family: var(--mono); color: var(--muted); font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.08em; align-self: center; }
+.flt-i500-card .blindspot { margin-top: 16px; padding: 12px 14px; background: rgba(192,57,43,0.15); border-left: 3px solid var(--red); font-size: 0.85rem; color: #ffb5b5; border-radius: 0 4px 4px 0; }
+.flt-i500-card .blindspot strong { color: var(--red-soft); }
+
+/* "What FLT isn't" disclosure */
+.flt-honest { border: 1px solid rgba(230,126,34,0.3); border-radius: 10px; padding: 24px 26px; margin-bottom: 28px; background: linear-gradient(135deg, rgba(230,126,34,0.05) 0%, var(--navy-soft) 100%); }
+.flt-honest-head { font-family: var(--mono); font-size: 0.74rem; color: var(--amber); letter-spacing: 0.2em; text-transform: uppercase; font-weight: 700; margin-bottom: 14px; }
+.flt-honest-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 24px; font-size: 0.9rem; line-height: 1.6; }
+@media (max-width: 820px) { .flt-honest-grid { grid-template-columns: 1fr; } }
+.flt-honest-col h4 { font-family: var(--mono); font-size: 0.72rem; color: var(--amber); letter-spacing: 0.15em; margin-bottom: 8px; font-weight: 700; }
+.flt-honest-col p { color: var(--muted); font-size: 0.9rem; }
+.flt-honest-col em { color: var(--cream-dim); font-style: italic; }
+
+/* Comparison table */
+.flt-compare-wrap { overflow-x: auto; border: 1px solid var(--line); border-radius: 10px; background: var(--navy-soft); }
+.flt-compare { width: 100%; border-collapse: collapse; font-size: 0.88rem; }
+.flt-compare th, .flt-compare td { padding: 14px 16px; text-align: left; border-bottom: 1px solid var(--line); }
+.flt-compare thead th { background: rgba(0,0,0,0.3); color: var(--amber); font-family: var(--mono); font-size: 0.7rem; letter-spacing: 0.15em; text-transform: uppercase; font-weight: 700; }
+.flt-compare tbody tr:last-child td { border-bottom: none; }
+.flt-compare tbody tr.us td { background: rgba(192,57,43,0.06); }
+.flt-compare tbody tr.us td:first-child { color: var(--red-soft); font-weight: 700; }
+.flt-compare .y { color: var(--green-soft); }
+.flt-compare .n { color: var(--muted-dim); }
+.flt-compare .partial { color: var(--yellow); }
+.flt-compare td:first-child { font-weight: 600; color: var(--cream); }
+
+/* Inside SCANSMART family strip */
+.flt-family { display: grid; grid-template-columns: repeat(5,1fr); gap: 1px; background: var(--line); border: 1px solid var(--line); border-radius: 10px; overflow: hidden; }
+@media (max-width: 820px) { .flt-family { grid-template-columns: 1fr 1fr; } }
+@media (max-width: 480px) { .flt-family { grid-template-columns: 1fr; } }
+.flt-family-card { background: var(--navy-soft); padding: 22px 18px; }
+.flt-family-card.this { background: linear-gradient(135deg, rgba(230,126,34,0.1) 0%, var(--navy-soft) 100%); border-left: 3px solid var(--amber); }
+.flt-family-card .num { font-family: var(--mono); font-size: 0.7rem; color: var(--muted); letter-spacing: 0.15em; text-transform: uppercase; margin-bottom: 8px; }
+.flt-family-card.this .num { color: var(--amber); }
+.flt-family-card h4 { font-family: var(--font-display); font-size: 1.05rem; font-weight: 700; color: var(--cream); margin-bottom: 8px; }
+.flt-family-card.this h4 { color: var(--amber); }
+.flt-family-card p { font-size: 0.82rem; color: var(--muted); line-height: 1.5; margin-bottom: 0; }
+.flt-family-card a { color: inherit; display: block; }
+
+/* Sources Constellation — equal-weight tile grid (v5.0.73 reframe, 21 May 2026) */
+.flt-sources { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: var(--line); border: 1px solid var(--line); border-radius: 10px; overflow: hidden; margin-top: 28px; }
+@media (max-width: 900px) { .flt-sources { grid-template-columns: 1fr 1fr; } }
+@media (max-width: 520px) { .flt-sources { grid-template-columns: 1fr; } }
+.flt-source { background: var(--navy-soft); padding: 20px 18px; min-height: 130px; }
+.flt-source .src-name { font-family: var(--mono); font-size: 0.78rem; color: var(--amber); letter-spacing: 0.15em; text-transform: uppercase; font-weight: 700; margin-bottom: 8px; }
+.flt-source .src-desc { font-size: 0.86rem; color: var(--cream-dim); line-height: 1.5; }
+
+/* F7 Intelligence Rail — distinct full-width treatment, signals it's qualitatively different from F1-F6 */
+.flt-panel-wire { background: linear-gradient(135deg, rgba(91,192,235,0.08) 0%, var(--navy-soft) 100%); border: 1px solid rgba(91,192,235,0.25); border-radius: 12px; padding: 26px 28px; margin-top: 24px; transition: background .15s ease, border-color .15s ease; position: relative; }
+.flt-panel-wire .fkey { color: var(--cyan); font-family: var(--mono); font-size: 0.72rem; letter-spacing: 0.18em; margin-bottom: 10px; font-weight: 700; }
+.flt-panel-wire h3 { font-family: var(--font-display); font-size: 1.25rem; font-weight: 700; margin-bottom: 10px; color: var(--cream); }
+.flt-panel-wire p { font-size: 0.95rem; color: var(--cream-dim); line-height: 1.6; margin-bottom: 0; }
+.flt-panel-wire .wire-main { display: block; color: inherit; text-decoration: none; position: relative; }
+.flt-panel-wire .wire-main::after { content: "↗"; position: absolute; top: 0; right: 0; color: var(--cyan); font-size: 0.95rem; opacity: 0; transition: opacity .15s ease, transform .15s ease; }
+.flt-panel-wire .wire-main:hover::after { opacity: 1; transform: translateX(2px); }
+.flt-panel-wire .wire-main:focus-visible { outline: 2px solid var(--cyan); outline-offset: 4px; border-radius: 4px; }
+.flt-panel-wire .rail-chips { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 14px; }
+.flt-panel-wire .rail-chip { font-family: var(--mono); font-size: 0.72rem; color: var(--cyan-soft); border: 1px solid rgba(91,192,235,0.3); padding: 5px 12px; border-radius: 999px; letter-spacing: 0.06em; text-decoration: none; transition: background .15s ease, color .15s ease, border-color .15s ease; cursor: pointer; }
+.flt-panel-wire .rail-chip:hover { background: rgba(91,192,235,0.18); color: var(--cream); border-color: var(--cyan); }
+.flt-panel-wire .rail-chip:focus-visible { outline: 2px solid var(--cyan); outline-offset: 2px; }
+
+/* Clinical & regulatory scope disclaimer band — §31 / §90 anti-medical-claim posture */
+.flt-disclaimer { background: var(--navy-soft); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); padding: 22px 0; }
+.flt-disclaimer-inner { max-width: var(--max-width); margin: 0 auto; padding: 0 var(--gutter); display: flex; align-items: baseline; gap: 18px; flex-wrap: wrap; }
+.flt-disclaimer .disc-label { font-family: var(--mono); font-size: 0.72rem; color: var(--amber); letter-spacing: 0.18em; text-transform: uppercase; font-weight: 700; flex-shrink: 0; }
+.flt-disclaimer .disc-text { font-size: 0.85rem; color: var(--cream-dim); line-height: 1.6; flex: 1; min-width: 280px; }
+
+/* CTA block at the bottom */
+.flt-cta-block { background: linear-gradient(135deg, var(--barcode-blue) 0%, #142e6e 100%); border: 1px solid rgba(127,211,245,0.2); border-radius: 12px; padding: 56px 40px; text-align: center; max-width: var(--max-width); margin: 0 auto; }
+.flt-cta-block h2 { font-family: var(--font-display); font-size: clamp(1.6rem, 3.5vw, 2.2rem); color: var(--cream); font-weight: 800; margin-bottom: 14px; }
+.flt-cta-block h2 .accent { color: var(--red-soft); font-style: italic; }
+.flt-cta-block p { font-size: 1rem; color: #cdd9f0; max-width: 540px; margin: 0 auto 28px; }
+.flt-cta-block .row { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
+</style>
+</head>
+<body>
+
+<a href="#main" class="skip-link">Skip to main content</a>
+<header class="site-nav">
+  <div class="site-nav-inner">
+    <a href="index.html" class="brand-banner" aria-label="SCANSMART home — Power is Knowledge Decoded"><img src="assets/hero-v16.webp" alt="SCANSMART" width="48" height="60"></a>
+    <button class="nav-toggle" aria-label="Open navigation" aria-controls="primary-nav" aria-expanded="false" onclick="document.getElementById('primary-nav').classList.toggle('open');this.setAttribute('aria-expanded',this.getAttribute('aria-expanded')==='true'?'false':'true')">≡</button>
+    <nav id="primary-nav" class="nav-doors" aria-label="Primary">
+      <a href="checkit.html">CheckIT</a>
+      <a href="i500.html">I500</a>
+      <a href="flt.html" aria-current="page">FLT</a>
+      <a href="checkout.html">Checkout</a>
+      <a href="library.html" class="lib">Library</a>
+      <a href="install.html" class="install-btn" onclick="installScansmart(event)">Install</a>
+      <a href="https://app.scansmart.uk" class="cta">Try the scanner →</a>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+
+<!-- HERO -->
+<section class="flt-hero">
+  <div class="flt-hero-grid">
+    <div>
+      <div class="door-tag flt">Class 3 · Professional intelligence</div>
+      <div class="flt-tagline">Knowledge. Decoded.</div>
+      <h1>The professional terminal for <span class="accent">label intelligence</span>.</h1>
+      <p class="lede">
+        <strong>Seven panels. One screen. Any barcoded product.</strong>
+        Nutrition, ingredients, FSA-14 allergens, EFSA additive risk, reformulation history,
+        live UK FSA recalls and a multi-stream intelligence rail &mdash; keyboard-first,
+        instantly comparable, sourced from the verified data constellation below.
+        Built for NHS procurement, retail category managers, regulators, brands and academic researchers.
+      </p>
+      <div class="flt-cta-row">
+        <a href="flt-app.html" class="btn btn-launch" target="_blank" rel="noopener">↓ Launch the Terminal</a>
+        <a href="partner.html" class="btn btn-ghost">Enquire about access</a>
+      </div>
+      <div class="flt-doc-link"><a href="#what">View documentation →</a></div>
+    </div>
+
+    <div class="flt-hero-visual">
+      <!-- LIVE TERMINAL — embedded inline; same engine that powers flt-app.html (Option 3, banked 20 May 2026: Marque removed from hero, live terminal replaces both the SCANSMART Marque v2 and the static mockup). The terminal carries its own §50-grade graceful degradation: live OFF API → 1,500-SKU embedded universe fallback; live FSA recall feed → static fallback message; live WIRE RSS aggregator → localStorage cache. Real product search · real F1..F7 panels · real keyboard nav. The demo IS the product. -->
+      <div class="flt-iframe-wrap" aria-label="FLT — Food Label Terminal, live">
+        <iframe class="flt-iframe"
+          src="flt-app.html?embed=1"
+          title="FLT — Food Label Terminal (live)"
+          loading="lazy"
+          referrerpolicy="strict-origin-when-cross-origin"
+          allow="clipboard-write"></iframe>
+        <a class="flt-iframe-fs" href="flt-app.html" target="_blank" rel="noopener" title="Open the terminal in a full window">⤢ Full window</a>
+      </div>
+      <div class="flt-mock-caption">↑ <span class="acc">LIVE</span> · keyboard-first · autocomplete · F1..F7 panels · open public APIs (OFF · UK FSA · 13-source WIRE)</div>
+    </div>
+  </div>
+</section>
+
+<!-- STATS STRIP -->
+<div class="flt-stats">
+  <div class="flt-stats-grid">
+    <div class="flt-stat"><div class="num">155</div><div class="lbl">I500 catalogue</div></div>
+    <div class="flt-stat"><div class="num">148</div><div class="lbl">Audited (as of 13 May 2026)</div></div>
+    <div class="flt-stat"><div class="num">93.2%</div><div class="lbl">Strict blindspot vs OFF</div></div>
+    <div class="flt-stat"><div class="num">Live</div><div class="lbl">FSA · OFCOM · HMT</div></div>
+  </div>
+</div>
+
+<!-- SEVEN PANELS -->
+<section class="section" id="what">
+  <div class="section-eyebrow">The terminal · seven panels</div>
+  <h2>Keyboard-first. <span style="color:var(--red-soft);font-style:italic">Live data.</span> One screen.</h2>
+  <p>
+    The Food Label Terminal compresses what a category manager, regulator or academic
+    researcher needs about any barcoded product into one dense, scannable view &mdash; no
+    dashboard tabs, no menu trees, no per-seat enterprise login. <strong>Trading-floor DNA,
+    applied to food literacy.</strong>
+  </p>
+  <div class="flt-panels">
+    <div class="flt-panel">
+      <a href="flt-app.html" class="flt-panel-link" target="_blank" rel="noopener" aria-label="Launch the terminal — F1 Product Detail panel">
+        <div class="fkey">&lt;F1&gt; PROD</div>
+        <h3>Product detail</h3>
+        <p>Brand, pack, image, barcode, Nutri-Score (A&ndash;E), NOVA processing (1&ndash;4), Eco-Score with carbon-footprint in g CO&#8322;/100g. I500 records show distributor, origin, price, Wanis code, audit notes.</p>
+      </a>
+    </div>
+    <div class="flt-panel">
+      <a href="flt-app.html" class="flt-panel-link" target="_blank" rel="noopener" aria-label="Launch the terminal — F2 Ingredient Breakdown panel">
+        <div class="fkey">&lt;F2&gt; INGR</div>
+        <h3>Ingredient breakdown</h3>
+        <p>QUID percentages, E-number additives flagged by EFSA risk, full FSA-14 allergen scan with single-line ✓/⚠ summary. Visual ticks for everything absent.</p>
+      </a>
+    </div>
+    <div class="flt-panel">
+      <a href="flt-app.html" class="flt-panel-link" target="_blank" rel="noopener" aria-label="Launch the terminal — F3 Nutrition per 100g panel">
+        <div class="fkey">&lt;F3&gt; NUTR</div>
+        <h3>Nutrition per 100g</h3>
+        <p>Macros + traffic-light dots against the UK FSA/DHSC FOP thresholds &mdash; green/amber/red on fat, saturates, sugar, salt. Year-on-year change column.</p>
+      </a>
+    </div>
+    <div class="flt-panel">
+      <a href="flt-app.html" class="flt-panel-link" target="_blank" rel="noopener" aria-label="Launch the terminal — F4 Comparable SKUs panel">
+        <div class="fkey">&lt;F4&gt; PEER</div>
+        <h3>Comparable SKUs</h3>
+        <p>Live category lookup across the SCANSMART universe with sparkline sugar &amp; salt bars and one-click CSV export. Falls back to embedded universe if blocked.</p>
+      </a>
+    </div>
+    <div class="flt-panel">
+      <a href="flt-app.html" class="flt-panel-link" target="_blank" rel="noopener" aria-label="Launch the terminal — F5 Reformulation History panel">
+        <div class="fkey">&lt;F5&gt; CHART</div>
+        <h3>Reformulation history</h3>
+        <p>Time-series line chart pulled from Open Food Facts revisions &mdash; see sugar and salt move over years, with suspect data flagged red. Toggle to FOP-threshold bars with T.</p>
+      </a>
+    </div>
+    <div class="flt-panel">
+      <a href="flt-app.html" class="flt-panel-link" target="_blank" rel="noopener" aria-label="Launch the terminal — F6 Live FSA Recalls panel">
+        <div class="fkey">&lt;F6&gt; RECL</div>
+        <h3>Live FSA recalls</h3>
+        <p>UK Food Standards Agency feed, severity-coloured: red for hazards (plastic, salmonella), amber for allergens, grey for labelling errors.</p>
+      </a>
+    </div>
+  </div>
+
+  <!-- F7 — Intelligence Rail (full-width; signals qualitatively different from F1-F6) -->
+  <div class="flt-panel-wire">
+    <a href="flt-app.html" class="wire-main" target="_blank" rel="noopener" aria-label="Launch the terminal — F7 Intelligence Rail panel">
+      <div class="fkey">&lt;F7&gt; WIRE &middot; Intelligence Rail</div>
+      <h3>Live multi-stream intelligence</h3>
+      <p>
+        The seventh panel runs as a persistent rail beside F1&ndash;F6. Multi-stream live feed:
+        filter to any combination of recalls, additive status changes, allergen alerts,
+        reformulation flags, source health, Decision Record signal, watchlist or methodology
+        updates. Time-sorted underneath. Click any item to load the relevant F-panel with that
+        record. The terminal stays connected to the world.
+      </p>
+    </a>
+    <div class="rail-chips" aria-label="Intelligence Rail stream types — launch the terminal">
+      <a class="rail-chip" href="flt-app.html" target="_blank" rel="noopener" aria-label="Launch the terminal — Recalls stream">Recalls (FSA / RASFF / FDA)</a>
+      <a class="rail-chip" href="flt-app.html" target="_blank" rel="noopener" aria-label="Launch the terminal — Reformulation alerts stream">Reformulation alerts</a>
+      <a class="rail-chip" href="flt-app.html" target="_blank" rel="noopener" aria-label="Launch the terminal — Additive status stream">Additive status (EFSA)</a>
+      <a class="rail-chip" href="flt-app.html" target="_blank" rel="noopener" aria-label="Launch the terminal — FSA-14 allergen alerts stream">FSA-14 allergen alerts</a>
+      <a class="rail-chip" href="flt-app.html" target="_blank" rel="noopener" aria-label="Launch the terminal — Source health stream">Source health</a>
+      <a class="rail-chip" href="flt-app.html" target="_blank" rel="noopener" aria-label="Launch the terminal — Decision Record signal stream">Decision Record signal</a>
+      <a class="rail-chip" href="flt-app.html" target="_blank" rel="noopener" aria-label="Launch the terminal — Watchlist stream">Watchlist</a>
+      <a class="rail-chip" href="flt-app.html" target="_blank" rel="noopener" aria-label="Launch the terminal — Methodology updates stream">Methodology updates</a>
+    </div>
+  </div>
+</section>
+
+<!-- SOURCES CONSTELLATION (v5.0.73 reframe, 21 May 2026) -->
+<section class="section" id="sources">
+  <div class="section-eyebrow">The constellation</div>
+  <h2>One terminal. <span style="color:var(--red-soft);font-style:italic">Eight</span> verified sources.</h2>
+  <p>
+    FLT is not built on any single dataset. It's the <strong>integration layer</strong> across
+    every source that publishes UK food label intelligence &mdash; from Open Food Facts at the
+    mainstream end to the <span class="swm">SCANSMART</span> <span class="i500-mark">I500</span>
+    at the independent-grocer end, with regulator feeds, retailer-official data and
+    manufacturer-published claims as equal citizens. The terminal reads them together.
+  </p>
+
+  <div class="flt-sources">
+    <div class="flt-source"><div class="src-name">OFF</div><div class="src-desc">Open Food Facts community database — ~2.8M products globally, mainstream UK retail coverage.</div></div>
+    <div class="flt-source"><div class="src-name">I500</div><div class="src-desc"><span class="swm">SCANSMART</span> verified catalogue — 155 SKUs from UK independent grocers, field-audited.</div></div>
+    <div class="flt-source"><div class="src-name">FSA</div><div class="src-desc">UK Food Standards Agency — live product recalls, FSA-14 allergen alerts, OFCOM-tier feed.</div></div>
+    <div class="flt-source"><div class="src-name">EFSA</div><div class="src-desc">European Food Safety Authority — additive safety re-evaluations, restrictions, withdrawals.</div></div>
+    <div class="flt-source"><div class="src-name">Retailer Official</div><div class="src-desc">Tesco, Sainsbury's, Morrisons published product feeds — where direct sources exist.</div></div>
+    <div class="flt-source"><div class="src-name">Manufacturer Official</div><div class="src-desc">Coca-Cola, Heinz, Unilever and others — published manufacturer data cross-referenced to label.</div></div>
+    <div class="flt-source"><div class="src-name">USDA FoodData</div><div class="src-desc">USDA FoodData Central — secondary cross-reference layer for nutrition macros.</div></div>
+    <div class="flt-source"><div class="src-name">OBF</div><div class="src-desc">Open Beauty Facts — cosmetics handoff layer (CheckIT scanner mode).</div></div>
+  </div>
+
+  <p style="margin-top:24px;font-size:0.92rem;color:var(--cream-dim);max-width:780px">
+    Source priority follows the <span class="swm">SCANSMART</span> deterministic hierarchy
+    (per Bible &sect;10): <span class="i500-mark">I500</span> verified &rarr; manufacturer
+    official &rarr; retailer official &rarr; OFF &rarr; contribution. No single source
+    dominates the read. The terminal reconciles them all.
+  </p>
+</section>
+
+<!-- I500 SPOTLIGHT (reframed v5.0.73 — completeness edge, not built-around) -->
+<section class="flt-i500" id="i500-edge">
+  <div class="flt-i500-row">
+    <div>
+      <div class="section-eyebrow" style="color:var(--amber)">The completeness edge</div>
+      <h2 style="font-family:var(--font-display);font-size:clamp(1.8rem,3.8vw,2.4rem);font-weight:800;line-height:1.15;color:var(--cream);margin-bottom:18px">OFF covers the mainstream. The <span style="color:var(--red-soft);font-style:italic"><span class="i500-mark">I500</span></span> covers what OFF misses.</h2>
+      <p style="color:var(--cream-dim);font-size:1.02rem;line-height:1.65">
+        Open Food Facts covers the mainstream &mdash; 2.8M products globally, the workhorse for
+        what most of the UK population buys every day. But none of OFF's community
+        contributors go inside the independent grocers where the UK's African, Caribbean,
+        South Asian and Eastern European diaspora actually shop.
+        <strong style="color:var(--cream)">The <span class="i500-mark">I500</span> is the field-audited layer that closes that gap</strong>
+        &mdash; 155 verified products from 19 shops, built by <span class="swm">SCANSMART</span>
+        field audits, store by store, label by label.
+        <strong style="color:var(--cream)">FLT brings both into one literate read.</strong>
+      </p>
+      <div class="flt-i500-stats">
+        <div class="flt-i500-stat"><div class="n">155</div><div class="l">Catalogue SKUs</div></div>
+        <div class="flt-i500-stat"><div class="n">148</div><div class="l">Audited (strict denominator)</div></div>
+        <div class="flt-i500-stat"><div class="n">138</div><div class="l">Strict blindspot (93.2%)</div></div>
+        <div class="flt-i500-stat"><div class="n">19</div><div class="l">Shops audited · 40 brands</div></div>
+      </div>
+      <p style="margin-top:14px;font-family:var(--mono);font-size:0.78rem;color:var(--muted);line-height:1.55">
+        Strict methodology: blindspot = absent + stale + partial + unusable on OFF, measured against 148 audited SKUs (7 awaiting on-add OFF check). 93.2% replaces the earlier 84% lenient headline as of 13 May 2026.
+      </p>
+    </div>
+    <div>
+      <div class="flt-i500-card">
+        <div class="hd">
+          <div>
+            <div class="b">DEES Caribbean</div>
+            <div class="name">Jamaican Callaloo in Brine</div>
+          </div>
+          <div class="badge">★ I500-150</div>
+        </div>
+        <div class="kv">
+          <div class="k">Barcode</div><div>5060091820562</div>
+          <div class="k">Origin</div><div>Jamaica</div>
+          <div class="k">Importer</div><div>DEES Caribbean (UK)</div>
+          <div class="k">Pack</div><div>538g</div>
+          <div class="k">Salt</div><div>0.94g/100g <span style="color:var(--yellow)">● AMBER</span></div>
+          <div class="k">Sugars</div><div>1.0g/100g <span style="color:var(--green-soft)">● GREEN</span></div>
+          <div class="k">Audited</div><div>9 May 2026 · Caricom Grocers, Brixton</div>
+        </div>
+        <div class="blindspot">
+          <strong>OFF status: Y* (transcription error)</strong> &mdash; barcode exists on Open Food Facts
+          but with energy mis-keyed (164 kcal vs label's 9 kcal/97g), brand empty, ingredients empty.
+          The community database is wrong. The <span class="i500-mark">I500</span> audit is right.
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- COMPARISON -->
+<section class="section" id="compare">
+  <div class="section-eyebrow">The landscape</div>
+  <h2>The <span style="color:var(--red-soft);font-style:italic">label-literacy slice</span> of what Mintel and Innova sell &mdash; on a UK regulatory layer they don't have.</h2>
+  <p>
+    Mintel, Innova and Euromonitor sell <strong>commercial intelligence</strong>: positioning
+    claims, retail-purchase location, packaging attributes, price-at-purchase, formulation trends,
+    two-year forecasting, across millions of SKUs in 86 countries. They're built for Fortune 500
+    brand managers and they're priced accordingly. <strong>FLT sells a different axis</strong>
+    &mdash; the <strong>literacy intelligence</strong> slice: Nutri-Score, NOVA, Eco-Score,
+    additives, FSA-14 allergens, live UK FSA recalls, reformulation history. Smaller universe.
+    Different buyer. Public-interest layer those &euro;40,000 tools don't ship.
+    <strong style="color:var(--cream)">The moat isn't the <span class="i500-mark">I500</span>
+    alone &mdash; it's the integration: eight verified data layers, one literate read, no
+    competitor stitching them together.</strong>
+  </p>
+
+  <div class="flt-honest">
+    <div class="flt-honest-head">What FLT isn't</div>
+    <div class="flt-honest-grid">
+      <div class="flt-honest-col">
+        <h4>Not volume</h4>
+        <p>~1,550 SKUs today, growing. Mintel indexes millions across 86 countries. We index <em>deeper</em> on the SKUs we cover &mdash; verified by field audit. Different game.</p>
+      </div>
+      <div class="flt-honest-col">
+        <h4>Not commercial intel</h4>
+        <p>No positioning claims, retail location panels, packaging attributes, price history, or forecast modelling. That's what Mintel/Innova/Circana sell. FLT sells literacy and safety intelligence.</p>
+      </div>
+      <div class="flt-honest-col">
+        <h4>Not equivalent</h4>
+        <p>If you need full CPG market intelligence, you buy Mintel. If you need to know what's on the label, who's at risk, and what's been recalled &mdash; that's FLT. The table below is honest about which axis we own.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="flt-compare-wrap">
+    <table class="flt-compare">
+      <thead><tr>
+        <th>Capability</th>
+        <th>★ <span class="swm">SCANSMART</span> FLT</th>
+        <th>Mintel GNPD</th>
+        <th>Innova MI</th>
+        <th>Yuka</th>
+        <th>OFF (raw)</th>
+      </tr></thead>
+      <tbody>
+        <tr><td>SKU volume</td><td class="partial">~1,550 (growing)</td><td class="y">Millions</td><td class="y">Millions</td><td class="y">~3M</td><td class="y">2.8M</td></tr>
+        <tr><td>Commercial intel (price history, positioning, forecasts)</td><td class="n">No (out of scope)</td><td class="y">Core offering</td><td class="y">Core offering</td><td class="n">No</td><td class="n">No</td></tr>
+        <tr class="us"><td>Access</td><td class="y">By enquiry</td><td class="n">£20k+/yr seat licence</td><td class="n">€40k+/yr seat licence</td><td class="y">Consumer app</td><td class="partial">Open data dump</td></tr>
+        <tr class="us"><td>UK independent grocer coverage</td><td class="y">★ <span class="i500-mark">I500</span> (155 verified)</td><td class="n">No</td><td class="n">No</td><td class="n">No</td><td class="partial">Partial / wrong</td></tr>
+        <tr class="us"><td>Reformulation history (per SKU)</td><td class="y">Yes (line chart)</td><td class="y">Yes</td><td class="y">Yes</td><td class="n">No</td><td class="partial">Raw revisions only</td></tr>
+        <tr class="us"><td>Live FSA recall integration</td><td class="y">Yes</td><td class="n">No</td><td class="n">No</td><td class="n">No</td><td class="n">No</td></tr>
+        <tr class="us"><td>Eco-Score &amp; carbon footprint</td><td class="y">Yes</td><td class="partial">Add-on</td><td class="partial">Add-on</td><td class="n">No</td><td class="y">Yes</td></tr>
+        <tr class="us"><td>FSA-14 allergen scan</td><td class="y">Yes (visual ✓/⚠)</td><td class="partial">Listed</td><td class="partial">Listed</td><td class="y">Yes</td><td class="y">Yes</td></tr>
+        <tr class="us"><td>Keyboard-first terminal UX</td><td class="y">Yes</td><td class="n">SaaS dashboard</td><td class="n">SaaS dashboard</td><td class="n">Mobile app</td><td class="n">Web search</td></tr>
+        <tr class="us"><td>Open data CSV export</td><td class="y">Yes (per panel)</td><td class="partial">Add-on</td><td class="partial">Add-on</td><td class="n">No</td><td class="y">Bulk dump</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- INSIDE SCANSMART -->
+<section class="section" id="family">
+  <div class="section-eyebrow">Inside <span class="swm">SCANSMART</span></div>
+  <h2>One platform. <span style="color:var(--red-soft);font-style:italic">Four</span> surfaces. One mission.</h2>
+  <p>
+    <span class="swm">SCANSMART</span> is the School of Label Literacy &mdash; the parent platform
+    behind CheckIT, the <span class="i500-mark">I500</span>, and the Knowledge Library.
+    The Food Label Terminal is the fourth surface: the institutional, professional gateway.
+  </p>
+  <div class="flt-family">
+    <div class="flt-family-card"><a href="checkit.html">
+      <div class="num">01 · Consumer</div>
+      <h4>CheckIT</h4>
+      <p>The consumer scanner. Point your phone at a label, get the literacy moment.</p>
+    </a></div>
+    <div class="flt-family-card"><a href="i500.html">
+      <div class="num">02 · Data</div>
+      <h4>The <span class="i500-mark">I500</span></h4>
+      <p>The proprietary verified dataset. 155 SKUs from independent UK grocers.</p>
+    </a></div>
+    <div class="flt-family-card"><a href="library.html">
+      <div class="num">03 · Education</div>
+      <h4>Knowledge Library</h4>
+      <p>The reference layer. Definitions, frameworks, the school behind the literacy.</p>
+    </a></div>
+    <div class="flt-family-card this">
+      <div class="num">04 · Professional ★</div>
+      <h4>FLT</h4>
+      <p>The terminal. Dense intelligence on the <span class="i500-mark">I500</span> + community data + live FSA, on one screen.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ROADMAP — Supplements + Cosmetics as next Institutional Terminals -->
+<section class="section" id="roadmap">
+  <div class="section-eyebrow">Roadmap · next institutional terminals</div>
+  <h2>FLT is the <span style="color:var(--red-soft);font-style:italic">first</span> of three. Supplements + cosmetics follow.</h2>
+  <p>
+    The Food Label Terminal proves the architecture: a verified-data spine, a live
+    regulator feed, peer-reviewed signal, an institutional command-line surface.
+    Two adjacent categories carry the same problem shape — opaque labels, vulnerable
+    populations, fragmented data, a literacy gap institutions need to close. Each gets
+    its own terminal, its own audit roadmap, its own regulatory layer.
+  </p>
+
+  <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:1px;background:var(--line);border:1px solid var(--line);border-radius:10px;overflow:hidden;margin-top:32px">
+    <!-- FLT — current -->
+    <div style="background:linear-gradient(135deg, rgba(230,126,34,0.1) 0%, var(--navy-soft) 100%);padding:28px 24px;border-left:3px solid var(--amber)">
+      <div style="font-family:var(--mono);font-size:0.7rem;color:var(--amber);letter-spacing:0.15em;margin-bottom:10px;text-transform:uppercase">★ Now live · v0.9.1</div>
+      <h3 style="font-family:var(--font-display);font-size:1.4rem;color:var(--amber);margin-bottom:10px">FLT — Food Label Terminal</h3>
+      <p style="font-size:0.92rem;color:var(--cream-dim);line-height:1.55;margin-bottom:12px">
+        The institutional surface for UK food labels. 148 I500 audited SKUs (155 catalogue · 138 strict blindspot vs OFF) + 1,500 OFF community SKUs.
+        Live FSA recalls, EFSA additive safety, reformulation history, FSA-14 allergen scan,
+        7-panel terminal with food-news wire (13 institutional sources).
+      </p>
+      <div style="font-family:var(--mono);font-size:0.74rem;color:var(--cyan)">Data: I500 · OpenFoodFacts · FSA · EFSA · WHO · Lancet · Met Office · DEFRA</div>
+    </div>
+
+    <!-- SLT — Supplements -->
+    <div style="background:var(--navy-soft);padding:28px 24px">
+      <div style="font-family:var(--mono);font-size:0.7rem;color:var(--muted);letter-spacing:0.15em;margin-bottom:10px;text-transform:uppercase">Next · beta H2 2026</div>
+      <h3 style="font-family:var(--font-display);font-size:1.4rem;color:var(--cream);margin-bottom:10px">SLT — Supplements Literacy Terminal</h3>
+      <p style="font-size:0.92rem;color:var(--cream-dim);line-height:1.55;margin-bottom:12px">
+        The same terminal-grade architecture applied to UK food supplements + vitamins.
+        Active-ingredient decoding, MHRA borderline-medicinal-claim flags, dosage adequacy
+        against COMA RNI/RDAs, drug-interaction alerts, manufacturer-claim verification.
+        Different regulatory layer to food — MHRA jurisdiction, not FSA.
+      </p>
+      <div style="font-family:var(--mono);font-size:0.74rem;color:var(--muted)">Targets: MHRA · NHS Yellow Card · COMA · EU NFR · Examine.com · PubMed</div>
+    </div>
+
+    <!-- CLT — Cosmetics -->
+    <div style="background:var(--navy-soft);padding:28px 24px">
+      <div style="font-family:var(--mono);font-size:0.7rem;color:var(--muted);letter-spacing:0.15em;margin-bottom:10px;text-transform:uppercase">Next · beta Q4 2026 · B2B-only</div>
+      <h3 style="font-family:var(--font-display);font-size:1.4rem;color:var(--cream);margin-bottom:10px">CLT — Cosmetics Literacy Terminal</h3>
+      <p style="font-size:0.92rem;color:var(--cream-dim);line-height:1.55;margin-bottom:12px">
+        Same terminal aesthetic on UK + EU cosmetics, for professional users only. INCI-list
+        decoding, EU CPR allergen flags, MHRA + OPSS safety alerts, hair-relaxer /
+        skin-lightening / sunscreen vertical deep-dives already drafted in the SCANSMART
+        research vault. The architecture already supports it — Open Beauty Facts is OFF's
+        sister API. <strong style="color:var(--cream)">Consumer cosmetics scanning ships as a
+        CheckIT mode</strong>, not as a separate consumer product.
+      </p>
+      <div style="font-family:var(--mono);font-size:0.74rem;color:var(--muted)">Targets: OPSS · MHRA · EU CPR · Open Beauty Facts · CosIng · INCI</div>
+    </div>
+  </div>
+
+  <p style="margin-top:24px;font-size:0.95rem;color:var(--cream-dim);max-width:780px">
+    <strong style="color:var(--cream)">Three terminals, one architecture.</strong>
+    Each vertical reuses the FLT engine — proprietary verified dataset + community data +
+    live regulator feed + peer-reviewed signal + a literacy-tier presentation layer.
+    Each gets a separate audit programme. Institutional enquiries welcome on all
+    three: <a href="mailto:admin@scansmart.uk?subject=SLT/CLT%20institutional%20enquiry" style="color:var(--amber)">admin@scansmart.uk</a>.
+  </p>
+</section>
+
+<!-- CLINICAL & REGULATORY SCOPE DISCLAIMER — §31 / §90 anti-medical-claim posture (v5.0.73, 21 May 2026) -->
+<div class="flt-disclaimer" role="note" aria-label="Clinical and regulatory scope">
+  <div class="flt-disclaimer-inner">
+    <span class="disc-label">Clinical &amp; regulatory scope</span>
+    <span class="disc-text">
+      Not a clinical decision-support tool. Not a medical device. Not a regulatory authority.
+      Not investment advice. FLT is a label-literacy intelligence surface &mdash; a reference
+      layer for professionals making procurement, research and editorial decisions. Clinical
+      decisions rest with the clinician. Regulatory decisions rest with the regulator.
+    </span>
+  </div>
+</div>
+
+<!-- CTA -->
+<section class="section" id="apply">
+  <div class="flt-cta-block">
+    <div class="section-eyebrow" style="color:#A8E0FF">Get started</div>
+    <h2>Try the terminal. Apply for <span class="accent">institutional access</span>.</h2>
+    <p>
+      The Food Label Terminal is for NHS, regulatory, retail, and academic teams.
+      Get in touch to discuss your use case, the <span class="i500-mark">I500</span> verified dataset,
+      and access terms.
+    </p>
+    <div class="row">
+      <a href="flt-app.html" class="btn btn-launch" target="_blank" rel="noopener">↓ Launch the Terminal</a>
+      <a href="partner.html" class="btn btn-apply">Enquire about access →</a>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="footer-inner">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <div class="brand-lockup"><span class="ss"><span class="swm">SCANSMART</span></span><span class="tag">Power is Knowledge Decoded</span></div>
+        <p>The School of Label Literacy. Built in South London. Open to the world.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Products</h4>
+        <ul>
+          <li><a href="checkit.html">CheckIT</a></li>
+          <li><a href="i500.html">The I500</a></li>
+          <li><a href="flt.html">FLT — Food Label Terminal</a></li>
+          <li><a href="subscribe.html">Subscriptions</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Read &amp; explore</h4>
+        <ul>
+          <li><a href="checkout.html">Weekly Checkout, Decoded</a></li>
+          <li><a href="library.html">Knowledge Library</a></li>
+          <li><a href="stories.html">CheckIT Stories</a></li>
+          <li><a href="shops.html">I500 Shop Directory</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>About</h4>
+        <ul>
+          <li><a href="about.html">About <span class="swm">SCANSMART</span></a></li>
+          <li><a href="install.html">Install on your phone</a></li>
+          <li><a href="contact.html">Contact</a></li>
+          <li><a href="privacy.html">Privacy</a></li>
+          
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div><a href="index.html" aria-label="Home — SCANSMART"><img src="assets/marque-v2.svg" alt="SCANSMART" class="marque-footer" width="240" height="80"></a></div>
+      <div>&copy; 2026 <span class="swm">SCANSMART</span> Ltd &middot; Co. No. 17128797 &middot; England &amp; Wales<br><small style="color:var(--muted-dim)"><span class="swm">SCANSMART</span> is a food literacy and decision-support platform. It is not a medical device and does not provide medical advice.</small></div>
+    </div>
+  </div>
+</footer>
+
+<script>
+// Local-file preview link shim — rewrites /foo to foo.html
+(function(){
+  if (location.protocol !== 'file:') return;
+  document.addEventListener('DOMContentLoaded', function() {
+    document.querySelectorAll('a[href^="/"]').forEach(function(a) {
+      var href = a.getAttribute('href');
+      if (href === '/') { a.setAttribute('href', 'index.html'); return; }
+      if (/^\/[a-z0-9-]+$/i.test(href)) {
+        a.setAttribute('href', href.substring(1) + '.html');
+      }
+    });
+  });
+})();
+
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('/sw.js').catch(() => {});
+  });
+}
+</script>
+</body>
+</html>

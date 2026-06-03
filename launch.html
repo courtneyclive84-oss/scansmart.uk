@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0A1628">
+<meta name="robots" content="noindex">
+<!-- HTTP-level redirect for browsers that honour meta refresh -->
+<meta http-equiv="refresh" content="0; url=https://app.scansmart.uk/?source=pwa">
+<title>Opening SCANSMART scanner…</title>
+<!-- =================================================================
+     PWA launch page — boots the scanner.
+     This is the start_url for the SCANSMART PWA installed on home screen.
+     Manifest start_url = "/launch?source=pwa" → this page → instant redirect
+     to app.scansmart.uk (CheckIT). User taps SCANSMART icon → scanner
+     opens with no intermediate website navigation.
+     If the scanner is itself a separate PWA at app.scansmart.uk (with own
+     manifest + start_url), iOS may launch that PWA's standalone shell here;
+     otherwise the URL opens in the user's default browser.
+     ================================================================= -->
+<style>
+  html, body { background: #0A1628; color: #F5F0E8;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    margin: 0; padding: 0; height: 100%; }
+  .stage { display: flex; flex-direction: column; align-items: center; justify-content: center;
+    min-height: 100vh; padding: 24px; text-align: center; }
+  .wordmark { font-size: 1.4rem; font-weight: 800; letter-spacing: 0.18em; margin-bottom: 12px; color: #F5F0E8; }
+  .msg { color: #8899AA; font-size: 0.95rem; margin-bottom: 28px; }
+  .pulse {
+    width: 36px; height: 36px; border-radius: 50%; border: 2px solid #5BC0EB;
+    border-top-color: transparent; animation: spin 0.9s linear infinite; margin-bottom: 24px;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  .fallback {
+    color: #5BC0EB; text-decoration: none; padding: 12px 22px; border-radius: 8px;
+    background: rgba(91, 192, 235, 0.10); border: 1px solid rgba(91, 192, 235, 0.30);
+    font-weight: 600; font-size: 0.95rem; transition: background 0.18s ease;
+  }
+  .fallback:hover { background: rgba(91, 192, 235, 0.22); }
+</style>
+</head>
+<body>
+<div class="stage">
+  <div class="pulse" aria-hidden="true"></div>
+  <div class="wordmark">SCANSMART</div>
+  <div class="msg">Opening the scanner…</div>
+  <a href="https://app.scansmart.uk/?source=pwa" class="fallback">Tap if not redirected</a>
+</div>
+<script>
+  // Instant JS redirect for browsers that don't honour the meta refresh,
+  // and for cases where the meta refresh is delayed.
+  // location.replace() doesn't add to history — back button skips this page.
+  window.location.replace('https://app.scansmart.uk/?source=pwa');
+</script>
+</body>
+</html>

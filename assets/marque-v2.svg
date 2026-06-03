@@ -1,0 +1,88 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 120" role="img" aria-label="SCANSMART Marque v2 — Power is Knowledge Decoded">
+  <title>SCANSMART Marque v2 (canonical)</title>
+  <desc>SCANSMART Marque v2, banked 4 May 2026. Wordmark capitalised SCANSMART (uppercase) — structural alteration of Marque v1's lowercase scansmart wordmark per the Hero / Marque version-numbering rule banked 27 April 2026 evening. Marque v1 remains preserved as a dated canonical artefact under §14.3.1; v2 supersedes v1 as the deployed masthead going forward. Compact horizontal brand badge. SCANSMART uppercase wordmark fused with the bar pattern. Code 128 Set B encoding of LooK (mixed case L-o-o-K) preserved verbatim from v1. Canonical serial 5  d 0 6 e 0 c   1 o 3 d 7 e in compact monospace below the bars. Cyan scan line. Sparkle bottom-right. Trim bars lower-left and lower-right. Canonical navy field #103D7E. Bar pattern uses the pre-computed module-width sequence sealed in the Hero v16 Serial Preservation Legal Record (28 April 2026 update).</desc>
+
+  <defs>
+    <linearGradient id="marque-v2-bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#1A4A8E"/>
+      <stop offset="0.55" stop-color="#103D7E"/>
+      <stop offset="1" stop-color="#0A2D5E"/>
+    </linearGradient>
+    <linearGradient id="marque-v2-scanline" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#5BC0EB" stop-opacity="0"/>
+      <stop offset="0.15" stop-color="#5BC0EB" stop-opacity="0.95"/>
+      <stop offset="0.5" stop-color="#A8E0FF" stop-opacity="1"/>
+      <stop offset="0.85" stop-color="#5BC0EB" stop-opacity="0.95"/>
+      <stop offset="1" stop-color="#5BC0EB" stop-opacity="0"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Canonical navy field (#103D7E with subtle gradient depth) -->
+  <rect x="0" y="0" width="360" height="120" rx="10" ry="10" fill="url(#marque-v2-bg)"/>
+  <rect x="0.5" y="0.5" width="359" height="119" rx="9.5" ry="9.5" fill="none" stroke="#0A2D5E" stroke-width="0.6" opacity="0.9"/>
+
+  <!-- Encoded bar pattern: Code 128 Set B — "LooK" — pre-computed module-widths
+       sealed in legal record. Module width = 4 viewBox units.
+       Bar zone: x=22 → x=338 (316 units = 79 modules × 4).
+       22 bars, sequence indices 0,2,4,...42 of the canonical pattern.
+       PRESERVED VERBATIM from Marque v1 — bar pattern is canonical. -->
+  <g fill="#F5F1E8">
+    <rect x="22"  y="20" width="8"  height="60"/>
+    <rect x="34"  y="20" width="4"  height="60"/>
+    <rect x="46"  y="20" width="4"  height="60"/>
+    <rect x="66"  y="20" width="4"  height="60"/>
+    <rect x="82"  y="20" width="8"  height="60"/>
+    <rect x="94"  y="20" width="12" height="60"/>
+    <rect x="110" y="20" width="4"  height="60"/>
+    <rect x="126" y="20" width="16" height="60"/>
+    <rect x="146" y="20" width="4"  height="60"/>
+    <rect x="154" y="20" width="4"  height="60"/>
+    <rect x="170" y="20" width="16" height="60"/>
+    <rect x="190" y="20" width="4"  height="60"/>
+    <rect x="198" y="20" width="4"  height="60"/>
+    <rect x="206" y="20" width="8"  height="60"/>
+    <rect x="226" y="20" width="12" height="60"/>
+    <rect x="242" y="20" width="16" height="60"/>
+    <rect x="262" y="20" width="4"  height="60"/>
+    <rect x="270" y="20" width="4"  height="60"/>
+    <rect x="286" y="20" width="8"  height="60"/>
+    <rect x="306" y="20" width="12" height="60"/>
+    <rect x="322" y="20" width="4"  height="60"/>
+    <rect x="330" y="20" width="8"  height="60"/>
+  </g>
+
+  <!-- Wordmark FUSED with the bar pattern: SCANSMART UPPERCASE, overlaid through
+       the middle of the bars. The wordmark IS part of the barcode aesthetically.
+       Marque v2 capitalisation rationale: parity with the SCANSMART wordmark
+       styling used everywhere else on the site (every <span class="swm">SCANSMART</span>
+       reference, every footer marque, the legal copy, the structured data).
+       Marque v1 lowercase preserved as dated canonical artefact under §14.3.1. -->
+  <text x="180" y="58"
+        font-family="'Syne', 'DM Sans', system-ui, -apple-system, sans-serif"
+        font-size="28" font-weight="800" letter-spacing="0.01em"
+        text-anchor="middle"
+        fill="#F5F1E8">SCANSMART</text>
+
+  <!-- Cyan scan line through the middle of the bars and the wordmark -->
+  <line x1="22" y1="50" x2="338" y2="50" stroke="url(#marque-v2-scanline)" stroke-width="1.6"/>
+
+  <!-- Canonical serial in compact monospace, across the bottom -->
+  <text x="180" y="98"
+        text-anchor="middle"
+        font-family="'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace"
+        font-size="9.5" letter-spacing="0.18em"
+        fill="#A8C0E0" xml:space="preserve">5  d 0 6 e 0 c   1 o 3 d 7 e</text>
+
+  <!-- Decorative trim bars at lower-left and lower-right corners only (per canon) -->
+  <g fill="#5BC0EB">
+    <rect x="10" y="105" width="14" height="2"/>
+    <rect x="10" y="100" width="2"  height="7"/>
+    <rect x="336" y="105" width="14" height="2"/>
+    <rect x="348" y="100" width="2"  height="7"/>
+  </g>
+
+  <!-- Brand sparkle at bottom-right -->
+  <g fill="#F5F1E8" transform="translate(330 105)">
+    <path d="M5 0 L6 4 L10 5 L6 6 L5 10 L4 6 L0 5 L4 4 Z" opacity="0.95"/>
+  </g>
+</svg>

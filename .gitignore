@@ -1,0 +1,11 @@
+# macOS
+.DS_Store
+
+# Cowork / editor artefacts
+.claude/
+.fuse_hidden*
+*.bak
+
+# Python build artefacts (from _internal/ scripts)
+__pycache__/
+*.pyc

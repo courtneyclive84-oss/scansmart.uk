@@ -1,0 +1,474 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0A1628">
+<title>The I500 — Independent shop food data the major databases miss · SCANSMART</title>
+<meta name="description" content="The Independent 500 (I500) is a community-audited dataset of products from independent UK shops — halal, Caribbean, South Asian, kosher, and other cultural-specific groceries that Open Food Facts and major retail intelligence platforms systematically miss. Licensed for retail intelligence, clinical research, and NHS commissioning.">
+<link rel="canonical" href="https://scansmart.uk/i500">
+<!-- Favicons + manifest + theme -->
+<link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon-16x16.png">
+<link rel="shortcut icon" href="/assets/favicon.ico">
+<link rel="apple-touch-icon" sizes="180x180" href="/assets/apple-touch-icon.png">
+<link rel="manifest" href="/manifest.webmanifest">
+<!-- iOS PWA — makes Add to Home Screen install as a standalone app, not a browser bookmark -->
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="SCANSMART">
+
+<!-- Open Graph + Twitter -->
+<meta property="og:image" content="https://scansmart.uk/assets/og-card.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="SCANSMART — Power is Knowledge Decoded. The School of Label Literacy.">
+<meta property="og:locale" content="en_GB">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="SCANSMART — The I500">
+<meta name="twitter:description" content="The School of Label Literacy.">
+<meta name="twitter:image" content="https://scansmart.uk/assets/og-card.png">
+
+<!-- Structured data (Schema.org) -->
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Organization","name":"SCANSMART Ltd","alternateName":"SCANSMART","url":"https://scansmart.uk/","logo":"https://scansmart.uk/assets/icon-512.png","image":"https://scansmart.uk/assets/og-card.png","description":"The School of Label Literacy. CheckIT, the I500, FLT, the Knowledge Library, and the Partner Programme.","foundingDate":"2026-02","address":{"@type":"PostalAddress","addressCountry":"GB","addressLocality":"London","addressRegion":"England"},"identifier":"Companies House Co. No. 17128797","sameAs":["https://app.scansmart.uk"],"slogan":"Power is Knowledge Decoded"}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebPage","name":"The I500","url":"https://scansmart.uk/i500","isPartOf":{"@type":"WebSite","name":"SCANSMART","url":"https://scansmart.uk/"},"publisher":{"@type":"Organization","name":"SCANSMART Ltd"}}</script>
+
+<meta property="og:type" content="product">
+<meta property="og:title" content="The I500 — Independent shop food data the major databases miss">
+<meta property="og:url" content="https://scansmart.uk/i500">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;700&family=Syne:wght@600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="brand.css?v=5.0.58">
+<script src="install.js?v=5.0.134" defer></script>
+<style>
+/* I500 page-specific styles. */
+
+/* Hero CTA — green "Access I500" button, parallel to FLT's .btn-launch on flt.html.
+   Banked 26 May 2026 evening alongside §117 I500 key-gate. Visit door3-preview.html → key prompt → terminal.
+   The red "Request data access" sits beside it using the existing .btn-primary class (brand.css). */
+.btn-access { background: var(--green); color: var(--navy-deep); border: 0; }
+.btn-access:hover { background: var(--green-soft); color: var(--navy-deep); }
+.btn-access:focus-visible { outline: 2px solid var(--green-soft); outline-offset: 2px; }
+
+/* I500 hero two-column layout — mirrors FLT's .flt-hero-grid pattern (banked 26 May 2026 evening).
+   Left column: existing copy + CTAs. Right column: live embedded Retail Intelligence Terminal preview
+   loaded via iframe with ?embed=1 bypass (the gate honours ?embed=1 per §117 architecture).
+   The terminal IS the product — same convention as the FLT landing. */
+.i500-hero-grid { display: grid; grid-template-columns: 0.85fr 2fr; gap: 48px; align-items: start; }
+@media (max-width: 900px) { .i500-hero-grid { grid-template-columns: 1fr; } }
+
+.i500-hero-visual { display: flex; flex-direction: column; gap: 12px; }
+
+/* Live terminal iframe — green border accent matching the I500 brand colour
+   (FLT uses amber border; I500 uses green). The iframe shows door3-preview.html?embed=1 which
+   bypasses the gate so the marketing preview is the actual live terminal, not a mockup. */
+.i500-iframe-wrap { display: block; background: #000; border: 1px solid rgba(43,184,136,0.45); border-radius: 8px; overflow: hidden; box-shadow: 0 30px 80px rgba(43,184,136,0.18), 0 0 0 1px rgba(0,0,0,0.5); position: relative; }
+.i500-iframe { display: block; width: 100%; height: 640px; border: 0; background: #000; }
+@media (max-width: 1100px) { .i500-iframe { height: 560px; } }
+@media (max-width: 900px) { .i500-iframe { height: 520px; } }
+@media (max-width: 600px) { .i500-iframe { height: 460px; } }
+.i500-iframe-overlay { position: absolute; top: 8px; right: 8px; font-family: var(--mono, 'JetBrains Mono', monospace); font-size: 9.5px; color: var(--green-soft); background: rgba(0,0,0,0.7); border: 1px solid rgba(43,184,136,0.45); padding: 4px 8px; border-radius: 3px; letter-spacing: 0.12em; pointer-events: none; }
+.i500-iframe-overlay::before { content: "● "; color: var(--green); animation: pulse 2s infinite; }
+@keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.4; } }
+.i500-iframe-fs { position: absolute; bottom: 8px; right: 8px; font-family: var(--mono, 'JetBrains Mono', monospace); font-size: 9.5px; color: var(--green-soft); background: rgba(0,0,0,0.7); border: 1px solid rgba(43,184,136,0.45); padding: 4px 10px; border-radius: 3px; letter-spacing: 0.08em; text-decoration: none; transition: background .15s, border-color .15s; }
+.i500-iframe-fs:hover { background: rgba(43,184,136,0.15); border-color: var(--green-soft); }
+.i500-mock-caption { font-family: var(--mono, 'JetBrains Mono', monospace); font-size: 10.5px; color: var(--muted, #8a8a8a); letter-spacing: 0.06em; text-align: center; }
+.i500-mock-caption .acc { color: var(--green-soft); font-weight: 700; }
+
+/* I500 Teaser block (replaces the iframe per founder catch 26 May 2026 evening).
+   Looks like the terminal aesthetic but shows only 3 sample rows + faded preview rows
+   + subscriber overlay. No row-level proprietary data exposed. */
+.i500-teaser-wrap { position: relative; background: #000; border: 1px solid rgba(43,184,136,0.45); border-radius: 8px; overflow: hidden; box-shadow: 0 30px 80px rgba(43,184,136,0.18), 0 0 0 1px rgba(0,0,0,0.5); font-family: var(--mono, 'JetBrains Mono', monospace); }
+.i500-teaser-head { display: flex; justify-content: space-between; align-items: center; padding: 10px 14px; background: rgba(43,184,136,0.06); border-bottom: 1px solid rgba(43,184,136,0.25); font-size: 11px; }
+.i500-teaser-mark { color: var(--green-soft); font-weight: 700; letter-spacing: 0.12em; }
+.i500-teaser-lock { color: var(--yellow, #ffd54a); letter-spacing: 0.08em; font-size: 10.5px; }
+.i500-teaser-grid { display: grid; grid-template-columns: 2.2fr 1.4fr 1.6fr 1fr; gap: 0; padding: 14px 14px 0; font-size: 12px; color: #b8b5ab; }
+.i500-teaser-col-head { color: var(--green-soft); font-weight: 700; letter-spacing: 0.1em; font-size: 10.5px; padding: 6px 8px 10px; border-bottom: 1px solid rgba(43,184,136,0.3); }
+.i500-teaser-row { padding: 7px 8px; border-bottom: 1px solid rgba(255,255,255,0.05); }
+.i500-teaser-row.i500-teaser-n { color: var(--red-soft, #ff6b5e); font-weight: 600; }
+.i500-teaser-row.i500-teaser-y { color: var(--green-soft); font-weight: 600; }
+.i500-teaser-row.i500-teaser-faded { color: rgba(184,181,171,0.25); }
+.i500-teaser-pill { display: inline-block; margin-left: 6px; padding: 1px 6px; font-size: 9.5px; background: rgba(255,107,94,0.12); color: var(--red-soft, #ff6b5e); border: 1px solid rgba(255,107,94,0.3); border-radius: 3px; letter-spacing: 0.08em; }
+.i500-teaser-overlay { padding: 22px 18px; background: linear-gradient(180deg, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.98) 50%); border-top: 1px solid rgba(43,184,136,0.3); display: flex; flex-direction: column; align-items: center; gap: 14px; }
+.i500-teaser-overlay-text { text-align: center; color: var(--cream, #F0EDE5); font-family: var(--font-body, 'DM Sans', sans-serif); font-size: 0.92rem; line-height: 1.45; }
+.i500-teaser-overlay-text strong { color: var(--green-soft); font-size: 1.05rem; }
+.i500-teaser-overlay-text span { color: var(--muted, #8a8a8a); font-size: 0.82rem; }
+.i500-teaser-cta { display: inline-block; padding: 10px 18px; background: var(--green); color: var(--navy-deep); border-radius: 6px; font-family: var(--font-body, 'DM Sans', sans-serif); font-weight: 700; font-size: 0.9rem; text-decoration: none; transition: background 0.15s; }
+.i500-teaser-cta:hover { background: var(--green-soft); }
+@media (max-width: 600px) {
+  .i500-teaser-grid { grid-template-columns: 2fr 1.2fr; font-size: 11px; }
+  .i500-teaser-grid > div:nth-child(3), .i500-teaser-grid > div:nth-child(4),
+  .i500-teaser-grid > div:nth-child(7), .i500-teaser-grid > div:nth-child(8),
+  .i500-teaser-grid > div:nth-child(11), .i500-teaser-grid > div:nth-child(12),
+  .i500-teaser-grid > div:nth-child(15), .i500-teaser-grid > div:nth-child(16),
+  .i500-teaser-grid > div:nth-child(19), .i500-teaser-grid > div:nth-child(20) { display: none; }
+}
+
+.i500-decode {
+  padding: 16px 20px;
+  margin: 18px 0 28px;
+  background: rgba(43, 184, 136, 0.06);
+  border-left: 2px solid var(--green-soft);
+  border-radius: 4px;
+  font-size: 0.96em;
+}
+.i500-decode strong {
+  color: var(--cream);
+  font-weight: 700;
+  letter-spacing: 0.01em;
+}
+.report-callout {
+  padding: 24px 28px;
+  background: linear-gradient(180deg, rgba(245, 197, 24, 0.08) 0%, rgba(245, 197, 24, 0.03) 100%);
+  border: 1px solid rgba(245, 197, 24, 0.35);
+  border-radius: 10px;
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.25);
+}
+.report-callout-tag {
+  display: inline-block;
+  font-family: var(--font-display, 'Syne', sans-serif);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--yellow);
+  margin-bottom: 10px;
+  padding: 4px 10px;
+  border: 1px solid rgba(245, 197, 24, 0.5);
+  border-radius: 999px;
+}
+.report-callout h2 {
+  margin-top: 0;
+  margin-bottom: 12px;
+}
+.report-callout p {
+  margin-bottom: 0;
+}
+/* Secondary CTA link below the hero buttons — for institutional buyers
+   who already have terminal access. Pairs with "Request data access"
+   so the access architecture reads as a two-path system: request via
+   the form for new buyers, direct link for existing partners. The
+   terminal itself will be auth-gated per task #54 (Cloudflare Access). */
+.hero-secondary-link {
+  margin-top: 18px;
+  font-size: 0.92rem;
+  color: var(--muted);
+  font-style: italic;
+}
+.hero-secondary-link .terminal-link {
+  color: var(--green-soft);
+  font-style: normal;
+  font-weight: 500;
+  border-bottom: 1px solid rgba(43, 184, 136, 0.35);
+  padding-bottom: 1px;
+  transition: color 0.18s ease, border-color 0.18s ease;
+}
+.hero-secondary-link .terminal-link:hover {
+  color: var(--cream);
+  border-bottom-color: var(--cream);
+  opacity: 1;
+}
+/* Stats strip below hero — mirrors .flt-stats and .checkit-stats patterns.
+   Numbers anchored to §103 I500 OFF-coverage strict methodology canon
+   (banked 13 May 2026): 155 verified catalogue · 148 audited denominator ·
+   138 blindspot strict · 93.2% strict blindspot. Audience: analysts + buyers
+   per .door-tag.i500, so the 3-line num+lbl+sub treatment (CheckIT-pattern)
+   carries more context than the 2-line FLT pattern. */
+.i500-stats { background: var(--navy-soft); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); padding: 36px 0; }
+.i500-stats-grid { max-width: var(--max-width); margin: 0 auto; padding: 0 var(--gutter); display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; text-align: center; }
+@media (max-width: 700px) { .i500-stats-grid { grid-template-columns: 1fr 1fr; } }
+.i500-stat .num { font-family: var(--font-display); font-size: 2.6rem; color: var(--red-soft); font-weight: 800; line-height: 1; letter-spacing: -0.02em; }
+.i500-stat .lbl { font-family: 'JetBrains Mono','SF Mono',Menlo,Consolas,monospace; font-size: 0.7rem; color: var(--muted); letter-spacing: 0.18em; text-transform: uppercase; margin-top: 8px; }
+.i500-stat .sub { font-family: 'JetBrains Mono','SF Mono',Menlo,Consolas,monospace; font-size: 0.62rem; color: var(--muted-dim); letter-spacing: 0.12em; text-transform: uppercase; margin-top: 4px; }
+</style>
+</head>
+<body>
+
+<a href="#main" class="skip-link">Skip to main content</a>
+<header class="site-nav">
+  <div class="site-nav-inner">
+    <a href="index.html" class="brand-banner" aria-label="SCANSMART home — Power is Knowledge Decoded"><img src="assets/hero-v16.webp" alt="SCANSMART" width="48" height="60"></a>
+    <button class="nav-toggle" aria-label="Open navigation" aria-controls="primary-nav" aria-expanded="false" onclick="document.getElementById('primary-nav').classList.toggle('open');this.setAttribute('aria-expanded',this.getAttribute('aria-expanded')==='true'?'false':'true')">≡</button>
+    <nav id="primary-nav" class="nav-doors" aria-label="Primary">
+      <a href="checkit.html">CheckIT</a>
+      <a href="i500.html" aria-current="page">I500</a>
+      <a href="flt.html">FLT</a>
+      <a href="checkout.html">Checkout</a>
+      <a href="library.html" class="lib">Library</a>
+      <a href="install.html" class="install-btn" onclick="installScansmart(event)">Install</a>
+      <a href="https://app.scansmart.uk" class="cta">Try the scanner →</a>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+
+<section class="page-hero">
+  <div class="i500-hero-grid">
+    <div>
+      <div class="door-tag i500">Class 1 · For analysts &amp; buyers</div>
+      <h1>The food data the major databases <span class="accent-green">systematically miss.</span></h1>
+      <p class="lede">
+        The Independent 500 (I500) is a community-audited corpus of products from independent UK shops &mdash; halal, Caribbean, South Asian, kosher, West African, East African, Latin American, vegan-specialist, and refill stores. The products that don&rsquo;t appear in Open Food Facts. The products Tesco and Sainsbury&rsquo;s data feeds don&rsquo;t cover. The products real households in real neighbourhoods actually buy.
+      </p>
+      <div class="hero-cta-row">
+        <a href="door3-preview.html" class="btn btn-access">Access I500 &rarr;</a>
+        <a href="#inquire" class="btn btn-primary">Request data access</a>
+      </div>
+      <p class="hero-secondary-link">
+        New here? <a href="#how" class="terminal-link">How the I500 works &rarr;</a>
+      </p>
+    </div>
+
+    <div class="i500-hero-visual">
+      <!-- TEASER PREVIEW — banked 26 May 2026 evening (replaces the earlier iframe that exposed
+           door3-data.json contents publicly per founder's audit catch). I500 is structurally
+           different from FLT: FLT's data substrate is public APIs (OFF / FSA / EFSA / USDA), so
+           embedding the live terminal exposes nothing proprietary. I500's data substrate IS the
+           paid B2B product (Partner Programme licenses access to the I500). The teaser shows
+           shape + aggregate signal without leaking row-level corpus. -->
+      <div class="i500-teaser-wrap" aria-label="I500 — Retail Intelligence Terminal, teaser">
+        <div class="i500-teaser-head">
+          <span class="i500-teaser-mark">I500 · Retail Intelligence Terminal</span>
+          <span class="i500-teaser-lock">🔒 Subscriber data</span>
+        </div>
+        <div class="i500-teaser-grid" aria-hidden="true">
+          <div class="i500-teaser-col-head"># · NAME</div>
+          <div class="i500-teaser-col-head">BRAND</div>
+          <div class="i500-teaser-col-head">CATEGORY</div>
+          <div class="i500-teaser-col-head">OFF</div>
+
+          <div class="i500-teaser-row">001 · Light Red Kidney Beans</div>
+          <div class="i500-teaser-row">Tropical Sun</div>
+          <div class="i500-teaser-row">Cooking — Pulses</div>
+          <div class="i500-teaser-row i500-teaser-n">N <span class="i500-teaser-pill">blindspot</span></div>
+
+          <div class="i500-teaser-row">002 · Coconut Milk 400ml</div>
+          <div class="i500-teaser-row">— teaser brand —</div>
+          <div class="i500-teaser-row">Cooking — Oils &amp; Milks</div>
+          <div class="i500-teaser-row i500-teaser-y">Y</div>
+
+          <div class="i500-teaser-row">003 · Organic Agave Syrup</div>
+          <div class="i500-teaser-row">Biona Organic</div>
+          <div class="i500-teaser-row">Sweeteners</div>
+          <div class="i500-teaser-row i500-teaser-y">Y</div>
+
+          <div class="i500-teaser-row i500-teaser-faded">004 · ─────────────</div>
+          <div class="i500-teaser-row i500-teaser-faded">───────</div>
+          <div class="i500-teaser-row i500-teaser-faded">───────</div>
+          <div class="i500-teaser-row i500-teaser-faded">·</div>
+
+          <div class="i500-teaser-row i500-teaser-faded">005 · ─────────────</div>
+          <div class="i500-teaser-row i500-teaser-faded">───────</div>
+          <div class="i500-teaser-row i500-teaser-faded">───────</div>
+          <div class="i500-teaser-row i500-teaser-faded">·</div>
+        </div>
+        <div class="i500-teaser-overlay">
+          <div class="i500-teaser-overlay-text">
+            <strong>+ 152 more records</strong><br>
+            <span>filter by category · brand owner · OFF coverage · drilldown per SKU</span>
+          </div>
+          <a class="i500-teaser-cta" href="subscribe.html">Subscribe for full corpus →</a>
+        </div>
+      </div>
+      <div class="i500-mock-caption">↑ <span class="acc">155 verified SKUs</span> · independent-shop catalogue · 93.2% strict blindspot vs OFF · 9 cultural shop types · row-level access for subscribers</div>
+    </div>
+  </div>
+</section>
+
+<!-- STATS STRIP — I500 key numbers anchored to §103 strict methodology canon
+     (banked 13 May 2026). Mirrors the .flt-stats and .checkit-stats pattern
+     so the three product pages read as one design system. The fourth stat
+     (9 cultural shop types) is the I500's structural differentiator vs OFF /
+     supermarket data feeds — analysts and buyers landing here are choosing
+     between commodity data and culturally-specific coverage. -->
+<div class="i500-stats" aria-label="I500 key numbers">
+  <div class="i500-stats-grid">
+    <div class="i500-stat">
+      <div class="num">155</div>
+      <div class="lbl">I500 catalogue</div>
+      <div class="sub">Verified products</div>
+    </div>
+    <div class="i500-stat">
+      <div class="num">148</div>
+      <div class="lbl">Audited</div>
+      <div class="sub">As of 13 May 2026</div>
+    </div>
+    <div class="i500-stat">
+      <div class="num">93.2%</div>
+      <div class="lbl">Strict blindspot</div>
+      <div class="sub">Absent &middot; stale &middot; partial on OFF</div>
+    </div>
+    <div class="i500-stat">
+      <div class="num">9</div>
+      <div class="lbl">Cultural shop types</div>
+      <div class="sub">Halal &middot; Caribbean &middot; S Asian &middot; &amp; more</div>
+    </div>
+  </div>
+</div>
+
+<section id="how" class="section">
+  <div class="section-eyebrow">What it is</div>
+  <h2>An evidence base built where the data is missing.</h2>
+  <p>Open Food Facts is the world&rsquo;s leading open food database &mdash; 4M+ products. <span class="swm">SCANSMART</span> uses it as the primary backbone of CheckIT. But OFF coverage drops sharply at the independent-shop tier, especially for cultural-specific products that mainstream supermarkets don&rsquo;t stock. <strong>For high-diabetes postcodes in South London where Caribbean, halal, and South Asian groceries are the daily reality, OFF can have less than 30% coverage on what&rsquo;s actually in someone&rsquo;s shopping basket.</strong></p>
+  <p>The I500 fills that gap. Trained community auditors visit independent shops with shop-owner consent. Each product is scanned, photographed (with permission), label-decoded, traffic-light-rated, and added to the I500 corpus. By month 12 of operation, the I500 is the most complete dataset of independent-shop food in the UK that exists anywhere.</p>
+
+  <p class="i500-decode">The name carries three readings in one letter and one number. <strong>I for Index</strong> &mdash; a structured catalogue, not a list. <strong>I for Independent</strong> &mdash; shops outside the big-grocer supply chain. <strong>I for 500</strong> &mdash; the original cohort that anchored the catalogue&rsquo;s identity, preserved in the name even as the catalogue grows past it. Each reading is independently true; together they describe what the catalogue is, who it serves, and the scale it commits to.</p>
+
+  <div class="feature-grid">
+    <div class="feature-card">
+      <div class="ico">155 SKUs verified</div>
+      <h3>Already shipping</h3>
+      <p>The I500 v1 corpus carries 155 verified SKUs across South London independent shops as of 13 May 2026 &mdash; of the 148 audited against Open Food Facts, 138 (93.2%) are absent or insufficiently labelled under the strict methodology. Year-1 target: 1,000 products. Long-term ceiling: 2,000&ndash;2,500 genuinely under-represented SKUs.</p>
+    </div>
+    <div class="feature-card">
+      <div class="ico">Cultural specificity</div>
+      <h3>Not a sub-set of OFF</h3>
+      <p>The I500 is the complement to OFF, not a duplicate. Every product in the I500 is verified as <em>not in OFF</em> or insufficiently labelled there. Halal-certified products, Caribbean staples, South Asian household basics, kosher-specific, West African groceries.</p>
+    </div>
+    <div class="feature-card">
+      <div class="ico">Community-audited</div>
+      <h3>Trained local auditors</h3>
+      <p>Audits performed by trained community members, not contractors flown in. The auditor network is the trust layer the data inherits from. Shop owners give explicit consent via the Shop Participation Agreement.</p>
+    </div>
+    <div class="feature-card">
+      <div class="ico">CheckIT integrated</div>
+      <h3>Live in the consumer scanner</h3>
+      <p>Every I500 product is queryable via CheckIT at app.scansmart.uk. When a shopper scans a barcode that&rsquo;s in the I500 but not in OFF, the I500 result is what they see. The hit rate is measured per the v4.10 Decision Record (live since 29 April 2026).</p>
+    </div>
+    <div class="feature-card">
+      <div class="ico">Decision Record</div>
+      <h3>Behavioural signal layer</h3>
+      <p>Beyond the product corpus, the I500 carries the Decision Record &mdash; the anonymous record of what shoppers tap when they see each product (Bought / Put back / Just looking). This is the put-back-pattern evidence base for behavioural intervention research.</p>
+    </div>
+    <div class="feature-card">
+      <div class="ico">Six Layers stack</div>
+      <h3>Six dimensions of intelligence</h3>
+      <p>The I500 is layer 1 of <span class="swm">SCANSMART</span>&rsquo;s Six Layers of Intelligence Stack &mdash; product corpus, decision record, traffic-light indicator, profile-tuned thresholds, alternative-finding (SaK), audit-evidence (per Competitive Positioning Report v1.3).</p>
+    </div>
+  </div>
+</section>
+
+<section class="section section-narrow">
+  <div class="section-eyebrow">Who licenses it</div>
+  <h2>Five categories of buyer.</h2>
+  <ul>
+    <li><strong>Retail intelligence platforms</strong> &mdash; Mintel, Kantar, Nielsen IQ. The I500 is the data they don&rsquo;t have because their methodology doesn&rsquo;t reach independent shops.</li>
+    <li><strong>FMCG manufacturers</strong> &mdash; brands wanting to understand the cultural-specific market they currently can&rsquo;t see. Halal-certified yogurt, Caribbean sauces, South Asian flours.</li>
+    <li><strong>NHS commissioners + public-health teams</strong> &mdash; borough-level diet evidence for high-diabetes, high-hypertension postcodes. The I500 is the dataset for the conversation a council&rsquo;s diabetes prevention team needs to have with the local independent grocers.</li>
+    <li><strong>Academic researchers</strong> &mdash; nutrition, behaviour change, food-systems research. The I500 is the evidence base for studies that can&rsquo;t use OFF alone because OFF doesn&rsquo;t cover the population the research is about.</li>
+    <li><strong>Food-tech investors + analysts</strong> &mdash; market sizing for the under-served segment. The independent-shop tier is a real commercial market that the major databases under-count by 50% or more.</li>
+  </ul>
+</section>
+
+<section class="section section-narrow">
+  <div class="section-eyebrow">How we&rsquo;re funded</div>
+  <h2>Independent of food manufacturers and retailers.</h2>
+  <p><span class="swm">SCANSMART</span> takes no money from food manufacturers, retailers, or trade bodies. That posture isn&rsquo;t decorative &mdash; it&rsquo;s structural. Industry-funded nutrition research favours sponsor outcomes at an odds ratio of <strong>7.61</strong> (Lesser et al., <em>PLOS Medicine</em>, 2007) and produces favourable findings <strong>5.7&times;</strong> more often than independently-funded equivalents (Sacks et al., <em>PLOS ONE</em>, 2020). The same pattern travels with retail-intelligence data infrastructure when the funding architecture mirrors it.</p>
+  <p>The I500 was built so the figures Tier 1&ndash;3 institutional buyers (NHS / academic / retail intelligence) license carry no financial dependency on the actors the data covers. Manufacturer engagement is governed under explicit editorial-integrity constraints; commissioner-led audits are arranged through <a href="partner.html">institutional enquiry</a>. The structural-critique posture in <a href="checkout.html">Checkout, Decoded</a> rests on the same foundation.</p>
+</section>
+
+<section class="section section-narrow">
+  <div class="section-eyebrow">Pricing posture</div>
+  <h2>Tiered institutional licensing.</h2>
+  <p>I500 enterprise licensing follows a tiered institutional pricing pattern. Annual contracts. Tiered for academic / public-sector / commercial buyers. Commissioner-led borough audits are priced separately (<a href="partner.html">institutional enquiries →</a>).</p>
+  <p>For ad-hoc data access, the <a href="subscribe.html"><span class="swm">SCANSMART</span> Subscription</a> tier (£TBD/month) gives professional users (journalists, dietitians, public-health analysts, researchers) searchable access to the corpus without enterprise commitment.</p>
+  <p>For pricing on a specific use case, fill out the inquiry form below. Realistic response time: 3&ndash;5 business days.</p>
+</section>
+
+<section class="section section-narrow">
+  <div class="section-eyebrow">Forthcoming</div>
+  <div class="report-callout">
+    <div class="report-callout-tag">Coming Q3 2026</div>
+    <h2>I500 Report: Independent Shop Analysis 2026.</h2>
+    <p>The first scheduled publication from the I500 catalogue. Aggregate findings, structural patterns, and condition-lens analysis (diabetes / hypertension / oral health) across the Lambeth and South London cohort. Public summary at the headline level; row-level corpus separately licensed under the institutional tiers above. <strong>In preparation; expected Q3 2026.</strong></p>
+  </div>
+</section>
+
+<section id="inquire" class="section section-narrow">
+  <div class="section-eyebrow">Get access</div>
+  <h2>Tell us what you need the I500 for.</h2>
+  <p>Whichever buyer category you fall into, the conversation starts with one paragraph from you about your use case. We&rsquo;ll come back with what&rsquo;s available, what&rsquo;s in the pipeline, and what licence shape fits.</p>
+
+  <form class="form-wrap" id="i500-inquiry" onsubmit="return submitForm(event, 'inquiry')" novalidate>
+    <div class="form-row honeypot"><label>Website (leave blank)</label><input type="text" name="website" tabindex="-1" autocomplete="off"></div>
+    <div class="form-row"><label for="i-name">Your name</label><input type="text" id="i-name" name="name" required></div>
+    <div class="form-row"><label for="i-email">Work email</label><input type="email" id="i-email" name="email" required></div>
+    <div class="form-row"><label for="i-org">Organisation</label><input type="text" id="i-org" name="organization"></div>
+    <div class="form-row"><label for="i-role">Your role</label><input type="text" id="i-role" name="role"></div>
+    <div class="form-row"><label for="i-message">What would you use the I500 for? (one paragraph is fine)</label><textarea id="i-message" name="message" required></textarea></div>
+    <input type="hidden" name="formType" value="inquiry">
+    <input type="hidden" name="sourcePage" value="/i500">
+    <div class="form-actions">
+      <button type="submit" class="btn btn-primary">Send inquiry</button>
+      <span class="form-msg" id="i-msg"></span>
+    </div>
+  </form>
+</section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="footer-inner">
+    <div class="footer-grid">
+      <div class="footer-brand"><div class="brand-lockup"><span class="ss"><span class="swm">SCANSMART</span></span><span class="tag">Power is Knowledge Decoded</span></div><p>The School of Label Literacy. Built in South London. Open to the world.</p></div>
+      <div class="footer-col"><h4>Products</h4><ul><li><a href="checkit.html">CheckIT</a></li><li><a href="i500.html">The I500</a></li>
+          <li><a href="flt.html">FLT — Food Label Terminal</a></li><li><a href="subscribe.html">Subscriptions</a></li></ul></div>
+      <div class="footer-col"><h4>Read &amp; explore</h4><ul><li><a href="checkout.html">Weekly Checkout, Decoded</a></li><li><a href="library.html">Knowledge Library</a></li><li><a href="stories.html">CheckIT Stories</a></li><li><a href="shops.html">I500 Shop Directory</a></li></ul></div>
+      <div class="footer-col"><h4>About</h4><ul><li><a href="about.html">About <span class="swm">SCANSMART</span></a></li><li><a href="install.html">Install on your phone</a></li><li><a href="contact.html">Contact</a></li><li><a href="privacy.html">Privacy</a></li></ul></div>
+    </div>
+    <div class="footer-bottom"><div><a href="index.html" aria-label="Home — SCANSMART"><img src="assets/marque-v2.svg" alt="SCANSMART" class="marque-footer" width="240" height="80"></a></div><div>&copy; 2026 <span class="swm">SCANSMART</span> Ltd &middot; Co. No. 17128797 &middot; England &amp; Wales<br><small style="color:var(--muted-dim)"><span class="swm">SCANSMART</span> is a food literacy and decision-support platform. It is not a medical device and does not provide medical advice.</small></div></div>
+  </div>
+</footer>
+
+<script>
+async function submitForm(event, formType) {
+  event.preventDefault();
+  const form = event.target;
+  const msgId = form.querySelector('.form-msg').id;
+  const msg = document.getElementById(msgId);
+  msg.textContent = 'Sending…'; msg.className = 'form-msg';
+  const data = Object.fromEntries(new FormData(form).entries());
+  try {
+    const res = await fetch('https://kip-forms.courtneyclive84.workers.dev/submit', {
+      method: 'POST', headers: {'content-type':'application/json'}, body: JSON.stringify(data)
+    });
+    const out = await res.json();
+    if (out.ok) { msg.textContent = 'Thanks — we\'ll be in touch within 3-5 business days.'; msg.className = 'form-msg ok'; form.reset(); }
+    else { msg.textContent = out.error || 'Something went wrong. Please try again.'; msg.className = 'form-msg err'; }
+  } catch (e) {
+    msg.textContent = 'Network error. Please try again.'; msg.className = 'form-msg err';
+  }
+  return false;
+}
+</script>
+
+
+<script>
+// Local-file preview link shim — rewrites /foo to foo.html so clicking
+// nav links works when opening index.html directly from disk via file://
+// On https:// production this is a no-op (Cloudflare Pages handles routing).
+(function(){
+  if (location.protocol !== 'file:') return;
+  document.addEventListener('DOMContentLoaded', function() {
+    document.querySelectorAll('a[href^="/"]').forEach(function(a) {
+      var href = a.getAttribute('href');
+      if (href === '/') { a.setAttribute('href', 'index.html'); return; }
+      // Match /single-segment-name with no further path or query
+      if (/^\/[a-z0-9-]+$/i.test(href)) {
+        a.setAttribute('href', href.substring(1) + '.html');
+      }
+    });
+  });
+})();
+
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('/sw.js').catch(() => {});
+  });
+}
+</script>
+</body>
+</html>

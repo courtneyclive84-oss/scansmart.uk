@@ -1,0 +1,49 @@
+{
+  "_comment": "I500 catalogue ticker — single source of truth for the homepage ticker bar and the Door 3 preview header. Methodology shifted to strict per the §50 Honesty Test on 13 May 2026 (see methodology field + refresh_reason_log).",
+  "schema_version": "1.1",
+  "catalogue": "I500",
+  "methodology": "strict — Y* (present-with-caveat), P (partial), and N (absent) all count as blindspot because each fails the test 'is OFF a usable reference for this product'. Unaudited rows (blank OFF status) are excluded from the denominator until audited.",
+  "skus_total": 155,
+  "skus_audited": 148,
+  "skus_unaudited": 7,
+  "skus_blindspot": 138,
+  "skus_sourced": 10,
+  "blindspot_pct": 93.2,
+  "blindspot_breakdown": {
+    "absent_404": 129,
+    "present_stale_or_typo": 5,
+    "partial": 4
+  },
+  "brand_owners": 40,
+  "_note_display": "skus_total (155) is the full catalogue count displayed on the homepage live row. blindspot_pct (93.2%) is calculated on the 148-SKU audited subset (138 / 148). The 7 unaudited SKUs are listed in the workbook with blank OFF status and queued for the next audit pass. The methodology page footnote should explain the audited-subset denominator for any reader who queries the math.",
+  "boroughs_covered": 1,
+  "shops_audited_to_date": 19,
+  "capture_date": "2026-05-13",
+  "audit_method": "OFF API lookup per barcode on the audited subset (148 SKUs); rate-limited at 2.0s with 3.0s retry on 429. Status codes per workbook legend: N (absent / 404), Y (present and accurate), Y* (present with caveat — stale / typo / partial), P (partial), blank (unaudited — needs check).",
+  "audit_source_file": "i500/KiP_i500_Consolidated_v1_2026-04-22.xlsx Product Catalogue sheet, OFF column",
+  "next_refresh_due": "2026-06-01",
+  "refresh_reason_log": [
+    {
+      "date": "2026-04-25",
+      "blindspot_pct": 81.5,
+      "skus_total": 121,
+      "methodology": "lenient (N-only as blindspot)",
+      "note": "Baseline audit."
+    },
+    {
+      "date": "2026-05-04",
+      "blindspot_pct": 87.9,
+      "skus_total": 140,
+      "methodology": "lenient (N-only) on the queryable subset",
+      "note": "+19 SKUs added between 25 Apr and 4 May; denominator drift only (no OFF-side numerator shift; existing N-flagged barcodes 0/29 sample changed). Headline shifted +6.4pp."
+    },
+    {
+      "date": "2026-05-13",
+      "blindspot_pct": 93.2,
+      "skus_total": 155,
+      "skus_audited": 148,
+      "methodology": "strict",
+      "note": "Two changes in one refresh. (a) Methodology shift from lenient to strict per the §50 Honesty Test — Y* (5), P (4), and N (129) now all count as blindspot because each fails the 'usable OFF reference' test; blank/unaudited (7) excluded from the denominator until audited. Under the pre-13-May lenient methodology the equivalent figure would be 83.2% (129 / 155). The +9.3pp jump from the published 84% headline is the methodology change, not a data shift. (b) Six SKU additions from the 9 May Caricom Grocers field visit, banked overnight 13 May (I500-150 through I500-155). The data shift alone — same methodology, audited rows only — moves blindspot from 86.6% (129/149) to 87.1% (133/148) so +0.5pp, below the §80 1pp public-refresh trigger. The methodology change is the load-bearing reason this entry crosses the threshold."
+    }
+  ]
+}
