@@ -3554,8 +3554,14 @@
 //   new Function() parse; HFSS 29/29 + supplier-risk 6/6 + CSV-builder output checks pass.
 //   No service worker registered in flt-app.html (SW stays kill-switch only). Product-identity
 //   source-priority untouched — intelligence layer only.
+// v5.0.143 — 4 June 2026: FLT grey-text readability (flt-dim-contrast)
+//   Founder flagged the F1 fact-sheet meta lines as hard to read. Lifted the FLT terminal's
+//   --dim token #8a8a8a → #adadad (global contrast lift, scoped to flt-app.html only — does NOT
+//   touch the marketing site), bumped .bo-method 9px → 9.5px, and gave its bold labels (OFF field
+//   state: / Match method: …) a brighter #d6d6d6 non-italic treatment so they anchor as labels.
+//   CSS only; no logic change.
 //
-const CACHE_VERSION = 'scansmart-v5.0.142-flt-analyst-tooling';
+const CACHE_VERSION = 'scansmart-v5.0.143-flt-dim-contrast';
 const PRECACHE = [
   '/',
   '/install.html',
