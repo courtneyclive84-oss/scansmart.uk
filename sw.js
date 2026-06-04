@@ -3560,8 +3560,11 @@
 //   touch the marketing site), bumped .bo-method 9px → 9.5px, and gave its bold labels (OFF field
 //   state: / Match method: …) a brighter #d6d6d6 non-italic treatment so they anchor as labels.
 //   CSS only; no logic change.
+// v5.0.144 — 4 June 2026: grey still too dim per founder; --dim #adadad → #c4c4c4 (clearly legible
+//   on the near-black panel, still secondary to the #e7e7e7 body text). Confirmed no neutral
+//   mid-greys bypass the token (the hardcoded greys are tinted accents, not body text). CSS only.
 //
-const CACHE_VERSION = 'scansmart-v5.0.143-flt-dim-contrast';
+const CACHE_VERSION = 'scansmart-v5.0.144-flt-dim-contrast';
 const PRECACHE = [
   '/',
   '/install.html',
