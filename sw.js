@@ -3531,8 +3531,31 @@
 //   take the new ohid arg. F5 multiples render in .panel.expanded only (no dense-view change).
 //   No service worker registered in flt-app.html (SW stays kill-switch only). Product-identity
 //   source-priority untouched — intelligence layer only.
+// v5.0.142 — 4 June 2026: FLT analyst-tooling pass (flt-analyst-tooling)
+//   Three net-new features (after verifying the 27-May audit's other items already shipped —
+//   country-of-origin sub-block, source-priority modal, watchlist were all already live):
+//   (1) HFSS INDICATOR (F3) — UK Nutrient Profiling Model 2004/05. computeHFSS(p): A-points
+//       (energy kJ / sat fat / total sugars / sodium mg) minus C-points (fruit-veg-nut % / fibre
+//       AOAC / protein); food score ≥4, drink ≥1 = HFSS; A≥11 & FVN<5 → protein cannot score.
+//       Thresholds VERBATIM from the DH technical guidance (29/29 boundary + special-rule unit
+//       tests pass). §50: an indicator from this OFF panel, NOT an official HFSS determination;
+//       when fruit/veg/nut % is absent in OFF it is scored 0, making the result an UPPER BOUND.
+//   (2) CSV EXPORT (F1/F3/F5/F6) — analyst output mirroring the F4 peer CSV. One delegated
+//       row-builder per panel; ↓ CSV links in the static panel heads (stopPropagation so a CSV
+//       click doesn't toggle expand); F5 exports the cached reformulation series. §31: export
+//       from a paid surface is the subscriber's reasonable use, not tracking.
+//   (3) SUPPLIER-RISK PROCUREMENT READ (F1 expanded) — the recomposition lift (audit #18).
+//       computeSupplierRisk(p) composes signals ALREADY present — ownership churn + FSA recalls
+//       in 12mo + F5 refined-starch shuffle (sugar↓+carbs↑) + OFF source freshness — into a
+//       HOLD (≥3 flags) / REVIEW (1–2) / CLEAR (0) verdict (HFSS shown as context, not counted).
+//       No new data. §50: a composed read from FLT signals, NOT advice; absent data = signal
+//       unavailable, not a clean bill. CSS-gated to .panel.expanded.
+//   All three verified via JavaScriptCore (node not installed): both inline scripts + sw.js pass
+//   new Function() parse; HFSS 29/29 + supplier-risk 6/6 + CSV-builder output checks pass.
+//   No service worker registered in flt-app.html (SW stays kill-switch only). Product-identity
+//   source-priority untouched — intelligence layer only.
 //
-const CACHE_VERSION = 'scansmart-v5.0.141-flt-ohid-targets';
+const CACHE_VERSION = 'scansmart-v5.0.142-flt-analyst-tooling';
 const PRECACHE = [
   '/',
   '/install.html',

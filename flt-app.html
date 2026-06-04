@@ -428,6 +428,29 @@
   .tl-num-y{color:#ffd54a;font-weight:600}
   .tl-num-r{color:#ff4d4d;font-weight:600}
   .tl-num-u{color:var(--text)}
+  /* HFSS indicator badge (INTEGRATION 8, v5.0.142) — UK NPM 2004/05 score in F3. */
+  .hfss-row{display:flex;align-items:center;gap:8px;margin:3px 0 4px;flex-wrap:wrap}
+  .hfss-badge{display:inline-block;padding:2px 8px;border-radius:3px;font-size:11px;font-weight:700;letter-spacing:.4px}
+  .hfss-yes{background:#3a0d0d;color:#ff4d4d;box-shadow:0 0 6px rgba(255,77,77,0.35)}
+  .hfss-no{background:#0d3a1f;color:#27d07c}
+  .hfss-na{background:#1a1a1a;color:var(--dim)}
+  .hfss-detail{font-size:10px;color:var(--text)}
+  .hfss-note{font-size:9.5px;color:var(--dim);line-height:1.5;margin-top:2px}
+  /* CSV export link in panel heads (F1/F3/F5/F6 analyst output, v5.0.142). §31: paid-surface export is not tracking. */
+  .csv-copy{color:var(--amber);text-decoration:none;border:1px solid var(--amber-dim);padding:1px 6px;border-radius:2px;font-size:10px;cursor:pointer;white-space:nowrap}
+  .csv-copy:hover{background:rgba(230,126,34,0.1)}
+  /* Supplier-risk procurement read (INTEGRATION/feature, v5.0.142) — composed F1-expanded synthesis. */
+  .sr-block{border:1px solid #3a2a0d;border-radius:3px;padding:6px 8px;background:rgba(255,167,38,0.03)}
+  .sr-verdict-row{display:flex;align-items:center;gap:8px;margin:2px 0 6px;flex-wrap:wrap}
+  .sr-verdict{font-weight:800;font-size:13px;padding:2px 10px;border-radius:3px;letter-spacing:.6px}
+  .sr-clear{background:#0d3a1f;color:#27d07c}
+  .sr-review{background:#3a3318;color:#ffd54a}
+  .sr-hold{background:#3a0d0d;color:#ff4d4d;box-shadow:0 0 8px rgba(255,77,77,0.35)}
+  .sr-flags{font-size:10px;color:var(--text)}
+  .sr-row{display:flex;gap:6px;align-items:flex-start;font-size:10px;color:var(--text);line-height:1.45;margin:2px 0}
+  .sr-dot{flex:none;width:7px;height:7px;border-radius:50%;background:#2a2a2a;margin-top:4px}
+  .sr-dot-on{background:#ff4d4d;box-shadow:0 0 4px rgba(255,77,77,0.5)}
+  .sr-context{font-size:9.5px;color:var(--dim);margin:4px 0 2px}
   table.peers{width:100%;border-collapse:collapse;font-size:11px}
   table.peers th{text-align:left;color:var(--dim);font-size:10px;padding:3px 6px;border-bottom:1px solid var(--border)}
   table.peers td{padding:4px 6px;border-bottom:1px solid #111;vertical-align:middle}
@@ -698,7 +721,7 @@
     <div class="panel" id="p1">
       <div class="head">
         <div style="display:flex;align-items:center"><span id="p1title">PROD · DETAIL</span><button type="button" id="watchStar" class="watch-star" title="Add to watchlist" aria-label="Toggle watchlist for focal product" aria-pressed="false" disabled>☆</button></div>
-        <div class="code">&lt;F1&gt;</div>
+        <div style="display:flex;gap:8px;align-items:center"><a href="#" class="csv-copy" data-csv-panel="f1" title="Copy F1 fact-sheet as CSV">↓ CSV</a><div class="code">&lt;F1&gt;</div></div>
       </div>
       <div class="f1-search-wrap">
         <input id="f1Search" class="f1-search" placeholder="Search — product · brand · barcode (Enter to load)" autocomplete="off" spellcheck="false" tabindex="-1" aria-hidden="true" aria-label="Search and load product into terminal">
@@ -710,7 +733,7 @@
       <div class="body" id="ingBody"></div>
     </div>
     <div class="panel" id="p3">
-      <div class="head"><div>NUTR · PER 100g/100ml (UK FOP thresholds)</div><div class="code">&lt;F3&gt;</div></div>
+      <div class="head"><div>NUTR · PER 100g/100ml (UK FOP thresholds)</div><div style="display:flex;gap:8px;align-items:center"><a href="#" class="csv-copy" data-csv-panel="f3" title="Copy F3 nutrition + HFSS as CSV">↓ CSV</a><div class="code">&lt;F3&gt;</div></div></div>
       <div class="body" id="nutBody"></div>
     </div>
     <div class="panel" id="p4">
@@ -724,6 +747,7 @@
           <div class="chart-toggle" id="chartToggle">
             <span data-mode="hist" class="active">HIST</span><span class="sep">·</span><span data-mode="fop">BARS</span>
           </div>
+          <a href="#" class="csv-copy" data-csv-panel="f5" title="Copy F5 reformulation history as CSV">↓ CSV</a>
           <div class="code">&lt;F5&gt; T</div>
         </div>
       </div>
@@ -734,6 +758,7 @@
         <div>RECL · FSA LIVE RECALL FEED</div>
         <div style="display:flex;gap:8px;align-items:center">
           <div class="recl-toggle" id="reclToggle"><span data-mode="relevant" class="active">RELEVANT</span>·<span data-mode="all">ALL</span></div>
+          <a href="#" class="csv-copy" data-csv-panel="f6" title="Copy F6 relevant recalls as CSV">↓ CSV</a>
           <div class="code">&lt;F6&gt;</div>
         </div>
       </div>
@@ -1709,6 +1734,7 @@ function renderBrandOwnership(p){
   </div>`;
 
   return `<div class="brand-ownership-block">
+    ${renderSupplierRisk(p)}
     ${ownershipSection}
     <div class="bo-section"><div class="sectitle">ALLERGEN PROFILE</div>${allergenSection}</div>
     <div class="bo-section"><div class="sectitle">RECALL RECENCY · FSA-CACHE-BOUNDED</div>${recallSection}</div>
@@ -1717,6 +1743,96 @@ function renderBrandOwnership(p){
     <div class="bo-section"><div class="sectitle">ADDITIVE STATUS · GB</div>${additiveSection}</div>
     <div class="bo-section"><div class="sectitle">ORIGIN &amp; SUPPLY CHAIN</div>${originsSection}</div>
     ${metaSection}
+  </div>`;
+}
+
+/* ============================================================
+   Supplier-risk procurement read (v5.0.142) — the recomposition lift (audit #18).
+   Composes signals ALREADY in F1/F5/F6 into a single procurement-decision read; no new data.
+     • ownership churn   — number / recency of acquisitions from the brand-ownership chronology
+     • recall risk       — FSA recall matches in the last 12 months (cache-bounded)
+     • reformulation     — refined-starch substitution signal from the F5 history (sugar↓ + carbs↑)
+     • source freshness  — OFF record age (may not reflect the latest pack)
+     • product profile   — HFSS indicator (context, NOT counted toward the verdict)
+   Verdict from the count of OPERATIONAL flags: HOLD (≥3) / REVIEW (1–2) / CLEAR (0).
+   §50: a composed read from FLT signals — NOT procurement advice or a determination. Absent
+   data means a signal is unavailable, not a clean bill. Renders in F1 expanded only (CSS-gated).
+   ============================================================ */
+function _srYear(s){ const m = String(s||"").match(/\d{4}/); return m ? parseInt(m[0],10) : null; }
+function computeSupplierRisk(p){
+  const signals = [], flags = [];
+  /* 1. Ownership churn */
+  const bo = lookupBrandOwnership(p.brands||"");
+  if(bo && bo.history && bo.history.length){
+    const changes = bo.history.length - 1;
+    const thisYear = new Date().getFullYear();
+    let recent = 0, latestYear = null;
+    bo.history.forEach((h,i) => { const y = _srYear(h.from); if(y){ if(latestYear==null||y>latestYear) latestYear=y; if(i>0 && y>=thisYear-10) recent++; } });
+    if(changes >= 1){
+      const churn = recent >= 2;
+      signals.push({risk:churn, text:`${changes} ownership change${changes>1?"s":""} on record${recent?`, ${recent} in the last 10 years`:""}${latestYear?` (most recent ${latestYear})`:""}.`});
+      if(churn) flags.push("parent-co churn");
+    } else {
+      signals.push({risk:false, text:"Single owner on record — no acquisition history."});
+    }
+  } else {
+    signals.push({risk:false, text:"No ownership-change history on record (brand not in the curated chronology, or single-owner)."});
+  }
+  /* 2. Recall risk */
+  const rc = recallRecencyForBrand(p.brands||"");
+  if(rc && rc.state === "matches"){
+    const r12 = rc.count12Months || 0;
+    signals.push({risk:r12>=1, text:`${rc.totalMatches} FSA recall match${rc.totalMatches>1?"es":""} in cache · ${r12} in last 12 months · most recent ${rc.daysSinceMostRecent}d ago (cache-bounded).`});
+    if(r12 >= 1) flags.push(`${r12} recall${r12>1?"s":""}/12mo`);
+  } else if(rc && rc.state === "no-matches"){
+    signals.push({risk:false, text:`0 FSA recall matches in the current cache (${rc.cacheSize}) — cache-bounded, not historical-total.`});
+  } else {
+    signals.push({risk:false, text:`Recall feed not matchable (${rc?rc.state:"unavailable"}) — open F6 to load the FSA feed.`});
+  }
+  /* 3. Reformulation signal (refined-starch substitution) */
+  const s = LAST_F5_SERIES;
+  if(s && s.length >= 2){
+    const f = s[0], l = s[s.length-1];
+    const dSugar = (typeof l.sugar==="number" && typeof f.sugar==="number") ? l.sugar-f.sugar : null;
+    const dCarbs = (typeof l.carbs==="number" && typeof f.carbs==="number") ? l.carbs-f.carbs : null;
+    const dFibre = (typeof l.fibre==="number" && typeof f.fibre==="number") ? l.fibre-f.fibre : null;
+    if(dSugar != null && dCarbs != null && dSugar < -0.5 && dCarbs > 0.5){
+      signals.push({risk:true, text:`Reformulation: sugar↓ (${dSugar.toFixed(1)}g) + carbs↑ (+${dCarbs.toFixed(1)}g)${dFibre!=null && dFibre<0 ? ` + fibre↓ (${dFibre.toFixed(1)}g)` : ""} — refined-starch substitution signal (F5 history).`});
+      flags.push("refined-starch shuffle");
+    } else {
+      signals.push({risk:false, text:`Reformulation history loaded (${s.length} revisions) — no refined-starch substitution pattern detected.`});
+    }
+  } else {
+    signals.push({risk:false, text:"No reformulation history loaded — open F5 for the focal product to check substitution patterns."});
+  }
+  /* 4. Source freshness */
+  const meta = formatLastUpdated(p.last_modified_t);
+  if(meta && meta.days != null){
+    const stale = meta.days > 180;
+    signals.push({risk:stale, text:`OFF record ${meta.days}d old (${meta.confidence})${stale ? " — may not reflect the latest pack" : ""}.`});
+    if(stale) flags.push(`OFF record ${meta.days}d old`);
+  }
+  /* 5. HFSS — product profile context, NOT a verdict flag */
+  const hf = computeHFSS(p);
+  const hfssText = hf.state === "ok"
+    ? (hf.hfss ? `Product profile: scores HFSS (less healthy) on NPM 2004/05 — score ${hf.score}.` : `Product profile: not HFSS on NPM 2004/05 — score ${hf.score}.`)
+    : "Product profile: HFSS not computable (insufficient nutrition data).";
+  let verdict, vClass;
+  if(flags.length === 0){ verdict="CLEAR"; vClass="sr-clear"; }
+  else if(flags.length <= 2){ verdict="REVIEW"; vClass="sr-review"; }
+  else { verdict="HOLD"; vClass="sr-hold"; }
+  return {verdict, vClass, flags, signals, hfssText};
+}
+function renderSupplierRisk(p){
+  const r = computeSupplierRisk(p);
+  const flagLine = r.flags.length ? r.flags.join(" · ") : "no operational risk signals in available data";
+  const rows = r.signals.map(s => `<div class="sr-row"><span class="sr-dot ${s.risk?'sr-dot-on':''}"></span><span>${s.text}</span></div>`).join("");
+  return `<div class="bo-section sr-block">
+    <div class="sectitle">SUPPLIER RISK · PROCUREMENT READ</div>
+    <div class="sr-verdict-row"><span class="sr-verdict ${r.vClass}">${r.verdict}</span><span class="sr-flags">${escapeHtml(flagLine)}</span></div>
+    <div class="sr-signals">${rows}</div>
+    <div class="sr-context">${escapeHtml(r.hfssText)}</div>
+    <div class="bo-method"><strong>Composed read</strong> from FLT signals — ownership chronology + FSA recall feed (cache-bounded) + F5 reformulation history + OFF source freshness. <strong>Not</strong> procurement advice or a determination. Absent data means a signal is unavailable, not a clean bill. Verdict = HOLD (≥3 flags) / REVIEW (1–2) / CLEAR (0).</div>
   </div>`;
 }
 
@@ -3428,6 +3544,190 @@ function parseServingGrams(s){
   return null;
 }
 
+/* ============================================================
+   HFSS indicator (INTEGRATION 8, v5.0.142) — UK Nutrient Profiling Model 2004/05.
+   Source: "Nutrient profiling model 2004 to 2005: technical guidance" (DH). A-points
+   (energy kJ / saturated fat g / total sugars g / sodium mg, max 10 each) minus C-points
+   (fruit-veg-nut % / fibre AOAC g / protein g, max 5 each). Food score ≥4, drink score ≥1 =
+   "less healthy" (HFSS). Special rule: if A ≥ 11 and fruit/veg/nut < 5 points, protein cannot
+   score. Thresholds embedded VERBATIM from the guidance tables (verified against the doc's
+   worked examples). §50: an INDICATOR computed from this product's OFF nutrition panel — NOT
+   an official HFSS determination (statutory assessment uses as-sold/as-consumed rules + recipe
+   fruit/veg/nut content). When the fruit/veg/nut estimate is absent in OFF it is scored 0,
+   which can only RAISE the score, so the indicator is an UPPER BOUND on HFSS likelihood.
+   Requires all four A-nutrients; otherwise returns "insufficient".
+   ============================================================ */
+const NPM_A_THRESH = {
+  energy: [[3350,10],[3015,9],[2680,8],[2345,7],[2010,6],[1675,5],[1340,4],[1005,3],[670,2],[335,1]],
+  satfat: [[10,10],[9,9],[8,8],[7,7],[6,6],[5,5],[4,4],[3,3],[2,2],[1,1]],
+  sugar:  [[45,10],[40,9],[36,8],[31,7],[27,6],[22.5,5],[18,4],[13.5,3],[9,2],[4.5,1]],
+  sodium: [[900,10],[810,9],[720,8],[630,7],[540,6],[450,5],[360,4],[270,3],[180,2],[90,1]],
+};
+const NPM_C_THRESH = {
+  fvn:     [[80,5],[60,2],[40,1]],                       /* %: >40=1, >60=2, >80=5 (no 3/4) */
+  fibre:   [[4.7,5],[3.7,4],[2.8,3],[1.9,2],[0.9,1]],    /* AOAC fibre — OFF fiber_100g is AOAC */
+  protein: [[8.0,5],[6.4,4],[4.8,3],[3.2,2],[1.6,1]],
+};
+function npmPts(table, v){ if(v==null || isNaN(v)) return null; for(const tp of table){ if(v > tp[0]) return tp[1]; } return 0; }
+function npmFirstNum(){ for(let i=0;i<arguments.length;i++){ const a=arguments[i]; if(typeof a==="number" && !isNaN(a)) return a; } return null; }
+function isDrinkProduct(p){
+  const tags = (p && p.categories_tags) || [];
+  return tags.some(t => /\b(beverages?|drinks?|sodas?|waters?|juices?|smoothies?)\b/.test(String(t)));
+}
+function computeHFSS(p){
+  const n = (p && p.nutriments) || {};
+  const energyKj = npmFirstNum(n["energy-kj_100g"], (typeof n["energy-kcal_100g"]==="number" ? n["energy-kcal_100g"]*4.184 : null));
+  const satfat = npmFirstNum(n["saturated-fat_100g"]);
+  const sugar  = npmFirstNum(n["sugars_100g"]);
+  const sodium = offSodiumMg(n);
+  const fibre  = npmFirstNum(n["fiber_100g"]);
+  const protein= npmFirstNum(n["proteins_100g"]);
+  const fvn    = npmFirstNum(n["fruits-vegetables-nuts-estimate-from-ingredients_100g"], n["fruits-vegetables-nuts_100g"], n["fruits-vegetables-nuts-estimate_100g"]);
+  const aE=npmPts(NPM_A_THRESH.energy,energyKj), aS=npmPts(NPM_A_THRESH.satfat,satfat),
+        aU=npmPts(NPM_A_THRESH.sugar,sugar), aNa=npmPts(NPM_A_THRESH.sodium,sodium);
+  const missing=[];
+  if(aE==null) missing.push("energy"); if(aS==null) missing.push("saturates");
+  if(aU==null) missing.push("sugars"); if(aNa==null) missing.push("sodium");
+  if(missing.length) return {state:"insufficient", missing};
+  const A = aE+aS+aU+aNa;
+  const cF   = fvn==null ? 0 : npmPts(NPM_C_THRESH.fvn, fvn);
+  const cFib = fibre==null ? 0 : npmPts(NPM_C_THRESH.fibre, fibre);
+  const cPro = protein==null ? 0 : npmPts(NPM_C_THRESH.protein, protein);
+  let C, proteinCounted;
+  if(A < 11 || cF === 5){ C = cF + cFib + cPro; proteinCounted = true; }
+  else { C = cF + cFib; proteinCounted = false; }      /* A≥11 & FVN<5 → protein cannot score */
+  const score = A - C;
+  const drink = isDrinkProduct(p);
+  const threshold = drink ? 1 : 4;
+  return {state:"ok", A, C, score, hfss: score >= threshold, drink, threshold,
+          aPts:{energy:aE,satfat:aS,sugar:aU,sodium:aNa}, cPts:{fvn:cF,fibre:cFib,protein:cPro},
+          proteinCounted, fvnMissing: fvn==null, cIncomplete:(fvn==null||fibre==null||protein==null)};
+}
+/* Build the F3 HFSS indicator block HTML from a computeHFSS() result. */
+function renderHfssBlock(hf){
+  if(hf.state === "insufficient"){
+    return `<div class="sectitle">HFSS INDICATOR · UK NPM 2004/05</div>
+      <div class="hfss-row"><span class="hfss-badge hfss-na">N/A</span>
+        <span class="hfss-detail">Insufficient data — needs ${hf.missing.join(", ")} per 100g to score the four A-nutrients.</span></div>`;
+  }
+  const cls = hf.hfss ? "hfss-yes" : "hfss-no";
+  const verdict = hf.hfss ? "HFSS · less healthy" : "Not HFSS";
+  const proteinNote = hf.proteinCounted ? "" : " · protein not counted (A≥11, FVN<5)";
+  const caveat = hf.fvnMissing
+    ? ` Fruit/veg/nut % absent in OFF → scored 0; C-points understated, so this is an <strong>upper bound</strong> — the true score may be lower.`
+    : "";
+  return `<div class="sectitle">HFSS INDICATOR · UK NPM 2004/05</div>
+    <div class="hfss-row">
+      <span class="hfss-badge ${cls}">${verdict}</span>
+      <span class="hfss-detail">A ${hf.A} − C ${hf.C} = <strong>${hf.score}</strong> · ${hf.drink?"drink":"food"} threshold ${hf.threshold}${proteinNote}</span>
+    </div>
+    <div class="hfss-note">Indicator computed from this product's OFF nutrition panel via the 2004/05 Nutrient Profiling Model — <strong>not</strong> an official HFSS determination (statutory assessment uses as-sold/as-consumed rules + recipe fruit/veg/nut content).${caveat}</div>`;
+}
+
+/* ============================================================
+   CSV export (v5.0.142) — analyst output from F1 / F3 / F5 / F6, mirroring the F4 peer CSV.
+   §31 boundary: export from a Subscription-tier paid surface is the subscriber's reasonable use
+   of what they paid for, NOT tracking. One delegated row-builder per panel; the click handlers
+   are wired once at init (the .csv-copy links live in the static panel heads) and read the live
+   CURRENT product + panel state at click time, so they survive every body re-render.
+   LAST_F5_SERIES caches the most recent reformulation series so F5 (an SVG body) can export. */
+let LAST_F5_SERIES = null;
+function csvEscape(rows){ return rows.map(r => r.map(c => `"${String(c==null?"":c).replace(/"/g,'""')}"`).join(",")).join("\r\n"); }
+function _csvNum(v){ return (typeof v==="number" && !isNaN(v)) ? v : ""; }
+function buildCsvRows(panel, p){
+  const n = (p && p.nutriments) || {};
+  const brand0 = (p.brands||"").split(",")[0].trim();
+  const name = p.product_name_en || p.product_name || "";
+  if(panel === "f3"){
+    const flds = [["Energy","energy-kcal_100g","kcal"],["Fat","fat_100g","g"],["Saturates","saturated-fat_100g","g"],
+      ["Carbohydrate","carbohydrates_100g","g"],["Sugars","sugars_100g","g"],["Fibre","fiber_100g","g"],
+      ["Protein","proteins_100g","g"],["Salt","salt_100g","g"]];
+    const rows = [["FLT export","F3 nutrition + HFSS"],["Barcode",p.code||""],["Product",name],["Brand",brand0],
+      ["Source",p._src==="i500"?"I500 verified":"OpenFoodFacts"],[],["NUTRIENT","PER_100G","UNIT"]];
+    flds.forEach(f => rows.push([f[0], _csvNum(n[f[1]]), f[2]]));
+    const hf = computeHFSS(p);
+    rows.push([]);
+    rows.push(hf.state==="ok"
+      ? ["HFSS_NPM_2004_05", hf.hfss?"HFSS":"Not HFSS", `score ${hf.score} (A${hf.A}-C${hf.C}); ${hf.drink?"drink":"food"} threshold ${hf.threshold}`]
+      : ["HFSS_NPM_2004_05","N/A","insufficient: "+(hf.missing||[]).join("/")]);
+    return rows;
+  }
+  if(panel === "f5"){
+    const s = LAST_F5_SERIES;
+    const rows = [["FLT export","F5 reformulation history"],["Barcode",p.code||""],["Product",name],[],
+      ["DATE","SUGAR_g","SALT_g","SATFAT_g","ENERGY_kcal","CARBS_g","FIBRE_g","PROTEIN_g"]];
+    if(!s || !s.length){ rows.push(["(no reformulation history loaded — open F5 / scan a product with OFF revisions first)"]); return rows; }
+    s.forEach(pt => {
+      const d = (pt.date instanceof Date) ? pt.date.toISOString().slice(0,10) : String(pt.date||"");
+      rows.push([d, _csvNum(pt.sugar), _csvNum(pt.salt), _csvNum(pt.satfat), _csvNum(pt.kcal), _csvNum(pt.carbs), _csvNum(pt.fibre), _csvNum(pt.protein)]);
+    });
+    return rows;
+  }
+  if(panel === "f6"){
+    const mode = (typeof RECL_MODE !== "undefined") ? RECL_MODE : "relevant";
+    const ranked = (typeof rankRecallsForProduct === "function" && typeof RECALLS_CACHE !== "undefined")
+      ? rankRecallsForProduct(RECALLS_CACHE, p, mode) : {items:[]};
+    const items = ranked.items || [];
+    const rows = [["FLT export",`F6 FSA recalls (${mode})`],["Focal brand",brand0],["Cache size",(typeof RECALLS_CACHE!=="undefined"?RECALLS_CACHE.length:0)],[],
+      ["NOTATION","TYPE","DATE","BUSINESS","PRODUCTS","TITLE","URL","RELEVANCE_PTS"]];
+    items.forEach(it => {
+      const types = (it.type||[]).map(t => String(t).split("/").pop()).filter(x => x && x!=="Alert").join("/");
+      const prods = (it.productDetails||[]).map(d => d.productName).filter(Boolean).join(" | ").slice(0,220);
+      rows.push([it.notation||"", types, (it.created||"").slice(0,10), (it.reportingBusiness&&it.reportingBusiness.commonName)||"",
+        prods, (it.title||"").slice(0,220), it.alertURL||"", _csvNum(it._rel)]);
+    });
+    if(!items.length) rows.push(["(no recalls in cache / none relevant)"]);
+    return rows;
+  }
+  /* default: F1 fact-sheet */
+  const rows = [["FLT export","F1 fact-sheet"],["Barcode",p.code||""],["Product",name],["Brand",brand0],
+    ["Source",p._src==="i500"?"I500 verified":"OpenFoodFacts"]];
+  const hf = computeHFSS(p);
+  rows.push(hf.state==="ok" ? ["HFSS", hf.hfss?"HFSS":"Not HFSS", `score ${hf.score} (${hf.drink?"drink":"food"} threshold ${hf.threshold})`] : ["HFSS","N/A","insufficient data"]);
+  try {
+    const rc = recallRecencyForBrand(p.brands||"");
+    if(rc) rows.push(["Recall recency", rc.state, `matches ${rc.totalMatches!=null?rc.totalMatches:"?"}${rc.count12Months!=null?` / last 12mo ${rc.count12Months}`:""}`]);
+  } catch(e) {}
+  try {
+    const o = formatOrigins(p);
+    if(o){
+      const fmt = x => x ? `${x.state}${x.list&&x.list.length?": "+x.list.join("|"):""}` : "";
+      rows.push(["Countries sold in", fmt(o.countries_tags)]);
+      rows.push(["Manufactured in", fmt(o.manufacturing_places_tags)]);
+    }
+  } catch(e) {}
+  try {
+    const bo = lookupBrandOwnership(p.brands||"");
+    if(bo && bo.history && bo.history.length){
+      rows.push([]);
+      rows.push(["OWNERSHIP_FROM","OWNERSHIP_TO","OWNER","NOTE"]);
+      bo.history.forEach(h => rows.push([h.from||"", h.to||"current", h.owner||"", h.note||""]));
+    } else {
+      rows.push(["Ownership","not in curated database"]);
+    }
+  } catch(e) {}
+  return rows;
+}
+/* Wire the head CSV links once (static markup). stopPropagation keeps a CSV click from also
+   firing the head's expand toggle. Reads CURRENT live, so one-time wiring covers all renders. */
+function wireCsvLinks(){
+  document.querySelectorAll(".csv-copy").forEach(a => {
+    a.addEventListener("click", e => {
+      e.preventDefault(); e.stopPropagation();
+      const panel = a.dataset.csvPanel;
+      const p = (typeof CURRENT !== "undefined") ? CURRENT : null;
+      const reset = () => setTimeout(() => { a.textContent = "↓ CSV"; }, 1600);
+      if(!p){ a.textContent = "· load a product"; reset(); return; }
+      let rows;
+      try { rows = buildCsvRows(panel, p); } catch(err){ rows = [["CSV build error", String(err)]]; }
+      navigator.clipboard.writeText(csvEscape(rows)).then(
+        () => { a.textContent = "✓ COPIED"; reset(); },
+        () => { a.textContent = "✗ clipboard blocked"; reset(); }
+      );
+    });
+  });
+}
+
 function renderNutrition(p){
   const n = p.nutriments || {};
   const get = k => (typeof n[k]==="number" ? n[k] : null);
@@ -3484,6 +3784,7 @@ function renderNutrition(p){
       }).join("")}
     </div>
     ${servingG == null ? `<div style="font-size:9.5px;color:var(--dim);margin-top:4px">⚠ Serving size not available in OFF record — per-serving column shows "—". OFF field <code>serving_size</code> is null or unparseable.</div>` : ""}
+    ${renderHfssBlock(computeHFSS(p))}
     <div class="sectitle">UK FRONT-OF-PACK TRAFFIC LIGHTS</div>
     <div style="font-size:10px;color:var(--dim)">
       Per 100g: Fat ≤3g GREEN · ≥17.5g RED &nbsp;|&nbsp; Saturates ≤1.5g / ≥5g &nbsp;|&nbsp;
@@ -3879,6 +4180,7 @@ function ohidTarget(p){
    together exposes the substitution patterns the headline numbers hide.
    ============================================================ */
 function renderLineChartMultiples(series, p){
+  LAST_F5_SERIES = series;   /* cache for F5 CSV export (the SVG body can't be re-read as a table) */
   const svg = document.getElementById("chartSvg");
   /* v5.0.95 (25 May 2026) — grow chart width with history length so longer reformulation history
      spreads out for legible reading + panel body scrolls horizontally rather than cramming every
@@ -5129,6 +5431,7 @@ document.getElementById("reclToggle").addEventListener("click", e=>{
 /* INIT */
 (async function(){
   setStatus(true, "ready");
+  wireCsvLinks(); // F1/F3/F5/F6 head CSV export links (static markup, one-time wiring)
   loadRecalls(); // async, builds ticker + recall panel once done
   loadWire();    // F7 food news wire (via rss2json proxy)
   // open with a known interesting SKU
