@@ -3517,8 +3517,22 @@
 //   substance by _internal/build-efsa-adi.py (no invented numbers; build fails loudly on
 //   mismatch). Partial coverage by design; "—" when not in the curated set. §50: EFSA
 //   health-based guidance value, not a per-product safety judgement. const FSA_ADI embedded.
+// v5.0.141 — 4 June 2026: FLT INTEGRATION 6 — OHID/PHE reformulation targets (flt-ohid-targets)
+//   The F5 Reformulation Auditor gains a 2nd dotted reference line — violet, distinct from the
+//   cyan CoFID benchmark — at the official OHID/PHE category target on the SALT chart (2024 salt
+//   target, average or maximum-where-avg-absent) and the SUGAR chart (2020 20% sugar guideline).
+//   Sources: "Salt reduction targets for 2024" (PHE, Sep 2020) + "Sugar Reduction: Achieving the
+//   20%" (PHE, Mar 2017). Every figure asserted present verbatim in the source PDF text by
+//   _internal/build-ohid-targets.py (no invented numbers; build fails loudly on mismatch).
+//   12 OFF categories curated (10 salt + 5 sugar); heterogeneous categories (meat/seafood/sauces)
+//   skipped on purpose. Each line names its exact source sub-category in the F5 legend. §50:
+//   official UK reduction-programme target, category-level — NOT a product standard. New const
+//   OHID_TARGETS embedded; ohidTarget(p) helper added; renderMiniChart + renderShuffleLegend
+//   take the new ohid arg. F5 multiples render in .panel.expanded only (no dense-view change).
+//   No service worker registered in flt-app.html (SW stays kill-switch only). Product-identity
+//   source-priority untouched — intelligence layer only.
 //
-const CACHE_VERSION = 'scansmart-v5.0.140-flt-efsa-adi';
+const CACHE_VERSION = 'scansmart-v5.0.141-flt-ohid-targets';
 const PRECACHE = [
   '/',
   '/install.html',

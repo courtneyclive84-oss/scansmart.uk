@@ -1756,6 +1756,18 @@ const FSA_ADDITIVES_FETCHED = "2026-06-04";
 const FSA_ADI = {"E100":{"name":"Curcumin","adi":3,"unit":"mg/kg bw/day"},"E104":{"name":"Quinoline Yellow","adi":0.5,"unit":"mg/kg bw/day"},"E110":{"name":"Sunset Yellow FCF","adi":4,"unit":"mg/kg bw/day"},"E124":{"name":"Ponceau 4R, Cochineal Red A","adi":0.7,"unit":"mg/kg bw/day"},"E129":{"name":"Allura Red AC","adi":7,"unit":"mg/kg bw/day"},"E150a":{"name":"Plain caramel","adi":300,"unit":"mg/kg bw/day"},"E150b":{"name":"Caustic sulphite caramel","adi":300,"unit":"mg/kg bw/day"},"E150c":{"name":"Ammonia caramel","adi":100,"unit":"mg/kg bw/day"},"E150d":{"name":"Sulphite ammonia caramel","adi":300,"unit":"mg/kg bw/day"},"E160d":{"name":"Lycopene","adi":0.5,"unit":"mg/kg bw/day"},"E200":{"name":"Sorbic acid","adi":11,"unit":"mg/kg bw/day"},"E202":{"name":"Potassium sorbate","adi":11,"unit":"mg/kg bw/day"},"E210":{"name":"Sodium benzoate","adi":5,"unit":"mg/kg bw/day"},"E211":{"name":"Sodium benzoate","adi":5,"unit":"mg/kg bw/day"},"E212":{"name":"Potassium benzoate","adi":5,"unit":"mg/kg bw/day"},"E213":{"name":"Calcium benzoate","adi":5,"unit":"mg/kg bw/day"},"E220":{"name":"Sulfur dioxide and sulfites group","adi":0.7,"unit":"mg/kg bw/day"},"E223":{"name":"Sulfur dioxide and sulfites group","adi":0.7,"unit":"mg/kg bw/day"},"E249":{"name":"Nitrites","adi":0.07,"unit":"mg/kg bw/day"},"E250":{"name":"Nitrites","adi":0.07,"unit":"mg/kg bw/day"},"E251":{"name":"Nitrate","adi":3.7,"unit":"mg/kg bw/day"},"E252":{"name":"Nitrate","adi":3.7,"unit":"mg/kg bw/day"},"E310":{"name":"Propyl gallate","adi":0.5,"unit":"mg/kg bw/day"},"E320":{"name":"Butylated hydroxyanisole (BHA)","adi":1,"unit":"mg/kg bw/day"},"E321":{"name":"Butylated hydroxytoluene (BHT)","adi":0.25,"unit":"mg/kg bw/day"},"E334":{"name":"Tartaric acid (L(+)-)","adi":240,"unit":"mg/kg bw/day"},"E338":{"name":"Phosphoric acid-phosphates - di-, tri- and polyphosphates (E 338\u2013341, E 343, E 450\u2013452)","adi":40,"unit":"mg/kg bw/day"},"E339":{"name":"Phosphoric acid-phosphates - di-, tri- and polyphosphates (E 338\u2013341, E 343, E 450\u2013452)","adi":40,"unit":"mg/kg bw/day"},"E340":{"name":"Phosphoric acid-phosphates - di-, tri- and polyphosphates (E 338\u2013341, E 343, E 450\u2013452)","adi":40,"unit":"mg/kg bw/day"},"E341":{"name":"Phosphoric acid-phosphates - di-, tri- and polyphosphates (E 338\u2013341, E 343, E 450\u2013452)","adi":40,"unit":"mg/kg bw/day"},"E450":{"name":"Phosphoric acid-phosphates - di-, tri- and polyphosphates (E 338\u2013341, E 343, E 450\u2013452)","adi":40,"unit":"mg/kg bw/day"},"E451":{"name":"Phosphoric acid-phosphates - di-, tri- and polyphosphates (E 338\u2013341, E 343, E 450\u2013452)","adi":40,"unit":"mg/kg bw/day"},"E452":{"name":"Phosphoric acid-phosphates - di-, tri- and polyphosphates (E 338\u2013341, E 343, E 450\u2013452)","adi":40,"unit":"mg/kg bw/day"},"E407":{"name":"Carrageenan","adi":75,"unit":"mg/kg bw/day"},"E433":{"name":"Polysorbates","adi":25,"unit":"mg/kg bw/day"},"E432":{"name":"Polysorbates","adi":25,"unit":"mg/kg bw/day"},"E434":{"name":"Polysorbates","adi":25,"unit":"mg/kg bw/day"},"E435":{"name":"Polysorbates","adi":25,"unit":"mg/kg bw/day"},"E436":{"name":"Polysorbates","adi":25,"unit":"mg/kg bw/day"},"E620":{"name":"Glutamic acid","adi":30,"unit":"mg/kg bw/day"},"E621":{"name":"Monosodium L-Glutamate","adi":30,"unit":"mg/kg bw/day"},"E622":{"name":"Monopotassium L-glutamate","adi":30,"unit":"mg/kg bw/day"},"E623":{"name":"Calcium di-L-glutamate","adi":30,"unit":"mg/kg bw/day"},"E624":{"name":"Monoammonium L-glutamate","adi":30,"unit":"mg/kg bw/day"},"E625":{"name":"Magnesium diglutamate","adi":30,"unit":"mg/kg bw/day"},"E950":{"name":"Acesulfame K","adi":9,"unit":"mg/kg bw/day"},"E951":{"name":"Aspartame","adi":40,"unit":"mg/kg bw/day"},"E960":{"name":"Steviol glycosides","adi":4,"unit":"mg/kg bw/day"}};
 
 /* ============================================================
+   OHID/PHE reduction-programme targets (INTEGRATION 6) — keyed by OFF category tag.
+   SALT  : Salt reduction targets for 2024 (PHE, Sep 2020) — 2024 average + maximum, g/100g.
+   SUGAR : Sugar Reduction: Achieving the 20% (PHE, Mar 2017) — 2020 20% guideline, g/100g.
+   Every figure is asserted present verbatim in the source PDF text by
+   _internal/build-ohid-targets.py (no invented numbers). Coverage is partial by design —
+   only OFF categories with a clean representative target; heterogeneous categories skipped.
+   §50: official UK reduction-programme target, category-level — not a product standard.
+   key 'en:breads' -> {sub, salt:{avg,max,src}?, sugar:{target,src}?}.
+   ============================================================ */
+const OHID_TARGETS = {"en:breads":{"sub":"Bread & rolls (2.1)","salt":{"avg":0.85,"max":1.01,"src":"OHID/PHE Salt reduction targets 2024 (Sep 2020)"}},"en:breakfast-cereals":{"sub":"Breakfast cereals (3.1)","salt":{"avg":0.48,"max":0.9,"src":"OHID/PHE Salt reduction targets 2024 (Sep 2020)"},"sugar":{"target":12.3,"src":"PHE Sugar reduction: Achieving the 20% (Mar 2017) — 2020 guideline"}},"en:cheeses":{"sub":"Cheddar & hard cheeses (4.1)","salt":{"avg":1.66,"max":1.9,"src":"OHID/PHE Salt reduction targets 2024 (Sep 2020)"}},"en:soups":{"sub":"Soups, as consumed (9.1)","salt":{"avg":0.5,"max":0.59,"src":"OHID/PHE Salt reduction targets 2024 (Sep 2020)"}},"en:snacks":{"sub":"Standard potato crisps (11.1)","salt":{"avg":1.25,"max":1.38,"src":"OHID/PHE Salt reduction targets 2024 (Sep 2020)"}},"en:salty-snacks":{"sub":"Standard potato crisps (11.1)","salt":{"avg":1.25,"max":1.38,"src":"OHID/PHE Salt reduction targets 2024 (Sep 2020)"}},"en:cakes":{"sub":"Cakes (12.1)","salt":{"avg":0.4,"max":0.66,"src":"OHID/PHE Salt reduction targets 2024 (Sep 2020)"},"sugar":{"target":27.9,"src":"PHE Sugar reduction: Achieving the 20% (Mar 2017) — 2020 guideline"}},"en:biscuits":{"sub":"Sweet biscuits (16.1)","salt":{"avg":0.55,"max":0.85,"src":"OHID/PHE Salt reduction targets 2024 (Sep 2020)"},"sugar":{"target":26.2,"src":"PHE Sugar reduction: Achieving the 20% (Mar 2017) — 2020 guideline"}},"en:pastas":{"sub":"Pasta & noodles (17.1)","salt":{"avg":0.43,"max":0.58,"src":"OHID/PHE Salt reduction targets 2024 (Sep 2020)"}},"en:rice":{"sub":"Rice, unflavoured (18.1)","salt":{"avg":null,"max":0.15,"src":"OHID/PHE Salt reduction targets 2024 (Sep 2020)"}},"en:yogurts":{"sub":"Yogurts & fromage frais","sugar":{"target":11.0,"src":"PHE Sugar reduction: Achieving the 20% (Mar 2017) — 2020 guideline"}},"en:chocolates":{"sub":"Chocolate confectionery","sugar":{"target":43.7,"src":"PHE Sugar reduction: Achieving the 20% (Mar 2017) — 2020 guideline"}}};
+
+/* ============================================================
    CONSTANTS — UK Front-of-Pack thresholds (per 100g)
    FSA / DHSC guidance
    ============================================================ */
@@ -3842,6 +3854,23 @@ function cofidBenchmark(p){
 }
 
 /* ============================================================
+   OHID/PHE reduction-programme targets (INTEGRATION 6, v5.0.141) — official UK salt-2024
+   + sugar-20% category targets, overlaid as a 2nd dotted line (violet, distinct from the
+   cyan CoFID line) on the SALT + SUGAR mini-charts. §50: a category-level reduction-programme
+   target, NOT a product standard. Same specific-first tag walk as cofidBenchmark; OHID_TARGETS
+   is keyed by the same OFF category tags as COFID_CATEGORY_MAP (partial coverage by design).
+   ============================================================ */
+function ohidTarget(p){
+  if(typeof OHID_TARGETS === "undefined") return null;
+  const tags = (p && p.categories_tags) || [];
+  /* OFF categories_tags run general -> specific; walk specific-first for the closest match. */
+  for(let i = tags.length - 1; i >= 0; i--){
+    if(OHID_TARGETS[tags[i]]){ return Object.assign({matchedTag: tags[i]}, OHID_TARGETS[tags[i]]); }
+  }
+  return null;
+}
+
+/* ============================================================
    Reformulation Auditor — 2x4 small-multiples in expanded mode (v5.0.80).
    Top row: PHE Reformulation Targets — Sugar / Salt / Saturates / Energy.
    Bottom row: The Shuffle Set — Carbs / Fibre / Protein / [legend tile].
@@ -3890,25 +3919,41 @@ function renderLineChartMultiples(series, p){
   /* CoFID 2021 generic food-group benchmark (INTEGRATION 2) — computed once for the
      product's category, overlaid as a dotted line on each matching mini-chart. */
   const cofid = cofidBenchmark(p);
+  /* OHID/PHE reduction-programme target (INTEGRATION 6, v5.0.141) — computed once; the violet
+     target line is drawn on the SALT chart (salt target) and SUGAR chart (sugar target). */
+  const ohid = ohidTarget(p);
 
   charts.forEach((chart, idx) => {
     const col = idx % cols, row = Math.floor(idx / cols);
     const cx = col * cellW, cy = row * cellH + 26; /* +26 for row label space */
     if(chart.legend){
-      html += renderShuffleLegend(cx, cy, cellW, cellH-26, cofid);
+      html += renderShuffleLegend(cx, cy, cellW, cellH-26, cofid, ohid);
     } else {
-      html += renderMiniChart(series, chart, cx, cy, cellW, cellH-26, cofid);
+      html += renderMiniChart(series, chart, cx, cy, cellW, cellH-26, cofid, ohid);
     }
   });
 
   svg.innerHTML = html;
 }
 
-function renderMiniChart(series, chart, cx, cy, cellW, cellH, cofid){
+function renderMiniChart(series, chart, cx, cy, cellW, cellH, cofid, ohid){
   const pad = {l:42, r:14, t:28, b:24};
   /* CoFID 2021 generic food-group benchmark for this nutrient (null for salt/satfat,
      or when no category match). Folded into the y-range below so it stays visible. */
   const benchVal = (cofid && cofid.medians && cofid.medians[chart.key] != null) ? cofid.medians[chart.key] : null;
+  /* OHID/PHE reduction-programme target (INTEGRATION 6) — only the SALT and SUGAR charts carry
+     one. Salt: draw the 2024 average where it exists, else the maximum (some sub-categories are
+     maximum-only, e.g. rice). Sugar: the 2020 20% guideline. Folded into the y-range below. */
+  let ohidVal = null, ohidKind = null;
+  if(ohid){
+    if(chart.key === "salt" && ohid.salt){
+      ohidVal = (ohid.salt.avg != null) ? ohid.salt.avg : ohid.salt.max;
+      ohidKind = (ohid.salt.avg != null) ? "avg" : "max";
+    } else if(chart.key === "sugar" && ohid.sugar){
+      ohidVal = ohid.sugar.target;
+      ohidKind = "target";
+    }
+  }
   const W = cellW - 10, H = cellH - 8;
   const chartW = W - pad.l - pad.r;
   const chartH = H - pad.t - pad.b;
@@ -3932,6 +3977,8 @@ function renderMiniChart(series, chart, cx, cy, cellW, cellH, cofid){
   if(chart.threshold){ ymax = Math.max(ymax, chart.threshold * 1.15); }
   /* Keep the CoFID benchmark inside the plot area so the dotted line is always visible. */
   if(benchVal != null){ ymax = Math.max(ymax, benchVal); ymin = Math.min(ymin, benchVal); }
+  /* Keep the OHID target line inside the plot area too. */
+  if(ohidVal != null){ ymax = Math.max(ymax, ohidVal); ymin = Math.min(ymin, ohidVal); }
   const ypad = (ymax-ymin)*0.2 || (ymax * 0.1) || 1;
   ymin = Math.max(0, ymin-ypad); ymax = ymax+ypad;
   const yMap = v => H-pad.b - ((v-ymin)/(ymax-ymin))*chartH;
@@ -3978,6 +4025,19 @@ function renderMiniChart(series, chart, cx, cy, cellW, cellH, cofid){
     }
   }
 
+  /* OHID/PHE reduction-programme target line (INTEGRATION 6, v5.0.141) — violet dashed, visually
+     distinct from the cyan CoFID benchmark, the red/green policy threshold and the amber product
+     line. SALT chart: 2024 salt target (avg, or max where avg is absent). SUGAR chart: 2020 20%
+     sugar guideline. Label anchored right so it never collides with the CoFID label on the left. */
+  if(ohidVal != null){
+    const oy = yMap(ohidVal);
+    if(oy >= pad.t && oy <= H-pad.b){
+      const kindTag = ohidKind === "max" ? " max" : "";
+      g += `<line x1="${pad.l}" x2="${W-pad.r}" y1="${oy}" y2="${oy}" stroke="#c792ea" stroke-dasharray="4,2" stroke-width="1" opacity="0.8"/>`;
+      g += `<text x="${W-pad.r-2}" y="${oy-3}" font-family="monospace" font-size="8" fill="#c792ea" text-anchor="end" opacity="0.95">OHID ${ohidVal.toFixed(ohidVal<10?1:0)}${kindTag}</text>`;
+    }
+  }
+
   /* Y axis tick labels (min / max only) */
   g += `<text x="${pad.l-4}" y="${yMap(ymin)+3}" font-family="monospace" font-size="8" fill="#5a5a5a" text-anchor="end">${ymin.toFixed(1)}</text>`;
   g += `<text x="${pad.l-4}" y="${yMap(ymax)+3}" font-family="monospace" font-size="8" fill="#5a5a5a" text-anchor="end">${ymax.toFixed(1)}</text>`;
@@ -4015,11 +4075,16 @@ function renderMiniChart(series, chart, cx, cy, cellW, cellH, cofid){
 
 /* Legend tile occupying the 8th cell — explains the colour convention + shuffle-pattern
    fingerprint + the CoFID benchmark line (INTEGRATION 2). */
-function renderShuffleLegend(cx, cy, cellW, cellH, cofid){
+function renderShuffleLegend(cx, cy, cellW, cellH, cofid, ohid){
   const W = cellW - 10, H = cellH - 8;
   const groupLine = (cofid && cofid.name)
     ? `CoFID group: ${escapeHtml(cofid.name)} (n=${cofid.n})`
     : `No CoFID food-group match for this category.`;
+  /* OHID target group line (INTEGRATION 6) — names the exact source sub-category the line is
+     drawn from, so the violet line is never read as a whole-category product standard. */
+  const ohidGroupLine = (ohid && (ohid.salt || ohid.sugar))
+    ? `OHID target: ${escapeHtml(ohid.sub)}`
+    : `No OHID reduction-programme target for this category.`;
   return `<g transform="translate(${cx+5},${cy+4})">
     <rect x="0" y="0" width="${W}" height="${H}" fill="#080808" stroke="#1a1a1a"/>
     <text x="14" y="22" font-family="monospace" font-size="10" fill="#ffa726" font-weight="700">READING THE SHUFFLE</text>
@@ -4031,16 +4096,19 @@ function renderShuffleLegend(cx, cy, cellW, cellH, cofid){
     <text x="84" y="70" font-family="monospace" font-size="9" fill="#e7e7e7">= flat / no change</text>
     <line x1="14" x2="44" y1="81" y2="81" stroke="#4fc3f7" stroke-dasharray="1,3"/>
     <text x="50" y="84" font-family="monospace" font-size="9" fill="#4fc3f7">PHE benchmark (CoFID 2021)</text>
-    <line x1="14" x2="${W-14}" y1="94" y2="94" stroke="#1a1a1a"/>
-    <text x="14" y="110" font-family="monospace" font-size="9" fill="#ffa726" font-weight="700">SHUFFLE PATTERNS to watch</text>
-    <text x="14" y="126" font-family="monospace" font-size="8" fill="#8a8a8a">Sugar▼ + Carbs▲ + Fibre▼ = refined-starch swap</text>
-    <text x="14" y="140" font-family="monospace" font-size="8" fill="#8a8a8a">Sugar▼ + Energy▼ + ingredients↑ = sweetener swap</text>
-    <text x="14" y="154" font-family="monospace" font-size="8" fill="#8a8a8a">Salt▼ + flavour additives↑ = glutamate swap</text>
-    <text x="14" y="168" font-family="monospace" font-size="8" fill="#8a8a8a">Satfat▼ + Carbs▲ = fat→starch swap</text>
-    <line x1="14" x2="${W-14}" y1="${H-46}" y2="${H-46}" stroke="#1a1a1a"/>
-    <text x="14" y="${H-32}" font-family="monospace" font-size="8" fill="#4fc3f7">${groupLine}</text>
-    <text x="14" y="${H-20}" font-family="monospace" font-size="8" fill="#5a5a5a">CoFID = generic food-group benchmark, not a product-specific standard.</text>
-    <text x="14" y="${H-8}" font-family="monospace" font-size="8" fill="#5a5a5a">Thresholds: SACN sugar / FSA red salt+sat / FSA high fibre. Press X to collapse.</text>
+    <line x1="14" x2="44" y1="93" y2="93" stroke="#c792ea" stroke-dasharray="4,2"/>
+    <text x="50" y="96" font-family="monospace" font-size="9" fill="#c792ea">OHID target (salt 2024 / sugar 20%)</text>
+    <line x1="14" x2="${W-14}" y1="106" y2="106" stroke="#1a1a1a"/>
+    <text x="14" y="122" font-family="monospace" font-size="9" fill="#ffa726" font-weight="700">SHUFFLE PATTERNS to watch</text>
+    <text x="14" y="138" font-family="monospace" font-size="8" fill="#8a8a8a">Sugar▼ + Carbs▲ + Fibre▼ = refined-starch swap</text>
+    <text x="14" y="152" font-family="monospace" font-size="8" fill="#8a8a8a">Sugar▼ + Energy▼ + ingredients↑ = sweetener swap</text>
+    <text x="14" y="166" font-family="monospace" font-size="8" fill="#8a8a8a">Salt▼ + flavour additives↑ = glutamate swap</text>
+    <text x="14" y="180" font-family="monospace" font-size="8" fill="#8a8a8a">Satfat▼ + Carbs▲ = fat→starch swap</text>
+    <line x1="14" x2="${W-14}" y1="${H-58}" y2="${H-58}" stroke="#1a1a1a"/>
+    <text x="14" y="${H-44}" font-family="monospace" font-size="8" fill="#4fc3f7">${groupLine}</text>
+    <text x="14" y="${H-32}" font-family="monospace" font-size="8" fill="#c792ea">${ohidGroupLine}</text>
+    <text x="14" y="${H-20}" font-family="monospace" font-size="8" fill="#5a5a5a">OHID = official UK reduction-programme target, category-level — not a product standard.</text>
+    <text x="14" y="${H-8}" font-family="monospace" font-size="8" fill="#5a5a5a">CoFID = generic food-group benchmark. SACN sugar / FSA red salt+sat thresholds. Press X to collapse.</text>
   </g>`;
 }
 
