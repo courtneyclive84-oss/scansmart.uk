@@ -37,15 +37,18 @@
   html,body{margin:0;padding:0;background:var(--bg);color:var(--text);font-family:"SFMono-Regular",Consolas,"Liberation Mono",Menlo,monospace;font-size:12px;line-height:1.4;overflow:hidden;height:100vh;min-width:900px}
   @media (max-width:1100px){.shell{overflow:auto}.grid{min-width:1050px}}
   a{color:var(--blue);text-decoration:none}
-  .topbar{display:flex;align-items:center;gap:16px;padding:6px 10px;background:#000;border-bottom:1px solid var(--amber-dim);height:32px}
+  .topbar{display:flex;align-items:center;gap:16px;padding:6px 10px;background:#000;border-bottom:1px solid var(--amber-dim);height:40px}
   .logo{color:var(--amber);font-weight:700;letter-spacing:1px}
   .logo .small{color:var(--dim);font-weight:400;margin-left:6px}
-  .topsearch{flex:1;max-width:520px;display:flex;align-items:center;gap:6px;background:#0a0500;border:1px solid var(--amber-dim);border-radius:2px;padding:2px 8px;transition:border-color .15s,box-shadow .15s}
-  .topsearch:focus-within{border-color:var(--amber);box-shadow:0 0 8px rgba(255,167,38,0.25)}
-  .topsearch .searchicon{color:var(--amber);font-size:14px;line-height:1}
-  .topsearchinput{flex:1;background:transparent;border:none;outline:none;color:var(--text);font-family:inherit;font-size:12px;padding:3px 0}
-  .topsearchinput::placeholder{color:#555}
-  .topsearch .searchhint{color:var(--dim);font-size:9px;padding:1px 4px;border:1px solid var(--border);border-radius:2px}
+  /* Prominent search bar (v5.0.138) — made distinct: taller, amber-tinted fill, always-on
+     glow, SEARCH label, brighter placeholder. The unmistakable entry point of the terminal. */
+  .topsearch{flex:1;max-width:600px;display:flex;align-items:center;gap:8px;background:#15100a;border:1.5px solid var(--amber);border-radius:3px;padding:5px 12px;box-shadow:0 0 12px rgba(255,167,38,0.18);transition:border-color .15s,box-shadow .15s}
+  .topsearch:focus-within{border-color:var(--amber);box-shadow:0 0 16px rgba(255,167,38,0.4)}
+  .topsearch .searchlabel{color:var(--amber);font-size:9.5px;font-weight:700;letter-spacing:1.2px;padding-right:8px;border-right:1px solid var(--amber-dim)}
+  .topsearch .searchicon{color:var(--amber);font-size:15px;line-height:1}
+  .topsearchinput{flex:1;background:transparent;border:none;outline:none;color:var(--text);font-family:inherit;font-size:13.5px;padding:3px 0}
+  .topsearchinput::placeholder{color:#b89a6a}
+  .topsearch .searchhint{color:var(--amber);font-size:9px;font-weight:600;letter-spacing:.5px;padding:1px 5px;border:1px solid var(--amber-dim);border-radius:2px;white-space:nowrap}
   .topright{margin-left:auto;display:flex;gap:14px;color:var(--dim);font-size:11px;align-items:center}
   .dot{display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--green);margin-right:4px;animation:softpulse 2.4s ease-in-out infinite}
   .dot.red{background:var(--red)}
@@ -55,7 +58,7 @@
   @media (prefers-reduced-motion:reduce){.ticker-track{animation-duration:200s}.dot{animation:none}}
   .ticker-track .up{color:var(--green)}.ticker-track .down{color:var(--red)}.ticker-track .flag{color:var(--yellow)}
   @keyframes scroll{from{transform:translateX(0)}to{transform:translateX(-50%)}}
-  .shell{display:grid;grid-template-columns:48px 1fr;height:calc(100vh - 32px - 24px - 28px);min-height:0}
+  .shell{display:grid;grid-template-columns:48px 1fr;height:calc(100vh - 40px - 24px - 28px);min-height:0}
   .rail{background:#050505;border-right:1px solid var(--border);display:flex;flex-direction:column;align-items:center;padding-top:8px;gap:2px;overflow:hidden}
   .rail .r{width:40px;padding:8px 0;text-align:center;color:var(--dim);font-size:10px;cursor:pointer;border-left:2px solid transparent;flex-shrink:0}
   .rail .r:hover{color:var(--amber);background:rgba(230,126,34,0.06)}
@@ -578,10 +581,11 @@
 <div class="topbar">
   <div class="logo">SCANSMART<span class="small">Intelligence Terminal · FLT</span></div>
   <div class="topsearch">
+    <span class="searchlabel">SEARCH</span>
     <span class="searchicon">⌕</span>
     <input id="topSearch" class="topsearchinput" autocomplete="off" spellcheck="false"
-           placeholder="Search UK products — brand, name, or barcode…">
-    <span class="searchhint">↵</span>
+           placeholder="UK products — brand, name, or barcode…">
+    <span class="searchhint">↵ ENTER</span>
   </div>
   <div class="topright">
     <span class="livepill"><span class="dot" id="statusDot"></span><span id="statusLbl">connecting…</span></span>

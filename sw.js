@@ -3495,7 +3495,14 @@
 //   §47a CANON-SYNC PROTOCOL: scope declared; no parallel session conflict.
 //   §112 LOCAL-IS-MAIN: edits land in /Users/clive/Documents/ScanSmart/scansmart-site/ (local).
 //
-const CACHE_VERSION = 'scansmart-v5.0.137-cofid-fsa-usda';
+// v5.0.138 — 4 June 2026: FLT search bar made distinct (flt-search-prominent)
+//   The top search bar read as chrome, not as the entry point. Made prominent: topbar
+//   height 32→40px (+ matching .shell calc), amber-tinted fill, always-on glow, a "SEARCH"
+//   label, ⌕ icon, brighter placeholder (#555→#b89a6a), larger input (12→13.5px), and an
+//   "↵ ENTER" hint. Bloomberg chrome preserved; the search is now unmistakable. CSS-only +
+//   markup on flt-app.html.
+//
+const CACHE_VERSION = 'scansmart-v5.0.138-flt-search-prominent';
 const PRECACHE = [
   '/',
   '/install.html',
