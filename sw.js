@@ -3464,7 +3464,38 @@
 //   §47a CANON-SYNC PROTOCOL: scope declared; no parallel session conflict.
 //   §112 LOCAL-IS-MAIN: edits land in /Users/clive/Documents/ScanSmart/scansmart-site/ (local).
 //
-const CACHE_VERSION = 'scansmart-v5.0.136-about-nav-sitewide';
+// v5.0.137 — 4 June 2026: FLT three-government-source integration (cofid-fsa-usda)
+//   Three free UK/US government datasets added to flt-app.html as new intelligence
+//   sub-blocks (intelligence layers only — product-identity source-priority untouched).
+//   All new blocks CSS-gated to .panel.expanded — invisible in the dense grid view.
+//     - INTEGRATION 1 · ADDITIVE STATUS · GB (F1 fact-sheet, below Certifications).
+//       FSA GB food-additives authorisation register. The regulated-products site has NO
+//       per-E-number JSON query API (it is a client-rendered SPA); the authoritative bulk
+//       CSV register is parsed to a local lookup (const FSA_ADDITIVES, 331 E-numbers) and
+//       embedded inline. E-numbers parsed from OFF ingredients_text via /\bE\d{3,4}[a-z]?\b/.
+//       §50: states GB authorisation STATUS only (Permitted / actual status / Not listed) —
+//       never safe/unsafe. Source + fetch-date footer on the block.
+//     - INTEGRATION 2 · UK PHE BENCHMARK (CoFID 2021) (F5 Reformulation Auditor multiples).
+//       McCance & Widdowson '1.3 Proximates' parsed to const COFID_DATA (2,887 foods) +
+//       COFID_CATEGORY_MAP (28 OFF-category → CoFID food-group mappings). Dotted cyan line at
+//       the food-group median on each matching mini-chart (sugar/kcal/carbs/fibre/protein;
+//       salt+satfat have no Proximates equivalent → no line). Legend documents it. §50: a
+//       generic food-group benchmark, NOT a product-specific standard.
+//     - INTEGRATION 3 · US FORMULATION (USDA FDC) (F3 nutrition panel, below the table).
+//       Live USDA FoodData Central search, fired lazily on F3 expand (DEMO_KEY is heavily
+//       rate-limited). Side-by-side OFF vs USDA per-100g (Energy/Protein/Fat/Carbs/Sugars/
+//       Sodium). §50: neither column "more correct" — two national datasets, potentially
+//       different formulations. Live data.gov / USDA FDC API key wired (rate-limit only,
+//       client-visible by design — rotate at api.data.gov if needed).
+//       Graceful "No matching USDA record found" / "unavailable" — never throws.
+//   _headers: connect-src += https://api.nal.usda.gov (required for INTEGRATION 3 fetch;
+//       FSA + CoFID are static-embedded so need no network at runtime).
+//   Data build script: _internal/build-cofid-fsa.py → cofid-proximates.json + fsa-additives.json.
+//   No service worker registered in flt-app.html (SW remains kill-switch only, per founder rule).
+//   §47a CANON-SYNC PROTOCOL: scope declared; no parallel session conflict.
+//   §112 LOCAL-IS-MAIN: edits land in /Users/clive/Documents/ScanSmart/scansmart-site/ (local).
+//
+const CACHE_VERSION = 'scansmart-v5.0.137-cofid-fsa-usda';
 const PRECACHE = [
   '/',
   '/install.html',
