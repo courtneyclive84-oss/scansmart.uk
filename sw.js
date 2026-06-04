@@ -3502,7 +3502,15 @@
 //   "↵ ENTER" hint. Bloomberg chrome preserved; the search is now unmistakable. CSS-only +
 //   markup on flt-app.html.
 //
-const CACHE_VERSION = 'scansmart-v5.0.138-flt-search-prominent';
+// v5.0.139 — 4 June 2026: FLT INTEGRATION 4 — openFDA US recalls (flt-openfda-recalls)
+//   New "US FDA RECALLS · LIVE" sub-block in the F1 expanded fact-sheet, below the FSA
+//   recall-recency block. Live openFDA Food Enforcement feed (api.fda.gov, free, no key),
+//   brand-matched (recalling_firm + product_description), newest 5, fired lazily on F1
+//   expand. CSS-gated to .panel.expanded. §50: openFDA brand-string match, feed-bounded,
+//   not a safety judgement; 404 = zero matches; quiet "unavailable" on error, never throws.
+//   _headers: connect-src += https://api.fda.gov.
+//
+const CACHE_VERSION = 'scansmart-v5.0.139-flt-openfda-recalls';
 const PRECACHE = [
   '/',
   '/install.html',

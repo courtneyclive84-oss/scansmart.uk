@@ -1705,6 +1705,7 @@ function renderBrandOwnership(p){
     ${ownershipSection}
     <div class="bo-section"><div class="sectitle">ALLERGEN PROFILE</div>${allergenSection}</div>
     <div class="bo-section"><div class="sectitle">RECALL RECENCY · FSA-CACHE-BOUNDED</div>${recallSection}</div>
+    <div class="bo-section"><div class="sectitle">US FDA RECALLS · LIVE</div><div id="fdaRecalls"><div class="bo-content"><span class="bo-empty-state">Expand F1 to load the US FDA recall match…</span></div></div></div>
     <div class="bo-section"><div class="sectitle">CERTIFICATIONS</div>${certsSection}</div>
     <div class="bo-section"><div class="sectitle">ADDITIVE STATUS · GB</div>${additiveSection}</div>
     <div class="bo-section"><div class="sectitle">ORIGIN &amp; SUPPLY CHAIN</div>${originsSection}</div>
@@ -2838,6 +2839,8 @@ function expandPanel(panelId){
   /* If F3 expanded, lazily fetch the USDA FoodData Central comparison (INTEGRATION 3).
      Lazy so the rate-limited USDA API isn't hit on every product load. */
   if(panelId === "p3" && typeof CURRENT !== "undefined" && CURRENT){ loadUsdaComparison(CURRENT); }
+  /* If F1 expanded, lazily fetch the openFDA US recall match (INTEGRATION 4). */
+  if(panelId === "p1" && typeof CURRENT !== "undefined" && CURRENT){ loadFdaRecalls(CURRENT); }
 }
 
 /* Collapse the currently-expanded panel back to its grid slot. No-op if nothing expanded. */
@@ -3282,6 +3285,9 @@ function renderProduct(p){
      loadProduct() peek-renders the fallback BEFORE CURRENT is updated; reading CURRENT here
      would reflect the previous product. Passing `p` keeps the affordance honest. */
   try { syncWatchStar(p); } catch(e){}
+  /* If F1 is already expanded when a new product loads, refresh the lazy US FDA block
+     (INTEGRATION 4) — expandPanel only fires on the expand transition, not on reload. */
+  if(typeof EXPANDED_PANEL !== "undefined" && EXPANDED_PANEL === "p1"){ try { loadFdaRecalls(p); } catch(e){} }
 }
 
 function renderIngredients(p){
@@ -3562,6 +3568,80 @@ async function loadUsdaComparison(p){
       <div class="usda-loading">USDA comparison unavailable (no response from USDA FoodData Central). Source: USDA FoodData Central.</div>`;
   } finally {
     _usdaInFlight[barcode] = false;
+  }
+}
+
+/* ============================================================
+   US FDA RECALLS · LIVE (openFDA Food Enforcement) — INTEGRATION 4.
+   Live US food recall/enforcement feed matched to the focal product's brand,
+   fired lazily when F1 (fact-sheet) is expanded. Mirrors the FSA recall-recency
+   block but for the US market. §50: openFDA brand-string match; presence/absence
+   is feed-bounded by this method, not a safety judgement. Never throws.
+   ============================================================ */
+const FDA_ENFORCEMENT = "https://api.fda.gov/food/enforcement.json";
+const FDA_TIMEOUT = 9000;
+const FDA_CACHE = {};        // brand (lowercased) -> rendered HTML
+const _fdaInFlight = {};
+
+/* openFDA report_date is "YYYYMMDD" → "YYYY-MM-DD". */
+function fdaDate(s){
+  if(!s || !/^\d{8}$/.test(String(s))) return "—";
+  s = String(s); return `${s.slice(0,4)}-${s.slice(4,6)}-${s.slice(6,8)}`;
+}
+
+async function loadFdaRecalls(p){
+  const host = document.getElementById("fdaRecalls");
+  if(!host || !p) return;
+  const brand = (p.brands || "").split(/[,;|]/)[0].trim();
+  if(brand.length < 3){
+    host.innerHTML = `<div class="bo-content"><span class="bo-empty-state">Brand string too short (&lt;3 chars) for a US FDA match.</span></div>`;
+    return;
+  }
+  const key = brand.toLowerCase();
+  if(FDA_CACHE[key]){ host.innerHTML = FDA_CACHE[key]; return; }
+  if(_fdaInFlight[key]) return;
+  _fdaInFlight[key] = true;
+  host.innerHTML = `<div class="bo-content"><span class="bo-empty-state">Querying US FDA enforcement feed…</span></div>`;
+
+  const method = `<div class="bo-method"><strong>Match method:</strong> openFDA Lucene match on recalling_firm + product_description, newest 5. A 404 = zero matches in the feed (not a guarantee of zero historical US recalls — feed-bounded by this method). Source: openFDA Food Enforcement, api.fda.gov.</div>`;
+  const q = `recalling_firm:"${brand}" product_description:"${brand}"`;
+  const url = `${FDA_ENFORCEMENT}?search=${encodeURIComponent(q)}&sort=report_date:desc&limit=5`;
+  const ctrl = new AbortController();
+  const timer = setTimeout(() => ctrl.abort(), FDA_TIMEOUT);
+  try {
+    const resp = await fetch(url, {signal: ctrl.signal});
+    clearTimeout(timer);
+    if(resp.status === 404){   // openFDA returns 404 for zero matches
+      FDA_CACHE[key] = `<div class="bo-content"><span class="bo-recall-clean">0 US FDA recalls matched "${escapeHtml(brand)}".</span></div>${method}`;
+      host.innerHTML = FDA_CACHE[key];
+      return;
+    }
+    if(!resp.ok) throw new Error("fda http " + resp.status);
+    const data = await resp.json();
+    const results = data.results || [];
+    if(!results.length){
+      FDA_CACHE[key] = `<div class="bo-content"><span class="bo-recall-clean">0 US FDA recalls matched "${escapeHtml(brand)}".</span></div>${method}`;
+      host.innerHTML = FDA_CACHE[key];
+      return;
+    }
+    const rows = results.map(r => {
+      const cls = (r.classification || "").replace(/^Class\s*/i, "");
+      const clsTag = cls ? `<span class="bo-cert-pill" style="color:#ff9966;border-color:#5a3a1a">Class ${escapeHtml(cls)}</span> ` : "";
+      const prod = (r.product_description || "").slice(0, 90);
+      const reason = (r.reason_for_recall || "").slice(0, 110);
+      return `<div style="margin:5px 0;padding-bottom:5px;border-bottom:1px solid #141414">
+        <div>${clsTag}<span style="color:var(--amber)">${fdaDate(r.report_date)}</span> · ${escapeHtml(r.recalling_firm || "—")}</div>
+        <div style="color:var(--dim);font-size:10.5px">${escapeHtml(prod)}${prod.length>=90?"…":""}</div>
+        <div style="color:var(--dim);font-size:10px;font-style:italic">${escapeHtml(reason)}${reason.length>=110?"…":""}</div>
+      </div>`;
+    }).join("");
+    FDA_CACHE[key] = `<div class="bo-content"><div style="color:var(--amber);margin-bottom:4px">${results.length} US FDA recall${results.length===1?"":"s"} matched "${escapeHtml(brand)}" (newest first)</div>${rows}</div>${method}`;
+    host.innerHTML = FDA_CACHE[key];
+  } catch(e){
+    /* Network / rate-limit / timeout — render quietly, do not throw or cache (allow retry). */
+    host.innerHTML = `<div class="bo-content"><span class="bo-empty-state">US FDA feed unavailable (no response from api.fda.gov). Source: openFDA Food Enforcement.</span></div>`;
+  } finally {
+    _fdaInFlight[key] = false;
   }
 }
 
