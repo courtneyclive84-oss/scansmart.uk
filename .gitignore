@@ -16,3 +16,6 @@ _internal/cofid-2021.xlsx
 _internal/fsa_add.csv
 _internal/_cofid_const.js
 _internal/_fsa_const.js
+_internal/oft3.xlsx
+_internal/efsa-adi-bysubstance.json
+_internal/_efsa_const.js

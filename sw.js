@@ -3510,7 +3510,15 @@
 //   not a safety judgement; 404 = zero matches; quiet "unavailable" on error, never throws.
 //   _headers: connect-src += https://api.fda.gov.
 //
-const CACHE_VERSION = 'scansmart-v5.0.139-flt-openfda-recalls';
+// v5.0.140 — 4 June 2026: FLT INTEGRATION 5 — EFSA ADI (flt-efsa-adi)
+//   New "EFSA ADI" column in the F1 ADDITIVE STATUS table — acceptable daily intake
+//   (mg/kg bw/day) for a curated common-additive subset (48 E-numbers). Source: EFSA
+//   OpenFoodTox 3.0 (Zenodo); every value asserted present in the dataset for the named
+//   substance by _internal/build-efsa-adi.py (no invented numbers; build fails loudly on
+//   mismatch). Partial coverage by design; "—" when not in the curated set. §50: EFSA
+//   health-based guidance value, not a per-product safety judgement. const FSA_ADI embedded.
+//
+const CACHE_VERSION = 'scansmart-v5.0.140-flt-efsa-adi';
 const PRECACHE = [
   '/',
   '/install.html',
