@@ -3575,7 +3575,7 @@
 //   on the near-black panel, still secondary to the #e7e7e7 body text). Confirmed no neutral
 //   mid-greys bypass the token (the hardcoded greys are tinted accents, not body text). CSS only.
 //
-const CACHE_VERSION = 'scansmart-v5.0.146-about-h1-accent';
+const CACHE_VERSION = 'scansmart-v5.0.147-library-audio-hair-nails';
 const PRECACHE = [
   '/',
   '/install.html',
