@@ -29,7 +29,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;700&family=Syne:wght@600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="brand.css?v=5.0.58">
-<script src="install.js?v=5.0.134" defer></script>
+<script src="install.js?v=5.0.60" defer></script>
 
 <style>
 body { background: #ECC5A0; color: var(--navy); --muted: #4A2E12; --muted-dim: #6B4520; }
@@ -136,13 +136,17 @@ body { background: #ECC5A0; color: var(--navy); --muted: #4A2E12; --muted-dim: #
 <body>
 
 <a href="#main" class="skip-link">Skip to main content</a>
+<div class="construction-strip" role="status">
+  <span class="construction-strip-text">SCANSMART is <strong>under construction</strong> &mdash; surfaces in active development</span>
+</div>
+
 <header class="site-nav">
   <div class="site-nav-inner">
     <a href="index.html" class="brand-banner" aria-label="SCANSMART home"><img src="assets/hero-v16.webp" alt="SCANSMART" width="48" height="60"></a>
     <button class="nav-toggle" aria-label="Open navigation" aria-controls="primary-nav" aria-expanded="false" onclick="const n=document.getElementById('primary-nav');n.classList.toggle('open');this.setAttribute('aria-expanded',n.classList.contains('open'))">≡</button>
     <nav id="primary-nav" class="nav-doors" aria-label="Primary">
       <a href="checkit.html">CheckIT</a><a href="i500.html">I500</a>
-      <a href="flt.html">FLT</a><a href="checkout.html">Checkout</a><a href="library.html" class="lib" aria-current="page">Library</a><a href="about.html">About</a>
+      <a href="flt.html">FLT</a><a href="partner.html">Partner</a><a href="checkout.html">Checkout</a><a href="library.html" class="lib" aria-current="page">Library</a>
       <a href="install.html" class="install-btn" onclick="installScansmart(event)">Install</a>
       <a href="https://app.scansmart.uk" class="cta">Try the scanner →</a>
     </nav>
@@ -225,11 +229,12 @@ body { background: #ECC5A0; color: var(--navy); --muted: #4A2E12; --muted-dim: #
     <div class="footer-grid">
       <div class="footer-brand"><div class="brand-lockup"><span class="ss"><span class="swm">SCANSMART</span></span><span class="tag">Power is Knowledge Decoded</span></div><p>The School of Label Literacy. Built in South London. Open to the world.</p></div>
       <div class="footer-col"><h4>Products</h4><ul><li><a href="checkit.html">CheckIT</a></li><li><a href="i500.html">The I500</a></li>
-          <li><a href="flt.html">FLT — Food Label Terminal</a></li><li><a href="subscribe.html">Subscriptions</a></li></ul></div>
-      <div class="footer-col"><h4>Read &amp; explore</h4><ul><li><a href="checkout.html">Weekly Checkout, Decoded</a></li><li><a href="library.html">Knowledge Library</a></li><li><a href="stories.html">CheckIT Stories</a></li><li><a href="shops.html">I500 Shop Directory</a></li></ul></div>
-      <div class="footer-col"><h4>About</h4><ul><li><a href="about.html">About <span class="swm">SCANSMART</span></a></li><li><a href="install.html">Install on your phone</a></li><li><a href="contact.html">Contact</a></li><li><a href="privacy.html">Privacy</a></li></ul></div>
+          <li><a href="flt.html">FLT — Food Literacy Terminal</a></li><li><a href="partner.html">Partner programme</a></li><li><a href="subscribe.html">Subscriptions</a></li></ul></div>
+      <div class="footer-col"><h4>Read &amp; explore</h4><ul><li><a href="checkout.html">Weekly Checkout, Decoded</a></li><li><a href="library.html">Knowledge Library</a></li><li><a href="stories.html">KiP Stories</a></li><li><a href="shops.html">I500 Shop Directory</a></li></ul></div>
+      <div class="footer-col"><h4>About</h4><ul><li><a href="about.html">About <span class="swm">SCANSMART</span></a></li><li><a href="install.html">Install on your phone</a></li><li><a href="contact.html">Contact</a></li><li><a href="privacy.html">Privacy</a></li><li><a href="trademark.html">Trademark notice</a></li>
+          <li><a href="/hub">Hub</a></li></ul></div>
     </div>
-    <div class="footer-bottom"><div><a href="index.html" aria-label="Home — SCANSMART"><img src="assets/marque-v2.svg" alt="SCANSMART" class="marque-footer" width="240" height="80"></a></div><div>&copy; 2026 <span class="swm">SCANSMART</span> Ltd &middot; Co. No. 17128797 &middot; England &amp; Wales<br><small style="color:var(--muted-dim)"><span class="swm">SCANSMART</span> is a food literacy platform. Not a medical device. Does not provide medical advice.</small></div></div>
+    <div class="footer-bottom"><div><a href="index.html" aria-label="Home — SCANSMART"><img src="assets/marque-v1.svg" alt="SCANSMART Marque v1" class="marque-footer" width="240" height="80"></a></div><div>&copy; 2026 <span class="swm">SCANSMART</span> Ltd &middot; Co. No. 17128797 &middot; England &amp; Wales<br><small style="color:var(--muted-dim)"><span class="swm">SCANSMART</span> is a food literacy platform. Not a medical device. Does not provide medical advice.</small></div></div>
   </div>
 </footer>
 

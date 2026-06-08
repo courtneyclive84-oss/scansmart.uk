@@ -4,8 +4,8 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#0A1628">
-<title>FLT — Food Label Terminal · The institutional standard for label intelligence · SCANSMART</title>
-<meta name="description" content="The Food Label Terminal (FLT) is SCANSMART's institutional intelligence surface for any barcoded product — seven panels integrating OFF, the I500, live UK FSA recalls, EFSA additive safety, reformulation history, Eco-Score, FSA-14 allergens and a multi-stream intelligence rail. Built for NHS procurement, retail category managers, regulators, brands and academic researchers.">
+<title>FLT — Food Literacy Terminal · The institutional standard for label intelligence · SCANSMART</title>
+<meta name="description" content="The Food Literacy Terminal (FLT) is SCANSMART's institutional intelligence surface for any barcoded product — seven panels integrating OFF, the I500, live UK FSA recalls, EFSA additive safety, reformulation history, Eco-Score, FSA-14 allergens and a multi-stream intelligence rail. Built for NHS procurement, retail category managers, regulators, brands and academic researchers.">
 <link rel="canonical" href="https://scansmart.uk/flt">
 
 <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32x32.png">
@@ -20,7 +20,7 @@
 <meta name="apple-mobile-web-app-title" content="SCANSMART">
 
 <meta property="og:type" content="website">
-<meta property="og:title" content="FLT — Food Label Terminal · SCANSMART">
+<meta property="og:title" content="FLT — Food Literacy Terminal · SCANSMART">
 <meta property="og:description" content="Label intelligence on any barcoded product — seven panels, one screen, integrated across OFF, I500, FSA, EFSA and live regulator feeds.">
 <meta property="og:url" content="https://scansmart.uk/flt">
 <meta property="og:image" content="https://scansmart.uk/assets/og-card.png">
@@ -28,17 +28,17 @@
 <meta property="og:image:height" content="630">
 <meta property="og:locale" content="en_GB">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="FLT — Food Label Terminal · SCANSMART">
+<meta name="twitter:title" content="FLT — Food Literacy Terminal · SCANSMART">
 <meta name="twitter:description" content="Label intelligence on any barcoded product — seven panels, one screen.">
 <meta name="twitter:image" content="https://scansmart.uk/assets/og-card.png">
 
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebPage","name":"FLT — Food Label Terminal","url":"https://scansmart.uk/flt","isPartOf":{"@type":"WebSite","name":"SCANSMART","url":"https://scansmart.uk/"},"publisher":{"@type":"Organization","name":"SCANSMART Ltd"},"description":"Label intelligence on any barcoded product — seven panels, one screen, integrated across OFF, I500, FSA, EFSA and live regulator feeds."}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebPage","name":"FLT — Food Literacy Terminal","url":"https://scansmart.uk/flt","isPartOf":{"@type":"WebSite","name":"SCANSMART","url":"https://scansmart.uk/"},"publisher":{"@type":"Organization","name":"SCANSMART Ltd"},"description":"Label intelligence on any barcoded product — seven panels, one screen, integrated across OFF, I500, FSA, EFSA and live regulator feeds."}</script>
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;700&family=Syne:wght@600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="brand.css?v=5.0.58">
-<script src="install.js?v=5.0.134" defer></script>
+<script src="install.js?v=5.0.60" defer></script>
 
 <style>
 /* Page-specific FLT chrome — sits on top of brand.css */
@@ -230,6 +230,10 @@
 <body>
 
 <a href="#main" class="skip-link">Skip to main content</a>
+<div class="construction-strip" role="status" aria-label="Site under construction — surfaces in active development">
+  <span class="construction-strip-text"><span class="swm">SCANSMART</span> is <strong>under construction</strong> &mdash; FLT v0.8 prototype live</span>
+</div>
+
 <header class="site-nav">
   <div class="site-nav-inner">
     <a href="index.html" class="brand-banner" aria-label="SCANSMART home — Power is Knowledge Decoded"><img src="assets/hero-v16.webp" alt="SCANSMART" width="48" height="60"></a>
@@ -238,8 +242,9 @@
       <a href="checkit.html">CheckIT</a>
       <a href="i500.html">I500</a>
       <a href="flt.html" aria-current="page">FLT</a>
+      <a href="partner.html">Partner</a>
       <a href="checkout.html">Checkout</a>
-      <a href="library.html" class="lib">Library</a><a href="about.html">About</a>
+      <a href="library.html" class="lib">Library</a>
       <a href="install.html" class="install-btn" onclick="installScansmart(event)">Install</a>
       <a href="https://app.scansmart.uk" class="cta">Try the scanner →</a>
     </nav>
@@ -264,17 +269,17 @@
       </p>
       <div class="flt-cta-row">
         <a href="flt-app.html" class="btn btn-launch" target="_blank" rel="noopener">↓ Launch the Terminal</a>
-        <a href="partner.html" class="btn btn-ghost">Enquire about access</a>
+        <a href="partner.html#partner-inquiry" class="btn btn-ghost">Apply for access</a>
       </div>
       <div class="flt-doc-link"><a href="#what">View documentation →</a></div>
     </div>
 
     <div class="flt-hero-visual">
       <!-- LIVE TERMINAL — embedded inline; same engine that powers flt-app.html (Option 3, banked 20 May 2026: Marque removed from hero, live terminal replaces both the SCANSMART Marque v2 and the static mockup). The terminal carries its own §50-grade graceful degradation: live OFF API → 1,500-SKU embedded universe fallback; live FSA recall feed → static fallback message; live WIRE RSS aggregator → localStorage cache. Real product search · real F1..F7 panels · real keyboard nav. The demo IS the product. -->
-      <div class="flt-iframe-wrap" aria-label="FLT — Food Label Terminal, live">
+      <div class="flt-iframe-wrap" aria-label="FLT — Food Literacy Terminal, live">
         <iframe class="flt-iframe"
           src="flt-app.html?embed=1"
-          title="FLT — Food Label Terminal (live)"
+          title="FLT — Food Literacy Terminal (live)"
           loading="lazy"
           referrerpolicy="strict-origin-when-cross-origin"
           allow="clipboard-write"></iframe>
@@ -300,7 +305,7 @@
   <div class="section-eyebrow">The terminal · seven panels</div>
   <h2>Keyboard-first. <span style="color:var(--red-soft);font-style:italic">Live data.</span> One screen.</h2>
   <p>
-    The Food Label Terminal compresses what a category manager, regulator or academic
+    The Food Literacy Terminal compresses what a category manager, regulator or academic
     researcher needs about any barcoded product into one dense, scannable view &mdash; no
     dashboard tabs, no menu trees, no per-seat enterprise login. <strong>Trading-floor DNA,
     applied to food literacy.</strong>
@@ -310,21 +315,21 @@
       <a href="flt-app.html" class="flt-panel-link" target="_blank" rel="noopener" aria-label="Launch the terminal — F1 Product Detail panel">
         <div class="fkey">&lt;F1&gt; PROD</div>
         <h3>Product detail</h3>
-        <p>Brand, pack, image, barcode, Nutri-Score (A&ndash;E), NOVA processing (1&ndash;4), Eco-Score with carbon-footprint in g CO&#8322;/100g. I500 records show distributor, origin, price, Wanis code, audit notes. Expand for the full fact-sheet: GB additive status (FSA register), EFSA ADI, US FDA recall recency, allergen profile, certifications, source freshness, brand ownership chronology, USDA formulation cross-reference, and a supplier-risk procurement read composed across all signals. CSV export.</p>
+        <p>Brand, pack, image, barcode, Nutri-Score (A&ndash;E), NOVA processing (1&ndash;4), Eco-Score with carbon-footprint in g CO&#8322;/100g. I500 records show distributor, origin, price, Wanis code, audit notes.</p>
       </a>
     </div>
     <div class="flt-panel">
       <a href="flt-app.html" class="flt-panel-link" target="_blank" rel="noopener" aria-label="Launch the terminal — F2 Ingredient Breakdown panel">
         <div class="fkey">&lt;F2&gt; INGR</div>
         <h3>Ingredient breakdown</h3>
-        <p>QUID percentages, E-number additives with risk flags, full FSA-14 allergen scan with single-line ✓/⚠ summary, and manufacturer cross-contact disclosure. Visual ticks for everything absent.</p>
+        <p>QUID percentages, E-number additives flagged by EFSA risk, full FSA-14 allergen scan with single-line ✓/⚠ summary. Visual ticks for everything absent.</p>
       </a>
     </div>
     <div class="flt-panel">
       <a href="flt-app.html" class="flt-panel-link" target="_blank" rel="noopener" aria-label="Launch the terminal — F3 Nutrition per 100g panel">
         <div class="fkey">&lt;F3&gt; NUTR</div>
         <h3>Nutrition per 100g</h3>
-        <p>Macros + traffic-light tinting against UK FSA/DHSC FOP thresholds. HFSS indicator (UK Nutrient Profiling Model 2004/05). %RI column. Year-on-year change. USDA formulation cross-reference in expanded view. CSV export.</p>
+        <p>Macros + traffic-light dots against the UK FSA/DHSC FOP thresholds &mdash; green/amber/red on fat, saturates, sugar, salt. Year-on-year change column.</p>
       </a>
     </div>
     <div class="flt-panel">
@@ -338,7 +343,7 @@
       <a href="flt-app.html" class="flt-panel-link" target="_blank" rel="noopener" aria-label="Launch the terminal — F5 Reformulation History panel">
         <div class="fkey">&lt;F5&gt; CHART</div>
         <h3>Reformulation history</h3>
-        <p>Time-series chart across 7 nutrients (sugar, salt, saturates, calories, carbs, fibre, protein) pulled from Open Food Facts revisions. CoFID 2021 category medians and OHID/PHE reformulation targets drawn as reference lines. Shuffle-pattern detection flags manufacturer substitutions (e.g. sugar reduced, carbs increased). Toggle layout with T. CSV export.</p>
+        <p>Time-series line chart pulled from Open Food Facts revisions &mdash; see sugar and salt move over years, with suspect data flagged red. Toggle to FOP-threshold bars with T.</p>
       </a>
     </div>
     <div class="flt-panel">
@@ -396,7 +401,7 @@
     <div class="flt-source"><div class="src-name">Retailer Official</div><div class="src-desc">Tesco, Sainsbury's, Morrisons published product feeds — where direct sources exist.</div></div>
     <div class="flt-source"><div class="src-name">Manufacturer Official</div><div class="src-desc">Coca-Cola, Heinz, Unilever and others — published manufacturer data cross-referenced to label.</div></div>
     <div class="flt-source"><div class="src-name">USDA FoodData</div><div class="src-desc">USDA FoodData Central — secondary cross-reference layer for nutrition macros.</div></div>
-    <div class="flt-source"><div class="src-name">OBF</div><div class="src-desc">Open Beauty Facts — cosmetics handoff layer (CheckIT scanner mode).</div></div>
+    <div class="flt-source"><div class="src-name">OBF</div><div class="src-desc">Open Beauty Facts — cosmetics handoff layer (CheckIT scanner mode, per v7.2 §99).</div></div>
   </div>
 
   <p style="margin-top:24px;font-size:0.92rem;color:var(--cream-dim);max-width:780px">
@@ -430,7 +435,7 @@
         <div class="flt-i500-stat"><div class="n">19</div><div class="l">Shops audited · 40 brands</div></div>
       </div>
       <p style="margin-top:14px;font-family:var(--mono);font-size:0.78rem;color:var(--muted);line-height:1.55">
-        Strict methodology: blindspot = absent + stale + partial + unusable on OFF, measured against 148 audited SKUs (7 awaiting on-add OFF check). 93.2% replaces the earlier 84% lenient headline as of 13 May 2026.
+        Strict methodology (per §103): blindspot = absent + stale + partial + unusable on OFF, measured against 148 audited SKUs (7 awaiting on-add OFF check). 93.2% replaces the earlier 84% lenient headline as of 13 May 2026.
       </p>
     </div>
     <div>
@@ -509,7 +514,7 @@
       <tbody>
         <tr><td>SKU volume</td><td class="partial">~1,550 (growing)</td><td class="y">Millions</td><td class="y">Millions</td><td class="y">~3M</td><td class="y">2.8M</td></tr>
         <tr><td>Commercial intel (price history, positioning, forecasts)</td><td class="n">No (out of scope)</td><td class="y">Core offering</td><td class="y">Core offering</td><td class="n">No</td><td class="n">No</td></tr>
-        <tr class="us"><td>Access</td><td class="y">By enquiry</td><td class="n">£20k+/yr seat licence</td><td class="n">€40k+/yr seat licence</td><td class="y">Consumer app</td><td class="partial">Open data dump</td></tr>
+        <tr class="us"><td>Access</td><td class="y">Partner Programme</td><td class="n">£20k+/yr seat licence</td><td class="n">€40k+/yr seat licence</td><td class="y">Consumer app</td><td class="partial">Open data dump</td></tr>
         <tr class="us"><td>UK independent grocer coverage</td><td class="y">★ <span class="i500-mark">I500</span> (155 verified)</td><td class="n">No</td><td class="n">No</td><td class="n">No</td><td class="partial">Partial / wrong</td></tr>
         <tr class="us"><td>Reformulation history (per SKU)</td><td class="y">Yes (line chart)</td><td class="y">Yes</td><td class="y">Yes</td><td class="n">No</td><td class="partial">Raw revisions only</td></tr>
         <tr class="us"><td>Live FSA recall integration</td><td class="y">Yes</td><td class="n">No</td><td class="n">No</td><td class="n">No</td><td class="n">No</td></tr>
@@ -525,11 +530,11 @@
 <!-- INSIDE SCANSMART -->
 <section class="section" id="family">
   <div class="section-eyebrow">Inside <span class="swm">SCANSMART</span></div>
-  <h2>One platform. <span style="color:var(--red-soft);font-style:italic">Four</span> surfaces. One mission.</h2>
+  <h2>One platform. <span style="color:var(--red-soft);font-style:italic">Five</span> surfaces. One mission.</h2>
   <p>
     <span class="swm">SCANSMART</span> is the School of Label Literacy &mdash; the parent platform
-    behind CheckIT, the <span class="i500-mark">I500</span>, and the Knowledge Library.
-    The Food Label Terminal is the fourth surface: the institutional, professional gateway.
+    behind CheckIT, the <span class="i500-mark">I500</span>, the Knowledge Library and the Partner Programme.
+    The Food Literacy Terminal is the fifth surface: the institutional, professional gateway.
   </p>
   <div class="flt-family">
     <div class="flt-family-card"><a href="checkit.html">
@@ -547,8 +552,13 @@
       <h4>Knowledge Library</h4>
       <p>The reference layer. Definitions, frameworks, the school behind the literacy.</p>
     </a></div>
+    <div class="flt-family-card"><a href="partner.html">
+      <div class="num">04 · B2B</div>
+      <h4>Partner Programme</h4>
+      <p>Institutional integration &mdash; for NHS, retailers, regulators, academics.</p>
+    </a></div>
     <div class="flt-family-card this">
-      <div class="num">04 · Professional ★</div>
+      <div class="num">05 · Professional ★</div>
       <h4>FLT</h4>
       <p>The terminal. Dense intelligence on the <span class="i500-mark">I500</span> + community data + live FSA, on one screen.</p>
     </div>
@@ -560,7 +570,7 @@
   <div class="section-eyebrow">Roadmap · next institutional terminals</div>
   <h2>FLT is the <span style="color:var(--red-soft);font-style:italic">first</span> of three. Supplements + cosmetics follow.</h2>
   <p>
-    The Food Label Terminal proves the architecture: a verified-data spine, a live
+    The Food Literacy Terminal proves the architecture: a verified-data spine, a live
     regulator feed, peer-reviewed signal, an institutional command-line surface.
     Two adjacent categories carry the same problem shape — opaque labels, vulnerable
     populations, fragmented data, a literacy gap institutions need to close. Each gets
@@ -571,7 +581,7 @@
     <!-- FLT — current -->
     <div style="background:linear-gradient(135deg, rgba(230,126,34,0.1) 0%, var(--navy-soft) 100%);padding:28px 24px;border-left:3px solid var(--amber)">
       <div style="font-family:var(--mono);font-size:0.7rem;color:var(--amber);letter-spacing:0.15em;margin-bottom:10px;text-transform:uppercase">★ Now live · v0.9.1</div>
-      <h3 style="font-family:var(--font-display);font-size:1.4rem;color:var(--amber);margin-bottom:10px">FLT — Food Label Terminal</h3>
+      <h3 style="font-family:var(--font-display);font-size:1.4rem;color:var(--amber);margin-bottom:10px">FLT — Food Literacy Terminal</h3>
       <p style="font-size:0.92rem;color:var(--cream-dim);line-height:1.55;margin-bottom:12px">
         The institutional surface for UK food labels. 148 I500 audited SKUs (155 catalogue · 138 strict blindspot vs OFF) + 1,500 OFF community SKUs.
         Live FSA recalls, EFSA additive safety, reformulation history, FSA-14 allergen scan,
@@ -603,7 +613,7 @@
         skin-lightening / sunscreen vertical deep-dives already drafted in the SCANSMART
         research vault. The architecture already supports it — Open Beauty Facts is OFF's
         sister API. <strong style="color:var(--cream)">Consumer cosmetics scanning ships as a
-        CheckIT mode</strong>, not as a separate consumer product.
+        CheckIT mode</strong> (per v7.2 §99 patch), not as a separate consumer product.
       </p>
       <div style="font-family:var(--mono);font-size:0.74rem;color:var(--muted)">Targets: OPSS · MHRA · EU CPR · Open Beauty Facts · CosIng · INCI</div>
     </div>
@@ -613,8 +623,8 @@
     <strong style="color:var(--cream)">Three terminals, one architecture.</strong>
     Each vertical reuses the FLT engine — proprietary verified dataset + community data +
     live regulator feed + peer-reviewed signal + a literacy-tier presentation layer.
-    Each gets a separate audit programme. Institutional enquiries welcome on all
-    three: <a href="mailto:admin@scansmart.uk?subject=SLT/CLT%20institutional%20enquiry" style="color:var(--amber)">admin@scansmart.uk</a>.
+    Each gets a separate audit programme. Partner Programme conversations welcome on all
+    three: <a href="mailto:admin@scansmart.uk?subject=SLT/CLT%20Partner%20Programme%20enquiry" style="color:var(--amber)">admin@scansmart.uk</a>.
   </p>
 </section>
 
@@ -637,13 +647,14 @@
     <div class="section-eyebrow" style="color:#A8E0FF">Get started</div>
     <h2>Try the terminal. Apply for <span class="accent">institutional access</span>.</h2>
     <p>
-      The Food Label Terminal is for NHS, regulatory, retail, and academic teams.
+      The Food Literacy Terminal is delivered through the <span class="swm">SCANSMART</span>
+      Partner Programme &mdash; institutional access for NHS, regulatory, retail, and academic teams.
       Get in touch to discuss your use case, the <span class="i500-mark">I500</span> verified dataset,
       and access terms.
     </p>
     <div class="row">
       <a href="flt-app.html" class="btn btn-launch" target="_blank" rel="noopener">↓ Launch the Terminal</a>
-      <a href="partner.html" class="btn btn-apply">Enquire about access →</a>
+      <a href="partner.html#partner-inquiry" class="btn btn-apply">Apply for access →</a>
     </div>
   </div>
 </section>
@@ -662,7 +673,8 @@
         <ul>
           <li><a href="checkit.html">CheckIT</a></li>
           <li><a href="i500.html">The I500</a></li>
-          <li><a href="flt.html">FLT — Food Label Terminal</a></li>
+          <li><a href="flt.html">FLT — Food Literacy Terminal</a></li>
+          <li><a href="partner.html">Partner programme</a></li>
           <li><a href="subscribe.html">Subscriptions</a></li>
         </ul>
       </div>
@@ -671,7 +683,7 @@
         <ul>
           <li><a href="checkout.html">Weekly Checkout, Decoded</a></li>
           <li><a href="library.html">Knowledge Library</a></li>
-          <li><a href="stories.html">CheckIT Stories</a></li>
+          <li><a href="stories.html">KiP Stories</a></li>
           <li><a href="shops.html">I500 Shop Directory</a></li>
         </ul>
       </div>
@@ -682,12 +694,13 @@
           <li><a href="install.html">Install on your phone</a></li>
           <li><a href="contact.html">Contact</a></li>
           <li><a href="privacy.html">Privacy</a></li>
-          
+          <li><a href="trademark.html">Trademark notice</a></li>
+          <li><a href="/hub">Hub</a></li>
         </ul>
       </div>
     </div>
     <div class="footer-bottom">
-      <div><a href="index.html" aria-label="Home — SCANSMART"><img src="assets/marque-v2.svg" alt="SCANSMART" class="marque-footer" width="240" height="80"></a></div>
+      <div><a href="index.html" aria-label="Home — SCANSMART"><img src="assets/marque-v1.svg" alt="SCANSMART Marque v1 — canonical" class="marque-footer" width="240" height="80"></a></div>
       <div>&copy; 2026 <span class="swm">SCANSMART</span> Ltd &middot; Co. No. 17128797 &middot; England &amp; Wales<br><small style="color:var(--muted-dim)"><span class="swm">SCANSMART</span> is a food literacy and decision-support platform. It is not a medical device and does not provide medical advice.</small></div>
     </div>
   </div>

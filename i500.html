@@ -31,7 +31,7 @@
 <meta name="twitter:image" content="https://scansmart.uk/assets/og-card.png">
 
 <!-- Structured data (Schema.org) -->
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"Organization","name":"SCANSMART Ltd","alternateName":"SCANSMART","url":"https://scansmart.uk/","logo":"https://scansmart.uk/assets/icon-512.png","image":"https://scansmart.uk/assets/og-card.png","description":"The School of Label Literacy. CheckIT, the I500, FLT, the Knowledge Library, and the Partner Programme.","foundingDate":"2026-02","address":{"@type":"PostalAddress","addressCountry":"GB","addressLocality":"London","addressRegion":"England"},"identifier":"Companies House Co. No. 17128797","sameAs":["https://app.scansmart.uk"],"slogan":"Power is Knowledge Decoded"}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Organization","name":"SCANSMART Ltd","alternateName":"SCANSMART","url":"https://scansmart.uk/","logo":"https://scansmart.uk/assets/icon-512.png","image":"https://scansmart.uk/assets/og-card.png","description":"The School of Label Literacy. CheckIT, the I500, the Knowledge Library, and the Partner Programme.","foundingDate":"2026-02","address":{"@type":"PostalAddress","addressCountry":"GB","addressLocality":"London","addressRegion":"England"},"identifier":"Companies House Co. No. 17128797","sameAs":["https://app.scansmart.uk"],"slogan":"Power is Knowledge Decoded"}</script>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebPage","name":"The I500","url":"https://scansmart.uk/i500","isPartOf":{"@type":"WebSite","name":"SCANSMART","url":"https://scansmart.uk/"},"publisher":{"@type":"Organization","name":"SCANSMART Ltd"}}</script>
 
 <meta property="og:type" content="product">
@@ -41,7 +41,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;700&family=Syne:wght@600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="brand.css?v=5.0.58">
-<script src="install.js?v=5.0.134" defer></script>
+<script src="install.js?v=5.0.60" defer></script>
 <style>
 /* I500 page-specific styles. */
 
@@ -187,6 +187,10 @@
 <body>
 
 <a href="#main" class="skip-link">Skip to main content</a>
+<div class="construction-strip" role="status" aria-label="Site under construction — surfaces in active development">
+  <span class="construction-strip-text">SCANSMART is <strong>under construction</strong> &mdash; surfaces in active development</span>
+</div>
+
 <header class="site-nav">
   <div class="site-nav-inner">
     <a href="index.html" class="brand-banner" aria-label="SCANSMART home — Power is Knowledge Decoded"><img src="assets/hero-v16.webp" alt="SCANSMART" width="48" height="60"></a>
@@ -195,8 +199,9 @@
       <a href="checkit.html">CheckIT</a>
       <a href="i500.html" aria-current="page">I500</a>
       <a href="flt.html">FLT</a>
+      <a href="partner.html">Partner</a>
       <a href="checkout.html">Checkout</a>
-      <a href="library.html" class="lib">Library</a><a href="about.html">About</a>
+      <a href="library.html" class="lib">Library</a>
       <a href="install.html" class="install-btn" onclick="installScansmart(event)">Install</a>
       <a href="https://app.scansmart.uk" class="cta">Try the scanner →</a>
     </nav>
@@ -227,8 +232,8 @@
            door3-data.json contents publicly per founder's audit catch). I500 is structurally
            different from FLT: FLT's data substrate is public APIs (OFF / FSA / EFSA / USDA), so
            embedding the live terminal exposes nothing proprietary. I500's data substrate IS the
-           paid B2B product (Partner Programme licenses access to the I500). The teaser shows
-           shape + aggregate signal without leaking row-level corpus. -->
+           paid B2B product per Bible §4 (Partner Programme licenses access to the I500). The
+           teaser shows shape + aggregate signal without leaking row-level corpus. -->
       <div class="i500-teaser-wrap" aria-label="I500 — Retail Intelligence Terminal, teaser">
         <div class="i500-teaser-head">
           <span class="i500-teaser-mark">I500 · Retail Intelligence Terminal</span>
@@ -319,9 +324,9 @@
 
   <div class="feature-grid">
     <div class="feature-card">
-      <div class="ico">155 SKUs verified</div>
+      <div class="ico">149 SKUs verified</div>
       <h3>Already shipping</h3>
-      <p>The I500 v1 corpus carries 155 verified SKUs across South London independent shops as of 13 May 2026 &mdash; of the 148 audited against Open Food Facts, 138 (93.2%) are absent or insufficiently labelled under the strict methodology. Year-1 target: 1,000 products. Long-term ceiling: 2,000&ndash;2,500 genuinely under-represented SKUs.</p>
+      <p>The I500 v1 corpus carries 149 verified SKUs across South London independent shops as of 4 May 2026 &mdash; 84% missing from Open Food Facts at the most recent full audit. Year-1 target: 1,000 products. Long-term ceiling: 2,000&ndash;2,500 genuinely under-represented SKUs.</p>
     </div>
     <div class="feature-card">
       <div class="ico">Cultural specificity</div>
@@ -367,13 +372,13 @@
   <div class="section-eyebrow">How we&rsquo;re funded</div>
   <h2>Independent of food manufacturers and retailers.</h2>
   <p><span class="swm">SCANSMART</span> takes no money from food manufacturers, retailers, or trade bodies. That posture isn&rsquo;t decorative &mdash; it&rsquo;s structural. Industry-funded nutrition research favours sponsor outcomes at an odds ratio of <strong>7.61</strong> (Lesser et al., <em>PLOS Medicine</em>, 2007) and produces favourable findings <strong>5.7&times;</strong> more often than independently-funded equivalents (Sacks et al., <em>PLOS ONE</em>, 2020). The same pattern travels with retail-intelligence data infrastructure when the funding architecture mirrors it.</p>
-  <p>The I500 was built so the figures Tier 1&ndash;3 institutional buyers (NHS / academic / retail intelligence) license carry no financial dependency on the actors the data covers. Manufacturer engagement is governed under explicit editorial-integrity constraints; commissioner-led audits are arranged through <a href="partner.html">institutional enquiry</a>. The structural-critique posture in <a href="checkout.html">Checkout, Decoded</a> rests on the same foundation.</p>
+  <p>The I500 was built so the figures Tier 1&ndash;3 institutional buyers (NHS / academic / retail intelligence) license carry no financial dependency on the actors the data covers. Manufacturer engagement is governed under explicit editorial-integrity constraints; commissioner-led audits run under <a href="partner.html">the Partner programme</a>. The structural-critique posture in <a href="checkout.html">Checkout, Decoded</a> rests on the same foundation.</p>
 </section>
 
 <section class="section section-narrow">
   <div class="section-eyebrow">Pricing posture</div>
-  <h2>Tiered institutional licensing.</h2>
-  <p>I500 enterprise licensing follows a tiered institutional pricing pattern. Annual contracts. Tiered for academic / public-sector / commercial buyers. Commissioner-led borough audits are priced separately (<a href="partner.html">institutional enquiries →</a>).</p>
+  <h2>Bloomberg / Nielsen-band tiered.</h2>
+  <p>I500 enterprise licensing follows a Bloomberg / Nielsen-band tiered institutional pricing pattern. Annual contracts. Six-figure range for full institutional licence. Tiered for academic / public-sector / commercial buyers. Commissioner-led borough audits priced separately under the Partner programme (<a href="partner.html">see Door 3 →</a>).</p>
   <p>For ad-hoc data access, the <a href="subscribe.html"><span class="swm">SCANSMART</span> Subscription</a> tier (£TBD/month) gives professional users (journalists, dietitians, public-health analysts, researchers) searchable access to the corpus without enterprise commitment.</p>
   <p>For pricing on a specific use case, fill out the inquiry form below. Realistic response time: 3&ndash;5 business days.</p>
 </section>
@@ -415,11 +420,12 @@
     <div class="footer-grid">
       <div class="footer-brand"><div class="brand-lockup"><span class="ss"><span class="swm">SCANSMART</span></span><span class="tag">Power is Knowledge Decoded</span></div><p>The School of Label Literacy. Built in South London. Open to the world.</p></div>
       <div class="footer-col"><h4>Products</h4><ul><li><a href="checkit.html">CheckIT</a></li><li><a href="i500.html">The I500</a></li>
-          <li><a href="flt.html">FLT — Food Label Terminal</a></li><li><a href="subscribe.html">Subscriptions</a></li></ul></div>
-      <div class="footer-col"><h4>Read &amp; explore</h4><ul><li><a href="checkout.html">Weekly Checkout, Decoded</a></li><li><a href="library.html">Knowledge Library</a></li><li><a href="stories.html">CheckIT Stories</a></li><li><a href="shops.html">I500 Shop Directory</a></li></ul></div>
-      <div class="footer-col"><h4>About</h4><ul><li><a href="about.html">About <span class="swm">SCANSMART</span></a></li><li><a href="install.html">Install on your phone</a></li><li><a href="contact.html">Contact</a></li><li><a href="privacy.html">Privacy</a></li></ul></div>
+          <li><a href="flt.html">FLT — Food Literacy Terminal</a></li><li><a href="partner.html">Partner programme</a></li><li><a href="subscribe.html">Subscriptions</a></li></ul></div>
+      <div class="footer-col"><h4>Read &amp; explore</h4><ul><li><a href="checkout.html">Weekly Checkout, Decoded</a></li><li><a href="library.html">Knowledge Library</a></li><li><a href="stories.html">KiP Stories</a></li><li><a href="shops.html">I500 Shop Directory</a></li></ul></div>
+      <div class="footer-col"><h4>About</h4><ul><li><a href="about.html">About <span class="swm">SCANSMART</span></a></li><li><a href="install.html">Install on your phone</a></li><li><a href="contact.html">Contact</a></li><li><a href="privacy.html">Privacy</a></li><li><a href="trademark.html">Trademark notice</a></li>
+          <li><a href="/hub">Hub</a></li></ul></div>
     </div>
-    <div class="footer-bottom"><div><a href="index.html" aria-label="Home — SCANSMART"><img src="assets/marque-v2.svg" alt="SCANSMART" class="marque-footer" width="240" height="80"></a></div><div>&copy; 2026 <span class="swm">SCANSMART</span> Ltd &middot; Co. No. 17128797 &middot; England &amp; Wales<br><small style="color:var(--muted-dim)"><span class="swm">SCANSMART</span> is a food literacy and decision-support platform. It is not a medical device and does not provide medical advice.</small></div></div>
+    <div class="footer-bottom"><div><a href="index.html" aria-label="Home — SCANSMART"><img src="assets/marque-v1.svg" alt="SCANSMART Marque v1 — canonical" class="marque-footer" width="240" height="80"></a></div><div>&copy; 2026 <span class="swm">SCANSMART</span> Ltd &middot; Co. No. 17128797 &middot; England &amp; Wales<br><small style="color:var(--muted-dim)"><span class="swm">SCANSMART</span> is a food literacy and decision-support platform. It is not a medical device and does not provide medical advice.</small></div></div>
   </div>
 </footer>
 
