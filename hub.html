@@ -185,7 +185,7 @@
   <section class="hub-section">
     <p class="hub-section-label">AI</p>
     <div class="hub-grid">
-      <a class="hub-tile" href="https://claude.ai" target="_blank" rel="noopener">
+      <a class="hub-tile" href="javascript:void(0)" data-desktop="claude://" data-web="https://claude.ai" onclick="openApp(this)">
         <div class="hub-tile-icon ic-orange">🤖</div>
         <span class="hub-tile-name">Claude</span>
         <span class="hub-tile-desc">Cowork + chat</span>
@@ -244,7 +244,7 @@
         <span class="hub-tile-name">Tally</span>
         <span class="hub-tile-desc">I500 field forms</span>
       </a>
-      <a class="hub-tile" href="https://notion.so" target="_blank" rel="noopener">
+      <a class="hub-tile" href="javascript:void(0)" data-desktop="notion://" data-web="https://notion.so" onclick="openApp(this)">
         <div class="hub-tile-icon ic-slate">🗒️</div>
         <span class="hub-tile-name">Notion</span>
         <span class="hub-tile-desc">Canon &amp; strategy</span>
@@ -261,7 +261,7 @@
         <span class="hub-tile-name">Gmail</span>
         <span class="hub-tile-desc">courtneyclive84@</span>
       </a>
-      <a class="hub-tile" href="https://calendar.google.com" target="_blank" rel="noopener">
+      <a class="hub-tile" href="javascript:void(0)" data-desktop="calshow://" data-web="https://calendar.google.com" onclick="openApp(this)">
         <div class="hub-tile-icon ic-blue">📅</div>
         <span class="hub-tile-name">Calendar</span>
         <span class="hub-tile-desc">Google Calendar</span>
@@ -288,5 +288,16 @@
   </div>
 </footer>
 
+<script>
+/* Desktop-first launcher: tries the macOS app URL scheme, falls back to web if page stays visible */
+function openApp(el) {
+  var desktop = el.dataset.desktop;
+  var web     = el.dataset.web;
+  window.location.href = desktop;
+  setTimeout(function() {
+    if (!document.hidden) window.open(web, '_blank');
+  }, 750);
+}
+</script>
 </body>
 </html>
