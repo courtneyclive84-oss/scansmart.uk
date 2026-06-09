@@ -59,11 +59,10 @@
         <button class="install-modal-close" type="button" aria-label="Close" onclick="closeInstallModal()">&times;</button>
         <h2 id="install-modal-title">Add SCANSMART to your iPhone</h2>
         <p class="install-modal-path">
-          3 dots <span class="path-arrow">&rarr;</span> Share <span class="path-arrow">&rarr;</span> Add to Home Screen <span class="path-arrow">&rarr;</span> Add
+          Share <span class="path-arrow">&rarr;</span> Add to Home Screen <span class="path-arrow">&rarr;</span> Add
         </p>
         <ol class="install-modal-steps">
-          <li><strong>Tap the three dots</strong> at the right end of your Safari address bar.</li>
-          <li><strong>Tap "Share"</strong> in the menu that opens.</li>
+          <li><strong>Tap "Share"</strong> in Safari.</li>
           <li><strong>Scroll down and tap "Add to Home Screen"</strong>.</li>
           <li><strong>Tap "Add"</strong> in the top right.</li>
         </ol>

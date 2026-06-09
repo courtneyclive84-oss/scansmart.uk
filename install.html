@@ -315,23 +315,6 @@
 }
 
 /* =============================================================
-   SAFARI TOOLBAR DIAGRAM — inline SVG so people know which icon
-   ============================================================= */
-.safari-diagram {
-  margin: 0 auto 24px;
-  max-width: 380px;
-  background: var(--navy);
-  border: 1px solid var(--line);
-  border-radius: var(--radius);
-  padding: 14px 14px 6px;
-}
-.safari-diagram svg {
-  width: 100%;
-  height: auto;
-  display: block;
-}
-
-/* =============================================================
    STICKY REMINDER — floats at the bottom on iPhone-detected
    visitors so the three words are always visible while the
    share sheet covers the install page below
@@ -462,46 +445,13 @@
   <div class="platform-panel" role="tabpanel" id="panel-ios" aria-labelledby="tab-ios">
     <h2>iPhone &amp; iPad <span class="accent">(Safari)</span></h2>
 
-    <p class="three-word-path" aria-label="The whole flow in four taps">
-      3 dots <span class="path-arrow" aria-hidden="true">&rarr;</span> Share <span class="path-arrow" aria-hidden="true">&rarr;</span> Add to Home Screen <span class="path-arrow" aria-hidden="true">&rarr;</span> Add
+    <p class="three-word-path" aria-label="The whole flow in three taps">
+      Share <span class="path-arrow" aria-hidden="true">&rarr;</span> Add to Home Screen <span class="path-arrow" aria-hidden="true">&rarr;</span> Add
     </p>
-    <p class="three-word-sub">Four taps. That&rsquo;s the whole thing. The detail below is just so you know what each tap looks like.</p>
-
-    <!-- Visual diagram of the iPhone Safari address bar showing the three-dots / page-menu
-         button highlighted. This is the iOS Safari layout where Add-to-Home-Screen lives
-         behind the "..." page menu (tap three dots → Share → Add to Home Screen). -->
-    <div class="safari-diagram" role="img" aria-label="Diagram of the iPhone Safari address bar showing the three-dots page menu button highlighted on the right">
-      <svg viewBox="0 0 360 110" xmlns="http://www.w3.org/2000/svg">
-        <!-- Address bar background -->
-        <rect x="6" y="40" width="348" height="48" rx="22" fill="#1A2535" stroke="#5C6B7C" stroke-width="1.4"/>
-        <!-- Padlock icon (left, secure-site indicator) -->
-        <g transform="translate(28,64)" stroke="#8899AA" stroke-width="1.6" fill="none" stroke-linecap="round" stroke-linejoin="round">
-          <rect x="-5" y="-2" width="10" height="9" rx="1.5"/>
-          <path d="M -3,-2 L -3,-5 Q -3,-9 0,-9 Q 3,-9 3,-5 L 3,-2"/>
-        </g>
-        <!-- URL text (centred) -->
-        <text x="170" y="68" text-anchor="middle" fill="#E8E1D4" font-family="DM Sans, system-ui, sans-serif" font-size="13" font-weight="500">scansmart.uk/install</text>
-        <!-- Three dots button (highlighted — this is where the user taps) -->
-        <circle cx="324" cy="64" r="20" fill="rgba(245,197,24,0.18)" stroke="#F5C518" stroke-width="2"/>
-        <g fill="#F5C518">
-          <circle cx="316" cy="64" r="2.2"/>
-          <circle cx="324" cy="64" r="2.2"/>
-          <circle cx="332" cy="64" r="2.2"/>
-        </g>
-        <!-- Label arrow + text pointing at the three dots -->
-        <g stroke="#F5C518" stroke-width="1.6" fill="none" stroke-linecap="round">
-          <path d="M 324 30 L 324 18" stroke-dasharray="3,3"/>
-          <polyline points="319,28 324,32 329,28"/>
-        </g>
-        <text x="324" y="14" text-anchor="middle" fill="#F5C518" font-family="Syne, system-ui, sans-serif" font-weight="700" font-size="11" letter-spacing="0.06em">TAP THIS</text>
-        <!-- Bottom caption -->
-        <text x="180" y="104" text-anchor="middle" fill="#8899AA" font-family="DM Sans, system-ui, sans-serif" font-size="10">The three dots sit at the right end of your Safari address bar.</text>
-      </svg>
-    </div>
+    <p class="three-word-sub">Three taps. That&rsquo;s the whole thing. The detail below is just so you know what each tap looks like.</p>
 
     <ol class="steps">
-      <li><strong>Tap the three dots</strong> at the right end of your Safari address bar (the one shown above). A menu slides in.</li>
-      <li><strong>Tap &ldquo;Share&rdquo;</strong> in that menu. The Share sheet slides up from the bottom.</li>
+      <li><strong>Tap &ldquo;Share&rdquo;</strong> in Safari. The Share sheet slides up from the bottom.</li>
       <li><strong>Scroll down in the Share sheet and tap &ldquo;Add to Home Screen&rdquo;.</strong> It&rsquo;s past the row of app icons, in the list of grey options.</li>
       <li><strong>Tap &ldquo;Add&rdquo; in the top right.</strong> <span class="swm">SCANSMART</span> now sits on your home screen like any other app.</li>
     </ol>
@@ -591,7 +541,7 @@
      the Share sheet covers the page. JS toggles is-visible. -->
 <aside id="sticky-reminder" class="sticky-reminder" role="note" aria-label="Install reminder">
   <button class="sr-close" type="button" aria-label="Hide reminder" onclick="document.getElementById('sticky-reminder').classList.remove('is-visible');try{localStorage.setItem('sr-dismissed','1')}catch(e){}">&times;</button>
-  3 dots <span class="sr-arrow" aria-hidden="true">&rarr;</span> Share <span class="sr-arrow" aria-hidden="true">&rarr;</span> Add to Home Screen <span class="sr-arrow" aria-hidden="true">&rarr;</span> Add
+  Share <span class="sr-arrow" aria-hidden="true">&rarr;</span> Add to Home Screen <span class="sr-arrow" aria-hidden="true">&rarr;</span> Add
 </aside>
 
 <footer class="site-footer">
