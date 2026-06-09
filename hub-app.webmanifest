@@ -1,0 +1,21 @@
+{
+  "id": "/hub-app",
+  "name": "SCANSMART Hub",
+  "short_name": "Hub",
+  "description": "Personal project launchpad — all SCANSMART tools on one surface.",
+  "start_url": "/hub-app",
+  "scope": "/hub-app",
+  "display": "standalone",
+  "display_override": ["standalone", "minimal-ui", "browser"],
+  "orientation": "portrait-primary",
+  "theme_color": "#18bcd8",
+  "background_color": "#18bcd8",
+  "lang": "en-GB",
+  "dir": "ltr",
+  "categories": ["productivity", "utilities"],
+  "icons": [
+    { "src": "/assets/hub-icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "/assets/hub-icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "/assets/hub-icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}
