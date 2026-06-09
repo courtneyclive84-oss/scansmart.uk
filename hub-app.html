@@ -1,0 +1,369 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#1597ab">
+<title>SCANSMART Hub</title>
+<link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon-16x16.png">
+<link rel="shortcut icon" href="/assets/favicon.ico">
+<link rel="apple-touch-icon" sizes="180x180" href="/assets/apple-touch-icon.png">
+<link rel="manifest" href="/manifest.webmanifest">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="SCANSMART Hub">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="robots" content="noindex, nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;700&family=Syne:wght@600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="brand.css?v=5.0.58">
+<style>
+  /* Hub-app-only theme overrides live at the END of this block (search
+     "Silk-cyan theme") so they win over the tile rules below. Not canon —
+     brand.css and the public site are untouched. */
+  .hub-wrap {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 2rem 1.25rem 4rem;
+  }
+  .hub-title {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(1.4rem, 4vw, 2rem);
+    font-weight: 800;
+    color: var(--text, #fff);
+    margin: 0 0 0.25rem;
+    letter-spacing: -0.02em;
+  }
+  .hub-subtitle {
+    font-size: 0.85rem;
+    color: var(--text-muted, #8899aa);
+    margin: 0 0 2rem;
+  }
+  .hub-section {
+    margin-bottom: 2.5rem;
+  }
+  .hub-section-label {
+    font-family: 'Syne', sans-serif;
+    font-size: 0.78rem;  /* ~1pt larger */
+    font-weight: 800;    /* bolder (Syne 800) */
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: #ff821e; /* category titles in brand orange (matches .ic-orange hue) */
+    margin: 0 0 0.75rem;
+  }
+  .hub-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    gap: 0.75rem;
+  }
+  .hub-tile {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+    padding: 1rem 1rem 0.9rem;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 10px;
+    text-decoration: none;
+    transition: background 0.15s, border-color 0.15s, transform 0.1s;
+    cursor: pointer;
+  }
+  .hub-tile:hover {
+    background: rgba(255,255,255,0.08);
+    border-color: rgba(255,255,255,0.18);
+    transform: translateY(-1px);
+  }
+  .hub-tile:active {
+    transform: translateY(0);
+  }
+  .hub-tile-icon {
+    width: 36px;
+    height: 36px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+    flex-shrink: 0;
+  }
+  .hub-tile-name {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.88rem;
+    font-weight: 600;
+    color: var(--text, #fff);
+    line-height: 1.2;
+  }
+  .hub-tile-desc {
+    font-size: 0.73rem;
+    color: var(--text-muted, #8899aa);
+    line-height: 1.3;
+  }
+  /* icon bg colours */
+  .ic-purple { background: rgba(130,80,255,0.2); }
+  .ic-orange { background: rgba(255,130,30,0.2); }
+  .ic-blue   { background: rgba(30,130,255,0.2); }
+  .ic-green  { background: rgba(30,210,100,0.2); }
+  .ic-red    { background: rgba(255,60,60,0.2); }
+  .ic-teal   { background: rgba(30,200,200,0.2); }
+  .ic-yellow { background: rgba(255,200,30,0.2); }
+  .ic-pink   { background: rgba(255,80,160,0.2); }
+  .ic-indigo { background: rgba(80,80,220,0.2); }
+  .ic-slate  { background: rgba(120,140,160,0.2); }
+
+  /* SCANSMART internal tiles */
+  .hub-internal .hub-tile {
+    border-color: rgba(255,210,30,0.18);
+    background: rgba(255,210,30,0.04);
+  }
+  .hub-internal .hub-tile:hover {
+    background: rgba(255,210,30,0.08);
+    border-color: rgba(255,210,30,0.3);
+  }
+  .ic-gold { background: rgba(255,210,30,0.2); }
+
+  @media (max-width: 480px) {
+    .hub-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  /* ============ Silk-cyan theme (Hub-app only, not canon) ============
+     Draped-silk cyan with a soft top-left sheen plus a fine woven crosshatch
+     (two crossing repeating-gradients = fabric weave). Tile text is flipped to
+     deep-teal ink and tiles become subtle dark panels so it stays legible. */
+  body {
+    background:
+      repeating-linear-gradient(45deg,  rgba(255,255,255,0.05) 0 1px, rgba(255,255,255,0) 1px 5px),
+      repeating-linear-gradient(-45deg, rgba(0,38,46,0.05)     0 1px, rgba(0,38,46,0)     1px 5px),
+      radial-gradient(135% 95% at 26% 16%, rgba(255,255,255,0.40), rgba(255,255,255,0) 56%),
+      linear-gradient(135deg, #0a5b6b 0%, #1597ab 27%, #6fd6e4 50%, #1597ab 76%, #0a5b6b 100%);
+    background-attachment: fixed;
+    color: #042028;
+  }
+  .hub-title    { color: #042028; }
+  .hub-subtitle { color: #063840; font-size: 1.15rem; font-weight: 500; } /* solid + larger (+2pt) so it's clearly legible on cyan */
+  .hub-section-label { color: #073f49; }             /* deep-teal titles read on cyan */
+  .hub-tile {
+    background: rgba(3,28,34,0.13);
+    border-color: rgba(3,28,34,0.18);
+  }
+  .hub-tile:hover {
+    background: rgba(3,28,34,0.22);
+    border-color: rgba(3,28,34,0.34);
+  }
+  .hub-tile-name { color: #052a33; }
+  .hub-tile-desc { color: rgba(4,32,40,0.64); }
+  .hub-internal .hub-tile {                          /* SCANSMART surfaces: deeper teal panel */
+    background: rgba(0,55,66,0.18);
+    border-color: rgba(0,55,66,0.36);
+  }
+  .hub-internal .hub-tile:hover {
+    background: rgba(0,55,66,0.27);
+    border-color: rgba(0,55,66,0.52);
+  }
+  .site-footer { background: rgba(0,46,55,0.16); }
+  .footer-legal, .footer-legal a { color: rgba(4,32,40,0.74); }
+</style>
+</head>
+<body>
+
+<a href="#main" class="skip-link">Skip to main content</a>
+
+<!-- site-nav header removed for the desktop app: its links duplicate the hub tiles below -->
+
+<main id="main">
+<div class="hub-wrap">
+
+  <h1 class="hub-title">SCANSMART Hub</h1>
+  <p class="hub-subtitle">Your project launchpad — all tools, one surface.</p>
+
+  <!-- SCANSMART surfaces -->
+  <section class="hub-section hub-internal">
+    <p class="hub-section-label">SCANSMART Surfaces</p>
+    <div class="hub-grid">
+      <a class="hub-tile" href="https://scansmart.uk" target="_blank" rel="noopener">
+        <div class="hub-tile-icon ic-gold">🏠</div>
+        <span class="hub-tile-name">scansmart.uk</span>
+        <span class="hub-tile-desc">Live site</span>
+      </a>
+      <a class="hub-tile" href="https://app.scansmart.uk" target="_blank" rel="noopener">
+        <div class="hub-tile-icon ic-gold">📱</div>
+        <span class="hub-tile-name">CheckIT PWA</span>
+        <span class="hub-tile-desc">app.scansmart.uk</span>
+      </a>
+      <a class="hub-tile" href="https://scansmart.uk/flt.html" target="_blank" rel="noopener">
+        <div class="hub-tile-icon ic-gold">🔬</div>
+        <span class="hub-tile-name">FLT</span>
+        <span class="hub-tile-desc">Food Label Terminal</span>
+      </a>
+      <a class="hub-tile" href="https://scansmart.uk/i500.html" target="_blank" rel="noopener">
+        <div class="hub-tile-icon ic-gold">📊</div>
+        <span class="hub-tile-name">I500</span>
+        <span class="hub-tile-desc">Blindspot index</span>
+      </a>
+      <a class="hub-tile" href="https://scansmart.uk/library.html" target="_blank" rel="noopener">
+        <div class="hub-tile-icon ic-gold">📚</div>
+        <span class="hub-tile-name">Library</span>
+        <span class="hub-tile-desc">Knowledge Library</span>
+      </a>
+    </div>
+  </section>
+
+  <!-- AI tools -->
+  <section class="hub-section">
+    <p class="hub-section-label">AI</p>
+    <div class="hub-grid">
+      <a class="hub-tile" href="javascript:void(0)" data-desktop="claude://" data-web="https://claude.ai" onclick="openApp(this)">
+        <div class="hub-tile-icon ic-orange">🤖</div>
+        <span class="hub-tile-name">Claude</span>
+        <span class="hub-tile-desc">Cowork + chat</span>
+      </a>
+      <a class="hub-tile" href="https://aistudio.google.com" target="_blank" rel="noopener">
+        <div class="hub-tile-icon ic-blue">✨</div>
+        <span class="hub-tile-name">AI Studio</span>
+        <span class="hub-tile-desc">Google AI Studio</span>
+      </a>
+      <a class="hub-tile" href="https://notebooklm.google.com" target="_blank" rel="noopener">
+        <div class="hub-tile-icon ic-green">🎙️</div>
+        <span class="hub-tile-name">NotebookLM</span>
+        <span class="hub-tile-desc">Audio / research</span>
+      </a>
+      <a class="hub-tile" href="https://chat.deepseek.com" target="_blank" rel="noopener">
+        <div class="hub-tile-icon ic-teal">🌊</div>
+        <span class="hub-tile-name">DeepSeek</span>
+        <span class="hub-tile-desc">Chat</span>
+      </a>
+      <a class="hub-tile" href="https://www.perplexity.ai" target="_blank" rel="noopener">
+        <div class="hub-tile-icon ic-indigo">🔍</div>
+        <span class="hub-tile-name">Perplexity</span>
+        <span class="hub-tile-desc">Search + research</span>
+      </a>
+      <a class="hub-tile" href="https://gemini.google.com" target="_blank" rel="noopener">
+        <div class="hub-tile-icon ic-blue">♊</div>
+        <span class="hub-tile-name">Gemini</span>
+        <span class="hub-tile-desc">Google Gemini</span>
+      </a>
+      <a class="hub-tile" href="https://ollama.com" target="_blank" rel="noopener">
+        <div class="hub-tile-icon ic-slate">🦙</div>
+        <span class="hub-tile-name">Ollama</span>
+        <span class="hub-tile-desc">Local models</span>
+      </a>
+    </div>
+  </section>
+
+  <!-- Build & deploy -->
+  <section class="hub-section">
+    <p class="hub-section-label">Build &amp; Deploy</p>
+    <div class="hub-grid">
+      <a class="hub-tile" href="https://github.com/courtneyclive84-oss/scansmart.uk" target="_blank" rel="noopener">
+        <div class="hub-tile-icon ic-slate">🐙</div>
+        <span class="hub-tile-name">GitHub</span>
+        <span class="hub-tile-desc">scansmart.uk repo</span>
+      </a>
+      <a class="hub-tile" href="https://github.com/courtneyclive84-oss/checkit-pwa" target="_blank" rel="noopener">
+        <div class="hub-tile-icon ic-slate">📲</div>
+        <span class="hub-tile-name">GitHub PWA</span>
+        <span class="hub-tile-desc">checkit-pwa repo</span>
+      </a>
+      <a class="hub-tile" href="https://dash.cloudflare.com" target="_blank" rel="noopener">
+        <div class="hub-tile-icon ic-orange">☁️</div>
+        <span class="hub-tile-name">Cloudflare</span>
+        <span class="hub-tile-desc">Pages · Workers · R2 · D1</span>
+      </a>
+    </div>
+  </section>
+
+  <!-- Data & knowledge -->
+  <section class="hub-section">
+    <p class="hub-section-label">Data &amp; Knowledge</p>
+    <div class="hub-grid">
+      <a class="hub-tile" href="https://airtable.com/appCuvm3csLUKo4tx" target="_blank" rel="noopener">
+        <div class="hub-tile-icon ic-green">📋</div>
+        <span class="hub-tile-name">Airtable</span>
+        <span class="hub-tile-desc">SCANSMART I500 base</span>
+      </a>
+      <a class="hub-tile" href="https://tally.so" target="_blank" rel="noopener">
+        <div class="hub-tile-icon ic-pink">📝</div>
+        <span class="hub-tile-name">Tally</span>
+        <span class="hub-tile-desc">I500 field forms</span>
+      </a>
+      <a class="hub-tile" href="javascript:void(0)" data-desktop="notion://" data-web="https://notion.so" onclick="openApp(this)">
+        <div class="hub-tile-icon ic-slate">🗒️</div>
+        <span class="hub-tile-name">Notion</span>
+        <span class="hub-tile-desc">Canon &amp; strategy</span>
+      </a>
+      <a class="hub-tile" href="https://world.openfoodfacts.org" target="_blank" rel="noopener">
+        <div class="hub-tile-icon ic-green">🥫</div>
+        <span class="hub-tile-name">Open Food Facts</span>
+        <span class="hub-tile-desc">OFF database</span>
+      </a>
+      <a class="hub-tile" href="https://docs.google.com" target="_blank" rel="noopener">
+        <div class="hub-tile-icon ic-blue">📄</div>
+        <span class="hub-tile-name">Google Docs</span>
+        <span class="hub-tile-desc">Docs &amp; Drive</span>
+      </a>
+    </div>
+  </section>
+
+  <!-- Comms -->
+  <section class="hub-section">
+    <p class="hub-section-label">Comms</p>
+    <div class="hub-grid">
+      <a class="hub-tile" href="https://mail.google.com" target="_blank" rel="noopener">
+        <div class="hub-tile-icon ic-red">📧</div>
+        <span class="hub-tile-name">Gmail</span>
+        <span class="hub-tile-desc">courtneyclive84@</span>
+      </a>
+      <a class="hub-tile" href="javascript:void(0)" data-desktop="calshow://" data-web="https://calendar.google.com" onclick="openApp(this)">
+        <div class="hub-tile-icon ic-blue">📅</div>
+        <span class="hub-tile-name">Calendar</span>
+        <span class="hub-tile-desc">Google Calendar</span>
+      </a>
+      <a class="hub-tile" href="https://proton.me/mail" target="_blank" rel="noopener">
+        <div class="hub-tile-icon ic-purple">🔐</div>
+        <span class="hub-tile-name">Proton Mail</span>
+        <span class="hub-tile-desc">CliveLaws@proton.me</span>
+      </a>
+      <a class="hub-tile" href="javascript:void(0)" data-desktop="slack://open" data-web="https://app.slack.com" onclick="openApp(this)">
+        <div class="hub-tile-icon ic-purple">💬</div>
+        <span class="hub-tile-name">Slack</span>
+        <span class="hub-tile-desc">#all-scansmart</span>
+      </a>
+      <a class="hub-tile" href="javascript:void(0)" data-desktop="bear://" data-web="https://bear.app" onclick="openApp(this)">
+        <div class="hub-tile-icon ic-yellow">🐻</div>
+        <span class="hub-tile-name">Bear</span>
+        <span class="hub-tile-desc">Notes</span>
+      </a>
+      <a class="hub-tile" href="javascript:void(0)" data-desktop="notes://" data-web="https://www.icloud.com/notes/" onclick="openApp(this)">
+        <div class="hub-tile-icon ic-yellow">🗒️</div>
+        <span class="hub-tile-name">Notes</span>
+        <span class="hub-tile-desc">Apple Notes</span>
+      </a>
+    </div>
+  </section>
+
+</div>
+</main>
+
+<footer class="site-footer">
+  <div class="site-footer-inner">
+    <p class="footer-legal">SCANSMART Ltd · Co. No. 17128797 · <a href="privacy.html">Privacy</a></p>
+  </div>
+</footer>
+
+<script>
+/* Desktop-first launcher: tries the macOS app URL scheme, falls back to web if page stays visible */
+function openApp(el) {
+  var desktop = el.dataset.desktop;
+  var web     = el.dataset.web;
+  window.location.href = desktop;
+  setTimeout(function() {
+    if (!document.hidden) window.open(web, '_blank');
+  }, 750);
+}
+</script>
+</body>
+</html>
