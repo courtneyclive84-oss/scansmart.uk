@@ -3560,6 +3560,12 @@
 //   touch the marketing site), bumped .bo-method 9px → 9.5px, and gave its bold labels (OFF field
 //   state: / Match method: …) a brighter #d6d6d6 non-italic treatment so they anchor as labels.
 //   CSS only; no logic change.
+// v5.0.151 — 11 June 2026: public-facing email corrected (admin-email-public)
+//   Founder call (this session): courtneyclive84@gmail.com is the vendor-sign-ups
+//   address, NOT public-facing. All 8 public displays of it (contact ×1, press ×2,
+//   privacy ×4, trademark ×1) replaced with Admin@scansmart.uk — which the kip-forms
+//   Worker also delivers to, so privacy.html's description of form handling is now
+//   exactly accurate. Closes the audit's L4 founder-email-exposure note.
 // v5.0.150 — 11 June 2026: site forms LIVE end-to-end (kip-forms-live)
 //   Phase B (Cloudflare-side, executed with founder today): kip-forms Worker deployed
 //   for the first time (it had never been deployed — all 8 site forms were silently
@@ -3625,7 +3631,7 @@
 //   on the near-black panel, still secondary to the #e7e7e7 body text). Confirmed no neutral
 //   mid-greys bypass the token (the hardcoded greys are tinted accents, not body text). CSS only.
 //
-const CACHE_VERSION = 'scansmart-v5.0.150-kip-forms-live';
+const CACHE_VERSION = 'scansmart-v5.0.151-admin-email-public';
 const PRECACHE = [
   '/',
   '/install.html',
