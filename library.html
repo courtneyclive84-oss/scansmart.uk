@@ -243,6 +243,7 @@
     </optgroup>
 
     <optgroup label="On this page — sections">
+      <option value="#audio-companion">🎧 Audio companion — listen on this page</option>
       <option value="#fundamentals-heading">Label fundamentals</option>
       <option value="#frontpack-heading">Front-of-pack &amp; claims</option>
       <option value="#fsma-heading">FSMA gold-standard evidence vaults</option>
@@ -274,6 +275,54 @@
   <div class="door-tag support">The Library · Reference &amp; evidence</div>
   <h1>The science. The analysis. The positions. <span class="accent-yellow">All open.</span></h1>
   <p class="lede">A curated, plain-language directory of three streams: peer-reviewed scientific papers on food science; <span class="swm">SCANSMART</span>&rsquo;s curated competitive analysis findings; and <span class="swm">SCANSMART</span>&rsquo;s own analytical positions. No paywall. No abstract-only teases. Citations link to free versions where they exist.</p>
+</section>
+
+<section class="section section-narrow" id="audio-companion" aria-labelledby="audio-companion-heading" style="margin-top:0;padding-top:0;padding-bottom:clamp(24px,4vw,40px);">
+  <div style="padding:24px 28px;background:rgba(245,166,35,0.06);border-left:4px solid var(--amber);border-radius:0 8px 8px 0;">
+    <p style="font-family:var(--font-display);font-size:0.72rem;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--amber);margin:0 0 8px;">Audio companion &middot; Library</p>
+    <h2 id="audio-companion-heading" style="margin:0 0 10px;font-size:1.45rem;">How Big Food Engineered Your Cravings</h2>
+    <p style="margin:0 0 16px;font-size:0.95rem;color:var(--cream-dim);">NotebookLM-generated audio companions to the <span class="swm">SCANSMART</span> Library. Same evidence base as the written pages &mdash; different format, for readers who&rsquo;d rather listen. Pick an episode from the menu below the player.</p>
+    <audio id="audio-companion-player" controls preload="metadata" style="width:100%;max-width:640px;display:block;" src="https://media.scansmart.uk/How_Big_Food_Engineered_Your_Cravings.m4a">
+      Your browser does not support the audio element. <a id="audio-companion-download" href="https://media.scansmart.uk/How_Big_Food_Engineered_Your_Cravings.m4a">Download the file directly.</a>
+    </audio>
+    <div style="margin-top:16px;max-width:640px;">
+      <label for="audio-companion-select" style="display:block;font-family:var(--font-display);font-size:0.72rem;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--amber);margin:0 0 6px;">Choose an episode</label>
+      <select id="audio-companion-select" style="width:100%;padding:10px 12px;font-size:0.95rem;font-family:inherit;color:var(--cream);background:rgba(10,22,40,0.85);border:1px solid var(--amber);border-radius:6px;cursor:pointer;">
+        <option value="How_Big_Food_Engineered_Your_Cravings.m4a" data-title="How Big Food Engineered Your Cravings" selected>How Big Food Engineered Your Cravings (48 min)</option>
+        <option value="Why_food_scanners_fail_diaspora_communities.m4a" data-title="Why Food Scanners Fail Diaspora Communities">Why Food Scanners Fail Diaspora Communities (60 min)</option>
+        <option value="Mapping_the_food_digital_health_ignores.m4a" data-title="Mapping the Food Digital Health Ignores">Mapping the Food Digital Health Ignores (50 min)</option>
+        <option value="Why_frozen_food_beats_supermarket_fresh.m4a" data-title="Why Frozen Food Beats Supermarket Fresh">Why Frozen Food Beats Supermarket Fresh (48 min)</option>
+        <option value="Weaponizing_supermarket_barcodes_for_public_health.m4a" data-title="Weaponizing Supermarket Barcodes for Public Health">Weaponizing Supermarket Barcodes for Public Health (47 min)</option>
+        <option value="Why_Your_Liver_Treats_Juice_Like_Soda.m4a" data-title="Why Your Liver Treats Juice Like Soda">Why Your Liver Treats Juice Like Soda (43 min)</option>
+        <option value="Mapping_the_93_percent_food_blind_spot.m4a" data-title="Mapping the 93% Food Blind Spot">Mapping the 93% Food Blind Spot (39 min)</option>
+        <option value="Why_Acidic_Drinks_Melt_Your_Teeth.m4a" data-title="Why Acidic Drinks Melt Your Teeth">Why Acidic Drinks Melt Your Teeth (23 min)</option>
+        <option value="The_Hidden_Engineering_of_Global_Staples.m4a" data-title="The Hidden Engineering of Global Staples">The Hidden Engineering of Global Staples (23 min)</option>
+        <option value="PepsiCo_sells_the_sickness_and_the_cure.m4a" data-title="PepsiCo Sells the Sickness and the Cure">PepsiCo Sells the Sickness and the Cure (20 min)</option>
+        <option value="Weaponizing_pester_power_against_diabetes.m4a" data-title="Weaponizing Pester Power Against Diabetes">Weaponizing Pester Power Against Diabetes (20 min)</option>
+        <option value="Open_Food_Facts_Decodes_Grocery_Labels.m4a" data-title="Open Food Facts Decodes Grocery Labels">Open Food Facts Decodes Grocery Labels (19 min)</option>
+        <option value="Why_flash_freezing_beats_fresh_food.m4a" data-title="Why Flash Freezing Beats Fresh Food">Why Flash Freezing Beats Fresh Food (18 min)</option>
+        <option value="Lead_and_carcinogens_in_hair_and_nails.m4a" data-title="Hair and Nails. A deep dive into the labelling and regulations of the industry">Hair and Nails. A deep dive into the labelling and regulations of the industry (59 min)</option>
+      </select>
+    </div>
+  </div>
+  <script>
+    (function () {
+      var sel = document.getElementById('audio-companion-select');
+      var player = document.getElementById('audio-companion-player');
+      var dl = document.getElementById('audio-companion-download');
+      var heading = document.getElementById('audio-companion-heading');
+      if (!sel || !player) return;
+      var base = 'https://media.scansmart.uk/';
+      sel.addEventListener('change', function () {
+        var opt = sel.options[sel.selectedIndex];
+        var url = base + sel.value;
+        player.src = url;
+        player.load();
+        if (dl) dl.href = url;
+        if (heading) heading.textContent = opt.getAttribute('data-title') || heading.textContent;
+      });
+    })();
+  </script>
 </section>
 <section class="section section-narrow" aria-labelledby="fundamentals-heading">
   <div class="section-eyebrow">Start here</div>
