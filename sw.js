@@ -3560,6 +3560,33 @@
 //   touch the marketing site), bumped .bo-method 9px → 9.5px, and gave its bold labels (OFF field
 //   state: / Match method: …) a brighter #d6d6d6 non-italic treatment so they anchor as labels.
 //   CSS only; no logic change.
+// v5.0.152 — 11 June 2026: FLT resilience — search debounce + API timeouts (flt-debounce-timeouts)
+//   From the 11 Jun three-surface improvement review (Strategy/Improvement_Findings_
+//   Site+PWA+FLT_2026-06-11.md), Part 0 item 5. flt-app.html only, no markup change:
+//   (1) Live OFF autocomplete now debounced 400ms — local search still renders per
+//       keystroke (instant, no network); the OFF request fires once the user pauses,
+//       so typing "coffee" costs 1 API call, not 6. Protects against OFF rate limits
+//       in long audit sessions. liveSearchToken stale-discard kept.
+//   (2) New fetchWithTimeout() helper (AbortController, mirrors searchLive pattern).
+//       FSA recalls fetch now aborts at 6s; WIRE RSS-proxy fetches abort at 8s per
+//       source (the loop is serial — one hung proxy previously stalled every
+//       subsequent feed). FSA error UI now distinguishes "unresponsive/timed out"
+//       from "blocked by browser shields" so the analyst gets an honest diagnosis.
+//   (3) Deploy-weight clean-up (same review, item 2): the 7.8 MB CheckIT-hero
+//       source PNG (Gemini_Generated_Image_e3v2…) MOVED to KiP/Media/Images/
+//       (NOT deleted — checkit.html:251 marks it §14.3.1-preserved; the review
+//       agent's "unreferenced" claim missed that comment). checkit.html pointer
+//       updated; file untracked from the repo so Pages stops shipping it.
+//   (4) Retro-log for commit 92b985b (earlier today, shipped without its own bump):
+//       Knowledge Library audio companion RESTORED — 14-episode player + dropdown +
+//       "Jump to" entry on library.html, dropped by the 8 Jun commit. search-index.json
+//       rebuilt in THIS commit (hygiene — §50 note: the indexer extracts
+//       titles/headings/ledes and never captured player internals, so the restore
+//       barely moves the index; episode titles are not site-searchable by design).
+//       NOTE: library-childhood-obesity.html stays DE-LISTED from the library index
+//       by design — §56 Panel Review not passed (DRAFT-IN-REVIEW per 1 Jun session
+//       record). Still cross-linked from library-food-marketing-to-kids.html
+//       (reachable, not promoted).
 // v5.0.151 — 11 June 2026: public-facing email corrected (admin-email-public)
 //   Founder call (this session): courtneyclive84@gmail.com is the vendor-sign-ups
 //   address, NOT public-facing. All 8 public displays of it (contact ×1, press ×2,
@@ -3631,7 +3658,7 @@
 //   on the near-black panel, still secondary to the #e7e7e7 body text). Confirmed no neutral
 //   mid-greys bypass the token (the hardcoded greys are tinted accents, not body text). CSS only.
 //
-const CACHE_VERSION = 'scansmart-v5.0.151-admin-email-public';
+const CACHE_VERSION = 'scansmart-v5.0.152-flt-debounce-timeouts';
 const PRECACHE = [
   '/',
   '/install.html',

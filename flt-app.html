@@ -1168,6 +1168,23 @@ const OFF_LIVE_TIMEOUT = 8000;     /* ms — abort after 8s if OFF unresponsive 
 const OFF_LIVE_MIN_CHARS = 3;       /* don't fire live search for very short queries (would dump >100k hits) */
 const OFF_LIVE_PAGE_SIZE = 15;      /* matches autocomplete dropdown depth */
 const FSA_BASE = "https://data.food.gov.uk/food-alerts/id";
+const FSA_TIMEOUT = 6000;          /* ms — abort if data.food.gov.uk hangs (v5.0.152) */
+const WIRE_FETCH_TIMEOUT = 8000;   /* ms — per-source cap; fetchWire loops sources SERIALLY,
+                                      so one hung RSS proxy would otherwise stall every
+                                      subsequent feed (v5.0.152) */
+
+/* fetchWithTimeout — fetch + AbortController, mirrors the searchLive() pattern.
+   A hung government API or RSS proxy must degrade to the catch-path error UI,
+   never freeze a panel indefinitely. */
+async function fetchWithTimeout(url, opts, ms){
+  const ctrl = new AbortController();
+  const timer = setTimeout(()=>ctrl.abort(), ms);
+  try {
+    return await fetch(url, {...(opts||{}), signal: ctrl.signal});
+  } finally {
+    clearTimeout(timer);
+  }
+}
 const UA_FIELDS = "code,product_name,product_name_en,generic_name,brands,quantity,serving_size,categories_tags,categories_hierarchy,ingredients_text_en,ingredients_text,ingredients,nutriments,nutrition_grades,nova_group,additives_tags,allergens_tags,traces_tags,labels_tags,image_front_small_url,countries_tags,rev,last_modified_t,ecoscore_grade,ecoscore_score,ecoscore_data,packaging_materials_tags";
 
 /* ============================================================
@@ -1416,8 +1433,15 @@ topInput.addEventListener("keydown", e=>{
    vs live distinction is invisible. liveSearchToken is a monotonic counter so stale live
    responses (user kept typing past them) are discarded. */
 let liveSearchToken = 0;
+/* v5.0.152 — debounce the live OFF leg. Local search stays per-keystroke (instant,
+   no network); the OFF request only fires once the user pauses 400ms, so typing
+   "coffee" costs one API call, not six. Protects against OFF rate-limiting during
+   long audit sessions. */
+let liveSearchDebounce = null;
+const LIVE_SEARCH_DEBOUNCE_MS = 400;
 
 cmd.addEventListener("input", ()=>{
+  clearTimeout(liveSearchDebounce);
   const q = cmd.value;
   const qt = q.trim();
   if(!qt){ hideAc(); return; }
@@ -1438,6 +1462,7 @@ cmd.addEventListener("input", ()=>{
   // Live OFF: fire in parallel for any non-barcode, non-trivial query.
   // Merge dedupes by barcode; local kept at top (typically richer record).
   if(!/^\d{8,14}$/.test(sub) && sub.length >= (typeof OFF_LIVE_MIN_CHARS !== "undefined" ? OFF_LIVE_MIN_CHARS : 3)){
+    liveSearchDebounce = setTimeout(()=>{
     const myToken = ++liveSearchToken;
     searchLive(sub).then(liveResults => {
       if(myToken !== liveSearchToken) return;  // user kept typing — discard stale response
@@ -1453,6 +1478,7 @@ cmd.addEventListener("input", ()=>{
       const merged = localMatches.concat(newFromLive).slice(0, 25);
       showAc(merged, label);
     }).catch(()=>{ /* silent — local results already shown */ });
+    }, LIVE_SEARCH_DEBOUNCE_MS);
   }
 });
 
@@ -3128,7 +3154,7 @@ function renderRecallsHTML(items, hasRelevance){
 
 async function loadRecalls(){
   try{
-    const r = await fetch(`${FSA_BASE}?_limit=15&_sort=-created`, {headers:{"Accept":"application/json"}});
+    const r = await fetchWithTimeout(`${FSA_BASE}?_limit=15&_sort=-created`, {headers:{"Accept":"application/json"}}, FSA_TIMEOUT);
     const d = await r.json();
     const items = d.items || [];
     RECALLS_CACHE = items;
@@ -3144,7 +3170,13 @@ async function loadRecalls(){
     setStatus(true, `LIVE · FSA + OFF`);
     return items;
   } catch(e){
-    document.getElementById("newsBody").innerHTML = `
+    const timedOut = e && (e.name === "AbortError" || /abort/i.test(e.message||""));
+    document.getElementById("newsBody").innerHTML = timedOut ? `
+      <div class="err" style="line-height:1.5">
+        ⚠ FSA feed unresponsive (no reply within ${FSA_TIMEOUT/1000}s).<br>
+        <code>data.food.gov.uk</code> may be down or slow — recalls will load
+        on the next refresh once the API recovers.
+      </div>` : `
       <div class="err" style="line-height:1.5">
         ⚠ FSA feed blocked (<code>${esc(e.message)}</code>).<br>
         Likely browser shields or strict tracking protection blocking
@@ -3257,7 +3289,7 @@ async function fetchWire(){
   const seenTitles = new Set();
   for(const src of WIRE_SOURCES){
     try {
-      const r = await fetch(WIRE_PROXY + encodeURIComponent(src.url));
+      const r = await fetchWithTimeout(WIRE_PROXY + encodeURIComponent(src.url), null, WIRE_FETCH_TIMEOUT);
       const data = await r.json();
       if(data.status !== "ok") continue;
       for(const item of (data.items || [])){
