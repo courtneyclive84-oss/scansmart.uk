@@ -1037,7 +1037,7 @@ function renderBrandOwnership(p){
       <div class="brand-ownership-source">Sources: SEC + Companies House filings, regulatory disclosures, trade-press acquisition announcements, primary company press releases. Facts-only chronology — analyst reads the pattern.</div>`;
   } else {
     ownershipSection = `<div class="sectitle">OWNERSHIP HISTORY</div>
-      <div class="brand-ownership-empty">${brandStr ? "<strong>"+brandStr+"</strong> not in the SCANSMART brand-ownership database yet. " : ""}Database currently covers ~30 common UK food brands; expanding over time. Facts only — sources: SEC + Companies House filings, regulatory disclosures, trade-press acquisition announcements, primary company press releases.</div>`;
+      <div class="brand-ownership-empty">${brandStr ? "<strong>"+esc(brandStr)+"</strong> not in the SCANSMART brand-ownership database yet. " : ""}Database currently covers ~30 common UK food brands; expanding over time. Facts only — sources: SEC + Companies House filings, regulatory disclosures, trade-press acquisition announcements, primary company press releases.</div>`;
   }
 
   /* === Tier 1 sub-blocks (always render in expanded mode, regardless of ownership-DB match) === */
@@ -1060,7 +1060,7 @@ function renderBrandOwnership(p){
       return `<div class="bo-content">No top-14 allergens declared on this product's OFF record.</div>
         <div class="bo-method"><strong>OFF field state:</strong> EMPTY · the field is present on OFF and contains no allergen tags. Most often means the pack carries none of the UK FIC top-14 allergens; in rare cases the OFF contributor may not have transcribed the allergen line — cross-check the pack if precision matters.</div>`;
     }
-    return `<div class="bo-content">${allergens.list.map(a => `<span class="bo-allergen-pill">${a}</span>`).join("")}</div>
+    return `<div class="bo-content">${allergens.list.map(a => `<span class="bo-allergen-pill">${esc(a)}</span>`).join("")}</div>
       <div class="bo-method"><strong>OFF field state:</strong> DECLARED · source field: allergens_tags (verbatim, en: prefix stripped)</div>`;
   })();
 
@@ -1190,6 +1190,26 @@ setInterval(tick,1000); tick();
 // neutral "· LIVE" chip; this JS block deliberately does NOT overwrite it.
 
 /* ============================================================
+   OUTPUT ESCAPING — security audit 11 Jun 2026.
+   Every string that arrives from a live external source (OpenFoodFacts,
+   FSA alerts API, the WIRE feed proxy) must pass through esc() before
+   being interpolated into an innerHTML template, and every externally
+   sourced URL through safeUrl() before landing in an href/src attribute.
+   OFF is community-editable, so product fields are attacker-writable.
+   ============================================================ */
+function esc(s){
+  return String(s ?? "").replace(/[&<>"']/g, c => (
+    {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]
+  ));
+}
+function safeUrl(u){
+  // Allow only http(s) absolute URLs; anything else (javascript:, data:, blob:)
+  // collapses to "" and the caller renders no link/image.
+  const s = String(u ?? "").trim();
+  return /^https?:\/\//i.test(s) ? esc(s) : "";
+}
+
+/* ============================================================
    TICKER — built from universe stats + FSA recalls
    ============================================================ */
 function buildTicker(recalls){
@@ -1210,7 +1230,7 @@ function buildTicker(recalls){
     {cls:"up",  t:`NOVA-1 unprocessed: ${novaCounts[1]||0} SKUs`},
   ];
   recalls.slice(0,8).forEach(r=>{
-    items.push({cls:"flag", t:`FSA RECALL · ${(r.title||"").slice(0,100)}`});
+    items.push({cls:"flag", t:`FSA RECALL · ${esc((r.title||"").slice(0,100))}`});
   });
   const tr = document.getElementById("ticker");
   tr.innerHTML = items.concat(items).map(i=>`<span class="${i.cls}">▸ ${i.t}</span>`).join("");
@@ -1326,11 +1346,11 @@ function showAc(items, label){
     items.map((it,i)=>{
       return `
       <div class="row ${i===0?"sel":""}" data-i="${i}">
-        <div class="b">${(it.b||"—").toUpperCase()}</div>
-        <div class="n">${(it.n||"(unnamed)").replace(/</g,"&lt;")}</div>
-        <div class="g">${it.q||it.cat||""}</div>
-        <div class="g ${"pill"+(it.ns||"")}">${(it.ns||"—").toUpperCase()}</div>
-        <div class="g">${it.nv?"N"+it.nv:"—"}</div>
+        <div class="b">${esc((it.b||"—").toUpperCase())}</div>
+        <div class="n">${esc(it.n||"(unnamed)")}</div>
+        <div class="g">${esc(it.q||it.cat||"")}</div>
+        <div class="g ${"pill"+esc(it.ns||"")}">${esc((it.ns||"—").toUpperCase())}</div>
+        <div class="g">${it.nv?"N"+esc(it.nv):"—"}</div>
       </div>
     `;}).join("");
   ac.style.display = "block";
@@ -1796,7 +1816,7 @@ async function loadProduct(barcode){
         `<text x="300" y="140" text-anchor="middle" fill="#8a8a8a" font-family="monospace" font-size="12">live data blocked — see panels for details</text>`;
     } else {
       document.getElementById("prodBody").innerHTML =
-        `<div class="err">⚠ ${e.message}</div>` + renderBlockedNotice();
+        `<div class="err">⚠ ${esc(e.message)}</div>` + renderBlockedNotice();
       document.getElementById("ingBody").innerHTML = "";
       document.getElementById("nutBody").innerHTML = "";
       document.getElementById("peerBody").innerHTML = "";
@@ -1938,7 +1958,8 @@ function renderProduct(p){
   const eco = ecoMeta(p);
   const labels = (p.labels_tags||[]).slice(0,8).map(l=>humanCat(l));
   document.getElementById("p1title").textContent = `PROD · ${(p.brands||"—").toUpperCase()} · ${p.code}`;
-  const img = p.image_front_small_url ? `<img src="${p.image_front_small_url}" style="max-width:72px;max-height:72px;float:right;margin-left:8px;border:1px solid #222">` : "";
+  const imgUrl = safeUrl(p.image_front_small_url);
+  const img = imgUrl ? `<img src="${imgUrl}" style="max-width:72px;max-height:72px;float:right;margin-left:8px;border:1px solid #222">` : "";
 
   // CO2 verdict for the eco subline
   let co2Line = "";
@@ -1953,24 +1974,24 @@ function renderProduct(p){
   document.getElementById("prodBody").innerHTML = `
     ${img}
     <div class="pkey">
-      <div class="k">BRAND</div><div class="v">${(p.brands||"—")}</div>
-      <div class="k">PRODUCT</div><div class="v">${pickName(p)}</div>
-      <div class="k">PACK</div><div class="v">${p.quantity||"—"}</div>
-      <div class="k">BARCODE</div><div class="v">${p.code}</div>
-      <div class="k">CATEGORY</div><div class="v">${humanCat(primaryCategory(p))||"—"}</div>
+      <div class="k">BRAND</div><div class="v">${esc(p.brands||"—")}</div>
+      <div class="k">PRODUCT</div><div class="v">${esc(pickName(p))}</div>
+      <div class="k">PACK</div><div class="v">${esc(p.quantity||"—")}</div>
+      <div class="k">BARCODE</div><div class="v">${esc(p.code)}</div>
+      <div class="k">CATEGORY</div><div class="v">${esc(humanCat(primaryCategory(p)))||"—"}</div>
       <div class="k">SOURCE</div><div class="v">
         ${p._i500
-          ? `<span class="badge amber" style="font-weight:700">★ I500-${String(p._i500.pid).padStart(3,"0")} · ScanSmart verified</span>`
+          ? `<span class="badge amber" style="font-weight:700">★ I500-${esc(String(p._i500.pid).padStart(3,"0"))} · ScanSmart verified</span>`
           : `<span class="badge" style="color:var(--dim);border-color:var(--border)">OFF · community-sourced</span>
-             <a href="https://world.openfoodfacts.org/product/${p.code}" target="_blank">OpenFoodFacts ↗</a>${p.last_modified_t ? `<span style="color:var(--dim);font-size:10px;margin-left:6px">last modified ${new Date(p.last_modified_t*1000).toISOString().slice(0,10)}${p.rev?` · rev ${p.rev}`:""}</span>` : ""}`}
+             <a href="https://world.openfoodfacts.org/product/${encodeURIComponent(p.code||"")}" target="_blank">OpenFoodFacts ↗</a>${p.last_modified_t ? `<span style="color:var(--dim);font-size:10px;margin-left:6px">last modified ${new Date(p.last_modified_t*1000).toISOString().slice(0,10)}${p.rev?` · rev ${esc(p.rev)}`:""}</span>` : ""}`}
       </div>
       ${p._i500 ? `
-        ${p._i500.distributor?`<div class="k">DISTRIBUTOR</div><div class="v">${p._i500.distributor}</div>`:""}
-        ${p._i500.origin?`<div class="k">ORIGIN</div><div class="v">${p._i500.origin}</div>`:""}
-        ${p._i500.price?`<div class="k">PRICE</div><div class="v" style="color:var(--amber)">£${p._i500.price}</div>`:""}
-        ${p._i500.bbe?`<div class="k">BBE</div><div class="v">${p._i500.bbe}</div>`:""}
-        ${p._i500.wanis?`<div class="k">WANIS</div><div class="v">${p._i500.wanis}</div>`:""}
-        ${p._i500.notes?`<div class="k">NOTES</div><div class="v" style="color:var(--dim);font-size:10px">${p._i500.notes}</div>`:""}
+        ${p._i500.distributor?`<div class="k">DISTRIBUTOR</div><div class="v">${esc(p._i500.distributor)}</div>`:""}
+        ${p._i500.origin?`<div class="k">ORIGIN</div><div class="v">${esc(p._i500.origin)}</div>`:""}
+        ${p._i500.price?`<div class="k">PRICE</div><div class="v" style="color:var(--amber)">£${esc(p._i500.price)}</div>`:""}
+        ${p._i500.bbe?`<div class="k">BBE</div><div class="v">${esc(p._i500.bbe)}</div>`:""}
+        ${p._i500.wanis?`<div class="k">WANIS</div><div class="v">${esc(p._i500.wanis)}</div>`:""}
+        ${p._i500.notes?`<div class="k">NOTES</div><div class="v" style="color:var(--dim);font-size:10px">${esc(p._i500.notes)}</div>`:""}
       ` : ""}
     </div>
     <div class="scorebox scorebox-3">
@@ -1989,7 +2010,7 @@ function renderProduct(p){
     </div>
     ${(co2Line||pkgLine)?`<div class="badges" style="margin-top:6px">${co2Line}${pkgLine}</div>`:""}
     ${labels.length?`<div class="sectitle">LABELS / CLAIMS</div>
-      <div class="badges">${labels.map(l=>`<span class="badge">${l}</span>`).join("")}</div>`:""}
+      <div class="badges">${labels.map(l=>`<span class="badge">${esc(l)}</span>`).join("")}</div>`:""}
     ${renderBrandOwnership(p)}
   `;
 }
@@ -2011,7 +2032,7 @@ function renderIngredients(p){
       const veg = i.vegan==="yes"?"✓":"";
       return `<tr>
         <td style="color:var(--dim)">${idx+1}</td>
-        <td>${name}</td>
+        <td>${esc(name)}</td>
         <td class="num">${pct!=null?pct.toFixed(1)+"%":""}
           ${pct!=null?`<div class="ingbar"><div style="width:${Math.min(100,pct*1.5)}%"></div></div>`:""}
         </td>
@@ -2020,7 +2041,7 @@ function renderIngredients(p){
       </tr>`;
     }).join("");
   } else if(text){
-    tableRows = `<tr><td colspan="5" style="color:var(--text);white-space:normal">${text}</td></tr>`;
+    tableRows = `<tr><td colspan="5" style="color:var(--text);white-space:normal">${esc(text)}</td></tr>`;
   } else {
     tableRows = `<tr><td colspan="5" class="err">No ingredient data available</td></tr>`;
   }
@@ -2050,7 +2071,7 @@ function renderIngredients(p){
   const mayContainBlock = traces.length
     ? `<div class="sectitle">MAY CONTAIN (cross-contact)</div>
        <div class="badges" style="margin-bottom:4px"><span class="badge yellow">⚠ Cross-contact disclosed: ${traces.length}</span></div>
-       <div class="badges">${traces.map(t=>`<span class="badge yellow">⚠ ${t}</span>`).join(" ")}</div>
+       <div class="badges">${traces.map(t=>`<span class="badge yellow">⚠ ${esc(t)}</span>`).join(" ")}</div>
        <div style="font-size:9.5px;color:var(--dim);margin-top:4px">Cross-contact from manufacturer's <code>traces</code> disclosure (OFF). Indicates shared-factory or shared-line risk, not intentional ingredient. Different regulatory frame from FSA-14 "contains" scan above.</div>`
     : `<div class="sectitle">MAY CONTAIN (cross-contact)</div>
        <div style="font-size:10px;color:var(--dim)">No cross-contact disclosure in OFF record (either none declared by manufacturer, or OFF <code>traces_tags</code> field empty).</div>`;
@@ -2063,7 +2084,7 @@ function renderIngredients(p){
     </table>
     ${additives.length?`<details class="fold">
       <summary>ADDITIVES DETECTED · ${additives.length}</summary>
-      <div class="fold-body badges">${additives.map(a=>`<span class="badge amber">${a}</span>`).join("")}</div>
+      <div class="fold-body badges">${additives.map(a=>`<span class="badge amber">${esc(a)}</span>`).join("")}</div>
     </details>`:""}
     <div class="sectitle">ALLERGEN SCAN (FSA 14)</div>
     <div class="badges" style="margin-bottom:6px">${summary}</div>
@@ -2123,7 +2144,7 @@ function renderNutrition(p){
     sourceLine = `Nutrition values from <span style="color:var(--amber)">I500 verified workbook</span> · ScanSmart field audit · TL thresholds per FSA/DHSC FOP guidance.`;
   } else {
     const lm = p.last_modified_t ? new Date(p.last_modified_t * 1000).toISOString().slice(0,10) : null;
-    const rev = p.rev ? ` · OFF rev ${p.rev}` : "";
+    const rev = p.rev ? ` · OFF rev ${esc(p.rev)}` : "";
     const lmText = lm ? ` (last modified ${lm}${rev})` : "";
     sourceLine = `Nutrition values from <span style="color:var(--dim)">OpenFoodFacts</span> community database${lmText} · TL thresholds per FSA/DHSC FOP guidance.`;
   }
@@ -2675,15 +2696,16 @@ function miniCard(p, side){
   const ns = (p.nutrition_grades||"").toLowerCase();
   const nv = p.nova_group;
   const eco = ecoMeta(p);
-  const img = p.image_front_small_url
-    ? `<img src="${p.image_front_small_url}" style="max-width:48px;max-height:48px;float:right;margin-left:6px;border:1px solid #222">`
+  const imgUrl = safeUrl(p.image_front_small_url);
+  const img = imgUrl
+    ? `<img src="${imgUrl}" style="max-width:48px;max-height:48px;float:right;margin-left:6px;border:1px solid #222">`
     : "";
   return `
     <div class="cmp-col ${side}">
-      <div class="cmp-hd ${side}">${side==="a"?"A":"B"} · ${(p.brands||"—").split(",")[0]}</div>
+      <div class="cmp-hd ${side}">${side==="a"?"A":"B"} · ${esc((p.brands||"—").split(",")[0])}</div>
       ${img}
-      <div style="font-size:11px;margin-bottom:4px">${pickName(p).slice(0,50)}</div>
-      <div style="font-size:10px;color:var(--dim)">${p.quantity||"—"} · ${p.code}</div>
+      <div style="font-size:11px;margin-bottom:4px">${esc(pickName(p).slice(0,50))}</div>
+      <div style="font-size:10px;color:var(--dim)">${esc(p.quantity||"—")} · ${esc(p.code)}</div>
       <div class="scorebox scorebox-3" style="margin-top:6px">
         <div class="score ${ns||"unk"}">
           <div class="lbl">NUTRI</div>
@@ -2862,7 +2884,7 @@ async function loadPeers(p){
     return;
   }
   const catRaw = cat.replace(/^en:/,"");
-  document.getElementById("peerBody").innerHTML = `<div class="loading">Searching category: ${humanCat(cat)}</div>`;
+  document.getElementById("peerBody").innerHTML = `<div class="loading">Searching category: ${esc(humanCat(cat))}</div>`;
 
   let items = [];
   let source = "live";
@@ -2883,7 +2905,7 @@ async function loadPeers(p){
     document.getElementById("peerBody").innerHTML =
       `<div class="err" style="line-height:1.5">
         No peer SKUs found.<br>
-        <span style="color:var(--dim);font-size:10px">Category: ${humanCat(cat)}. Try loading a different SKU or check Brave Shields if all live calls are failing.</span>
+        <span style="color:var(--dim);font-size:10px">Category: ${esc(humanCat(cat))}. Try loading a different SKU or check Brave Shields if all live calls are failing.</span>
       </div>`;
     return;
   }
@@ -2932,11 +2954,11 @@ async function loadPeers(p){
       const saltDelta = current ? null : pctDelta(salt, focalSalt);
       const why = current ? "FOCAL" : whyLine(sugDelta, saltDelta);
       const brandCell = current
-        ? `<b style="color:var(--amber)">${(x.brands||"—").split(",")[0]}</b><br><span style="color:var(--dim);font-size:9px;font-family:var(--mono)">FOCAL</span>`
-        : `${(x.brands||"—").split(",")[0]}${why?`<div class="peer-why">${why}</div>`:""}`;
-      return `<tr data-code="${x.code}" style="${current?"background:#1a1306":""}">
+        ? `<b style="color:var(--amber)">${esc((x.brands||"—").split(",")[0])}</b><br><span style="color:var(--dim);font-size:9px;font-family:var(--mono)">FOCAL</span>`
+        : `${esc((x.brands||"—").split(",")[0])}${why?`<div class="peer-why">${why}</div>`:""}`;
+      return `<tr data-code="${esc(x.code)}" style="${current?"background:#1a1306":""}">
         <td style="${current?"color:var(--amber)":""}">${brandCell}</td>
-        <td style="${current?"color:var(--amber)":""}">${(x.product_name_en||x.product_name||"(unnamed)").slice(0,38)}</td>
+        <td style="${current?"color:var(--amber)":""}">${esc((x.product_name_en||x.product_name||"(unnamed)").slice(0,38))}</td>
         <td><span class="nspill ${ns}">${ns!=="unk"?ns.toUpperCase():"·"}</span></td>
         <td><span class="novapill n${nv}">${nv!=="unk"?"N"+nv:"—"}</span></td>
         <td class="num">
@@ -3080,7 +3102,7 @@ function renderRecallsHTML(items, hasRelevance){
   let html = "";
   if(hasRelevance && CURRENT){
     const focal = (CURRENT.brands||"").split(",")[0] || (CURRENT.product_name_en||CURRENT.product_name||"");
-    html += `<div class="recl-relevance">⚠ <strong>${items.length}</strong> recall${items.length>1?"s":""} relevant to <strong>${focal}</strong> — same brand, category, or allergen overlap</div>`;
+    html += `<div class="recl-relevance">⚠ <strong>${items.length}</strong> recall${items.length>1?"s":""} relevant to <strong>${esc(focal)}</strong> — same brand, category, or allergen overlap</div>`;
   }
   html += items.map((it,idx)=>{
     const date = fmtDate(it.created);
@@ -3094,10 +3116,10 @@ function renderRecallsHTML(items, hasRelevance){
     return `<div class="row" style="${accent}">
       <div class="tm" style="color:${sev.color}">${(isLatest||isTopRel)?"⚠ ":""}${date}</div>
       <div>
-        <span class="src">FSA · ${biz||"—"}${it._rel>0?` <span style="color:#ff7a7a;font-size:9px">· ${it._rel} pts relevant</span>`:""}</span>
-        <div class="ttl"><span class="tag" style="background:${sev.bg};color:${sev.color}">${sev.tag}</span>${(it.title||"").replace(/</g,"&lt;")}
-          ${url?`<a href="${url}" target="_blank">↗</a>`:""}</div>
-        ${risk?`<div style="color:var(--dim);font-size:10px;margin-top:3px;line-height:1.35">↳ ${risk.slice(0,180)}${risk.length>180?"…":""}</div>`:""}
+        <span class="src">FSA · ${esc(biz)||"—"}${it._rel>0?` <span style="color:#ff7a7a;font-size:9px">· ${it._rel} pts relevant</span>`:""}</span>
+        <div class="ttl"><span class="tag" style="background:${sev.bg};color:${sev.color}">${sev.tag}</span>${esc(it.title||"")}
+          ${safeUrl(url)?`<a href="${safeUrl(url)}" target="_blank" rel="noopener">↗</a>`:""}</div>
+        ${risk?`<div style="color:var(--dim);font-size:10px;margin-top:3px;line-height:1.35">↳ ${esc(risk.slice(0,180))}${risk.length>180?"…":""}</div>`:""}
       </div>
     </div>`;
   }).join("");
@@ -3124,7 +3146,7 @@ async function loadRecalls(){
   } catch(e){
     document.getElementById("newsBody").innerHTML = `
       <div class="err" style="line-height:1.5">
-        ⚠ FSA feed blocked (<code>${e.message}</code>).<br>
+        ⚠ FSA feed blocked (<code>${esc(e.message)}</code>).<br>
         Likely browser shields or strict tracking protection blocking
         <code>data.food.gov.uk</code>.<br>
         Toggle shields off for this file, or open in Chrome / Safari / Firefox.
@@ -3319,12 +3341,13 @@ function renderWire(items){
   const now = Date.now();
   body.innerHTML = items.map(it => {
     const isFresh = (now - it.date.getTime()) < 6 * 3600 * 1000; // last 6h
-    const title = (it.title || "").replace(/</g,"&lt;");
-    const link = it.link ? `<a href="${it.link}" target="_blank" rel="noopener">↗</a>` : "";
+    const title = esc(it.title || "");
+    const linkUrl = safeUrl(it.link);
+    const link = linkUrl ? `<a href="${linkUrl}" target="_blank" rel="noopener">↗</a>` : "";
     const tierTip = WIRE_TIER_NAMES[it.colour] || "";
     return `<div class="row${isFresh ? " fresh" : ""}">
       <div class="meta">
-        <span class="src" style="background:${it.colour}" title="${tierTip}">${it.source}</span>
+        <span class="src" style="background:${esc(it.colour)}" title="${tierTip}">${esc(it.source)}</span>
         <span class="tm">${timeAgo(it.date)}</span>
       </div>
       <div class="ttl">${title}${link}</div>
@@ -3340,7 +3363,7 @@ async function loadWire(){
     const body = document.getElementById("wireBody");
     body.innerHTML = `<div class="wire-empty" style="color:var(--red)">
       ⚠ Wire fetch failed.<br>
-      <span style="color:var(--dim);font-size:9px">${e.message}<br>
+      <span style="color:var(--dim);font-size:9px">${esc(e.message)}<br>
       Likely cause: api.rss2json.com rate-limited or browser shields blocking the proxy.</span>
     </div>`;
   }

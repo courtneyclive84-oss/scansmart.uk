@@ -3,10 +3,12 @@
 
 User-agent: *
 Allow: /
-# FLT terminal is gated by Cloudflare Access (email one-time PIN).
-# Keep it out of search results — only authorised email addresses can load it.
+# FLT terminal is subscription-gated — keep it out of search results.
 Disallow: /flt-app
 Disallow: /flt-app.html
+# Internal build artefacts / worker source — not site pages.
+Disallow: /_internal/
+Disallow: /workers/
 
 # Sitemap
 Sitemap: https://scansmart.uk/sitemap.xml

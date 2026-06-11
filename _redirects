@@ -1,3 +1,10 @@
+# Security (11 Jun 2026): _internal/ build artefacts and workers/ source are
+# tracked in git, so Cloudflare Pages serves them publicly. They are not site
+# pages — bounce any request to the homepage. Definitive fix is untracking
+# them from the deploy; these rules close the live exposure meanwhile.
+/_internal/*  /  301
+/workers/*  /  301
+
 /library-behaviour-change-decision-point.html  /  301
 /kip  /checkit  301
 /kip/  /checkit  301

@@ -3560,6 +3560,30 @@
 //   touch the marketing site), bumped .bo-method 9px → 9.5px, and gave its bold labels (OFF field
 //   state: / Match method: …) a brighter #d6d6d6 non-italic treatment so they anchor as labels.
 //   CSS only; no logic change.
+// v5.0.149 — 11 June 2026: security audit remediation (security-xss-internal)
+//   - flt-app.html: added esc()/safeUrl() output-escaping helpers and applied them at every
+//     innerHTML sink that renders live external data — OFF product fields (brands, names,
+//     quantity, code, ingredients, tags, image URL, rev), I500 record fields, FSA recall
+//     title/business/risk/alertURL, WIRE feed title/link, autocomplete rows, ticker,
+//     peer-comparison table, brand-ownership fallback, and error-path e.message echoes
+//     (the "Product not found: <barcode>" message was a reflected-XSS path via typed input).
+//     safeUrl() allows http(s) only — javascript:/data: URIs in OFF image URLs or feed
+//     links collapse to no-link/no-image. OFF is community-editable, so its fields are
+//     attacker-writable; escaping happens at render time, data left untouched.
+//   - _redirects: /_internal/* and /workers/* now 301 → /. Both directories are git-tracked
+//     so Pages was serving them publicly (pull.log, runbooks, universe JSONs, worker source
+//     all returned 200 live — contradicting the v5.0.110-era note that _internal/ is
+//     "not deployed"). robots.txt also disallows both paths (and its stale claim that
+//     flt-app sits behind Cloudflare Access was corrected — it does not, verified live).
+//   - _headers: added Strict-Transport-Security: max-age=31536000.
+//   - workers/kip-forms/src/index.js: email subject line strips CR/LF/control chars from
+//     the user-supplied name (mail-header-injection hardening; needs wrangler deploy).
+//   - _internal/ and workers/ UNTRACKED from git + gitignored (files stay on disk).
+//     Next deploy stops shipping them entirely; the _redirects rules above remain as
+//     belt-and-braces. NOTE: the GitHub repo is public, so old commits still contain
+//     these files until history is rewritten (separate decision — needs force push).
+//   No visual changes. No feature changes. Key-gates untouched (client-side by design,
+//   Bible §116/§117).
 // v5.0.148 — 9 June 2026: iOS install path simplified to 3 beats (install-ios-3beat)
 //   - Dropped the leading "3 dots" step from the iPhone Add-to-Home-Screen flow in both
 //     install.js (nav modal) and install.html (full guide). Path is now Share → Add to
@@ -3582,7 +3606,7 @@
 //   on the near-black panel, still secondary to the #e7e7e7 body text). Confirmed no neutral
 //   mid-greys bypass the token (the hardcoded greys are tinted accents, not body text). CSS only.
 //
-const CACHE_VERSION = 'scansmart-v5.0.148-install-ios-3beat';
+const CACHE_VERSION = 'scansmart-v5.0.149-security-xss-internal';
 const PRECACHE = [
   '/',
   '/install.html',
