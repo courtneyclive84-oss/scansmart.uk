@@ -38,6 +38,7 @@
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;700&family=Syne:wght@600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="brand.css?v=5.0.58">
 <script src="install.js?v=5.0.60" defer></script>
+<script src="https://challenges.cloudflare.com/turnstile/v0/api.js" defer></script>
 </head>
 <body>
 
@@ -131,6 +132,7 @@
     <input type="hidden" name="formType" value="story">
     <input type="hidden" name="sourcePage" value="/stories">
     <div class="form-actions">
+      <div class="cf-turnstile" data-sitekey="0x4AAAAAADYdfVkuJ0n8wRdz"></div>
       <button type="submit" class="btn btn-primary">Submit my story</button>
       <span class="form-msg" id="st-msg-out"></span>
     </div>
@@ -162,9 +164,25 @@ async function submitForm(event) {
   const msg = form.querySelector('.form-msg');
   msg.textContent = 'Submitting…'; msg.className = 'form-msg';
   const data = Object.fromEntries(new FormData(form).entries());
+  // Honeypot — a filled hidden field means a bot; show success, send nothing.
+  if (data.website) { msg.textContent = 'Thanks!'; msg.className = 'form-msg ok'; form.reset(); return false; }
+  // The Worker stores name/email/organisation/message/subject/deadline.
+  // Page-specific fields fold into message so nothing submitted is lost.
+  const KNOWN = ['name','email','message','organisation','subject','deadline','website','formType','sourcePage','cf-turnstile-response'];
+  const extras = Object.entries(data).filter(([k,v]) => !KNOWN.includes(k) && v).map(([k,v]) => k + ': ' + v);
+  const payload = {
+    formId: 'story',
+    name: (data.name || '').trim() || '(not given)',
+    email: data.email || '',
+    organisation: data.organisation || '',
+    subject: data.subject || '',
+    deadline: data.deadline || '',
+    message: [data.message, ...extras].filter(Boolean).join('\n') || '(no message)',
+    turnstile_token: data['cf-turnstile-response'] || ''
+  };
   try {
-    const res = await fetch('https://kip-forms.courtneyclive84.workers.dev/submit', {
-      method: 'POST', headers: {'content-type':'application/json'}, body: JSON.stringify(data)
+    const res = await fetch('https://api.scansmart.uk/forms/submit', {
+      method: 'POST', headers: {'content-type':'application/json'}, body: JSON.stringify(payload)
     });
     const out = await res.json();
     if (out.ok) { msg.textContent = "Thanks for sharing. We'll be in touch within 5 business days to confirm publication preferences."; msg.className = 'form-msg ok'; form.reset(); }

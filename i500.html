@@ -183,6 +183,7 @@
 .i500-stat .lbl { font-family: 'JetBrains Mono','SF Mono',Menlo,Consolas,monospace; font-size: 0.7rem; color: var(--muted); letter-spacing: 0.18em; text-transform: uppercase; margin-top: 8px; }
 .i500-stat .sub { font-family: 'JetBrains Mono','SF Mono',Menlo,Consolas,monospace; font-size: 0.62rem; color: var(--muted-dim); letter-spacing: 0.12em; text-transform: uppercase; margin-top: 4px; }
 </style>
+<script src="https://challenges.cloudflare.com/turnstile/v0/api.js" defer></script>
 </head>
 <body>
 
@@ -407,6 +408,7 @@
     <input type="hidden" name="formType" value="inquiry">
     <input type="hidden" name="sourcePage" value="/i500">
     <div class="form-actions">
+      <div class="cf-turnstile" data-sitekey="0x4AAAAAADYdfVkuJ0n8wRdz"></div>
       <button type="submit" class="btn btn-primary">Send inquiry</button>
       <span class="form-msg" id="i-msg"></span>
     </div>
@@ -437,9 +439,25 @@ async function submitForm(event, formType) {
   const msg = document.getElementById(msgId);
   msg.textContent = 'Sending…'; msg.className = 'form-msg';
   const data = Object.fromEntries(new FormData(form).entries());
+  // Honeypot — a filled hidden field means a bot; show success, send nothing.
+  if (data.website) { msg.textContent = 'Thanks!'; msg.className = 'form-msg ok'; form.reset(); return false; }
+  // The Worker stores name/email/organisation/message/subject/deadline.
+  // Page-specific fields fold into message so nothing submitted is lost.
+  const KNOWN = ['name','email','message','organisation','subject','deadline','website','formType','sourcePage','cf-turnstile-response'];
+  const extras = Object.entries(data).filter(([k,v]) => !KNOWN.includes(k) && v).map(([k,v]) => k + ': ' + v);
+  const payload = {
+    formId: 'i500',
+    name: (data.name || '').trim() || '(not given)',
+    email: data.email || '',
+    organisation: data.organisation || '',
+    subject: data.subject || '',
+    deadline: data.deadline || '',
+    message: [data.message, ...extras].filter(Boolean).join('\n') || '(no message)',
+    turnstile_token: data['cf-turnstile-response'] || ''
+  };
   try {
-    const res = await fetch('https://kip-forms.courtneyclive84.workers.dev/submit', {
-      method: 'POST', headers: {'content-type':'application/json'}, body: JSON.stringify(data)
+    const res = await fetch('https://api.scansmart.uk/forms/submit', {
+      method: 'POST', headers: {'content-type':'application/json'}, body: JSON.stringify(payload)
     });
     const out = await res.json();
     if (out.ok) { msg.textContent = 'Thanks — we\'ll be in touch within 3-5 business days.'; msg.className = 'form-msg ok'; form.reset(); }

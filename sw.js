@@ -3560,6 +3560,25 @@
 //   touch the marketing site), bumped .bo-method 9px → 9.5px, and gave its bold labels (OFF field
 //   state: / Match method: …) a brighter #d6d6d6 non-italic treatment so they anchor as labels.
 //   CSS only; no logic change.
+// v5.0.150 — 11 June 2026: site forms LIVE end-to-end (kip-forms-live)
+//   Phase B (Cloudflare-side, executed with founder today): kip-forms Worker deployed
+//   for the first time (it had never been deployed — all 8 site forms were silently
+//   failing since launch). D1 database kip-inquiries created (WEUR) + schema.sql
+//   applied; TURNSTILE_SECRET + RESEND_API_KEY set via wrangler secret put; Resend
+//   domain scansmart.uk verified (eu-west-1, DNS auto-configured); Turnstile widget
+//   "SCANSMART forms" created (Managed). Worker now lives at api.scansmart.uk
+//   (custom domain; workers.dev URL disabled — closes the audit's
+//   personal-identifier-endpoint finding).
+//   Phase C (this commit, per workers/kip-forms/WEBSITE_DIFF_PLAN.md): the 8 form
+//   pages (partner, subscribe, contact, stories, shops, i500, checkout, press) get
+//   the Turnstile loader in <head>, the cf-turnstile widget before the submit
+//   button, and a rebuilt submit payload — correct formId enum (stories→story),
+//   required-field fallbacks (Worker requires name/email/message; several forms
+//   collect fewer), page-specific fields folded into message so nothing is lost,
+//   cf-turnstile-response → turnstile_token, client-side honeypot short-circuit.
+//   Endpoint: api.scansmart.uk/forms/submit. CSP: + challenges.cloudflare.com
+//   (script-src, connect-src, new frame-src), + api.scansmart.uk (connect-src),
+//   − kip-forms.courtneyclive84.workers.dev (legacy URL now appears nowhere).
 // v5.0.149 — 11 June 2026: security audit remediation (security-xss-internal)
 //   - flt-app.html: added esc()/safeUrl() output-escaping helpers and applied them at every
 //     innerHTML sink that renders live external data — OFF product fields (brands, names,
@@ -3606,7 +3625,7 @@
 //   on the near-black panel, still secondary to the #e7e7e7 body text). Confirmed no neutral
 //   mid-greys bypass the token (the hardcoded greys are tinted accents, not body text). CSS only.
 //
-const CACHE_VERSION = 'scansmart-v5.0.149-security-xss-internal';
+const CACHE_VERSION = 'scansmart-v5.0.150-kip-forms-live';
 const PRECACHE = [
   '/',
   '/install.html',
