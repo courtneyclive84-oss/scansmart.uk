@@ -3560,6 +3560,15 @@
 //   touch the marketing site), bumped .bo-method 9px → 9.5px, and gave its bold labels (OFF field
 //   state: / Match method: …) a brighter #d6d6d6 non-italic treatment so they anchor as labels.
 //   CSS only; no logic change.
+// v5.0.153 — 12 June 2026: construction strip removed + About nav site-wide (construction-strip-about-nav)
+//   Completes commit 109c39b (8 Jun), which removed the construction banner and added the
+//   About nav link on index.html ONLY — every other page kept the banner and lacked About,
+//   so the tab "disappeared" on click-through and the strip looked reinstated (founder
+//   caught both on 12 Jun). This pass applies the same two changes to all 64 sibling pages:
+//   (1) construction-strip div removed everywhere (replaced with a dated comment, matching
+//       the index.html convention); .construction-strip CSS left in place, also matching.
+//   (2) <a href="about.html">About</a> inserted after Library in every primary-nav
+//       (aria-current="page" on about.html itself). Markup only; no logic change.
 // v5.0.152 — 11 June 2026: FLT resilience — search debounce + API timeouts (flt-debounce-timeouts)
 //   From the 11 Jun three-surface improvement review (Strategy/Improvement_Findings_
 //   Site+PWA+FLT_2026-06-11.md), Part 0 item 5. flt-app.html only, no markup change:
@@ -3658,7 +3667,7 @@
 //   on the near-black panel, still secondary to the #e7e7e7 body text). Confirmed no neutral
 //   mid-greys bypass the token (the hardcoded greys are tinted accents, not body text). CSS only.
 //
-const CACHE_VERSION = 'scansmart-v5.0.152-flt-debounce-timeouts';
+const CACHE_VERSION = 'scansmart-v5.0.153-construction-strip-about-nav';
 const PRECACHE = [
   '/',
   '/install.html',
