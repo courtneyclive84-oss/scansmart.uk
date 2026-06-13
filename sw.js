@@ -3560,6 +3560,15 @@
 //   touch the marketing site), bumped .bo-method 9px → 9.5px, and gave its bold labels (OFF field
 //   state: / Match method: …) a brighter #d6d6d6 non-italic treatment so they anchor as labels.
 //   CSS only; no logic change.
+// v5.0.161 — 13 June 2026: FLT render robustness pass — non-numeric OFF data can't crash panels (flt-render-hardening)
+//   Headless stress-test (real flt-app engine vs 11 real OFF products + 7 broken edge records) caught
+//   real crashes that empty/sparse/non-numeric community records trigger — invisible until you load a
+//   messy product. Fixes: (1) F5 renderChartFOP did `n["fat_100g"]||0` then `.toFixed()` — a string
+//   nutriment is truthy so ||0 missed it → crash. Now coerces to finite-number-or-null, renders "no
+//   data" instead of a fake 0 bar. (2) F4 peer panel read sug/salt unguarded → gramCell.toFixed crashed
+//   on a string; now guarded at source (numN) + gramCell hardened. (3) F2 ingredient % guarded against
+//   non-numeric percent_estimate (would've taken down the whole ingredient table). Verified: 18/18
+//   products render without throwing. flt-app only; no worker/CSP change.
 // v5.0.160 — 13 June 2026: F6 recall RELEVANCE tightened — kill false positives (flt-recall-relevance)
 //   Exposed once /recalls populated (v5.0.155): F6 flagged 5 "recalls relevant to Heinz" that weren't —
 //   onion chutney, falooda drink, baby fromage frais. Cause: relevanceScore matched generic OFF category
@@ -3728,7 +3737,7 @@
 //   on the near-black panel, still secondary to the #e7e7e7 body text). Confirmed no neutral
 //   mid-greys bypass the token (the hardcoded greys are tinted accents, not body text). CSS only.
 //
-const CACHE_VERSION = 'scansmart-v5.0.160-flt-recall-relevance';
+const CACHE_VERSION = 'scansmart-v5.0.161-flt-render-hardening';
 const PRECACHE = [
   '/',
   '/install.html',

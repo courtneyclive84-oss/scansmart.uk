@@ -2069,7 +2069,8 @@ function renderIngredients(p){
   let tableRows = "";
   if(list.length){
     tableRows = list.slice(0,18).map((i,idx)=>{
-      const pct = i.percent_estimate || i.percent || i.percent_max;
+      const pctRaw = i.percent_estimate ?? i.percent ?? i.percent_max;
+      const pct = (typeof pctRaw === "number" && isFinite(pctRaw)) ? pctRaw : null; // guard: non-numeric OFF % must not crash the panel
       // Non-English record → prefer the OFF taxonomy id (en:-keyed, canonical English) over
       // i.text (the product's main language). Unmatched ingredients keep their entered text;
       // the language notice below flags that. English records are unaffected.
@@ -2712,11 +2713,14 @@ function renderChartFOP(p){
      HIST render so toggling BARS resets to fluid 100%-width scaling. */
   svg.style.width = "";
   const n = p.nutriments || {};
+  // OFF nutriment values aren't guaranteed numeric (community data carries strings, blanks, NaN).
+  // Coerce to a finite number or null — null renders as "no data", never a fake 0 bar (§50, mirrors F3).
+  const num = k => { const x = n[k]; return (typeof x === "number" && isFinite(x)) ? x : null; };
   const data = [
-    {lbl:"FAT",        v:n["fat_100g"]||0,           max:25, g:3,   r:17.5, unit:"g"},
-    {lbl:"SATURATES",  v:n["saturated-fat_100g"]||0, max:10, g:1.5, r:5,    unit:"g"},
-    {lbl:"SUGARS",     v:n["sugars_100g"]||0,        max:50, g:5,   r:22.5, unit:"g"},
-    {lbl:"SALT",       v:n["salt_100g"]||0,          max:3,  g:0.3, r:1.5,  unit:"g"},
+    {lbl:"FAT",        v:num("fat_100g"),           max:25, g:3,   r:17.5, unit:"g"},
+    {lbl:"SATURATES",  v:num("saturated-fat_100g"), max:10, g:1.5, r:5,    unit:"g"},
+    {lbl:"SUGARS",     v:num("sugars_100g"),        max:50, g:5,   r:22.5, unit:"g"},
+    {lbl:"SALT",       v:num("salt_100g"),          max:3,  g:0.3, r:1.5,  unit:"g"},
   ];
   document.getElementById("p5title").textContent =
     `CHART · FOP THRESHOLDS · ${(p.brands||"").split(",")[0]||p.code} (no history available)`;
@@ -2731,6 +2735,12 @@ function renderChartFOP(p){
   let html = defs + `<rect x="0" y="0" width="${W}" height="${H}" fill="#050505"/>`;
   data.forEach((d,i)=>{
     const y=pad.t+i*rowH+rowH/2, barH=18;
+    // Missing / non-numeric → "no data" row, not a misleading zero-length bar.
+    if(d.v === null){
+      html += `<text x="${pad.l-8}" y="${y+4}" font-size="10" fill="#ffa726" font-family="monospace" text-anchor="end">${d.lbl}</text>`;
+      html += `<text x="${pad.l+6}" y="${y+4}" font-size="10" fill="#8a8a8a" font-family="monospace">— no data</text>`;
+      return;
+    }
     const xS=v=>pad.l+(Math.min(v,d.max)/d.max)*(W-pad.l-pad.r);
     const grad=d.v<=d.g?"gG":d.v>=d.r?"gR":"gA";
     const col=d.v<=d.g?"#27d07c":d.v>=d.r?"#ff4d4d":"#ffa726";
@@ -2967,8 +2977,11 @@ async function loadPeers(p){
   }
   {
     // Focal product nutrients for delta calc
-    const focalSug = p.nutriments && p.nutriments.sugars_100g;
-    const focalSalt = p.nutriments && p.nutriments.salt_100g;
+    // OFF nutriment values aren't guaranteed numeric — coerce to finite-number-or-null so a
+    // string/blank can't crash gramCell's toFixed or skew a delta (same class as the F5 chart bug).
+    const numN = (o,k) => (o && o.nutriments && typeof o.nutriments[k]==="number" && isFinite(o.nutriments[k])) ? o.nutriments[k] : null;
+    const focalSug = numN(p, "sugars_100g");
+    const focalSalt = numN(p, "salt_100g");
     const pctDelta = (a, b) => {
       // a===0 guarded too: a stored 0 for salt/sugar in OFF is almost always a missing value,
       // not a measured zero — a confident "100% less" badge off it is the F4 over-claim (§50).
@@ -3002,15 +3015,15 @@ async function loadPeers(p){
     // Render a per-100g gram value: missing → "—"; a literal 0 (almost always an OFF data gap,
     // not a measured zero) → dimmed + flagged so it doesn't read as a verified value (§50).
     const gramCell = (v, dp, w) => {
-      if(v == null) return "—";
+      if(typeof v !== "number" || !isFinite(v)) return "—";
       const bar = `<span class="sparkbar" style="width:${w}px"></span>`;
       if(v === 0) return `${bar}<span style="color:var(--dim)" title="OFF lists 0 here — usually a missing value, not a measured zero">0.${"0".repeat(dp)}g ⚠</span>`;
       return `${bar}${v.toFixed(dp)}g`;
     };
 
     const row = (x, current) => {
-      const sug = x.nutriments && x.nutriments.sugars_100g;
-      const salt = x.nutriments && x.nutriments.salt_100g;
+      const sug = numN(x, "sugars_100g");
+      const salt = numN(x, "salt_100g");
       const ns = (x.nutrition_grades||"").toLowerCase() || "unk";
       const nv = x.nova_group || "unk";
       const sugW = sug!=null ? Math.min(60, Math.max(2, (sug/30)*60)) : 0;
