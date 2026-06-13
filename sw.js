@@ -3560,6 +3560,14 @@
 //   touch the marketing site), bumped .bo-method 9px → 9.5px, and gave its bold labels (OFF field
 //   state: / Match method: …) a brighter #d6d6d6 non-italic treatment so they anchor as labels.
 //   CSS only; no logic change.
+// v5.0.159 — 13 June 2026: flt.html hero — broken live-iframe → static terminal poster (flt-hero-poster)
+//   The hero embedded <iframe src="flt-app.html?embed=1">, which rendered as a blank/blocked box for
+//   every public visitor after the 11 Jun security pass: flt-app moved behind Cloudflare Access (its
+//   challenge page sets X-Frame-Options: DENY) AND the tightened CSP frame-src dropped 'self'. Live-
+//   embedding a deliberately gated terminal also defeats the gate. Replaced with a static poster built
+//   from the (previously orphaned) .flt-mock-* CSS, showing REAL data (Mutti 8005110517006 — the exact
+//   numbers the live terminal returns); whole poster links to flt-app.html (gated → Access/Apply as
+//   intended). Caption no longer claims "LIVE" (it's a preview). Inverted CSS comments corrected.
 // v5.0.158 — 13 June 2026: site-wide FLT rename FINALLY implemented (flt-rename-sitewide)
 //   The "Food Literacy Terminal" → "Food Label Terminal" rename was decided + banked to canon on
 //   3 Jun 2026 but NEVER applied to the site — git has no rename commit; 66 files / 83 occurrences
@@ -3710,7 +3718,7 @@
 //   on the near-black panel, still secondary to the #e7e7e7 body text). Confirmed no neutral
 //   mid-greys bypass the token (the hardcoded greys are tinted accents, not body text). CSS only.
 //
-const CACHE_VERSION = 'scansmart-v5.0.158-flt-rename-sitewide';
+const CACHE_VERSION = 'scansmart-v5.0.159-flt-hero-poster';
 const PRECACHE = [
   '/',
   '/install.html',
