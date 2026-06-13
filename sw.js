@@ -3560,6 +3560,15 @@
 //   touch the marketing site), bumped .bo-method 9px → 9.5px, and gave its bold labels (OFF field
 //   state: / Match method: …) a brighter #d6d6d6 non-italic treatment so they anchor as labels.
 //   CSS only; no logic change.
+// v5.0.158 — 13 June 2026: site-wide FLT rename FINALLY implemented (flt-rename-sitewide)
+//   The "Food Literacy Terminal" → "Food Label Terminal" rename was decided + banked to canon on
+//   3 Jun 2026 but NEVER applied to the site — git has no rename commit; 66 files / 83 occurrences
+//   (nav links, <title>s, meta, iframe labels) still carried the old name (the public flt.html title
+//   among them). Swept all 66 HTML files + rebuilt search-index.json. Intentional "Label Literacy" /
+//   "School of Label Literacy" (140 uses) untouched. NOT touched, flagged for founder: "Cosmetics
+//   Literacy Terminal" + "Supplements Literacy Terminal" (flt.html roadmap headings — sibling-vertical
+//   names, not in the canon rename). Lesson: a ledger entry phrased as done ("renamed") masked an
+//   unshipped decision for 10 days.
 // v5.0.157 — 13 June 2026: FLT F1 claims-chip filter + F4 zero-value guard (flt-claims-chips-zero-guard)
 //   F1: LABELS / CLAIMS dumped ALL OFF labels_tags, so OFF-computed grades (nutriscore-grade-a,
 //   nova-group-4, ecoscore-*) showed as if they were on-pack claims. Now filtered via
@@ -3701,7 +3710,7 @@
 //   on the near-black panel, still secondary to the #e7e7e7 body text). Confirmed no neutral
 //   mid-greys bypass the token (the hardcoded greys are tinted accents, not body text). CSS only.
 //
-const CACHE_VERSION = 'scansmart-v5.0.157-flt-claims-chips-zero-guard';
+const CACHE_VERSION = 'scansmart-v5.0.158-flt-rename-sitewide';
 const PRECACHE = [
   '/',
   '/install.html',
