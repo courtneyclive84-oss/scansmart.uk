@@ -1987,7 +1987,11 @@ function renderProduct(p){
   const ns = (p.nutrition_grades||"").toLowerCase();
   const nv = p.nova_group;
   const eco = ecoMeta(p);
-  const labels = (p.labels_tags||[]).slice(0,8).map(l=>humanCat(l));
+  // OFF auto-applies computed grade/score tags (nutriscore-grade-a, nova-group-4, ecoscore-*)
+  // to labels_tags — those are OFF metadata, not on-pack claims. Filter them so LABELS / CLAIMS
+  // shows only genuine product claims (no-gluten, no-added-sugar, organic, vegan …).
+  const OFF_DERIVED_LABEL = /^en:(nutri-?score|nova|eco-?score|green-dot)\b/i;
+  const labels = (p.labels_tags||[]).filter(l=>!OFF_DERIVED_LABEL.test(l)).slice(0,8).map(l=>humanCat(l));
   document.getElementById("p1title").textContent = `PROD · ${(p.brands||"—").toUpperCase()} · ${p.code}`;
   const imgUrl = safeUrl(p.image_front_small_url);
   const img = imgUrl ? `<img src="${imgUrl}" style="max-width:72px;max-height:72px;float:right;margin-left:8px;border:1px solid #222">` : "";
@@ -2966,7 +2970,9 @@ async function loadPeers(p){
     const focalSug = p.nutriments && p.nutriments.sugars_100g;
     const focalSalt = p.nutriments && p.nutriments.salt_100g;
     const pctDelta = (a, b) => {
-      if(a==null || b==null || b===0) return null;
+      // a===0 guarded too: a stored 0 for salt/sugar in OFF is almost always a missing value,
+      // not a measured zero — a confident "100% less" badge off it is the F4 over-claim (§50).
+      if(a==null || b==null || b===0 || a===0) return null;
       return ((a - b) / b) * 100;
     };
     const deltaBadge = (delta, lbl, lowerIsBetter=true) => {
@@ -2993,6 +2999,14 @@ async function loadPeers(p){
       if(saltD != null && Math.abs(saltD) >= 5) parts.push(span(saltD, "salt"));
       return parts.length ? parts.join(", ") : "";
     };
+    // Render a per-100g gram value: missing → "—"; a literal 0 (almost always an OFF data gap,
+    // not a measured zero) → dimmed + flagged so it doesn't read as a verified value (§50).
+    const gramCell = (v, dp, w) => {
+      if(v == null) return "—";
+      const bar = `<span class="sparkbar" style="width:${w}px"></span>`;
+      if(v === 0) return `${bar}<span style="color:var(--dim)" title="OFF lists 0 here — usually a missing value, not a measured zero">0.${"0".repeat(dp)}g ⚠</span>`;
+      return `${bar}${v.toFixed(dp)}g`;
+    };
 
     const row = (x, current) => {
       const sug = x.nutriments && x.nutriments.sugars_100g;
@@ -3014,11 +3028,11 @@ async function loadPeers(p){
         <td><span class="nspill ${ns}">${ns!=="unk"?ns.toUpperCase():"·"}</span></td>
         <td><span class="novapill n${nv}">${nv!=="unk"?"N"+nv:"—"}</span></td>
         <td class="num">
-          ${sug!=null?`<span class="sparkbar" style="width:${sugW}px"></span>${sug.toFixed(1)}g`:"—"}
+          ${gramCell(sug, 1, sugW)}
           ${!current && sugDelta!=null ? `<br>${deltaBadge(sugDelta, "sug")}` : ""}
         </td>
         <td class="num">
-          ${salt!=null?`<span class="sparkbar" style="width:${saltW}px"></span>${salt.toFixed(2)}g`:"—"}
+          ${gramCell(salt, 2, saltW)}
           ${!current && saltDelta!=null ? `<br>${deltaBadge(saltDelta, "salt")}` : ""}
         </td>
       </tr>`;

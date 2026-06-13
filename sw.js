@@ -3560,6 +3560,14 @@
 //   touch the marketing site), bumped .bo-method 9px → 9.5px, and gave its bold labels (OFF field
 //   state: / Match method: …) a brighter #d6d6d6 non-italic treatment so they anchor as labels.
 //   CSS only; no logic change.
+// v5.0.157 — 13 June 2026: FLT F1 claims-chip filter + F4 zero-value guard (flt-claims-chips-zero-guard)
+//   F1: LABELS / CLAIMS dumped ALL OFF labels_tags, so OFF-computed grades (nutriscore-grade-a,
+//   nova-group-4, ecoscore-*) showed as if they were on-pack claims. Now filtered via
+//   OFF_DERIVED_LABEL so only genuine claims (no-gluten, no-added-sugar, organic…) render.
+//   F4: peer panel showed M&S "0.00g salt → 100% less salt" — a null/missing OFF value of 0
+//   rendered as a confident measurement + delta. pctDelta now returns null when either operand
+//   is 0 (no fabricated "100% less" badge), and a literal 0 renders dimmed + ⚠ flagged as a
+//   likely data gap, not a measured zero (§50). Pure flt-app.html; no worker/CSP change.
 // v5.0.156 — 13 June 2026: FLT F7 wire via first-party aggregator + cache-bug fix (flt-wire-worker-proxy)
 //   F7 showed "0 items" — rss2json works but the app fanned 13 SERIAL calls at its free tier,
 //   self-throttling into rate-limit failures; worse, fetchWire cached the empty [] result for the
@@ -3693,7 +3701,7 @@
 //   on the near-black panel, still secondary to the #e7e7e7 body text). Confirmed no neutral
 //   mid-greys bypass the token (the hardcoded greys are tinted accents, not body text). CSS only.
 //
-const CACHE_VERSION = 'scansmart-v5.0.156-flt-wire-worker-proxy';
+const CACHE_VERSION = 'scansmart-v5.0.157-flt-claims-chips-zero-guard';
 const PRECACHE = [
   '/',
   '/install.html',
