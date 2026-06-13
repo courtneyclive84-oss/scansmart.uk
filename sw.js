@@ -3560,6 +3560,17 @@
 //   touch the marketing site), bumped .bo-method 9px → 9.5px, and gave its bold labels (OFF field
 //   state: / Match method: …) a brighter #d6d6d6 non-italic treatment so they anchor as labels.
 //   CSS only; no logic change.
+// v5.0.163 — 14 June 2026: FLT F2 ingredient language — fix the case v5.0.154 missed (flt-f2-ingredient-lang)
+//   Live-check found Mutti 8005110517006 STILL rendered German ingredients ("Gehackte Tomaten, Olivenöl,
+//   Zwiebeln, Salz") despite the v5.0.154 "fix". Root cause: .154 gated the en:-taxonomy preference on
+//   p.lang!=="en", trusting OFF's declared main-language. But OFF reports this record as lang:"en" while
+//   its ingredients_text + every structured i.text are German (verified against live OFF) — so the gate
+//   was false and the German i.text won. p.lang is a self-declared label, not ground truth about the text.
+//   Fix: drop the p.lang trigger; decide per-ingredient from the text itself — the en:-prefixed taxonomy
+//   id IS canonical English, so when i.text doesn't already read as that English term, render the taxonomy
+//   English. Genuinely-English text ("Sea Salt"⊇"salt") keeps its casing → common UK path unchanged.
+//   Verified: Mutti → chopped tomato/olive oil/onion + notice; 3 English controls unchanged + no false
+//   notice; it/de controls still translate; harness 18/18. flt-app only; no worker/CSP change.
 // v5.0.162 — 13 June 2026: FLT chart legibility + off-scale threshold marker (flt-chart-threshold-edge+contrast)
 //   Two fixes founder spotted reviewing Walker's in the live terminal. (1) REFORMULATION HISTORY mini-charts
 //   auto-scale Y to the data range, so a value far past its policy line (Walker's saturates 18.9g vs FSA red
@@ -3747,7 +3758,7 @@
 //   on the near-black panel, still secondary to the #e7e7e7 body text). Confirmed no neutral
 //   mid-greys bypass the token (the hardcoded greys are tinted accents, not body text). CSS only.
 //
-const CACHE_VERSION = 'scansmart-v5.0.162-flt-chart-threshold-edge-contrast';
+const CACHE_VERSION = 'scansmart-v5.0.163-flt-f2-ingredient-lang';
 const PRECACHE = [
   '/',
   '/install.html',

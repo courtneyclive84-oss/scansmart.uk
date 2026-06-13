@@ -2056,26 +2056,35 @@ function renderIngredients(p){
   const additives = (p.additives_tags||[]).map(t=>t.replace(/^en:/,"").toUpperCase());
   const allergens = (p.allergens_tags||[]);
 
-  /* Source-language detection (§50). OFF records carry a main-language code (p.lang) and the
-     structured ingredient list's i.text is in that language. For a non-English record we prefer
-     the canonical English taxonomy id; English records keep their nicely-cased i.text untouched,
-     so this is a no-op for the common UK case. */
-  const LANG_NAMES = {en:"English",de:"German",fr:"French",it:"Italian",es:"Spanish",nl:"Dutch",pl:"Polish",pt:"Portuguese",sv:"Swedish",da:"Danish",fi:"Finnish",cs:"Czech",ro:"Romanian"};
+  /* Source-language handling (§50, v5.0.163). OFF's p.lang is the product's *declared* main language —
+     it is NOT reliable about the language the ingredient text was actually entered in (e.g. Mutti
+     8005110517006 is lang:"en" yet ingredients_text + every i.text are German). So we don't trust
+     p.lang: we read the text itself. The en:-prefixed taxonomy id IS canonical English, so for any
+     structured ingredient whose i.text doesn't already read as that English term, we render the
+     taxonomy English. Genuinely-English text ("Sea Salt" ⊇ "salt", "Chopped Tomatoes" ⊇ "chopped
+     tomato") keeps its nicer casing — the common UK path is unchanged. Supersedes the v5.0.154
+     prodLang!=="en" trigger, which silently missed lang:"en"-but-foreign-text records. */
+  const LANG_NAMES = {de:"German",fr:"French",it:"Italian",es:"Spanish",nl:"Dutch",pl:"Polish",pt:"Portuguese",sv:"Swedish",da:"Danish",fi:"Finnish",cs:"Czech",ro:"Romanian"};
   const prodLang = (p.lang||"").toLowerCase();
-  const langName = LANG_NAMES[prodLang] || (prodLang ? prodLang.toUpperCase() : "");
   const hasEnText = !!(p.ingredients_text_en && p.ingredients_text_en.trim());
-  const preferTaxonomyEn = !!prodLang && prodLang !== "en";
+  const normName = s => (s||"").toLowerCase().replace(/[^a-z]/g,"");
+  const enFromId = id => (id||"").startsWith("en:") ? id.slice(3).replace(/-/g," ") : "";
+  /* true when i.text already reads as its canonical English taxonomy term (so we keep its casing) */
+  const textIsEnglish = (text, idEn) => { if(!idEn) return true; const a=normName(text), b=normName(idEn); return !a || a.includes(b) || b.includes(a); };
+  let swappedToEn = false;   // did we replace any foreign i.text with the English taxonomy term?
 
   let tableRows = "";
   if(list.length){
     tableRows = list.slice(0,18).map((i,idx)=>{
       const pctRaw = i.percent_estimate ?? i.percent ?? i.percent_max;
       const pct = (typeof pctRaw === "number" && isFinite(pctRaw)) ? pctRaw : null; // guard: non-numeric OFF % must not crash the panel
-      // Non-English record → prefer the OFF taxonomy id (en:-keyed, canonical English) over
-      // i.text (the product's main language). Unmatched ingredients keep their entered text;
-      // the language notice below flags that. English records are unaffected.
-      const idEn = (i.id||"").startsWith("en:") ? i.id.slice(3).replace(/-/g," ") : "";
-      const name = (preferTaxonomyEn && idEn) ? idEn : (i.text || (i.id||"").replace(/^en:/,"").replace(/-/g," "));
+      // Prefer the canonical English taxonomy term when the entered text isn't already English
+      // (lang-agnostic — doesn't trust OFF's p.lang). Unmatched ids keep their entered text; the
+      // notice below flags that. Genuinely-English text is left as-is (casing preserved).
+      const idEn = enFromId(i.id);
+      let name;
+      if(idEn && !textIsEnglish(i.text, idEn)){ name = idEn; swappedToEn = true; }
+      else { name = i.text || (i.id||"").replace(/^en:/,"").replace(/-/g," "); }
       const eMatch = (i.id||"").match(/^en:(e\d+[a-z]?)$/i);
       const eCode = eMatch ? eMatch[1].toUpperCase() : "";
       const risk = eCode ? (E_RISK[eCode.toLowerCase()]||"caution") : "ok";
@@ -2126,10 +2135,12 @@ function renderIngredients(p){
     : `<div class="sectitle">MAY CONTAIN (cross-contact)</div>
        <div style="font-size:10px;color:var(--dim)">No cross-contact disclosure in OFF record (either none declared by manufacturer, or OFF <code>traces_tags</code> field empty).</div>`;
 
-  /* Provenance notice: when the source record isn't English and has no English ingredient_text,
-     say so — taxonomy-matched items show in English, unmatched ones stay in the source language. */
-  const langNotice = (preferTaxonomyEn && !hasEnText)
-    ? `<div style="font-size:9.5px;color:var(--yellow);margin:2px 0 6px;line-height:1.4">⚠ OFF source record is primarily <b>${esc(langName)}</b> with no English ingredient text. Items matched to the OFF taxonomy are shown in English; any unmatched item remains as entered (${esc(langName)}).</div>`
+  /* Provenance notice: shown when we actually translated any item (the source text wasn't English) and
+     there's no English ingredient_text to fall back on. Names the language only when OFF's tag is a
+     known non-English one; stays generic when the tag is unreliable (lang:"en" but text wasn't). */
+  const srcLangName = (prodLang && prodLang !== "en") ? (LANG_NAMES[prodLang] || prodLang.toUpperCase()) : "";
+  const langNotice = (swappedToEn && !hasEnText)
+    ? `<div style="font-size:9.5px;color:var(--yellow);margin:2px 0 6px;line-height:1.4">⚠ OFF source record has no English ingredient text${srcLangName?` (primarily <b>${esc(srcLangName)}</b>)`:""}. Items matched to the OFF taxonomy are shown in English; any unmatched item stays as entered.</div>`
     : "";
 
   document.getElementById("ingBody").innerHTML = `
