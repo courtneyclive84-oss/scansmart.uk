@@ -3560,6 +3560,16 @@
 //   touch the marketing site), bumped .bo-method 9px → 9.5px, and gave its bold labels (OFF field
 //   state: / Match method: …) a brighter #d6d6d6 non-italic treatment so they anchor as labels.
 //   CSS only; no logic change.
+// v5.0.162 — 13 June 2026: FLT chart legibility + off-scale threshold marker (flt-chart-threshold-edge+contrast)
+//   Two fixes founder spotted reviewing Walker's in the live terminal. (1) REFORMULATION HISTORY mini-charts
+//   auto-scale Y to the data range, so a value far past its policy line (Walker's saturates 18.9g vs FSA red
+//   5g, sugar 16.2g vs SACN 5g) pushed the red threshold line out of the plot entirely — the WORST products
+//   rendered as calm blank panels with no red line, while salt/fibre (near their lines) showed theirs. The
+//   reds in the BARS view had no counterpart in HIST. Fix: when the threshold clips off-axis, pin a coloured
+//   edge marker (▼/▲ + "N× over") at the plot edge so the danger still reads (§50: worst cases must not look
+//   calmest). In-scale behaviour unchanged. (2) Contrast: the chart's faintest text was #5a5a5a on near-black
+//   ≈2.9:1 (fails WCAG AA) — axis labels, year ticks, legend footnotes ("Thresholds…", "Press X…") were hard
+//   to read; raised to #9a9a9a (~7:1). #8a8a8a/--dim untouched (already passes). flt-app only; no worker/CSP change.
 // v5.0.161 — 13 June 2026: FLT render robustness pass — non-numeric OFF data can't crash panels (flt-render-hardening)
 //   Headless stress-test (real flt-app engine vs 11 real OFF products + 7 broken edge records) caught
 //   real crashes that empty/sparse/non-numeric community records trigger — invisible until you load a
@@ -3737,7 +3747,7 @@
 //   on the near-black panel, still secondary to the #e7e7e7 body text). Confirmed no neutral
 //   mid-greys bypass the token (the hardcoded greys are tinted accents, not body text). CSS only.
 //
-const CACHE_VERSION = 'scansmart-v5.0.161-flt-render-hardening';
+const CACHE_VERSION = 'scansmart-v5.0.162-flt-chart-threshold-edge-contrast';
 const PRECACHE = [
   '/',
   '/install.html',
