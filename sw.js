@@ -3560,6 +3560,32 @@
 //   touch the marketing site), bumped .bo-method 9px → 9.5px, and gave its bold labels (OFF field
 //   state: / Match method: …) a brighter #d6d6d6 non-italic treatment so they anchor as labels.
 //   CSS only; no logic change.
+// v5.0.156 — 13 June 2026: FLT F7 wire via first-party aggregator + cache-bug fix (flt-wire-worker-proxy)
+//   F7 showed "0 items" — rss2json works but the app fanned 13 SERIAL calls at its free tier,
+//   self-throttling into rate-limit failures; worse, fetchWire cached the empty [] result for the
+//   full 10-min TTL, freezing the blip. Fix: (1) new GET api.scansmart.uk/wire on the kip-forms
+//   Worker fetches all 13 feeds server-side in PARALLEL, parses RSS/Atom → JSON, returns RAW items
+//   (edge-cached 10 min); app calls it once via WIRE_FEED and keeps its keyword/score filter as the
+//   single source of truth. (2) Empty results no longer cached (client + worker), and the read guard
+//   self-heals old poisoned [] caches. (3) Stale "Food Literacy Terminal" → "Food Label Terminal"
+//   (renamed 3 Jun 2026) in the header comment + HELP dialog. No CSP change. DEPLOY: wrangler deploy
+//   workers/kip-forms FIRST (ships /recalls + /wire together), then git push.
+// v5.0.155 — 13 June 2026: FLT F6 recalls via first-party proxy (flt-recalls-worker-proxy)
+//   F6 showed "FSA feed blocked (Load failed)" — but the gov endpoint is healthy (200, CORS *,
+//   valid JSON, in CSP). The block was client-side: ad/tracking blockers + iCloud Private Relay
+//   dropping the direct data.food.gov.uk call. Fix: route recalls through the kip-forms Worker
+//   (new GET api.scansmart.uk/recalls, server-side fetch + 15-min edge cache) so the browser
+//   makes a first-party request shields don't touch. flt-app now calls FSA_PROXY; the old
+//   "toggle shields / open in another browser" error copy (now false) rewritten to the real
+//   post-proxy failure modes. No CSP change (api.scansmart.uk already allowlisted). DEPLOY: needs
+//   `wrangler deploy` from workers/kip-forms FIRST, then git push.
+// v5.0.154 — 13 June 2026: FLT F2 ingredient language fix (flt-ingredients-en-lang-notice)
+//   Mutti (and other EU-import OFF records) rendered the F2 ingredient table in the product's
+//   main language (German: "Gehackte Tomaten…") on a UK-facing terminal. Root cause: the row
+//   name preferred OFF's localized i.text. Now prefers the OFF taxonomy id (en:-keyed,
+//   canonical English) and only falls back to i.text when unmatched. Added p.lang to UA_FIELDS
+//   and a §50 provenance notice under the INGREDIENTS title when the record's main language
+//   isn't English and no ingredients_text_en exists. flt-app.html only; no marketing-site change.
 // v5.0.153 — 12 June 2026: construction strip removed + About nav site-wide (construction-strip-about-nav)
 //   Completes commit 109c39b (8 Jun), which removed the construction banner and added the
 //   About nav link on index.html ONLY — every other page kept the banner and lacked About,
@@ -3667,7 +3693,7 @@
 //   on the near-black panel, still secondary to the #e7e7e7 body text). Confirmed no neutral
 //   mid-greys bypass the token (the hardcoded greys are tinted accents, not body text). CSS only.
 //
-const CACHE_VERSION = 'scansmart-v5.0.153-construction-strip-about-nav';
+const CACHE_VERSION = 'scansmart-v5.0.156-flt-wire-worker-proxy';
 const PRECACHE = [
   '/',
   '/install.html',

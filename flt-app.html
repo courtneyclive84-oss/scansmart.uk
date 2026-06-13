@@ -466,7 +466,7 @@
 
 <script>
 /* ============================================================
-   FLT — Food Literacy Terminal (LIVE)
+   FLT — Food Label Terminal (LIVE)
    Data: OpenFoodFacts API + UK FSA food-alerts API
    ============================================================ */
 
@@ -1167,7 +1167,12 @@ const OFF_LIVE_SEARCH = "https://search.openfoodfacts.org/search";
 const OFF_LIVE_TIMEOUT = 8000;     /* ms — abort after 8s if OFF unresponsive */
 const OFF_LIVE_MIN_CHARS = 3;       /* don't fire live search for very short queries (would dump >100k hits) */
 const OFF_LIVE_PAGE_SIZE = 15;      /* matches autocomplete dropdown depth */
-const FSA_BASE = "https://data.food.gov.uk/food-alerts/id";
+/* Recalls go through the first-party kip-forms Worker (api.scansmart.uk/recalls), not
+   data.food.gov.uk directly: a same-site request isn't intercepted by ad/tracking blockers
+   or iCloud Private Relay, which were silently dropping the direct gov-API call (the F6
+   "Load failed" symptom — the gov endpoint itself is healthy + CORS-open). The Worker fetches
+   the FSA Food Alerts API server-side and edge-caches it 15 min. Upstream: data.food.gov.uk/food-alerts/id */
+const FSA_PROXY = "https://api.scansmart.uk/recalls";
 const FSA_TIMEOUT = 6000;          /* ms — abort if data.food.gov.uk hangs (v5.0.152) */
 const WIRE_FETCH_TIMEOUT = 8000;   /* ms — per-source cap; fetchWire loops sources SERIALLY,
                                       so one hung RSS proxy would otherwise stall every
@@ -1185,7 +1190,7 @@ async function fetchWithTimeout(url, opts, ms){
     clearTimeout(timer);
   }
 }
-const UA_FIELDS = "code,product_name,product_name_en,generic_name,brands,quantity,serving_size,categories_tags,categories_hierarchy,ingredients_text_en,ingredients_text,ingredients,nutriments,nutrition_grades,nova_group,additives_tags,allergens_tags,traces_tags,labels_tags,image_front_small_url,countries_tags,rev,last_modified_t,ecoscore_grade,ecoscore_score,ecoscore_data,packaging_materials_tags";
+const UA_FIELDS = "code,lang,product_name,product_name_en,generic_name,brands,quantity,serving_size,categories_tags,categories_hierarchy,ingredients_text_en,ingredients_text,ingredients,nutriments,nutrition_grades,nova_group,additives_tags,allergens_tags,traces_tags,labels_tags,image_front_small_url,countries_tags,rev,last_modified_t,ecoscore_grade,ecoscore_score,ecoscore_data,packaging_materials_tags";
 
 /* ============================================================
    TOP STATUS
@@ -2047,11 +2052,25 @@ function renderIngredients(p){
   const additives = (p.additives_tags||[]).map(t=>t.replace(/^en:/,"").toUpperCase());
   const allergens = (p.allergens_tags||[]);
 
+  /* Source-language detection (§50). OFF records carry a main-language code (p.lang) and the
+     structured ingredient list's i.text is in that language. For a non-English record we prefer
+     the canonical English taxonomy id; English records keep their nicely-cased i.text untouched,
+     so this is a no-op for the common UK case. */
+  const LANG_NAMES = {en:"English",de:"German",fr:"French",it:"Italian",es:"Spanish",nl:"Dutch",pl:"Polish",pt:"Portuguese",sv:"Swedish",da:"Danish",fi:"Finnish",cs:"Czech",ro:"Romanian"};
+  const prodLang = (p.lang||"").toLowerCase();
+  const langName = LANG_NAMES[prodLang] || (prodLang ? prodLang.toUpperCase() : "");
+  const hasEnText = !!(p.ingredients_text_en && p.ingredients_text_en.trim());
+  const preferTaxonomyEn = !!prodLang && prodLang !== "en";
+
   let tableRows = "";
   if(list.length){
     tableRows = list.slice(0,18).map((i,idx)=>{
       const pct = i.percent_estimate || i.percent || i.percent_max;
-      const name = i.text || (i.id||"").replace(/^en:/,"").replace(/-/g," ");
+      // Non-English record → prefer the OFF taxonomy id (en:-keyed, canonical English) over
+      // i.text (the product's main language). Unmatched ingredients keep their entered text;
+      // the language notice below flags that. English records are unaffected.
+      const idEn = (i.id||"").startsWith("en:") ? i.id.slice(3).replace(/-/g," ") : "";
+      const name = (preferTaxonomyEn && idEn) ? idEn : (i.text || (i.id||"").replace(/^en:/,"").replace(/-/g," "));
       const eMatch = (i.id||"").match(/^en:(e\d+[a-z]?)$/i);
       const eCode = eMatch ? eMatch[1].toUpperCase() : "";
       const risk = eCode ? (E_RISK[eCode.toLowerCase()]||"caution") : "ok";
@@ -2102,8 +2121,15 @@ function renderIngredients(p){
     : `<div class="sectitle">MAY CONTAIN (cross-contact)</div>
        <div style="font-size:10px;color:var(--dim)">No cross-contact disclosure in OFF record (either none declared by manufacturer, or OFF <code>traces_tags</code> field empty).</div>`;
 
+  /* Provenance notice: when the source record isn't English and has no English ingredient_text,
+     say so — taxonomy-matched items show in English, unmatched ones stay in the source language. */
+  const langNotice = (preferTaxonomyEn && !hasEnText)
+    ? `<div style="font-size:9.5px;color:var(--yellow);margin:2px 0 6px;line-height:1.4">⚠ OFF source record is primarily <b>${esc(langName)}</b> with no English ingredient text. Items matched to the OFF taxonomy are shown in English; any unmatched item remains as entered (${esc(langName)}).</div>`
+    : "";
+
   document.getElementById("ingBody").innerHTML = `
     <div class="sectitle">INGREDIENTS</div>
+    ${langNotice}
     <table class="ing">
       <thead><tr><th>#</th><th>INGREDIENT</th><th class="num">%</th><th>E#</th><th style="text-align:right">FLAG</th></tr></thead>
       <tbody>${tableRows}</tbody>
@@ -3154,7 +3180,7 @@ function renderRecallsHTML(items, hasRelevance){
 
 async function loadRecalls(){
   try{
-    const r = await fetchWithTimeout(`${FSA_BASE}?_limit=15&_sort=-created`, {headers:{"Accept":"application/json"}}, FSA_TIMEOUT);
+    const r = await fetchWithTimeout(`${FSA_PROXY}?_limit=15&_sort=-created`, {headers:{"Accept":"application/json"}}, FSA_TIMEOUT);
     const d = await r.json();
     const items = d.items || [];
     RECALLS_CACHE = items;
@@ -3173,15 +3199,15 @@ async function loadRecalls(){
     const timedOut = e && (e.name === "AbortError" || /abort/i.test(e.message||""));
     document.getElementById("newsBody").innerHTML = timedOut ? `
       <div class="err" style="line-height:1.5">
-        ⚠ FSA feed unresponsive (no reply within ${FSA_TIMEOUT/1000}s).<br>
-        <code>data.food.gov.uk</code> may be down or slow — recalls will load
-        on the next refresh once the API recovers.
+        ⚠ Recall feed unresponsive (no reply within ${FSA_TIMEOUT/1000}s).<br>
+        The FSA recall service is slow or down — recalls will load on the
+        next refresh once it recovers.
       </div>` : `
       <div class="err" style="line-height:1.5">
-        ⚠ FSA feed blocked (<code>${esc(e.message)}</code>).<br>
-        Likely browser shields or strict tracking protection blocking
-        <code>data.food.gov.uk</code>.<br>
-        Toggle shields off for this file, or open in Chrome / Safari / Firefox.
+        ⚠ Recall feed unavailable (<code>${esc(e.message)}</code>).<br>
+        The recall service (<code>api.scansmart.uk/recalls</code>) could not be reached —
+        likely a transient network issue or the service is being deployed.
+        Recalls will load on the next refresh.
       </div>`;
     buildTicker([]);
     return [];
@@ -3198,7 +3224,12 @@ async function loadRecalls(){
 // rss2json default ~10 items per feed (count>10 requires API key, which we don't have on free tier).
 // With 13 sources × ~10 items = up to 130 items into the pipeline; filtered + date-sorted + capped at 150.
 // For a true 14-day+ timeline use the Cloudflare Worker at assets/wire-worker.js (no per-fetch limit).
-const WIRE_PROXY = "https://api.rss2json.com/v1/api.json?rss_url=";
+const WIRE_PROXY = "https://api.rss2json.com/v1/api.json?rss_url=";   // legacy v0 — superseded by WIRE_FEED
+/* WIRE now goes through the first-party kip-forms Worker (api.scansmart.uk/wire), which fetches all
+   feeds server-side in parallel + edge-caches 10 min. One same-site request replaces 13 serial calls
+   to rss2json (which self-throttled into rate-limit failures and is shields-blockable). The Worker
+   returns RAW items; the keyword/score filtering below stays the single source of truth. */
+const WIRE_FEED = "https://api.scansmart.uk/wire";
 /*
    WIRE source tier palette — deliberate authority hierarchy (banked 17 May 2026).
    Each badge colour signals the source's tier; the user learns the system implicitly
@@ -3280,48 +3311,48 @@ async function fetchWire(){
   // Try cache first
   try {
     const cached = JSON.parse(localStorage.getItem(WIRE_CACHE_KEY) || "{}");
-    if(cached.ts && (Date.now() - cached.ts) < WIRE_CACHE_TTL && cached.items){
+    if(cached.ts && (Date.now() - cached.ts) < WIRE_CACHE_TTL && cached.items && cached.items.length){
       return cached.items.map(it=>({...it, date:new Date(it.date)}));
     }
   } catch(e){}
 
+  // One first-party request — the Worker fetches + parses all sources server-side and returns
+  // RAW items tagged with source/colour/weight. The 3-layer filter below is unchanged.
+  const r = await fetchWithTimeout(WIRE_FEED, {headers:{"Accept":"application/json"}}, WIRE_FETCH_TIMEOUT);
+  const data = await r.json();
+  const raw = (data && data.items) || [];
+
   const results = [];
   const seenTitles = new Set();
-  for(const src of WIRE_SOURCES){
-    try {
-      const r = await fetchWithTimeout(WIRE_PROXY + encodeURIComponent(src.url), null, WIRE_FETCH_TIMEOUT);
-      const data = await r.json();
-      if(data.status !== "ok") continue;
-      for(const item of (data.items || [])){
-        const text = (item.title + " " + (item.description || "")).slice(0, 600);
-        // Layer 1: must contain food/health/supply-chain keyword
-        if(!WIRE_INCLUDE.test(text)) continue;
-        // Layer 2: drop lifestyle/recipe/review content
-        if(WIRE_EXCLUDE.test(text)) continue;
-        // Layer 3: institutional-signal scoring — base score × source weight × recency boost
-        const baseScore = institutionalScore(text);
-        // Items with zero institutional signal still pass include but rank low
-        const minScore = (src.weight || 1) >= 1.2 ? 0 : 25; // tier-2 sources need real signal
-        if(baseScore < minScore) continue;
-        const date = new Date(item.pubDate || Date.now());
-        // Recency boost: items in last 48h get +30, last week +10
-        const ageHours = (Date.now() - date.getTime()) / 36e5;
-        const recencyBoost = ageHours < 48 ? 30 : ageHours < 168 ? 10 : 0;
-        const finalScore = (baseScore + recencyBoost) * (src.weight || 1);
+  for(const item of raw){
+    const text = ((item.title || "") + " " + (item.description || "")).slice(0, 600);
+    // Layer 1: must contain food/health/supply-chain keyword
+    if(!WIRE_INCLUDE.test(text)) continue;
+    // Layer 2: drop lifestyle/recipe/review content
+    if(WIRE_EXCLUDE.test(text)) continue;
+    // Layer 3: institutional-signal scoring — base score × source weight × recency boost
+    const weight = item.weight || 1;
+    const baseScore = institutionalScore(text);
+    // Items with zero institutional signal still pass include but rank low
+    const minScore = weight >= 1.2 ? 0 : 25; // tier-2 sources need real signal
+    if(baseScore < minScore) continue;
+    const date = new Date(item.pubDate || Date.now());
+    // Recency boost: items in last 48h get +30, last week +10
+    const ageHours = (Date.now() - date.getTime()) / 36e5;
+    const recencyBoost = ageHours < 48 ? 30 : ageHours < 168 ? 10 : 0;
+    const finalScore = (baseScore + recencyBoost) * weight;
 
-        const dedupeKey = (item.title || "").slice(0, 60).toLowerCase();
-        if(seenTitles.has(dedupeKey)) continue;
-        seenTitles.add(dedupeKey);
-        results.push({
-          source: src.name,
-          colour: src.colour,
-          title: (item.title || "").trim(),
-          link: item.link,
-          date: date,
-          _score: finalScore,
-        });
-      }
-    } catch(e){ /* skip failed source */ }
+    const dedupeKey = (item.title || "").slice(0, 60).toLowerCase();
+    if(seenTitles.has(dedupeKey)) continue;
+    seenTitles.add(dedupeKey);
+    results.push({
+      source: item.source,
+      colour: item.colour,
+      title: (item.title || "").trim(),
+      link: item.link,
+      date: date,
+      _score: finalScore,
+    });
   }
   // Drop items older than 30 days (keeps panel from being polluted by stale junk
   //  but preserves a clean week+ timeline window from low-volume regulators).
@@ -3332,13 +3363,16 @@ async function fetchWire(){
   within30.sort((a,b) => b.date - a.date);
   const top = within30.slice(0, 150);
 
-  // Cache
-  try {
-    localStorage.setItem(WIRE_CACHE_KEY, JSON.stringify({
-      ts: Date.now(),
-      items: top.map(it => ({...it, date: it.date.toISOString()})),
-    }));
-  } catch(e){}
+  // Cache ONLY a populated result — a transient miss must not poison the panel for the
+  // whole TTL (the old code cached []). On empty, leave the cache so the next load retries.
+  if(top.length){
+    try {
+      localStorage.setItem(WIRE_CACHE_KEY, JSON.stringify({
+        ts: Date.now(),
+        items: top.map(it => ({...it, date: it.date.toISOString()})),
+      }));
+    } catch(e){}
+  }
 
   return top;
 }
@@ -3349,8 +3383,8 @@ function renderWire(items){
   if(!items.length){
     body.innerHTML = `<div class="wire-empty">
       No matching food news.<br>
-      <span style="color:var(--dim);font-size:9px">If this persists, the rss2json proxy may be rate-limited.<br>
-      Deploy the Cloudflare Worker (see README) for reliable access.</span>
+      <span style="color:var(--dim);font-size:9px">No items cleared the food/health/supply-chain filter in this pull.<br>
+      The feed refreshes on the next load.</span>
     </div>`;
     meta.textContent = "0 items · " + new Date().toISOString().slice(11,16) + "Z";
     return;
@@ -3394,16 +3428,16 @@ async function loadWire(){
   } catch(e){
     const body = document.getElementById("wireBody");
     body.innerHTML = `<div class="wire-empty" style="color:var(--red)">
-      ⚠ Wire fetch failed.<br>
+      ⚠ Wire feed unavailable.<br>
       <span style="color:var(--dim);font-size:9px">${esc(e.message)}<br>
-      Likely cause: api.rss2json.com rate-limited or browser shields blocking the proxy.</span>
+      The wire service (api.scansmart.uk/wire) could not be reached — likely transient, or being deployed. Refreshes on next load.</span>
     </div>`;
   }
 }
 
 function showHelp(){
   alert(
-`FLT — Food Literacy Terminal (LIVE v0.3) · HELP
+`FLT — Food Label Terminal (LIVE v0.3) · HELP
 
 COMMAND LINE
   Type any of the ${UNIVERSE.length} indexed UK SKUs by brand or product,
