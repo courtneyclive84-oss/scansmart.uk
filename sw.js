@@ -3560,6 +3560,16 @@
 //   touch the marketing site), bumped .bo-method 9px → 9.5px, and gave its bold labels (OFF field
 //   state: / Match method: …) a brighter #d6d6d6 non-italic treatment so they anchor as labels.
 //   CSS only; no logic change.
+// v5.0.160 — 13 June 2026: F6 recall RELEVANCE tightened — kill false positives (flt-recall-relevance)
+//   Exposed once /recalls populated (v5.0.155): F6 flagged 5 "recalls relevant to Heinz" that weren't —
+//   onion chutney, falooda drink, baby fromage frais. Cause: relevanceScore matched generic OFF category
+//   tokens ("foods" from en:foods / en:plant-based-foods) against a text blob that INCLUDED the recall's
+//   business name, so "foods" hit "…Foods Ltd" company names → flat +25 on unrelated recalls. Fix: (1)
+//   category match now runs against the recall's PRODUCT text only (business name kept for brand match
+//   only); (2) RECALL_CATEGORY_STOPWORDS excludes generic hierarchy tokens. Verified on live FSA data:
+//   Heinz Beanz 4 false-positives → 0; the 1 remaining match is genuine (Daylesford Minestrone WITH
+//   Cannellini Beans, beans↔beans). (3) When RELEVANT mode finds nothing, panel now says "No recalls
+//   specific to X — showing the live UK feed" instead of silently listing unrelated recalls. flt-app only.
 // v5.0.159 — 13 June 2026: flt.html hero — broken live-iframe → static terminal poster (flt-hero-poster)
 //   The hero embedded <iframe src="flt-app.html?embed=1">, which rendered as a blank/blocked box for
 //   every public visitor after the 11 Jun security pass: flt-app moved behind Cloudflare Access (its
@@ -3718,7 +3728,7 @@
 //   on the near-black panel, still secondary to the #e7e7e7 body text). Confirmed no neutral
 //   mid-greys bypass the token (the hardcoded greys are tinted accents, not body text). CSS only.
 //
-const CACHE_VERSION = 'scansmart-v5.0.159-flt-hero-poster';
+const CACHE_VERSION = 'scansmart-v5.0.160-flt-recall-relevance';
 const PRECACHE = [
   '/',
   '/install.html',

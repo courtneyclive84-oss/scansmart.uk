@@ -3097,29 +3097,42 @@ async function loadPeers(p){
 let RECALLS_CACHE = [];
 let RECL_MODE = "relevant"; // "relevant" | "all"
 
+/* OFF category hierarchies are full of ultra-generic tokens ("foods", "groceries", "based"…)
+   that match almost any recall — including company names like "…Foods Ltd" — and manufactured
+   false "relevant" flags (the Heinz-Beanz-vs-onion-chutney bug). Exclude them from category match. */
+const RECALL_CATEGORY_STOPWORDS = new Set([
+  "foods","food","products","product","groceries","grocery","beverages","drinks","drink",
+  "based","common","prepared","items","goods","ingredients","range","meals","dishes","mixes",
+  "fresh","frozen","canned","tinned","dried","chilled","organic","natural"
+]);
+
 function relevanceScore(recall, product){
   if(!product) return 0;
-  const t = ((recall.title||"") + " " + JSON.stringify(recall.problem||"") + " " + JSON.stringify(recall.productDetails||"") + " " + ((recall.reportingBusiness||{}).commonName||"")).toLowerCase();
+  // Product text = the recall's own product fields. Business name is kept SEPARATE: it's valid
+  // for brand matching (a Heinz recall names Heinz) but NOT for category matching, where a generic
+  // token like "foods" would otherwise match "…Foods Ltd" in the company name → false positives.
+  const productText = ((recall.title||"") + " " + JSON.stringify(recall.problem||"") + " " + JSON.stringify(recall.productDetails||"")).toLowerCase();
+  const business = ((recall.reportingBusiness||{}).commonName||"").toLowerCase();
   let score = 0;
-  // Same brand wins big
+  // Same brand wins big (brand can legitimately appear in the business name)
   const focalBrand = (product.brands||"").split(",")[0].trim().toLowerCase();
-  if(focalBrand && focalBrand.length > 2 && t.includes(focalBrand)) score += 100;
-  // Same category (use category tag words like "beans" or "bread")
+  if(focalBrand && focalBrand.length > 2 && (productText.includes(focalBrand) || business.includes(focalBrand))) score += 100;
+  // Same category — specific food nouns only, matched against the recall's PRODUCT text (not the
+  // business name), and never the generic hierarchy tokens above.
   const cats = product.categories_tags || [];
   for(const c of cats){
-    const word = c.replace(/^en:/,"").split("-").pop();
-    if(word && word.length > 3 && t.includes(word.toLowerCase())) {
+    const word = c.replace(/^en:/,"").split("-").pop().toLowerCase();
+    if(word && word.length > 3 && !RECALL_CATEGORY_STOPWORDS.has(word) && productText.includes(word)) {
       score += 25;
       break;
     }
   }
-  // Allergen overlap — if focal product contains a flagged allergen,
-  // and the recall mentions an allergen issue, boost
+  // Allergen overlap — focal product carries a flagged allergen AND the recall names that allergen
   const allergens = (product.allergens_tags||[]).map(a=>a.replace(/^en:/,"").toLowerCase());
-  const isAllergenRecall = /allerg|undeclar|contain/.test(t);
+  const isAllergenRecall = /allerg|undeclar|contain/.test(productText);
   if(isAllergenRecall){
     for(const a of allergens){
-      if(t.includes(a)){ score += 25; break; }
+      if(a.length > 2 && productText.includes(a)){ score += 25; break; }
     }
   }
   return score;
@@ -3136,20 +3149,21 @@ function rankRecallsForProduct(items, product, mode){
          AND as the inline "X pts relevant" badge on each rendered row — so the signal stays
          visible, it just stops dictating the order. Per "live where live" canon: a feed is a feed. */
       relevant.sort((a,b) => (new Date(b.created) - new Date(a.created)) || (b._rel - a._rel));
-      return {items: relevant, hasRelevance: true};
+      return {items: relevant, hasRelevance: true, fellBack: false};
     }
   }
-  // All mode (or fallback) — pure chronological
+  // All mode (or fallback) — pure chronological. fellBack = user asked for RELEVANT but nothing
+  // genuinely matched, so we show the live feed instead of a false "relevant to X" claim.
   scored.sort((a,b) => new Date(b.created) - new Date(a.created));
-  return {items: scored, hasRelevance: false};
+  return {items: scored, hasRelevance: false, fellBack: mode === "relevant"};
 }
 
 function renderRecallsPanel(){
   const ranked = rankRecallsForProduct(RECALLS_CACHE, CURRENT, RECL_MODE);
-  renderRecallsHTML(ranked.items, ranked.hasRelevance);
+  renderRecallsHTML(ranked.items, ranked.hasRelevance, ranked.fellBack);
 }
 
-function renderRecallsHTML(items, hasRelevance){
+function renderRecallsHTML(items, hasRelevance, fellBack){
   const body = document.getElementById("newsBody");
   if(!items.length){
     body.innerHTML = `<div class="loading">No FSA alerts in cache</div>`;
@@ -3169,6 +3183,10 @@ function renderRecallsHTML(items, hasRelevance){
   if(hasRelevance && CURRENT){
     const focal = (CURRENT.brands||"").split(",")[0] || (CURRENT.product_name_en||CURRENT.product_name||"");
     html += `<div class="recl-relevance">⚠ <strong>${items.length}</strong> recall${items.length>1?"s":""} relevant to <strong>${esc(focal)}</strong> — same brand, category, or allergen overlap</div>`;
+  } else if(fellBack && CURRENT){
+    // §50: don't pass off the general feed as product-specific. State plainly there was no match.
+    const focal = (CURRENT.brands||"").split(",")[0] || (CURRENT.product_name_en||CURRENT.product_name||"");
+    html += `<div style="padding:5px 8px;font-size:10px;color:var(--dim);border-left:3px solid #3a3a3a;margin-bottom:4px">No recalls specific to <strong style="color:var(--text)">${esc(focal)}</strong> (brand / category / allergen) — showing the live UK feed, most recent first.</div>`;
   }
   html += items.map((it,idx)=>{
     const date = fmtDate(it.created);
