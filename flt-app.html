@@ -1278,6 +1278,37 @@ const SEARCH_INDEX = UNIVERSE.map((s,i)=>({
   i, q: stripDiacritics(((s.n||"") + " " + (s.b||"") + " " + (s.cat||"") + " " + s.c).toLowerCase())
 }));
 
+/* v5.0.165 — relevance ranking. scoreMatch() ranks a candidate by HOW WELL it matches
+   (exact > whole-query prefix > term prefix > word-boundary > incidental substring) plus a
+   moderate proprietary-trust bonus for I500 verified rows. I500_TRUST_BONUS is the single dial:
+   high = pin I500 above closer OFF name matches; moderate = let a clearly-better name match win
+   while I500 still edges near-ties. Replaces the old SEARCH_INDEX array-order, first-25 scan that
+   let an incidental substring ("WalkerSwood") out-rank a closer name match ("Walkers Shortbread")
+   purely on array position. */
+const I500_TRUST_BONUS = 40;
+function wbHit(hay, t){                          // is t present at a word boundary in hay?
+  let i = hay.indexOf(t);
+  while(i !== -1){ if(i===0 || hay[i-1]===" ") return true; i = hay.indexOf(t, i+1); }
+  return false;
+}
+function scoreMatch(u, terms, qFull){
+  const name  = stripDiacritics(String(u.n||"").toLowerCase());
+  const brand = stripDiacritics(String(u.b||"").toLowerCase());
+  const hay = brand + " " + name;
+  let score = 0;
+  if(brand===qFull || name===qFull) score += 1000;                          // exact whole-query
+  else if(brand.startsWith(qFull) || name.startsWith(qFull)) score += 500;   // whole-query prefix
+  for(const t of terms){
+    if(brand===t || name===t) score += 200;                                 // exact term
+    else if(brand.startsWith(t)) score += 120;                              // brand prefix (strong)
+    else if(name.startsWith(t)) score += 100;                               // name prefix
+    else if(wbHit(hay, t)) score += 60;                                     // word-boundary
+    else score += 20;                                                       // incidental substring
+  }
+  score -= Math.min(name.length, 60) * 0.1;                                 // tie-break: shorter wins
+  if(u.src === "i500") score += I500_TRUST_BONUS;                           // proprietary trust dial
+  return score;
+}
 function search(q){
   q = stripDiacritics(q.trim().toLowerCase());
   if(!q) return [];
@@ -1289,14 +1320,19 @@ function search(q){
     return [{c:q, n:"(barcode lookup)", b:"", cat:"", ns:"", nv:null, _live:true}];
   }
   const terms = q.split(/\s+/).filter(Boolean);
-  const matches = [];
+  /* Collect candidates (all terms present), then rank. Soft cap at 600 so a 1–2 char query that
+     matches thousands can't stall the per-keystroke scan; specific queries (3+ chars) match far
+     fewer than 600, so ranking is complete where it matters. Cap is array-order, not silent loss
+     of "best" results for real queries — see no-silent-caps discipline. */
+  const cand = [];
   for(const s of SEARCH_INDEX){
     let ok = true;
     for(const t of terms){ if(s.q.indexOf(t)===-1){ ok=false; break; } }
-    if(ok) matches.push(UNIVERSE[s.i]);
-    if(matches.length >= 25) break;
+    if(ok){ cand.push(UNIVERSE[s.i]); if(cand.length >= 600) break; }
   }
-  return matches;
+  const scored = cand.map(u => [scoreMatch(u, terms, q), u]);
+  scored.sort((a,b) => b[0] - a[0]);
+  return scored.slice(0, 25).map(x => x[1]);
 }
 
 /* searchLive(q) — async live OFF UK-scoped search (v5.0.88).
@@ -1400,6 +1436,13 @@ function anchorAc(source){
   acSource = source;
   if(source === "top"){
     const r = topInput.getBoundingClientRect();
+    ac.style.bottom = "auto";
+    ac.style.top = (r.bottom + 4) + "px";
+    ac.style.left = r.left + "px";
+    ac.style.minWidth = Math.max(420, r.width) + "px";
+  } else if(source === "f1"){
+    const f1 = document.getElementById("f1Search");
+    const r = f1.getBoundingClientRect();
     ac.style.bottom = "auto";
     ac.style.top = (r.bottom + 4) + "px";
     ac.style.left = r.left + "px";
@@ -1541,54 +1584,29 @@ cmd.addEventListener("keydown", async e=>{
   } else if(e.key==="Escape"){ hideAc(); cmd.value=""; }
 });
 
-/* F1 search input — Enter to quick-load a product (v5.0.88: local-first, live OFF fallback).
-   1) Barcode pattern (8-14 digits) → direct loadProduct
-   2) Local SEARCH_INDEX (I500 + embedded 1,500 universe) — instant
-   3) If local returns 0 hits → live OFF UK-scoped Lucene search
-   4) If both return 0 → red flash
-   Visual states: amber border (loading live), red flash (no match), default (success).
-   Per "live where live, accessible where accessible" canon: instant accessible local first;
-   live OFF only fires when local can't answer. */
+/* F1 search input (v5.0.165) — now drives the shared autocomplete dropdown (#ac), mirroring the
+   top masthead search. Forwards keystrokes + nav keys to the single-sourced cmd handler so all
+   three search surfaces (top bar, command line, F1 box) share ONE ranked, keyboard-navigable
+   result list — ↑↓ to move, Enter loads the HIGHLIGHTED row. Replaces the old silent top-match
+   load (typed → loadProduct(m[0]) with no dropdown), which hid closer matches behind whichever
+   row happened to sit first in SEARCH_INDEX. Barcode + live-OFF fallback still work — they flow
+   through the cmd handler's own barcode / live paths. */
 (function wireF1Search(){
   const f1 = document.getElementById("f1Search");
   if(!f1) return;
-  f1.addEventListener("keydown", async e => {
-    if(e.key !== "Enter") return;
-    e.preventDefault();
-    const q = f1.value.trim();
-    if(!q) return;
-    /* Barcode shortcut — direct load (loadProduct handles unknown barcodes via OFF fetch) */
-    if(/^\d{8,14}$/.test(q)){
-      loadProduct(q);
-      f1.value = "";
-      return;
-    }
-    /* Local SEARCH_INDEX first — instant accessible layer */
-    const m = (typeof search === "function") ? search(q) : [];
-    if(m.length){
-      loadProduct(m[0].c);
-      f1.value = "";
-      return;
-    }
-    /* No local match — try live OFF UK-scoped search. Amber border signals loading. */
-    const originalBorder = f1.style.borderColor;
-    f1.style.borderColor = "#ffa726";  /* amber = live OFF request in-flight */
-    try{
-      const live = await searchLive(q);
-      f1.style.borderColor = originalBorder || "";
-      if(live.length){
-        loadProduct(live[0].c);
-        f1.value = "";
-        return;
-      }
-    }catch(err){
-      f1.style.borderColor = originalBorder || "";
-    }
-    /* Genuine no-match — neither local nor live had results */
-    {
-      /* Visual cue — flash the input border red briefly to signal no match */
-      f1.style.borderColor = "#ff4d4d";
-      setTimeout(() => { f1.style.borderColor = ""; }, 700);
+  f1.addEventListener("focus", ()=> anchorAc("f1"));
+  f1.addEventListener("input", ()=>{
+    anchorAc("f1");
+    cmd.value = f1.value;
+    cmd.dispatchEvent(new Event("input"));
+  });
+  f1.addEventListener("keydown", e=>{
+    if(["Enter","ArrowDown","ArrowUp","Escape"].includes(e.key)){
+      e.preventDefault();
+      anchorAc("f1");
+      cmd.value = f1.value;
+      cmd.dispatchEvent(new KeyboardEvent("keydown", {key:e.key, bubbles:true}));
+      if(e.key==="Enter" || e.key==="Escape") f1.value = "";
     }
   });
 })();

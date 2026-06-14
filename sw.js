@@ -3560,6 +3560,17 @@
 //   touch the marketing site), bumped .bo-method 9px → 9.5px, and gave its bold labels (OFF field
 //   state: / Match method: …) a brighter #d6d6d6 non-italic treatment so they anchor as labels.
 //   CSS only; no logic change.
+// v5.0.165 — 14 June 2026: FLT search — relevance ranking + F1-box dropdown (flt-search-rank-f1-dropdown)
+//   (1) RANKING — search() was a SEARCH_INDEX array-order, first-25 substring scan with NO relevance,
+//   so an incidental substring ("WalkerSwood") out-ranked a closer name match ("Walkers Shortbread")
+//   purely on array position (i500 rows load first → won by position, not merit). Added scoreMatch():
+//   exact > whole-query prefix > term prefix > word-boundary > incidental substring, plus a MODERATE
+//   I500 trust bonus (I500_TRUST_BONUS=40 — single dial). Candidate set soft-capped at 600 to keep the
+//   per-keystroke scan flat on broad 1–2 char queries. Improves all three search surfaces at once.
+//   (2) F1 DROPDOWN — the F1 PROD box had no dropdown; Enter silently loaded the top match. Wired it to
+//   the shared #ac dropdown (anchorAc 'f1' branch + forward input/nav to cmd), mirroring the top bar;
+//   ↑↓ + Enter now load the HIGHLIGHTED row. Search JS only — UNIVERSE array + product-identity priority
+//   untouched. flt-app.html not precached, but bumped for version-string consistency.
 // v5.0.164 — 14 June 2026: FLT F2 language — harden the v5.0.163 heuristic (flt-f2-lang-harden)
 //   Batch-wide audit of .163 (60+ ingredients, not just the Mutti sample) caught two faults the narrow
 //   checks missed: (1) REGRESSION — English additive names with an en:eNNN taxonomy id ("CARAMEL COLOR",
@@ -3768,7 +3779,7 @@
 //   on the near-black panel, still secondary to the #e7e7e7 body text). Confirmed no neutral
 //   mid-greys bypass the token (the hardcoded greys are tinted accents, not body text). CSS only.
 //
-const CACHE_VERSION = 'scansmart-v5.0.164-flt-f2-lang-harden';
+const CACHE_VERSION = 'scansmart-v5.0.165-flt-search-rank-f1-dropdown';
 const PRECACHE = [
   '/',
   '/install.html',
