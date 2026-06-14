@@ -3560,6 +3560,16 @@
 //   touch the marketing site), bumped .bo-method 9px → 9.5px, and gave its bold labels (OFF field
 //   state: / Match method: …) a brighter #d6d6d6 non-italic treatment so they anchor as labels.
 //   CSS only; no logic change.
+// v5.0.164 — 14 June 2026: FLT F2 language — harden the v5.0.163 heuristic (flt-f2-lang-harden)
+//   Batch-wide audit of .163 (60+ ingredients, not just the Mutti sample) caught two faults the narrow
+//   checks missed: (1) REGRESSION — English additive names with an en:eNNN taxonomy id ("CARAMEL COLOR",
+//   "CITRIC ACID", "niacin") were rewritten to the E-code ("e150a"/"e330"/"e375"), because the substring
+//   match couldn't match English text to a numeric code so it swapped. (2) MISS — foreign words sharing
+//   an English root ("Basilikum" ⊃ "basil", fr "vanilline") were judged English and kept. Fix: never
+//   prefer an E-code over text (isECode guard); replace loose substring with token-stem matching so
+//   English plurals ("Tomatoes" ⊇ "tomato", "almonds") are kept but foreign roots translate. Verified:
+//   Mutti → exact English incl. "basil"; ZERO E#-regressions batch-wide; plurals preserved; no false
+//   notices; harness 18/18. Lesson: verify the population, not the sample. flt-app only; no worker/CSP.
 // v5.0.163 — 14 June 2026: FLT F2 ingredient language — fix the case v5.0.154 missed (flt-f2-ingredient-lang)
 //   Live-check found Mutti 8005110517006 STILL rendered German ingredients ("Gehackte Tomaten, Olivenöl,
 //   Zwiebeln, Salz") despite the v5.0.154 "fix". Root cause: .154 gated the en:-taxonomy preference on
@@ -3758,7 +3768,7 @@
 //   on the near-black panel, still secondary to the #e7e7e7 body text). Confirmed no neutral
 //   mid-greys bypass the token (the hardcoded greys are tinted accents, not body text). CSS only.
 //
-const CACHE_VERSION = 'scansmart-v5.0.163-flt-f2-ingredient-lang';
+const CACHE_VERSION = 'scansmart-v5.0.164-flt-f2-lang-harden';
 const PRECACHE = [
   '/',
   '/install.html',

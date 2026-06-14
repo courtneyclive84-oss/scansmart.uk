@@ -2067,10 +2067,13 @@ function renderIngredients(p){
   const LANG_NAMES = {de:"German",fr:"French",it:"Italian",es:"Spanish",nl:"Dutch",pl:"Polish",pt:"Portuguese",sv:"Swedish",da:"Danish",fi:"Finnish",cs:"Czech",ro:"Romanian"};
   const prodLang = (p.lang||"").toLowerCase();
   const hasEnText = !!(p.ingredients_text_en && p.ingredients_text_en.trim());
-  const normName = s => (s||"").toLowerCase().replace(/[^a-z]/g,"");
   const enFromId = id => (id||"").startsWith("en:") ? id.slice(3).replace(/-/g," ") : "";
-  /* true when i.text already reads as its canonical English taxonomy term (so we keep its casing) */
-  const textIsEnglish = (text, idEn) => { if(!idEn) return true; const a=normName(text), b=normName(idEn); return !a || a.includes(b) || b.includes(a); };
+  const wtok = s => (s||"").toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g,"").replace(/[^a-z ]/g," ").split(/\s+/).filter(Boolean);
+  const stem = w => w.replace(/ies$/,"y").replace(/(es|s)$/,"");   // crude English singularise (plural-tolerant)
+  const isECode = s => /^e\d+[a-z]*$/i.test((s||"").replace(/[^a-z0-9]/gi,""));  // "e330"/"e150a": a code, not a usable English name
+  /* i.text already reads as its English taxonomy term? token-stem match (every taxonomy word present),
+     so English plurals ("Tomatoes" ⊇ "tomato") stay but foreign roots ("Basilikum" ≠ "basil") don't. */
+  const textIsEnglish = (text, idEn) => { if(!idEn) return true; const T=new Set(wtok(text).map(stem)); const ids=wtok(idEn).map(stem); return !ids.length || ids.every(t=>T.has(t)); };
   let swappedToEn = false;   // did we replace any foreign i.text with the English taxonomy term?
 
   let tableRows = "";
@@ -2083,7 +2086,7 @@ function renderIngredients(p){
       // notice below flags that. Genuinely-English text is left as-is (casing preserved).
       const idEn = enFromId(i.id);
       let name;
-      if(idEn && !textIsEnglish(i.text, idEn)){ name = idEn; swappedToEn = true; }
+      if(idEn && !isECode(idEn) && !textIsEnglish(i.text, idEn)){ name = idEn; swappedToEn = true; }
       else { name = i.text || (i.id||"").replace(/^en:/,"").replace(/-/g," "); }
       const eMatch = (i.id||"").match(/^en:(e\d+[a-z]?)$/i);
       const eCode = eMatch ? eMatch[1].toUpperCase() : "";
