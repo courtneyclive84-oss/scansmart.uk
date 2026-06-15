@@ -3560,6 +3560,17 @@
 //   touch the marketing site), bumped .bo-method 9px → 9.5px, and gave its bold labels (OFF field
 //   state: / Match method: …) a brighter #d6d6d6 non-italic treatment so they anchor as labels.
 //   CSS only; no logic change.
+// v5.0.166 — 15 June 2026: Hub To-Do list (hub-todo)
+//   BOTH founder Hub surfaces — hub.html (/hub, navy desktop page) AND hub-app.html
+//   (/hub-app, silk-cyan PWA) — gain an independent To-Do box at the top: a localStorage
+//   list (add / tick / delete, persists, works offline), styled per surface. No external
+//   sync — the Hub already has a Calendar tile for Google Calendar, so the list stays
+//   purely local (no OAuth, no CSP/COOP changes). NOTE: localStorage is per-ORIGIN, so /hub
+//   and /hub-app (both scansmart.uk) SHARE one list automatically; only the Desktop file://
+//   snapshot is a separate store.
+//   Also ported the openApp() iframe launcher fix to both (they still had the original
+//   window.location.href='scheme://' launcher that threw Safari's "address is invalid" on
+//   app-scheme tiles; now attempts the native scheme in a throwaway iframe → web fallback).
 // v5.0.165 — 14 June 2026: FLT search — relevance ranking + F1-box dropdown (flt-search-rank-f1-dropdown)
 //   (1) RANKING — search() was a SEARCH_INDEX array-order, first-25 substring scan with NO relevance,
 //   so an incidental substring ("WalkerSwood") out-ranked a closer name match ("Walkers Shortbread")
@@ -3779,7 +3790,7 @@
 //   on the near-black panel, still secondary to the #e7e7e7 body text). Confirmed no neutral
 //   mid-greys bypass the token (the hardcoded greys are tinted accents, not body text). CSS only.
 //
-const CACHE_VERSION = 'scansmart-v5.0.165-flt-search-rank-f1-dropdown';
+const CACHE_VERSION = 'scansmart-v5.0.166-hub-todo';
 const PRECACHE = [
   '/',
   '/install.html',
