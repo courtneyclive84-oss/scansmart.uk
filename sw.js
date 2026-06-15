@@ -3560,6 +3560,12 @@
 //   touch the marketing site), bumped .bo-method 9px → 9.5px, and gave its bold labels (OFF field
 //   state: / Match method: …) a brighter #d6d6d6 non-italic treatment so they anchor as labels.
 //   CSS only; no logic change.
+// v5.0.168 — 15 June 2026: remove the inline Hub to-do box (hub-todo-box-removed)
+//   The simple localStorage to-do box (v5.0.166) is superseded by the full /todo page
+//   (v5.0.167) reached via the gold "To-Do" tile. Removed the inline box — section
+//   markup, its CSS, AND its JS IIFE (leaving the JS would throw on the missing
+//   #todo-list and break openApp) — from hub.html + hub-app.html (and the Electron
+//   app/hub.html, deployed separately). One to-do now, not two. openApp launcher intact.
 // v5.0.167 — 15 June 2026: To-Do page with live Google Calendar sync (todo-page)
 //   New private page /todo (todo.html, noindex) — a full-page week-planner: editorial
 //   paper aesthetic on navy, Fraunces+Hanken, natural-language quick-add, STAR-rating
@@ -3804,7 +3810,7 @@
 //   on the near-black panel, still secondary to the #e7e7e7 body text). Confirmed no neutral
 //   mid-greys bypass the token (the hardcoded greys are tinted accents, not body text). CSS only.
 //
-const CACHE_VERSION = 'scansmart-v5.0.167-todo-page';
+const CACHE_VERSION = 'scansmart-v5.0.168-hub-todo-box-removed';
 const PRECACHE = [
   '/',
   '/install.html',

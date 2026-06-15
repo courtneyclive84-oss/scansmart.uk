@@ -119,41 +119,6 @@
   }
   .ic-gold { background: rgba(255,210,30,0.2); }
 
-  /* ---- To-Do list ---- */
-  .todo-box {
-    background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08);
-    border-radius: 10px; padding: 0.9rem 1rem;
-  }
-  .todo-add { display: flex; gap: 0.5rem; margin-bottom: 0.75rem; }
-  .todo-add input {
-    flex: 1; background: rgba(0,0,0,0.25); border: 1px solid rgba(255,255,255,0.1);
-    border-radius: 8px; padding: 0.55rem 0.7rem; color: var(--text,#fff);
-    font-family: 'DM Sans', sans-serif; font-size: 0.88rem;
-  }
-  .todo-add input:focus { outline: none; border-color: rgba(255,210,30,0.4); }
-  .todo-add button {
-    flex-shrink: 0; width: 38px; border: none; border-radius: 8px;
-    background: rgba(255,210,30,0.2); color: #ffd21e;
-    font-size: 1.1rem; font-weight: 700; cursor: pointer;
-  }
-  .todo-add button:hover { background: rgba(255,210,30,0.32); }
-  .todo-items { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 0.35rem; }
-  .todo-item {
-    display: flex; align-items: flex-start; gap: 0.6rem; padding: 0.5rem 0.55rem;
-    background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.06); border-radius: 8px;
-  }
-  .todo-item.done .todo-text { text-decoration: line-through; color: var(--text-muted,#8899aa); }
-  .todo-check {
-    flex-shrink: 0; width: 18px; height: 18px; margin-top: 1px; border-radius: 5px;
-    border: 1.5px solid rgba(255,255,255,0.3); background: transparent; cursor: pointer;
-    display: flex; align-items: center; justify-content: center; color: #1dd264; font-size: 0.8rem; line-height: 1;
-  }
-  .todo-item.done .todo-check { border-color: #1dd264; }
-  .todo-text { flex: 1; font-size: 0.85rem; color: var(--text,#fff); line-height: 1.35; word-break: break-word; }
-  .todo-del { flex-shrink: 0; background: none; border: none; color: var(--text-muted,#8899aa); cursor: pointer; font-size: 0.9rem; padding: 0 0.2rem; }
-  .todo-del:hover { color: #ff6060; }
-  .todo-empty { font-size: 0.72rem; color: var(--text-muted,#8899aa); margin: 0.6rem 0 0; }
-
   @media (max-width: 480px) {
     .hub-grid {
       grid-template-columns: repeat(2, 1fr);
@@ -185,19 +150,6 @@
 
   <h1 class="hub-title">SCANSMART Hub</h1>
   <p class="hub-subtitle">Your project launchpad — all tools, one surface.</p>
-
-  <!-- To-Do -->
-  <section class="hub-section hub-todo" id="todo">
-    <p class="hub-section-label">To-Do</p>
-    <div class="todo-box">
-      <form id="todo-form" class="todo-add">
-        <input id="todo-input" type="text" placeholder="Add a task&hellip;" autocomplete="off" maxlength="280" aria-label="New task">
-        <button type="submit" aria-label="Add task">&#43;</button>
-      </form>
-      <ul id="todo-list" class="todo-items"></ul>
-      <p id="todo-empty" class="todo-empty">Nothing yet &mdash; add a task to get started.</p>
-    </div>
-  </section>
 
   <!-- SCANSMART surfaces -->
   <section class="hub-section hub-internal">
@@ -396,63 +348,6 @@ function openApp(el) {
     if (!fired && !document.hidden) window.open(web, '_blank');
   }, 600);
 }
-
-/* Independent To-Do list — localStorage only, works offline. No external sync:
-   the Hub already has a Calendar tile for Google Calendar. */
-(function () {
-  var LS_KEY  = 'scansmart-hub-todos';
-  var listEl  = document.getElementById('todo-list');
-  var emptyEl = document.getElementById('todo-empty');
-  var formEl  = document.getElementById('todo-form');
-  var inputEl = document.getElementById('todo-input');
-  var todos   = loadTodos();
-
-  function loadTodos() { try { return JSON.parse(localStorage.getItem(LS_KEY)) || []; } catch (e) { return []; } }
-  function save()      { localStorage.setItem(LS_KEY, JSON.stringify(todos)); }
-  function uid()       { return 'l-' + Date.now() + '-' + Math.round(Math.random() * 1e5); }
-
-  function render() {
-    listEl.innerHTML = '';
-    emptyEl.style.display = todos.length ? 'none' : 'block';
-    var active = todos.filter(function (t) { return !t.done; });
-    var done   = todos.filter(function (t) { return t.done; });
-    active.concat(done).forEach(function (t) {
-      var li = document.createElement('li');
-      li.className = 'todo-item' + (t.done ? ' done' : '');
-
-      var check = document.createElement('button');
-      check.className = 'todo-check'; check.type = 'button';
-      check.textContent = t.done ? '✓' : '';
-      check.setAttribute('aria-label', t.done ? 'Mark not done' : 'Mark done');
-      check.onclick = function () { toggle(t); };
-
-      var txt = document.createElement('span');
-      txt.className = 'todo-text'; txt.textContent = t.text;
-
-      var del = document.createElement('button');
-      del.className = 'todo-del'; del.type = 'button'; del.textContent = '✕';
-      del.setAttribute('aria-label', 'Delete task');
-      del.onclick = function () { remove(t); };
-
-      li.appendChild(check); li.appendChild(txt); li.appendChild(del);
-      listEl.appendChild(li);
-    });
-  }
-
-  function add(text) {
-    text = text.trim(); if (!text) return;
-    todos.unshift({ id: uid(), text: text, done: false });
-    save(); render();
-  }
-  function toggle(t) { t.done = !t.done; save(); render(); }
-  function remove(t) { todos = todos.filter(function (x) { return x.id !== t.id; }); save(); render(); }
-
-  formEl.addEventListener('submit', function (e) {
-    e.preventDefault(); add(inputEl.value); inputEl.value = '';
-  });
-
-  render();
-})();
 </script>
 </body>
 </html>
