@@ -3560,6 +3560,20 @@
 //   touch the marketing site), bumped .bo-method 9px → 9.5px, and gave its bold labels (OFF field
 //   state: / Match method: …) a brighter #d6d6d6 non-italic treatment so they anchor as labels.
 //   CSS only; no logic change.
+// v5.0.167 — 15 June 2026: To-Do page with live Google Calendar sync (todo-page)
+//   New private page /todo (todo.html, noindex) — a full-page week-planner: editorial
+//   paper aesthetic on navy, Fraunces+Hanken, natural-language quick-add, STAR-rating
+//   importance, click-to-complete (green tick sweep), per-week ‹/› navigation, gold
+//   "today" / red "overdue", contact-number bolding, calendar-emoji stripping. Tasks
+//   persist in localStorage. LIVE GOOGLE CALENDAR sync: Google Identity Services token
+//   flow + Calendar API (calendar.readonly), events merged by id with done/importance
+//   preserved and deleted events pruned. DISABLED until an OAuth Client ID is pasted
+//   into CLIENT_ID in todo.html (only Ras can create that in Google Cloud). Launchable
+//   from the Hub — a gold "To-Do" tile added to hub.html + hub-app.html (+ Electron app).
+//   _headers: CSP gains accounts.google.com (script/frame) + oauth2/www.googleapis.com
+//   (connect-src); COOP same-origin → same-origin-allow-popups for the OAuth popup —
+//   both Google first-party OAuth/Calendar endpoints, anti-tracking gate intact.
+//   /todo is NOT precached (private page, network-first like /hub).
 // v5.0.166 — 15 June 2026: Hub To-Do list (hub-todo)
 //   BOTH founder Hub surfaces — hub.html (/hub, navy desktop page) AND hub-app.html
 //   (/hub-app, silk-cyan PWA) — gain an independent To-Do box at the top: a localStorage
@@ -3790,7 +3804,7 @@
 //   on the near-black panel, still secondary to the #e7e7e7 body text). Confirmed no neutral
 //   mid-greys bypass the token (the hardcoded greys are tinted accents, not body text). CSS only.
 //
-const CACHE_VERSION = 'scansmart-v5.0.166-hub-todo';
+const CACHE_VERSION = 'scansmart-v5.0.167-todo-page';
 const PRECACHE = [
   '/',
   '/install.html',

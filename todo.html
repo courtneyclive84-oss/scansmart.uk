@@ -1,0 +1,375 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0a1628">
+<title>SCANSMART — To-Do</title>
+<link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon-16x16.png">
+<link rel="shortcut icon" href="/assets/favicon.ico">
+<meta name="robots" content="noindex, nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400..900;1,9..144,400..600&family=Hanken+Grotesk:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --desk:#0a1628; --paper:#faf5ea; --paper-top:#fdf9f0;
+    --ink:#16181c; --ink-2:#2f343b; --ink-3:#685331; --rule:#ece0c9;
+    --p1:#ef3a17; --p2:#f59e0b; --p3:#0bb0a3; --p4col:#ab9268;
+    --accent:#ef3a17; --gold:#ffb000; --green:#13b85b; --overdue:#ef2a14;
+    --today:#0ba15f; --today-deep:#0a7a48;
+    --shadow:24px 36px 72px -26px rgba(0,0,0,0.55);
+  }
+  * { box-sizing:border-box; }
+  body {
+    margin:0; min-height:100vh; color:var(--ink);
+    font-family:"Hanken Grotesk",system-ui,sans-serif; font-size:16px; -webkit-font-smoothing:antialiased;
+    background:
+      radial-gradient(120% 80% at 16% 4%, rgba(46,78,128,0.45), rgba(10,22,40,0) 55%),
+      radial-gradient(110% 95% at 100% 100%, rgba(3,8,20,0.75), rgba(10,22,40,0) 62%),
+      var(--desk);
+  }
+  body::before { content:""; position:fixed; inset:0; z-index:0; pointer-events:none; opacity:0.3;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.55'/%3E%3C/svg%3E");
+    mix-blend-mode:multiply; }
+
+  .stage { position:relative; z-index:1; display:flex; gap:1.2rem; align-items:stretch; padding:clamp(1.2rem,3.5vw,2.4rem); min-height:100vh; }
+  .sheet { background:linear-gradient(180deg,var(--paper-top),var(--paper) 22%); border-radius:6px; box-shadow:var(--shadow); position:relative; }
+  .sheet::after { content:""; position:absolute; left:0; right:0; top:0; height:4px; border-radius:6px 6px 0 0; }
+
+  .rail { width:330px; flex-shrink:0; padding:1.4rem 1.4rem 1.3rem; display:flex; flex-direction:column;
+    opacity:0; transform:translateY(16px); animation:rise .6s cubic-bezier(.16,1,.3,1) .05s forwards; }
+  .rail::after { background:linear-gradient(90deg,var(--p1),var(--p2) 55%,var(--p3)); }
+  @keyframes rise { to { opacity:1; transform:none; } }
+  .hub-link { display:inline-block; font-size:.8rem; font-weight:800; letter-spacing:.06em; color:var(--ink-3); text-decoration:none; margin-bottom:.7rem; }
+  .hub-link:hover { color:var(--p1); }
+  .kicker { font-size:.72rem; font-weight:700; letter-spacing:.22em; text-transform:uppercase; color:var(--p1); }
+  .mast-title { font-family:"Fraunces",serif; font-weight:600; font-size:3rem; line-height:.9; letter-spacing:-.02em; margin:.1rem 0 .1rem; }
+  .mast-title em { font-style:italic; color:var(--p1); font-weight:500; }
+  .mast-date { font-size:1.06rem; font-weight:700; color:var(--ink-2); margin-bottom:1.3rem; }
+
+  .qadd { display:flex; align-items:center; gap:.6rem; }
+  .qadd-mark { flex-shrink:0; width:28px; height:28px; border-radius:50%; border:2px solid var(--accent); color:var(--accent);
+    background:transparent; font-size:1.15rem; font-weight:700; cursor:pointer; display:flex; align-items:center; justify-content:center;
+    transition:background .18s,color .18s,transform .18s; }
+  .qadd-mark:hover { background:var(--accent); color:#fff; transform:rotate(90deg); }
+  .qadd-field { flex:1; position:relative; }
+  .qadd-field input { width:100%; border:none; background:transparent; outline:none; font-family:inherit; font-size:1.12rem; font-weight:500; color:var(--ink); padding:.4rem 0; }
+  .qadd-field input::placeholder { color:var(--ink-3); }
+  .qadd-field::after { content:""; position:absolute; left:0; bottom:0; height:2px; width:100%; background:var(--rule); }
+  .qadd-field::before { content:""; position:absolute; left:0; bottom:0; height:2px; width:0; background:var(--accent); transition:width .28s cubic-bezier(.16,1,.3,1); }
+  .qadd-field:focus-within::before { width:100%; }
+  .parse { min-height:1.3rem; display:flex; flex-wrap:wrap; gap:.35rem; margin:.55rem 0 0 2.2rem; }
+  .parse .hint { color:var(--ink-2); font-size:.92rem; font-weight:600; }
+  .chip { font-size:.72rem; font-weight:700; padding:.14rem .5rem; border-radius:4px; }
+  .chip.date { background:rgba(44,111,104,.16); color:#225b55; }
+  .chip.time { background:rgba(189,125,16,.18); color:#8a5b08; }
+  .chip .arr { color:var(--ink-3); }
+
+  .cal-sec { margin-top:1.5rem; }
+  .cal-btn { width:100%; border:2px solid var(--today); background:transparent; color:var(--today-deep); font-family:inherit; font-weight:700; font-size:1rem; padding:.6rem .8rem; border-radius:8px; cursor:pointer; transition:background .15s,color .15s; display:flex; align-items:center; justify-content:center; gap:.45rem; }
+  .cal-btn:hover:not(:disabled) { background:var(--today); color:#fff; }
+  .cal-btn:disabled { opacity:.55; cursor:default; border-color:var(--rule); color:var(--ink-3); }
+  .cal-status { font-size:.85rem; color:var(--ink-2); margin-top:.5rem; font-weight:600; min-height:1rem; }
+
+  .rail-sec { margin-top:1.6rem; }
+  .rail-label { font-family:"Fraunces",serif; font-size:1.42rem; font-weight:600; font-style:italic; color:var(--ink); display:flex; align-items:center; gap:.55rem; margin-bottom:.75rem; }
+  .rail-label::before { content:"\2605"; color:var(--gold); font-style:normal; font-size:1.1rem; -webkit-text-stroke:.5px #cf8a00; }
+  .rail-label::after { content:""; flex:1; height:2px; background:var(--gold); opacity:.55; border-radius:2px; }
+  .flag-item { display:flex; align-items:center; gap:.6rem; padding:.5rem 0; font-size:1.08rem; font-weight:700; color:var(--ink); line-height:1.25; }
+  .imp-stars { color:var(--gold); font-size:1.05rem; letter-spacing:-1px; flex-shrink:0; -webkit-text-stroke:.4px #cf8a00; }
+  .flag-none { font-size:.95rem; color:var(--ink-3); }
+  .rail-foot { margin-top:auto; padding-top:1.2rem; border-top:1px solid var(--rule); font-size:1.1rem; font-weight:700; color:var(--ink-2); }
+
+  .week { flex:1; min-width:0; padding:1.4rem 0 0; display:flex; flex-direction:column; overflow:hidden;
+    opacity:0; transform:translateY(16px); animation:rise .6s cubic-bezier(.16,1,.3,1) .14s forwards; }
+  .week::after { background:linear-gradient(90deg,var(--p3),var(--gold) 60%,var(--p1)); }
+  .week-head { display:flex; align-items:baseline; justify-content:space-between; padding:0 1.4rem .9rem; }
+  .weekno { font-family:"Fraunces",serif; font-size:2rem; font-style:italic; font-weight:500; color:var(--ink); margin:0; letter-spacing:-0.01em; }
+  .weekno b { font-style:normal; font-weight:700; color:var(--ink); }
+  .wk-nav-grp { display:flex; align-items:center; gap:.7rem; }
+  .wk-arrow { width:38px; height:38px; flex-shrink:0; border-radius:50%; border:1.5px solid var(--rule); background:transparent;
+    color:var(--ink-2); font-size:1.5rem; line-height:0; cursor:pointer; display:flex; align-items:center; justify-content:center;
+    padding-bottom:3px; transition:background .15s,border-color .15s,color .15s,transform .12s; }
+  .wk-arrow:hover { background:var(--ink); border-color:var(--ink); color:var(--paper); transform:scale(1.08); }
+  .wk-today { border:none; background:var(--today); color:#fff; font-family:inherit; font-size:.92rem; font-weight:700; padding:.42rem .95rem; border-radius:999px; cursor:pointer; display:none; transition:filter .15s; }
+  .wk-today:hover { filter:brightness(1.1); }
+  .days { display:flex; overflow-x:auto; overflow-y:hidden; flex:1; scroll-snap-type:x proximity; padding:0 .4rem 1rem; gap:0; }
+  .days::-webkit-scrollbar { height:8px; }
+  .days::-webkit-scrollbar-thumb { background:rgba(40,32,16,.22); border-radius:8px; }
+  .day { flex:1 1 0; min-width:138px; border-left:1px solid var(--rule); padding:.3rem .7rem; scroll-snap-align:start; }
+  .day:first-child { border-left:none; }
+  .day.today { background:linear-gradient(180deg, rgba(11,161,95,.17), rgba(11,161,95,.03)); border-radius:8px; box-shadow:inset 0 3px 0 var(--today); }
+  .day.wknd { flex:0.55 1 0; min-width:88px; }
+  .day.wknd .dh-wk { color:var(--p1); }
+  .day.wknd .dh-num { font-size:1.7rem; }
+  .day.wknd .dh-mon { display:none; }
+  .day-head { padding:.4rem .15rem .6rem; position:sticky; top:0; }
+  .dh-wk { display:block; font-size:.8rem; font-weight:800; letter-spacing:.12em; color:var(--ink-3); }
+  .dh-num { font-family:"Fraunces",serif; font-weight:600; font-size:2.4rem; line-height:1; color:var(--ink); }
+  .day.today .dh-num { color:var(--today); }
+  .day.today .dh-wk { color:var(--today-deep); }
+  .dh-mon { font-size:.8rem; font-weight:700; color:var(--ink-3); margin-left:.25rem; }
+  .day-tasks { display:flex; flex-direction:column; gap:.4rem; min-height:40px; }
+  .day-empty { color:var(--rule); font-size:1.9rem; text-align:center; padding-top:.7rem; user-select:none; }
+
+  .card { position:relative; background:#fff; border:1px solid var(--rule); border-radius:7px; padding:.6rem .6rem .6rem .82rem;
+    box-shadow:0 1px 2px rgba(40,28,10,.06); display:flex; gap:.5rem; align-items:flex-start; overflow:hidden; animation:pop .26s cubic-bezier(.16,1,.3,1); }
+  @keyframes pop { from { opacity:0; transform:scale(.95); } to { opacity:1; transform:none; } }
+  .card::before { content:""; position:absolute; left:0; top:0; bottom:0; width:4px; background:var(--gold); opacity:0; transition:opacity .2s; }
+  .card.imp1::before { opacity:.38; } .card.imp2::before { opacity:.7; } .card.imp3::before { opacity:1; }
+  .c-tick { flex-shrink:0; width:21px; height:21px; margin-top:1px; border-radius:50%; border:2px solid var(--p4col); background:transparent; cursor:pointer; position:relative; transition:background .18s,border-color .18s,transform .12s; }
+  .c-tick:hover { transform:scale(1.12); }
+  .c-tick svg { position:absolute; inset:0; width:100%; height:100%; stroke:#fff; stroke-width:3.4; fill:none; stroke-linecap:round; stroke-linejoin:round; stroke-dasharray:18; stroke-dashoffset:18; transition:stroke-dashoffset .25s ease .05s; }
+  .c-body { flex:1; min-width:0; }
+  .c-name { font-size:1.14rem; font-weight:700; color:var(--ink); line-height:1.28; word-break:break-word; letter-spacing:-0.005em; }
+  .c-name .contact { font-weight:800; font-variant-numeric:tabular-nums; }
+  .c-time { font-size:.94rem; font-weight:800; color:var(--ink); margin-top:.25rem; }
+  .card.today:not(.done) .c-time { color:var(--today-deep); }
+  .card.overdue .c-name, .card.overdue .c-time { color:var(--overdue); }
+  .c-stars { display:flex; gap:3px; margin-top:.45rem; }
+  .c-star { width:16px; height:16px; cursor:pointer; transition:transform .12s; line-height:0; }
+  .c-star svg { width:100%; height:100%; display:block; }
+  .c-star svg path { fill:none; stroke:#d89a00; stroke-width:1.5; stroke-linejoin:round; }
+  .c-star.on svg path { fill:#ffb300; stroke:#d68f00; stroke-width:1; }
+  .c-star:hover { transform:scale(1.28); }
+  .c-bigtick { position:absolute; inset:0; pointer-events:none; display:flex; align-items:center; justify-content:center; z-index:2; }
+  .c-bigtick svg { width:62%; height:62%; stroke:var(--green); stroke-width:2.6; fill:none; stroke-linecap:round; stroke-linejoin:round; stroke-dasharray:48; stroke-dashoffset:48; opacity:0; }
+  .card.anim .c-bigtick svg { animation:bigtick .75s ease forwards; }
+  @keyframes bigtick { 0%{opacity:0;stroke-dashoffset:48;} 22%{opacity:1;} 72%{opacity:1;stroke-dashoffset:0;} 100%{opacity:0;stroke-dashoffset:0;} }
+  .card.done { background:#eef5ea; }
+  .card.done .c-tick { background:var(--green); border-color:var(--green); }
+  .card.done .c-tick svg { stroke-dashoffset:0; }
+  .card.done::before { opacity:.2; }
+  .card.done .c-name { text-decoration:line-through; text-decoration-color:var(--green); text-decoration-thickness:2px; color:var(--ink-3); font-weight:500; }
+  .card.done .c-time { color:var(--ink-3); }
+  .cal-badge { flex-shrink:0; align-self:center; font-size:.62rem; font-weight:800; letter-spacing:.04em; text-transform:uppercase; color:var(--today-deep); background:rgba(11,161,95,.14); padding:.1rem .35rem; border-radius:4px; }
+
+  @media (max-width:780px) { .stage { flex-direction:column; } .rail { width:auto; } }
+</style>
+</head>
+<body>
+  <div class="stage">
+    <aside class="sheet rail">
+      <a class="hub-link" href="/hub">&larr; Hub</a>
+      <span class="kicker">The list</span>
+      <h1 class="mast-title">To&#8209;<em>do</em></h1>
+      <div class="mast-date" id="mast-date"></div>
+
+      <form class="qadd" id="add-form" autocomplete="off">
+        <button class="qadd-mark" type="submit" aria-label="Add task">&#43;</button>
+        <span class="qadd-field"><input id="add-input" type="text" aria-label="Add a task" placeholder="What needs doing?"></span>
+      </form>
+      <div class="parse" id="parse"><span class="hint">Write it like a sentence — I’ll lift out the date and time.</span></div>
+
+      <div class="cal-sec">
+        <button class="cal-btn" id="cal-btn" type="button">Connect Google Calendar</button>
+        <div class="cal-status" id="cal-status"></div>
+      </div>
+
+      <div class="rail-sec">
+        <div class="rail-label">Important</div>
+        <div id="flagged"></div>
+      </div>
+
+      <div class="rail-foot" id="count">0 to do</div>
+    </aside>
+
+    <main class="sheet week">
+      <div class="week-head">
+        <div class="wk-nav-grp">
+          <button class="wk-arrow" id="wk-prev" type="button" aria-label="Previous week">&lsaquo;</button>
+          <h2 class="weekno" id="weekno"></h2>
+          <button class="wk-arrow" id="wk-next" type="button" aria-label="Next week">&rsaquo;</button>
+        </div>
+        <button class="wk-today" id="wk-today" type="button">This week</button>
+      </div>
+      <div class="days" id="days"></div>
+    </main>
+  </div>
+
+<script>
+/* =========================================================================
+   SCANSMART To-Do — personal week planner with live Google Calendar sync.
+   Tasks live in localStorage. Calendar events (id "cal-…") are merged in on
+   sync; your done/importance on them is preserved. Natural-language quick-add.
+   ------------------------------------------------------------------------
+   GOOGLE CALENDAR: paste your OAuth Client ID into CLIENT_ID below to enable.
+   Create one at console.cloud.google.com → APIs & Services → Credentials →
+   OAuth client ID (type: Web application), Authorized JavaScript origin:
+   https://scansmart.uk — and enable the "Google Calendar API" for the project.
+   ========================================================================= */
+var CLIENT_ID = '';   // ← paste Google OAuth Client ID here to switch calendar sync on
+var CAL_SCOPE = 'https://www.googleapis.com/auth/calendar.readonly';
+
+var DAY_ABBR={sun:0,mon:1,tue:2,tues:2,wed:3,thu:4,thur:4,thurs:4,fri:5,sat:6};
+var MONTHS=['jan','feb','mar','apr','may','jun','jul','aug','sep','oct','nov','dec'];
+function startOfDay(d){var x=new Date(d);x.setHours(0,0,0,0);return x;}
+function addDays(d,n){var x=new Date(d);x.setDate(x.getDate()+n);return x;}
+function nextWeekday(from,t){var x=startOfDay(from);var diff=(t-x.getDay()+7)%7;return addDays(x,diff===0?7:diff);}
+function dayKey(d){return startOfDay(d).getTime();}
+function mondayOf(d){var x=startOfDay(d);var off=(x.getDay()+6)%7;return addDays(x,-off);}
+function isoWeek(d){d=new Date(Date.UTC(d.getFullYear(),d.getMonth(),d.getDate()));var day=d.getUTCDay()||7;d.setUTCDate(d.getUTCDate()+4-day);var ys=new Date(Date.UTC(d.getUTCFullYear(),0,1));return Math.ceil((((d-ys)/86400000)+1)/7);}
+function timeStr(iso){var d=new Date(iso),h=d.getHours(),m=d.getMinutes(),ap=h<12?'am':'pm',hh=h%12||12;return hh+(m?':'+String(m).padStart(2,'0'):'')+ap;}
+
+function parseQuickAdd(raw){
+  var text=' '+raw.replace(/\s+/g,' ').trim()+' ',lower=text.toLowerCase(),due=null,hasTime=false;
+  function cut(re){var m=lower.match(re);if(!m)return null;var i=m.index,l=m[0].length;text=text.slice(0,i)+' '+text.slice(i+l);lower=text.toLowerCase();return m;}
+  var time=null;
+  var tm=cut(/\s(?:at\s)?(\d{1,2})(?:[:.](\d{2}))?\s*(am|pm)\b/);
+  if(tm){var h=+tm[1]%12;if(tm[3]==='pm')h+=12;time={h:h,m:tm[2]?+tm[2]:0};}
+  if(!time){var t24=cut(/\s(\d{1,2}):(\d{2})\b/);if(t24)time={h:+t24[1],m:+t24[2]};}
+  if(!time){if(cut(/\bnoon\b/))time={h:12,m:0};else if(cut(/\bmidnight\b/))time={h:0,m:0};}
+  var now=new Date(),base=null;
+  if(cut(/\btoday\b/))base=startOfDay(now);
+  else if(cut(/\btonight\b/)){base=startOfDay(now);if(!time)time={h:19,m:0};}
+  else if(cut(/\btomorrow\b|\btmrw\b/))base=addDays(startOfDay(now),1);
+  if(!base){var nx=cut(/\bnext (sun|mon|tue|tues|wed|thu|thur|thurs|fri|sat)[a-z]*\b/);if(nx)base=nextWeekday(now,DAY_ABBR[nx[1]]);}
+  if(!base&&cut(/\bnext week\b/))base=addDays(startOfDay(now),7);
+  if(!base){var ind=cut(/\bin (\d{1,2}) days?\b/);if(ind)base=addDays(startOfDay(now),+ind[1]);}
+  if(!base){var dw=cut(/\b(sun|mon|tue|tues|wed|thu|thur|thurs|fri|sat)[a-z]*\b/);if(dw)base=nextWeekday(now,DAY_ABBR[dw[1]]);}
+  if(!base){var dm=cut(/\b(\d{1,2})(?:st|nd|rd|th)?\s+(jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec)[a-z]*\b/)||cut(/\b(jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec)[a-z]*\s+(\d{1,2})(?:st|nd|rd|th)?\b/);
+    if(dm){var dd,mo;if(/\d/.test(dm[1])){dd=+dm[1];mo=MONTHS.indexOf(dm[2].slice(0,3));}else{mo=MONTHS.indexOf(dm[1].slice(0,3));dd=+dm[2];}
+      var y=now.getFullYear(),c=new Date(y,mo,dd);if(c<startOfDay(now))c=new Date(y+1,mo,dd);base=startOfDay(c);}}
+  if(base||time){var d=base?new Date(base):startOfDay(now);if(time){d.setHours(time.h,time.m,0,0);hasTime=true;if(!base&&d<now)d=addDays(d,1);}due=d;}
+  return {title:text.replace(/\s+/g,' ').trim(),due:due,hasTime:hasTime};
+}
+
+var LS='scansmart-todo-v1';
+var todos=load();
+function load(){try{return JSON.parse(localStorage.getItem(LS))||[];}catch(e){return[];}}
+function save(){localStorage.setItem(LS,JSON.stringify(todos));}
+function uid(){return't'+Date.now()+Math.round(Math.random()*1e4);}
+function esc(s){return String(s).replace(/[&<>"]/g,function(c){return({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'})[c];});}
+function stripEmoji(s){return String(s).replace(/^(?:[\u{1F000}-\u{1FAFF}\u{2600}-\u{27BF}\u{2B00}-\u{2BFF}\u{2190}-\u{21FF}\u{FE0F}\u{200D}]\u{FE0F}?\s*)+/u,'').trim();}
+function renderName(text){var h=esc(stripEmoji(text));h=h.replace(/([A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,})/g,'<strong class="contact">$1</strong>');h=h.replace(/(\+?\d(?:[\d\s().-]{6,}\d))/g,'<strong class="contact">$1</strong>');return h;}
+
+document.getElementById('mast-date').textContent=(function(){var n=new Date();return ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'][n.getDay()]+' '+n.getDate()+' '+['January','February','March','April','May','June','July','August','September','October','November','December'][n.getMonth()];})();
+
+var CHECK='<svg viewBox="0 0 18 18"><path d="M4.5 9.3l2.8 2.8 6-6.4"/></svg>';
+var STAR='<svg viewBox="0 0 16 16"><path d="M8 1.1l1.94 4.06 4.46.55-3.3 3.02.9 4.42L8 11.5 4 13.15l.9-4.42-3.3-3.02 4.46-.55z"/></svg>';
+var BIGTICK='<svg viewBox="0 0 48 48"><path d="M9 25l11 11 20-24"/></svg>';
+var justDone=null, weekOffset=0;
+
+function makeCard(t){
+  var imp=t.importance||0, now=new Date(), dd=t.due?new Date(t.due):null;
+  var isOver=dd&&!t.done&&(t.hasTime?dd<now:dayKey(dd)<dayKey(now));
+  var isToday=dd&&dayKey(dd)===dayKey(now);
+  var c=document.createElement('div');
+  c.className='card imp'+imp+(t.done?' done':'')+(isOver?' overdue':'')+(isToday?' today':'')+(t.id===justDone?' anim':'');
+  var tick=document.createElement('button'); tick.className='c-tick'; tick.type='button'; tick.innerHTML=CHECK;
+  tick.setAttribute('aria-label',t.done?'Mark not done':'Mark done');
+  tick.onclick=function(){ if(!t.done) justDone=t.id; t.done=!t.done; save(); render(); };
+  var body=document.createElement('div'); body.className='c-body';
+  var nm=document.createElement('div'); nm.className='c-name'; nm.innerHTML=renderName(t.text); body.appendChild(nm);
+  if(t.hasTime&&t.due){var tt=document.createElement('div'); tt.className='c-time'; tt.textContent=timeStr(t.due); body.appendChild(tt);}
+  var stars=document.createElement('div'); stars.className='c-stars';
+  for(var i=1;i<=3;i++){ (function(n){ var s=document.createElement('span'); s.className='c-star'+(n<=imp?' on':''); s.innerHTML=STAR;
+    s.title='Importance '+n; s.onclick=function(){ t.importance=(imp===n?0:n); save(); render(); }; stars.appendChild(s); })(i); }
+  body.appendChild(stars);
+  c.appendChild(tick); c.appendChild(body);
+  if(t.cal){var b=document.createElement('span'); b.className='cal-badge'; b.textContent='cal'; c.appendChild(b);}
+  var big=document.createElement('div'); big.className='c-bigtick'; big.innerHTML=BIGTICK; c.appendChild(big);
+  return c;
+}
+
+function render(){
+  var daysEl=document.getElementById('days'); daysEl.innerHTML='';
+  var now=new Date(), today=startOfDay(now), base=addDays(mondayOf(now), weekOffset*7), byDay={}, noDate=[];
+  document.getElementById('weekno').innerHTML='Week <b>'+isoWeek(base)+'</b>';
+  var tb=document.getElementById('wk-today'); if(tb) tb.style.display=weekOffset?'inline-flex':'none';
+  todos.forEach(function(t){ if(!t.due){noDate.push(t);return;} var k=dayKey(new Date(t.due)); (byDay[k]=byDay[k]||[]).push(t); });
+  var WK=['SUN','MON','TUE','WED','THU','FRI','SAT'], MO=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  for(var i=0;i<7;i++){
+    var d=addDays(base,i), k=dayKey(d), wd=d.getDay();
+    var col=document.createElement('div'); col.className='day'+(k===dayKey(today)?' today':'')+((wd===0||wd===6)?' wknd':'');
+    col.innerHTML='<div class="day-head"><span class="dh-wk">'+WK[wd]+'</span><span class="dh-num">'+d.getDate()+'</span><span class="dh-mon">'+MO[d.getMonth()]+'</span></div>';
+    var wrap=document.createElement('div'); wrap.className='day-tasks';
+    var list=(byDay[k]||[]).sort(function(a,b){return new Date(a.due)-new Date(b.due);});
+    if(!list.length) wrap.innerHTML='<div class="day-empty">·</div>';
+    list.forEach(function(t){wrap.appendChild(makeCard(t));});
+    col.appendChild(wrap); daysEl.appendChild(col);
+  }
+  if(noDate.length){
+    var col2=document.createElement('div'); col2.className='day';
+    col2.innerHTML='<div class="day-head"><span class="dh-wk">NO DATE</span><span class="dh-num" style="font-size:1rem;color:var(--ink-3)">&bull;</span></div>';
+    var wrap2=document.createElement('div'); wrap2.className='day-tasks';
+    noDate.forEach(function(t){wrap2.appendChild(makeCard(t));}); col2.appendChild(wrap2); daysEl.appendChild(col2);
+  }
+  var fEl=document.getElementById('flagged'); fEl.innerHTML='';
+  var important=todos.filter(function(t){return !t.done&&(t.importance||0)>0;}).sort(function(a,b){return (b.importance||0)-(a.importance||0);});
+  if(!important.length) fEl.innerHTML='<div class="flag-none">Nothing starred yet — tap the stars on a task.</div>';
+  important.forEach(function(t){var r=document.createElement('div'); r.className='flag-item';
+    var st=''; for(var i=0;i<(t.importance||0);i++) st+='★';
+    r.innerHTML='<span class="imp-stars">'+st+'</span>'+esc(stripEmoji(t.text)); fEl.appendChild(r);});
+  var active=todos.filter(function(t){return !t.done;}).length, done=todos.length-active;
+  document.getElementById('count').textContent=active+' to do'+(done?' · '+done+' done':'');
+  justDone=null;
+}
+
+function renderParse(){
+  var raw=document.getElementById('add-input').value.trim(), pe=document.getElementById('parse');
+  if(!raw){pe.innerHTML='<span class="hint">Write it like a sentence — I’ll lift out the date and time.</span>';return;}
+  var p=parseQuickAdd(raw),chips=[];
+  if(p.due){var dd=new Date(p.due);chips.push('<span class="chip date">'+dd.getDate()+' '+['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'][dd.getMonth()]+'</span>');
+    if(p.hasTime)chips.push('<span class="chip time">'+timeStr(p.due)+'</span>');}
+  chips.push('<span class="arr">&rarr; '+(esc(p.title)||'…')+'</span>'); pe.innerHTML=chips.join('');
+}
+document.getElementById('add-input').addEventListener('input',renderParse);
+document.getElementById('add-form').addEventListener('submit',function(e){e.preventDefault();
+  var raw=document.getElementById('add-input').value.trim();if(!raw)return;var p=parseQuickAdd(raw);if(!p.title)p.title=raw;
+  todos.unshift({id:uid(),text:p.title,done:false,importance:0,due:p.due?p.due.toISOString():null,hasTime:p.hasTime});
+  save();document.getElementById('add-input').value='';renderParse();render();});
+document.getElementById('wk-prev').onclick=function(){weekOffset--;render();};
+document.getElementById('wk-next').onclick=function(){weekOffset++;render();};
+document.getElementById('wk-today').onclick=function(){weekOffset=0;render();};
+
+/* ---------- Google Calendar sync ---------- */
+var token=null, tokenClient=null;
+var calBtn=document.getElementById('cal-btn'), calStatus=document.getElementById('cal-status');
+function setCal(m){ calStatus.textContent=m||''; }
+
+if(!CLIENT_ID){
+  calBtn.disabled=true; calBtn.textContent='Calendar — setup needed';
+  setCal('Add a Google OAuth Client ID in the code to sync your calendar.');
+} else {
+  calBtn.addEventListener('click', connectCal);
+  loadGis();
+}
+function loadGis(){ if(window.google&&google.accounts) return initTok();
+  var s=document.createElement('script'); s.src='https://accounts.google.com/gsi/client'; s.async=true; s.defer=true; s.onload=initTok; document.head.appendChild(s); }
+function initTok(){
+  tokenClient=google.accounts.oauth2.initTokenClient({client_id:CLIENT_ID, scope:CAL_SCOPE,
+    callback:function(r){ if(r&&r.access_token){ token=r.access_token; localStorage.setItem('scansmart-todo-calon','1'); syncCal(); } else setCal('Sign-in cancelled.'); }});
+  if(localStorage.getItem('scansmart-todo-calon')){ setCal('Reconnecting…'); try{ tokenClient.requestAccessToken({prompt:''}); }catch(e){} }
+}
+function connectCal(){ if(!tokenClient){ setCal('Loading sign-in…'); return; } setCal('Connecting…'); tokenClient.requestAccessToken({prompt: token?'':'consent'}); }
+function syncCal(){
+  calBtn.textContent='Refresh calendar'; setCal('Syncing…');
+  var min=addDays(mondayOf(new Date()),-14), max=addDays(mondayOf(new Date()),56);
+  var url='https://www.googleapis.com/calendar/v3/calendars/primary/events?singleEvents=true&orderBy=startTime&maxResults=250'+
+          '&timeMin='+encodeURIComponent(min.toISOString())+'&timeMax='+encodeURIComponent(max.toISOString());
+  fetch(url,{headers:{Authorization:'Bearer '+token}}).then(function(res){ if(!res.ok) throw new Error('Calendar API '+res.status); return res.json(); }).then(function(d){
+    var items=d.items||[], ret={};
+    items.forEach(function(ev){
+      if(ev.status==='cancelled'||!ev.start) return;
+      var id='cal-'+ev.id; ret[id]=1;
+      var due,hasTime;
+      if(ev.start.dateTime){ due=ev.start.dateTime; hasTime=true; } else { due=ev.start.date+'T00:00:00'; hasTime=false; }
+      var ex=null; for(var j=0;j<todos.length;j++){ if(todos[j].id===id){ ex=todos[j]; break; } }
+      if(ex){ ex.text=ev.summary||'(no title)'; ex.due=due; ex.hasTime=hasTime; ex.cal=true; }
+      else { todos.push({id:id,text:ev.summary||'(no title)',due:due,hasTime:hasTime,done:false,importance:0,cal:true}); }
+    });
+    var minK=min.getTime(), maxK=max.getTime();
+    todos=todos.filter(function(t){ if(!t.cal) return true; var k=t.due?new Date(t.due).getTime():null;
+      if(k!=null && k>=minK && k<=maxK && !ret[t.id]) return false; return true; });
+    save(); render();
+    setCal('Synced ' + items.length + ' events · ' + new Date().toLocaleTimeString());
+  }).catch(function(e){ setCal('Sync failed: '+e.message); });
+}
+
+render();
+</script>
+</body>
+</html>
