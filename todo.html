@@ -270,6 +270,7 @@ function makeCard(t){
   body.appendChild(stars);
   c.appendChild(tick); c.appendChild(body);
   if(t.cal){var b=document.createElement('span'); b.className='cal-badge'; b.textContent='cal'; c.appendChild(b);}
+  if(t.notion){var nb=document.createElement('span'); nb.className='cal-badge'; nb.textContent='auto'; c.appendChild(nb);}
   var big=document.createElement('div'); big.className='c-bigtick'; big.innerHTML=BIGTICK; c.appendChild(big);
   return c;
 }
@@ -369,7 +370,33 @@ function syncCal(){
   }).catch(function(e){ setCal('Sync failed: '+e.message); });
 }
 
+/* ---------- Notion agent-inbox sync (read-only) ----------
+   Agents (Cowork, Claude Code, scheduled tasks, Claude in Chrome) write tasks to the
+   "SCANSMART Priority Actions" Notion DB via the Notion MCP. This pulls the OPEN ones
+   from the api.scansmart.uk/todos Worker (which holds the Notion token server-side) and
+   merges them by id "notion-<pageId>" — exactly like the calendar merge above. Your local
+   done/importance on a merged task is preserved across syncs; tasks that vanish upstream
+   (deleted or marked Done in Notion) are pruned. No auth needed in the browser. */
+var TODOS_FEED = 'https://api.scansmart.uk/todos';
+function syncNotion(){
+  fetch(TODOS_FEED, {credentials:'omit'}).then(function(res){
+    if(!res.ok) throw new Error('todos '+res.status);
+    return res.json();
+  }).then(function(d){
+    var items=(d&&d.items)||[], ret={};
+    items.forEach(function(it){
+      if(!it.id) return; ret[it.id]=1;
+      var ex=null; for(var j=0;j<todos.length;j++){ if(todos[j].id===it.id){ ex=todos[j]; break; } }
+      if(ex){ ex.text=it.text; ex.due=it.due; ex.hasTime=it.hasTime; ex.notion=true; }   // preserve local done/importance
+      else { todos.push({id:it.id,text:it.text,due:it.due,hasTime:it.hasTime,done:!!it.done,importance:it.importance||0,notion:true}); }
+    });
+    todos=todos.filter(function(t){ return !t.notion || ret[t.id]; });   // prune vanished agent items
+    save(); render();
+  }).catch(function(e){ if(window.console) console.warn('Notion inbox sync skipped:', e.message); });
+}
+
 render();
+syncNotion();
 </script>
 </body>
 </html>
