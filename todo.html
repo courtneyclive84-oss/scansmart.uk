@@ -101,7 +101,7 @@
   .day { flex:1 1 0; min-width:138px; border-left:1px solid var(--rule); padding:.3rem .7rem; scroll-snap-align:start; }
   .day:first-child { border-left:none; }
   .day.today { background:linear-gradient(180deg, rgba(11,161,95,.17), rgba(11,161,95,.03)); border-radius:8px; box-shadow:inset 0 3px 0 var(--today); }
-  .day.wknd { flex:0.55 1 0; min-width:88px; }
+  .day.wknd-sm { flex:0.55 1 0; min-width:88px; }   /* slim ONLY when the weekend day has no tasks */
   .day.wknd .dh-wk { color:var(--p1); }
   .day.wknd .dh-num { font-size:1.7rem; }
   .day.wknd .dh-mon { display:none; }
@@ -283,7 +283,7 @@ function render(){
   var WK=['SUN','MON','TUE','WED','THU','FRI','SAT'], MO=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
   for(var i=0;i<7;i++){
     var d=addDays(base,i), k=dayKey(d), wd=d.getDay();
-    var col=document.createElement('div'); col.className='day'+(k===dayKey(today)?' today':'')+((wd===0||wd===6)?' wknd':'');
+    var col=document.createElement('div'); col.className='day'+(k===dayKey(today)?' today':'')+((wd===0||wd===6)?(' wknd'+((byDay[k]&&byDay[k].length)?'':' wknd-sm')):'');
     col.innerHTML='<div class="day-head"><span class="dh-wk">'+WK[wd]+'</span><span class="dh-num">'+d.getDate()+'</span><span class="dh-mon">'+MO[d.getMonth()]+'</span></div>';
     var wrap=document.createElement('div'); wrap.className='day-tasks';
     var list=(byDay[k]||[]).sort(function(a,b){return new Date(a.due)-new Date(b.due);});

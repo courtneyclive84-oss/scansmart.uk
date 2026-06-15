@@ -3560,6 +3560,13 @@
 //   touch the marketing site), bumped .bo-method 9px → 9.5px, and gave its bold labels (OFF field
 //   state: / Match method: …) a brighter #d6d6d6 non-italic treatment so they anchor as labels.
 //   CSS only; no logic change.
+// v5.0.169 — 15 June 2026: /todo calendar LIVE + weekend-column fix (todo-calendar-live)
+//   (1) Google Calendar sync wired live — founder created the OAuth Web client (project
+//       SCANSMART, Calendar API enabled, self added as test user); CLIENT_ID set in
+//       todo.html; verified pulling 29 real events. (2) FIX: weekend (Sat/Sun) columns
+//       were half-width always, so a task card on Sunday (Weekly BigStore Audit) broke
+//       mid-word ("W ee kly…"). Now weekends are slim ONLY when empty (.wknd-sm); a
+//       weekend day WITH tasks expands to full width so cards read normally.
 // v5.0.168 — 15 June 2026: remove the inline Hub to-do box (hub-todo-box-removed)
 //   The simple localStorage to-do box (v5.0.166) is superseded by the full /todo page
 //   (v5.0.167) reached via the gold "To-Do" tile. Removed the inline box — section
@@ -3810,7 +3817,7 @@
 //   on the near-black panel, still secondary to the #e7e7e7 body text). Confirmed no neutral
 //   mid-greys bypass the token (the hardcoded greys are tinted accents, not body text). CSS only.
 //
-const CACHE_VERSION = 'scansmart-v5.0.168-hub-todo-box-removed';
+const CACHE_VERSION = 'scansmart-v5.0.169-todo-calendar-live';
 const PRECACHE = [
   '/',
   '/install.html',
