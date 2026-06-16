@@ -3560,6 +3560,26 @@
 //   touch the marketing site), bumped .bo-method 9px → 9.5px, and gave its bold labels (OFF field
 //   state: / Match method: …) a brighter #d6d6d6 non-italic treatment so they anchor as labels.
 //   CSS only; no logic change.
+// v5.0.171 — 16 June 2026: /todo panel interactive + Unscheduled tray + two-way write-back (todo-panel-tray-2way)
+//   Three planner fixes from a founder review:
+//   (1) Important left-panel rows are now INTERACTIVE — circular tick to complete in place,
+//       click the text to jump to the task's card (switches week, pulses it gold), editable
+//       stars. Was display-only dead text; now reuses the card handlers. Cards gain data-id.
+//   (2) Undated tasks moved OUT of the 7-day grid into a collapsible "Unscheduled" tray below
+//       the week — the grid is strictly Mon→Sun now (the old NO-DATE 8th column read as next
+//       week bleeding in). Tray reuses the same cards; jump-to auto-opens it.
+//   (3) TWO-WAY Notion write-back. Ticking / starring / RESCHEDULING a notion-<id> task POSTs its
+//       full state to a NEW same-origin POST scansmart.uk/todo-sync on the kip-forms Worker,
+//       gated by the existing todo* Cloudflare Access rule — the Worker verifies the Access JWT
+//       (RS256 sig + issuer + expiry + founder email) and PATCHes the Notion page (Status /
+//       Priority / Due Date). No shared secret in this public repo — auth rides the Access
+//       session cookie. Each non-calendar card gains a native date control (set/change/clear →
+//       moves it across days or in/out of Unscheduled). wrangler.toml gains the
+//       scansmart.uk/todo-sync* route; Notion integration given Update-content capability.
+//   (4) Write resilience (no silent failures, §142): a failed write marks the task t.syncErr —
+//       persisted, shown as an amber "unsynced" chip + a toast — and auto-retries on next load
+//       and on tapping the chip; the read-sync no longer clobbers a locally-rescheduled date
+//       while its write is still pending. Needs wrangler deploy (route) + git push (site).
 // v5.0.170 — 15 June 2026: /todo agent-writable via Notion inbox (todo-notion-inbox)
 //   Makes the /todo planner agent-writable so Cowork / Claude Code / scheduled tasks /
 //   Claude in Chrome can add tasks (the localStorage-only store was unreachable by any
@@ -3828,7 +3848,7 @@
 //   on the near-black panel, still secondary to the #e7e7e7 body text). Confirmed no neutral
 //   mid-greys bypass the token (the hardcoded greys are tinted accents, not body text). CSS only.
 //
-const CACHE_VERSION = 'scansmart-v5.0.170-todo-notion-inbox';
+const CACHE_VERSION = 'scansmart-v5.0.171-todo-panel-tray-2way';
 const PRECACHE = [
   '/',
   '/install.html',

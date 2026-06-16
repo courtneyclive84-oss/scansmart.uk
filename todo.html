@@ -77,8 +77,19 @@
   .rail-label { font-family:"Fraunces",serif; font-size:1.42rem; font-weight:600; font-style:italic; color:var(--ink); display:flex; align-items:center; gap:.55rem; margin-bottom:.75rem; }
   .rail-label::before { content:"\2605"; color:var(--gold); font-style:normal; font-size:1.1rem; -webkit-text-stroke:.5px #cf8a00; }
   .rail-label::after { content:""; flex:1; height:2px; background:var(--gold); opacity:.55; border-radius:2px; }
-  .flag-item { display:flex; align-items:center; gap:.6rem; padding:.5rem 0; font-size:1.08rem; font-weight:700; color:var(--ink); line-height:1.25; }
-  .imp-stars { color:var(--gold); font-size:1.05rem; letter-spacing:-1px; flex-shrink:0; -webkit-text-stroke:.4px #cf8a00; }
+  .flag-item { display:flex; align-items:flex-start; gap:.55rem; padding:.5rem 0; border-bottom:1px solid var(--rule); }
+  .flag-item:last-child { border-bottom:none; }
+  .flag-tick { flex-shrink:0; width:19px; height:19px; margin-top:2px; border-radius:50%; border:2px solid var(--p4col); background:transparent; cursor:pointer; position:relative; padding:0; transition:background .18s,border-color .18s,transform .12s; }
+  .flag-tick:hover { transform:scale(1.14); border-color:var(--green); }
+  .flag-tick svg { position:absolute; inset:0; width:100%; height:100%; stroke:var(--green); stroke-width:3.4; fill:none; stroke-linecap:round; stroke-linejoin:round; stroke-dasharray:18; stroke-dashoffset:18; transition:stroke-dashoffset .25s ease; }
+  .flag-tick:hover svg { stroke-dashoffset:0; }
+  .flag-text { flex:1; min-width:0; font-size:1.06rem; font-weight:700; color:var(--ink); line-height:1.26; cursor:pointer; overflow-wrap:anywhere; position:relative; transition:color .15s; }
+  .flag-text::after { content:""; position:absolute; left:0; bottom:-1px; height:1.5px; width:0; background:var(--p1); transition:width .26s cubic-bezier(.16,1,.3,1); }
+  .flag-text:hover { color:var(--p1); }
+  .flag-text:hover::after { width:100%; }
+  .flag-text .contact { font-weight:800; font-variant-numeric:tabular-nums; }
+  .flag-stars { display:flex; gap:2px; flex-shrink:0; margin-top:3px; }
+  .flag-stars .c-star { width:15px; height:15px; }
   .flag-none { font-size:.95rem; color:var(--ink-3); }
   .rail-foot { margin-top:auto; padding-top:1.2rem; border-top:1px solid var(--rule); font-size:1.1rem; font-weight:700; color:var(--ink-2); }
 
@@ -114,6 +125,16 @@
   .day-tasks { display:flex; flex-direction:column; gap:.4rem; min-height:40px; }
   .day-empty { color:var(--rule); font-size:1.9rem; text-align:center; padding-top:.7rem; user-select:none; }
 
+  .tray { flex-shrink:0; border-top:1px solid var(--rule); }
+  .tray-head { width:100%; display:flex; align-items:center; gap:.5rem; background:transparent; border:none; cursor:pointer; padding:.7rem 1.4rem .55rem; font-family:inherit; }
+  .tray-head:hover .tray-title { color:var(--p1); }
+  .tray-title { font-family:"Fraunces",serif; font-style:italic; font-weight:600; font-size:1.18rem; color:var(--ink-3); transition:color .15s; }
+  .tray-count { font-size:.74rem; font-weight:800; color:var(--ink-3); background:rgba(104,83,49,.13); border-radius:999px; padding:.08rem .5rem; }
+  .tray-chev { margin-left:auto; color:var(--ink-3); font-size:.85rem; }
+  .tray-body { display:grid; grid-template-columns:repeat(auto-fill,minmax(186px,1fr)); gap:.5rem; padding:0 1.4rem 1rem; max-height:34vh; overflow-y:auto; }
+  .tray-body::-webkit-scrollbar { width:8px; }
+  .tray-body::-webkit-scrollbar-thumb { background:rgba(40,32,16,.22); border-radius:8px; }
+
   .card { position:relative; background:#fff; border:1px solid var(--rule); border-radius:7px; padding:.6rem .6rem .6rem .82rem;
     box-shadow:0 1px 2px rgba(40,28,10,.06); display:flex; gap:.5rem; align-items:flex-start; overflow:hidden; animation:pop .26s cubic-bezier(.16,1,.3,1); }
   @keyframes pop { from { opacity:0; transform:scale(.95); } to { opacity:1; transform:none; } }
@@ -138,6 +159,8 @@
   .c-bigtick svg { width:62%; height:62%; stroke:var(--green); stroke-width:2.6; fill:none; stroke-linecap:round; stroke-linejoin:round; stroke-dasharray:48; stroke-dashoffset:48; opacity:0; }
   .card.anim .c-bigtick svg { animation:bigtick .75s ease forwards; }
   @keyframes bigtick { 0%{opacity:0;stroke-dashoffset:48;} 22%{opacity:1;} 72%{opacity:1;stroke-dashoffset:0;} 100%{opacity:0;stroke-dashoffset:0;} }
+  .card.pulse { animation:cardpulse 1.3s cubic-bezier(.16,1,.3,1) 1; }
+  @keyframes cardpulse { 0%{ box-shadow:0 0 0 0 rgba(255,176,0,0); transform:none; } 18%{ box-shadow:0 0 0 3px var(--gold),0 9px 22px -7px rgba(255,176,0,.55); transform:translateY(-2px); } 70%{ box-shadow:0 0 0 3px var(--gold),0 9px 22px -7px rgba(255,176,0,.32); } 100%{ box-shadow:0 1px 2px rgba(40,28,10,.06); transform:none; } }
   .card.done { background:#eef5ea; }
   .card.done .c-tick { background:var(--green); border-color:var(--green); }
   .card.done .c-tick svg { stroke-dashoffset:0; }
@@ -145,6 +168,18 @@
   .card.done .c-name { text-decoration:line-through; text-decoration-color:var(--green); text-decoration-thickness:2px; color:var(--ink-3); font-weight:500; }
   .card.done .c-time { color:var(--ink-3); }
   .cal-badge { flex-shrink:0; align-self:center; font-size:.62rem; font-weight:800; letter-spacing:.04em; text-transform:uppercase; color:var(--today-deep); background:rgba(11,161,95,.14); padding:.1rem .35rem; border-radius:4px; }
+
+  .c-date-input { margin-top:.45rem; font-family:inherit; font-size:.76rem; font-weight:700; color:var(--ink-3); background:transparent; border:1px dashed var(--rule); border-radius:5px; padding:.12rem .34rem; cursor:pointer; max-width:100%; }
+  .c-date-input:hover { border-color:var(--p4col); color:var(--ink-2); }
+  .c-date-input::-webkit-calendar-picker-indicator { cursor:pointer; opacity:.55; }
+  .card.done .c-date-input { opacity:.45; }
+  .c-syncerr { align-self:center; flex-shrink:0; font-family:inherit; font-size:.62rem; font-weight:800; letter-spacing:.02em; text-transform:uppercase; color:#8a5b08; background:rgba(245,158,11,.2); border:none; border-radius:4px; padding:.1rem .35rem; cursor:pointer; }
+  .c-syncerr:hover { background:rgba(245,158,11,.34); }
+
+  .toast { position:fixed; left:50%; bottom:1.5rem; transform:translateX(-50%) translateY(1.4rem); z-index:60; background:#16181c; color:#faf5ea; font-weight:600; font-size:.95rem; padding:.7rem 1.1rem; border-radius:10px; box-shadow:0 14px 34px -12px rgba(0,0,0,.65); opacity:0; pointer-events:none; transition:opacity .25s,transform .25s; max-width:min(90vw,440px); }
+  .toast.show { opacity:1; transform:translateX(-50%) translateY(0); }
+  .toast.err { border-left:4px solid var(--gold); }
+  .toast.ok { border-left:4px solid var(--green); }
 
   @media (max-width:780px) { .stage { flex-direction:column; } .rail { width:auto; } }
 </style>
@@ -186,8 +221,17 @@
         <button class="wk-today" id="wk-today" type="button">This week</button>
       </div>
       <div class="days" id="days"></div>
+      <section class="tray" id="tray" hidden>
+        <button class="tray-head" id="tray-head" type="button" aria-label="Toggle unscheduled tasks">
+          <span class="tray-title">Unscheduled</span>
+          <span class="tray-count" id="tray-count">0</span>
+          <span class="tray-chev" id="tray-chev">&#9662;</span>
+        </button>
+        <div class="tray-body" id="tray-body"></div>
+      </section>
     </main>
   </div>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
 <script>
 /* =========================================================================
@@ -250,7 +294,37 @@ document.getElementById('mast-date').textContent=(function(){var n=new Date();re
 var CHECK='<svg viewBox="0 0 18 18"><path d="M4.5 9.3l2.8 2.8 6-6.4"/></svg>';
 var STAR='<svg viewBox="0 0 16 16"><path d="M8 1.1l1.94 4.06 4.46.55-3.3 3.02.9 4.42L8 11.5 4 13.15l.9-4.42-3.3-3.02 4.46-.55z"/></svg>';
 var BIGTICK='<svg viewBox="0 0 48 48"><path d="M9 25l11 11 20-24"/></svg>';
-var justDone=null, weekOffset=0;
+var justDone=null, weekOffset=0, trayOpen=true;
+
+function ymd(d){ d=new Date(d); return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0'); }
+
+/* Two-way write-back: reconcile a Notion-backed task's full syncable state (done /
+   importance / due) to Notion via the Access-gated same-origin /todo-sync endpoint.
+   Auth rides the Cloudflare Access session cookie — no token in this page. Local-only
+   and calendar tasks are skipped. On failure the task is marked t.syncErr (persisted,
+   shown as an "unsynced" chip + a toast) so a dropped write is never silent; it auto-
+   retries on next load and on tapping the chip. */
+function syncTask(t){
+  if(!t || String(t.id).indexOf('notion-')!==0) return;
+  var due = t.due || null;
+  if(due && !t.hasTime) due = ymd(due);                       // send date-only as YYYY-MM-DD
+  var payload={ id:t.id, done:!!t.done, importance:t.importance||0, due:due };
+  fetch('/todo-sync',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify(payload)})
+    .then(function(r){ if(r.ok){ if(t.syncErr){ delete t.syncErr; save(); render(); } } else { markSyncErr(t,'HTTP '+r.status); } })
+    .catch(function(e){ markSyncErr(t, (e&&e.message)||'network'); });
+}
+function markSyncErr(t, why){
+  if(window.console) console.warn('todo-sync failed:', why, t.id);
+  if(!t.syncErr){ t.syncErr=true; save(); render(); }
+  toast('Couldn’t save to Notion — change kept locally.','err');
+}
+var _toastT=null;
+function toast(msg, kind){
+  var el=document.getElementById('toast'); if(!el) return;
+  el.textContent=msg; el.className='toast show '+(kind||'');
+  if(_toastT) clearTimeout(_toastT);
+  _toastT=setTimeout(function(){ el.className='toast '+(kind||''); }, 3400);
+}
 
 function makeCard(t){
   var imp=t.importance||0, now=new Date(), dd=t.due?new Date(t.due):null;
@@ -258,19 +332,29 @@ function makeCard(t){
   var isToday=dd&&dayKey(dd)===dayKey(now);
   var c=document.createElement('div');
   c.className='card imp'+imp+(t.done?' done':'')+(isOver?' overdue':'')+(isToday?' today':'')+(t.id===justDone?' anim':'');
+  c.dataset.id=t.id;
   var tick=document.createElement('button'); tick.className='c-tick'; tick.type='button'; tick.innerHTML=CHECK;
   tick.setAttribute('aria-label',t.done?'Mark not done':'Mark done');
-  tick.onclick=function(){ if(!t.done) justDone=t.id; t.done=!t.done; save(); render(); };
+  tick.onclick=function(){ if(!t.done) justDone=t.id; t.done=!t.done; save(); render(); syncTask(t); };
   var body=document.createElement('div'); body.className='c-body';
   var nm=document.createElement('div'); nm.className='c-name'; nm.innerHTML=renderName(t.text); body.appendChild(nm);
   if(t.hasTime&&t.due){var tt=document.createElement('div'); tt.className='c-time'; tt.textContent=timeStr(t.due); body.appendChild(tt);}
   var stars=document.createElement('div'); stars.className='c-stars';
   for(var i=1;i<=3;i++){ (function(n){ var s=document.createElement('span'); s.className='c-star'+(n<=imp?' on':''); s.innerHTML=STAR;
-    s.title='Importance '+n; s.onclick=function(){ t.importance=(imp===n?0:n); save(); render(); }; stars.appendChild(s); })(i); }
+    s.title='Importance '+n; s.onclick=function(){ t.importance=(imp===n?0:n); save(); render(); syncTask(t); }; stars.appendChild(s); })(i); }
   body.appendChild(stars);
+  if(!t.cal){   // reschedule control — set/change/clear the date (calendar tasks are edited in Google Calendar)
+    var di=document.createElement('input'); di.type='date'; di.className='c-date-input'; di.setAttribute('aria-label','Task date');
+    if(dd) di.value=ymd(dd);
+    di.onclick=function(e){ e.stopPropagation(); };
+    di.onchange=function(e){ e.stopPropagation(); if(di.value){ t.due=di.value+'T00:00:00'; t.hasTime=false; } else { t.due=null; } save(); render(); syncTask(t); };
+    body.appendChild(di);
+  }
   c.appendChild(tick); c.appendChild(body);
   if(t.cal){var b=document.createElement('span'); b.className='cal-badge'; b.textContent='cal'; c.appendChild(b);}
   if(t.notion){var nb=document.createElement('span'); nb.className='cal-badge'; nb.textContent='auto'; c.appendChild(nb);}
+  if(t.syncErr){ var se=document.createElement('button'); se.type='button'; se.className='c-syncerr'; se.title='Not saved to Notion — tap to retry'; se.textContent='⚠ unsynced';
+    se.onclick=function(e){ e.stopPropagation(); syncTask(t); }; c.appendChild(se); }
   var big=document.createElement('div'); big.className='c-bigtick'; big.innerHTML=BIGTICK; c.appendChild(big);
   return c;
 }
@@ -292,18 +376,28 @@ function render(){
     list.forEach(function(t){wrap.appendChild(makeCard(t));});
     col.appendChild(wrap); daysEl.appendChild(col);
   }
+  var tray=document.getElementById('tray'), tbody=document.getElementById('tray-body');
   if(noDate.length){
-    var col2=document.createElement('div'); col2.className='day';
-    col2.innerHTML='<div class="day-head"><span class="dh-wk">NO DATE</span><span class="dh-num" style="font-size:1rem;color:var(--ink-3)">&bull;</span></div>';
-    var wrap2=document.createElement('div'); wrap2.className='day-tasks';
-    noDate.forEach(function(t){wrap2.appendChild(makeCard(t));}); col2.appendChild(wrap2); daysEl.appendChild(col2);
-  }
+    tray.hidden=false;
+    document.getElementById('tray-count').textContent=noDate.length;
+    document.getElementById('tray-chev').innerHTML=trayOpen?'&#9662;':'&#9656;';
+    tbody.innerHTML='';
+    if(trayOpen) noDate.forEach(function(t){ tbody.appendChild(makeCard(t)); });
+  } else { tray.hidden=true; }
   var fEl=document.getElementById('flagged'); fEl.innerHTML='';
   var important=todos.filter(function(t){return !t.done&&(t.importance||0)>0;}).sort(function(a,b){return (b.importance||0)-(a.importance||0);});
   if(!important.length) fEl.innerHTML='<div class="flag-none">Nothing starred yet — tap the stars on a task.</div>';
-  important.forEach(function(t){var r=document.createElement('div'); r.className='flag-item';
-    var st=''; for(var i=0;i<(t.importance||0);i++) st+='★';
-    r.innerHTML='<span class="imp-stars">'+st+'</span>'+esc(stripEmoji(t.text)); fEl.appendChild(r);});
+  important.forEach(function(t){ var imp=t.importance||0;
+    var r=document.createElement('div'); r.className='flag-item';
+    var tk=document.createElement('button'); tk.className='flag-tick'; tk.type='button'; tk.innerHTML=CHECK;
+    tk.setAttribute('aria-label','Mark “'+stripEmoji(t.text)+'” done');
+    tk.onclick=function(e){ e.stopPropagation(); justDone=t.id; t.done=true; save(); render(); syncTask(t); };
+    var tx=document.createElement('span'); tx.className='flag-text'; tx.innerHTML=renderName(t.text);
+    tx.title='Go to this task'; tx.onclick=function(){ jumpTo(t); };
+    var ss=document.createElement('div'); ss.className='flag-stars';
+    for(var i=1;i<=3;i++){ (function(n){ var s=document.createElement('span'); s.className='c-star'+(n<=imp?' on':''); s.innerHTML=STAR;
+      s.title='Importance '+n; s.onclick=function(e){ e.stopPropagation(); t.importance=(imp===n?0:n); save(); render(); syncTask(t); }; ss.appendChild(s); })(i); }
+    r.appendChild(tk); r.appendChild(tx); r.appendChild(ss); fEl.appendChild(r); });
   var active=todos.filter(function(t){return !t.done;}).length, done=todos.length-active;
   document.getElementById('count').textContent=active+' to do'+(done?' · '+done+' done':'');
   justDone=null;
@@ -325,6 +419,16 @@ document.getElementById('add-form').addEventListener('submit',function(e){e.prev
 document.getElementById('wk-prev').onclick=function(){weekOffset--;render();};
 document.getElementById('wk-next').onclick=function(){weekOffset++;render();};
 document.getElementById('wk-today').onclick=function(){weekOffset=0;render();};
+
+/* Jump from the Important panel to a task's card — switch week if needed, scroll to it, pulse it. */
+function weekOffsetForDue(due){ var b=mondayOf(new Date()).getTime(); var t=mondayOf(new Date(due)).getTime(); return Math.round((t-b)/604800000); }
+function jumpTo(t){
+  if(t.due){ weekOffset=weekOffsetForDue(t.due); } else { weekOffset=0; trayOpen=true; }
+  render();
+  var el=document.querySelector('.card[data-id="'+t.id+'"]');
+  if(el){ el.scrollIntoView({behavior:'smooth', block:'center', inline:'center'}); el.classList.remove('pulse'); void el.offsetWidth; el.classList.add('pulse'); }
+}
+document.getElementById('tray-head').onclick=function(){ trayOpen=!trayOpen; render(); };
 
 /* ---------- Google Calendar sync ---------- */
 var token=null, tokenClient=null;
@@ -387,11 +491,12 @@ function syncNotion(){
     items.forEach(function(it){
       if(!it.id) return; ret[it.id]=1;
       var ex=null; for(var j=0;j<todos.length;j++){ if(todos[j].id===it.id){ ex=todos[j]; break; } }
-      if(ex){ ex.text=it.text; ex.due=it.due; ex.hasTime=it.hasTime; ex.notion=true; }   // preserve local done/importance
+      if(ex){ ex.text=it.text; if(!ex.syncErr){ ex.due=it.due; ex.hasTime=it.hasTime; } ex.notion=true; }   // preserve local done/importance (and local due while a write is pending)
       else { todos.push({id:it.id,text:it.text,due:it.due,hasTime:it.hasTime,done:!!it.done,importance:it.importance||0,notion:true}); }
     });
     todos=todos.filter(function(t){ return !t.notion || ret[t.id]; });   // prune vanished agent items
     save(); render();
+    todos.filter(function(t){ return t.syncErr; }).forEach(syncTask);    // retry any earlier failed write-backs
   }).catch(function(e){ if(window.console) console.warn('Notion inbox sync skipped:', e.message); });
 }
 
