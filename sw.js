@@ -3560,6 +3560,14 @@
 //   touch the marketing site), bumped .bo-method 9px → 9.5px, and gave its bold labels (OFF field
 //   state: / Match method: …) a brighter #d6d6d6 non-italic treatment so they anchor as labels.
 //   CSS only; no logic change.
+// v5.0.172 — 17 June 2026: /todo Overdue lane (todo-overdue-lane)
+//   Resolves the parked Issue #1: nearly every Notion task carries a March–April 2026 due date,
+//   so the current-week grid rendered empty (the tasks sat on long-past columns). New red-accented
+//   "Overdue" lane above the week grid surfaces every past-due, not-done task from BEFORE this week
+//   — only when viewing the current week (weekOffset 0). Within-this-week late tasks already show
+//   red on their own day, so they're excluded (no duplication). Cards are full makeCard cards:
+//   tick to complete or use the date control to reschedule, and the item clears the lane (and
+//   write-backs to Notion). Collapsible; sorted oldest-first. CSS + render() only; no Worker change.
 // v5.0.171 — 16 June 2026: /todo panel interactive + Unscheduled tray + two-way write-back (todo-panel-tray-2way)
 //   Three planner fixes from a founder review:
 //   (1) Important left-panel rows are now INTERACTIVE — circular tick to complete in place,
@@ -3848,7 +3856,7 @@
 //   on the near-black panel, still secondary to the #e7e7e7 body text). Confirmed no neutral
 //   mid-greys bypass the token (the hardcoded greys are tinted accents, not body text). CSS only.
 //
-const CACHE_VERSION = 'scansmart-v5.0.171-todo-panel-tray-2way';
+const CACHE_VERSION = 'scansmart-v5.0.172-todo-overdue-lane';
 const PRECACHE = [
   '/',
   '/install.html',

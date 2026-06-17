@@ -135,6 +135,15 @@
   .tray-body::-webkit-scrollbar { width:8px; }
   .tray-body::-webkit-scrollbar-thumb { background:rgba(40,32,16,.22); border-radius:8px; }
 
+  .overdue-lane { flex-shrink:0; border-bottom:1px solid var(--rule); background:linear-gradient(180deg, rgba(239,42,20,.055), transparent); }
+  .lane-head { width:100%; display:flex; align-items:center; gap:.5rem; background:transparent; border:none; cursor:pointer; padding:.7rem 1.4rem .55rem; font-family:inherit; }
+  .lane-title { font-family:"Fraunces",serif; font-style:italic; font-weight:600; font-size:1.18rem; color:var(--overdue); }
+  .lane-count { font-size:.74rem; font-weight:800; color:#fff; background:var(--overdue); border-radius:999px; padding:.08rem .5rem; }
+  .lane-chev { margin-left:auto; color:var(--overdue); font-size:.85rem; }
+  .lane-body { display:grid; grid-template-columns:repeat(auto-fill,minmax(186px,1fr)); gap:.5rem; padding:0 1.4rem 1rem; max-height:32vh; overflow-y:auto; }
+  .lane-body::-webkit-scrollbar { width:8px; }
+  .lane-body::-webkit-scrollbar-thumb { background:rgba(40,32,16,.22); border-radius:8px; }
+
   .card { position:relative; background:#fff; border:1px solid var(--rule); border-radius:7px; padding:.6rem .6rem .6rem .82rem;
     box-shadow:0 1px 2px rgba(40,28,10,.06); display:flex; gap:.5rem; align-items:flex-start; overflow:hidden; animation:pop .26s cubic-bezier(.16,1,.3,1); }
   @keyframes pop { from { opacity:0; transform:scale(.95); } to { opacity:1; transform:none; } }
@@ -220,6 +229,14 @@
         </div>
         <button class="wk-today" id="wk-today" type="button">This week</button>
       </div>
+      <section class="overdue-lane" id="overdue" hidden>
+        <button class="lane-head" id="overdue-head" type="button" aria-label="Toggle overdue tasks">
+          <span class="lane-title">Overdue</span>
+          <span class="lane-count" id="overdue-count">0</span>
+          <span class="lane-chev" id="overdue-chev">&#9662;</span>
+        </button>
+        <div class="lane-body" id="overdue-body"></div>
+      </section>
       <div class="days" id="days"></div>
       <section class="tray" id="tray" hidden>
         <button class="tray-head" id="tray-head" type="button" aria-label="Toggle unscheduled tasks">
@@ -294,7 +311,7 @@ document.getElementById('mast-date').textContent=(function(){var n=new Date();re
 var CHECK='<svg viewBox="0 0 18 18"><path d="M4.5 9.3l2.8 2.8 6-6.4"/></svg>';
 var STAR='<svg viewBox="0 0 16 16"><path d="M8 1.1l1.94 4.06 4.46.55-3.3 3.02.9 4.42L8 11.5 4 13.15l.9-4.42-3.3-3.02 4.46-.55z"/></svg>';
 var BIGTICK='<svg viewBox="0 0 48 48"><path d="M9 25l11 11 20-24"/></svg>';
-var justDone=null, weekOffset=0, trayOpen=true;
+var justDone=null, weekOffset=0, trayOpen=true, overdueOpen=true;
 
 function ymd(d){ d=new Date(d); return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0'); }
 
@@ -376,6 +393,17 @@ function render(){
     list.forEach(function(t){wrap.appendChild(makeCard(t));});
     col.appendChild(wrap); daysEl.appendChild(col);
   }
+  // Overdue lane — current week only; surfaces past-due, not-done tasks from BEFORE this week
+  // (so they're not stranded on long-past columns). Within-this-week late tasks already show red.
+  var ov=document.getElementById('overdue'), ovBody=document.getElementById('overdue-body');
+  var overdue=(weekOffset===0)?todos.filter(function(t){ return t.due && !t.done && dayKey(new Date(t.due))<base.getTime(); }):[];
+  if(overdue.length){
+    ov.hidden=false;
+    document.getElementById('overdue-count').textContent=overdue.length;
+    document.getElementById('overdue-chev').innerHTML=overdueOpen?'&#9662;':'&#9656;';
+    ovBody.innerHTML='';
+    if(overdueOpen){ overdue.sort(function(a,b){return new Date(a.due)-new Date(b.due);}).forEach(function(t){ ovBody.appendChild(makeCard(t)); }); }
+  } else { ov.hidden=true; }
   var tray=document.getElementById('tray'), tbody=document.getElementById('tray-body');
   if(noDate.length){
     tray.hidden=false;
@@ -429,6 +457,7 @@ function jumpTo(t){
   if(el){ el.scrollIntoView({behavior:'smooth', block:'center', inline:'center'}); el.classList.remove('pulse'); void el.offsetWidth; el.classList.add('pulse'); }
 }
 document.getElementById('tray-head').onclick=function(){ trayOpen=!trayOpen; render(); };
+document.getElementById('overdue-head').onclick=function(){ overdueOpen=!overdueOpen; render(); };
 
 /* ---------- Google Calendar sync ---------- */
 var token=null, tokenClient=null;
