@@ -3560,6 +3560,19 @@
 //   touch the marketing site), bumped .bo-method 9px → 9.5px, and gave its bold labels (OFF field
 //   state: / Match method: …) a brighter #d6d6d6 non-italic treatment so they anchor as labels.
 //   CSS only; no logic change.
+// v5.0.174 — 18 June 2026: Pulse "Decision Record" panel (pulse-decision-record)
+//   Adds a Buy / Put back / Just looking panel to scansmart.uk/pulse from the kip-tester-data D1
+//   (scan_events). New READ-ONLY TESTER_DB binding on the kip-forms Worker (a deliberate exception
+//   to the kip-forms↔kip-tester-data WRITE separation — see wrangler.toml + worker header). GET
+//   /pulse now also returns a `decisionRecord` block: decision counts + total events + a
+//   distinct-device COUNT + date range — AGGREGATES ONLY, no device_id/barcode/row-level data
+//   (PII-free by construction, like the forms panel). Slotted into the existing Promise.allSettled
+//   so a tester-DB cold-start degrades to a "Tester DB · down" chip, never a false zero (we read
+//   the D1 directly, NOT the kip-data /stats which was cold-start timing out on 18 Jun). Panel shows
+//   3 stat tiles, distinct devices + "since {first date}", a put-back-rate-among-decisive-taps
+//   derived stat, and an "early tester signal — not a powered study" label. No page CSP change
+//   (server-side read via api.scansmart.uk). Verified pre-build: buy 23 / put_back 18 / viewed 32,
+//   73 events, 17 devices, 29 Apr→17 Jun 2026.
 // v5.0.173 — 18 June 2026: Operations Pulse dashboard (ops-pulse)
 //   New private founder dashboard at scansmart.uk/pulse (noindex) + a Pulse tile on all Hub surfaces.
 //   Re-platforms the Cowork "scansmart-ops-pulse" artifact (which could only run inside Cowork via
@@ -3867,7 +3880,7 @@
 //   on the near-black panel, still secondary to the #e7e7e7 body text). Confirmed no neutral
 //   mid-greys bypass the token (the hardcoded greys are tinted accents, not body text). CSS only.
 //
-const CACHE_VERSION = 'scansmart-v5.0.173-ops-pulse';
+const CACHE_VERSION = 'scansmart-v5.0.174-pulse-decision-record';
 const PRECACHE = [
   '/',
   '/install.html',

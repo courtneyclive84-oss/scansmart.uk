@@ -138,6 +138,18 @@
         <ul class="feed" id="act-feed"><li class="empty">loading…</li></ul>
       </section>
 
+      <!-- Decision Record (early tester signal) -->
+      <section class="panel">
+        <h2>Decision Record <span class="tag snap">⚠ early signal</span></h2>
+        <div class="stat-row">
+          <div class="stat"><span class="num good" id="dec-buy">—</span><span class="lbl">Buy</span></div>
+          <div class="stat"><span class="num warn" id="dec-putback">—</span><span class="lbl">Put back</span></div>
+          <div class="stat"><span class="num muted" id="dec-viewed">—</span><span class="lbl">Just looking</span></div>
+        </div>
+        <p class="sub" id="dec-meta" style="margin:.9rem 0 .2rem">loading…</p>
+        <div class="chips" id="dec-chips" style="margin-top:.5rem"></div>
+      </section>
+
       <!-- Key Dates & Health -->
       <section class="panel">
         <h2>Key Dates &amp; Health</h2>
@@ -158,7 +170,7 @@
       </section>
     </div>
 
-    <p class="foot">Live from D1 (forms) + Notion Priority Actions · on-street I500 + brand chart from the canonical workbook (snapshot) · auto-refreshes every 90s. Private surface — <a href="/hub">Hub</a>.</p>
+    <p class="foot">Live from D1 (forms + tester decisions, aggregates only) + Notion Priority Actions · on-street I500 + brand chart from the canonical workbook (snapshot) · auto-refreshes every 90s. Private surface — <a href="/hub">Hub</a>.</p>
   </div>
 </div>
 
@@ -193,6 +205,28 @@ function dueLabel(iso){
   if(diff<0) return Math.abs(diff)+"d ago"; return "in "+diff+"d";
 }
 function stars(n){ return n>0 ? '<span class="star">'+Array(n+1).join('★')+'</span> ' : ''; }
+function fmtDate(s){ var t=Date.parse(s); return isNaN(t) ? String(s==null?'':s).slice(0,10)
+  : new Date(t).toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'}); }
+
+function renderDecision(dr){
+  var buy=document.getElementById('dec-buy'), pb=document.getElementById('dec-putback'),
+      vw=document.getElementById('dec-viewed'), meta=document.getElementById('dec-meta'),
+      chips=document.getElementById('dec-chips');
+  if(!dr){
+    buy.textContent='—'; pb.textContent='—'; vw.textContent='—';
+    meta.textContent='tester signal unavailable';
+    chips.innerHTML='<span class="chip bad"><span class="cd"></span>Tester DB · down</span>';
+    return;
+  }
+  buy.textContent=dr.buy; pb.textContent=dr.putBack; vw.textContent=dr.viewed;
+  var decisive=dr.buy+dr.putBack;
+  var rate = decisive>0 ? Math.round(dr.putBack/decisive*100) : null;
+  meta.innerHTML = esc(dr.devices)+' device'+(dr.devices===1?'':'s')+
+    ' · since '+esc(fmtDate(dr.first))+
+    (rate!==null ? ' · <strong>'+rate+'%</strong> put back among decisive taps' : '')+
+    ' · early tester signal — not a powered study';
+  chips.innerHTML='<span class="chip ok"><span class="cd"></span>Tester DB · live</span>';
+}
 
 function renderStatic(){
   // Brand diverging bars (already ranked greenest-first in BRANDS)
@@ -225,6 +259,7 @@ function setStatus(ok, txt){
 function healthChips(h){
   var defs=[['Notion', h&&h.actions, h&&h.actions?'ok':'bad'],
             ['Forms DB', h&&h.forms, h&&h.forms?'ok':'bad'],
+            ['Tester DB', h&&h.decisions, h&&h.decisions?'ok':'bad'],
             ['Airtable', null, 'warn']];
   document.getElementById('health').innerHTML = defs.map(function(d){
     var cls = d[2], note = cls==='warn'?' · snapshot':(d[1]?' · live':' · down');
@@ -254,6 +289,7 @@ function render(data){
       return '<li><span>'+stars(x.importance)+esc(x.text)+'</span><span class="when">'+esc(dueLabel(x.due))+'</span></li>';
     }).join('');
   } else { af.innerHTML = '<li class="empty">'+(a?'nothing upcoming dated':'actions feed unavailable')+'</li>'; }
+  renderDecision(data.decisionRecord);
   renderDates(a);
   healthChips(data.health);
 }
@@ -262,8 +298,9 @@ function showOffline(){
   setStatus(false, 'offline · showing static panels');
   document.getElementById('forms-feed').innerHTML = '<li class="empty">feed unavailable — check connection</li>';
   document.getElementById('act-feed').innerHTML   = '<li class="empty">feed unavailable</li>';
+  renderDecision(null);
   renderDates(null);
-  healthChips({forms:false, actions:false});
+  healthChips({forms:false, actions:false, decisions:false});
 }
 
 function loadPulse(){
