@@ -1,0 +1,283 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0a1628">
+<title>SCANSMART — Pulse</title>
+<link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon-16x16.png">
+<link rel="shortcut icon" href="/assets/favicon.ico">
+<meta name="robots" content="noindex, nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400..900;1,9..144,400..600&family=Hanken+Grotesk:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --desk:#0a1628; --paper:#faf5ea; --paper-top:#fdf9f0;
+    --ink:#16181c; --ink-2:#2f343b; --ink-3:#6b5736; --rule:#ece0c9;
+    --p1:#ef3a17; --p2:#f59e0b; --p3:#0bb0a3;
+    --green:#13b85b; --amber:#f3a712; --red:#e23b1c; --gold:#ffb000;
+    --shadow:24px 36px 72px -26px rgba(0,0,0,0.55);
+  }
+  * { box-sizing:border-box; }
+  body {
+    margin:0; min-height:100vh; color:var(--ink);
+    font-family:"Hanken Grotesk",system-ui,sans-serif; font-size:16px; -webkit-font-smoothing:antialiased;
+    background:
+      radial-gradient(120% 80% at 16% 4%, rgba(46,78,128,0.45), rgba(10,22,40,0) 55%),
+      radial-gradient(110% 95% at 100% 100%, rgba(3,8,20,0.75), rgba(10,22,40,0) 62%),
+      var(--desk);
+  }
+  body::before { content:""; position:fixed; inset:0; z-index:0; pointer-events:none; opacity:0.28;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.55'/%3E%3C/svg%3E");
+    mix-blend-mode:multiply; }
+
+  .stage { position:relative; z-index:1; padding:clamp(1.1rem,3.2vw,2.4rem); min-height:100vh; }
+  .sheet { max-width:1180px; margin:0 auto; background:linear-gradient(180deg,var(--paper-top),var(--paper) 22%);
+    border-radius:6px; box-shadow:var(--shadow); position:relative; padding:clamp(1.3rem,3vw,2.2rem);
+    opacity:0; transform:translateY(16px); animation:rise .6s cubic-bezier(.16,1,.3,1) .04s forwards; }
+  .sheet::after { content:""; position:absolute; left:0; right:0; top:0; height:4px; border-radius:6px 6px 0 0;
+    background:linear-gradient(90deg,var(--p1),var(--p2) 55%,var(--p3)); }
+  @keyframes rise { to { opacity:1; transform:none; } }
+
+  header { display:flex; flex-wrap:wrap; align-items:flex-end; justify-content:space-between; gap:1rem; margin-bottom:1.5rem; }
+  .hub-link { display:inline-block; font-size:.78rem; font-weight:800; letter-spacing:.06em; color:var(--ink-3); text-decoration:none; margin-bottom:.5rem; }
+  .hub-link:hover { color:var(--p1); }
+  .kicker { font-size:.72rem; font-weight:700; letter-spacing:.22em; text-transform:uppercase; color:var(--p1); }
+  .mast-title { font-family:"Fraunces",serif; font-weight:600; font-size:2.7rem; line-height:.9; letter-spacing:-.02em; margin:.15rem 0; }
+  .mast-title em { font-style:italic; color:var(--p1); font-weight:500; }
+  .status { text-align:right; font-size:.82rem; color:var(--ink-2); }
+  .status .dot { display:inline-block; width:8px; height:8px; border-radius:50%; background:var(--green); margin-right:.35rem; vertical-align:middle; box-shadow:0 0 0 3px rgba(19,184,91,.18); }
+  .status.off .dot { background:var(--ink-3); box-shadow:none; }
+  .status button { margin-top:.3rem; border:1px solid var(--rule); background:transparent; color:var(--ink-3); font:inherit; font-size:.74rem; font-weight:700; padding:.25rem .6rem; border-radius:5px; cursor:pointer; }
+  .status button:hover { color:var(--p1); border-color:var(--p1); }
+
+  .grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(250px,1fr)); gap:1rem; }
+  .panel { background:#fff; border:1px solid var(--rule); border-radius:8px; padding:1.1rem 1.15rem; }
+  .panel.wide { grid-column:1/-1; }
+  .panel h2 { font-size:.7rem; font-weight:800; letter-spacing:.16em; text-transform:uppercase; color:var(--ink-3); margin:0 0 .85rem; }
+  .stat-row { display:flex; gap:1.4rem; align-items:baseline; flex-wrap:wrap; }
+  .stat { line-height:1; }
+  .stat .num { font-family:"Fraunces",serif; font-weight:600; font-size:2.5rem; letter-spacing:-.02em; }
+  .stat .lbl { display:block; font-size:.74rem; font-weight:600; color:var(--ink-3); margin-top:.4rem; }
+  .num.warn { color:var(--red); } .num.good { color:var(--green); } .num.muted { color:var(--ink-3); }
+  .tag { display:inline-block; font-size:.62rem; font-weight:800; letter-spacing:.05em; text-transform:uppercase; padding:.1rem .4rem; border-radius:4px; vertical-align:middle; }
+  .tag.snap { background:#fbeccb; color:#8a6300; }
+  .sub { font-size:.86rem; color:var(--ink-2); }
+  ul.feed { list-style:none; margin:.7rem 0 0; padding:0; }
+  ul.feed li { display:flex; justify-content:space-between; gap:.6rem; padding:.4rem 0; border-top:1px solid var(--rule); font-size:.9rem; }
+  ul.feed li:first-child { border-top:none; }
+  ul.feed .when { color:var(--ink-3); font-size:.8rem; white-space:nowrap; }
+  ul.feed .star { color:var(--gold); letter-spacing:-1px; }
+  .empty { font-size:.85rem; color:var(--ink-3); font-style:italic; padding:.4rem 0; }
+
+  .chips { display:flex; flex-wrap:wrap; gap:.45rem; margin-top:.3rem; }
+  .chip { font-size:.76rem; font-weight:700; padding:.28rem .6rem; border-radius:20px; border:1px solid var(--rule); color:var(--ink-2); display:inline-flex; align-items:center; gap:.35rem; }
+  .chip .cd { width:8px; height:8px; border-radius:50%; background:var(--ink-3); }
+  .chip.ok .cd { background:var(--green); } .chip.bad .cd { background:var(--red); } .chip.warn .cd { background:var(--amber); }
+
+  /* Brand traffic-light diverging bars */
+  .brand-row { display:grid; grid-template-columns:140px 1fr 64px; align-items:center; gap:.7rem; padding:.28rem 0; }
+  .brand-row .bn { font-size:.84rem; font-weight:600; color:var(--ink-2); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+  .bar { height:16px; border-radius:4px; overflow:hidden; display:flex; background:var(--rule); }
+  .bar i { display:block; height:100%; }
+  .bar .r { background:var(--red); } .bar .a { background:var(--amber); } .bar .g { background:var(--green); }
+  .brand-row .bv { font-size:.78rem; font-weight:700; color:var(--ink-3); text-align:right; }
+  .legend { display:flex; gap:1rem; font-size:.74rem; color:var(--ink-3); margin:.2rem 0 .9rem; }
+  .legend span { display:inline-flex; align-items:center; gap:.35rem; }
+  .legend i { width:11px; height:11px; border-radius:3px; display:inline-block; }
+  .foot { margin-top:1.4rem; font-size:.74rem; color:var(--ink-3); }
+  .foot a { color:var(--ink-3); }
+</style>
+</head>
+<body>
+<div class="stage">
+  <div class="sheet">
+    <header>
+      <div>
+        <a class="hub-link" href="/hub">‹ Hub</a>
+        <div class="kicker">SCANSMART · Operations</div>
+        <h1 class="mast-title"><em>Pulse</em></h1>
+      </div>
+      <div class="status" id="status">
+        <span><span class="dot"></span><span id="status-txt">loading…</span></span>
+        <div><button id="refresh" type="button">↻ Refresh</button></div>
+      </div>
+    </header>
+
+    <div class="grid">
+      <!-- I500 Collection -->
+      <section class="panel">
+        <h2>I500 Collection</h2>
+        <div class="stat-row">
+          <div class="stat"><span class="num" id="i500-cat">155</span><span class="lbl">Catalogue · audited</span></div>
+          <div class="stat"><span class="num muted" id="i500-shops">1</span><span class="lbl">On-street shops</span></div>
+          <div class="stat"><span class="num muted" id="i500-skus">8</span><span class="lbl">On-street SKUs <span class="tag snap">snapshot</span></span></div>
+        </div>
+        <p class="sub" id="i500-note" style="margin:.9rem 0 0">148 audited · 93.2% absent from OFF. On-street = <span id="i500-shopname">MN Norwood Halal Butchers</span> (snapshot 18 Jun).</p>
+      </section>
+
+      <!-- Enquiries & Forms -->
+      <section class="panel">
+        <h2>Enquiries &amp; Forms</h2>
+        <div class="stat-row">
+          <div class="stat"><span class="num" id="forms-total">—</span><span class="lbl">Total received</span></div>
+          <div class="stat"><span class="num good" id="forms-week">—</span><span class="lbl">This week</span></div>
+        </div>
+        <ul class="feed" id="forms-feed"><li class="empty">loading…</li></ul>
+      </section>
+
+      <!-- Priority Actions -->
+      <section class="panel">
+        <h2>Priority Actions</h2>
+        <div class="stat-row">
+          <div class="stat"><span class="num" id="act-open">—</span><span class="lbl">Open</span></div>
+          <div class="stat"><span class="num warn" id="act-overdue">—</span><span class="lbl">Overdue</span></div>
+        </div>
+        <ul class="feed" id="act-feed"><li class="empty">loading…</li></ul>
+      </section>
+
+      <!-- Key Dates & Health -->
+      <section class="panel">
+        <h2>Key Dates &amp; Health</h2>
+        <ul class="feed" id="dates-feed"></ul>
+        <div class="chips" id="health" style="margin-top:.9rem"></div>
+      </section>
+
+      <!-- Brand Traffic-Light -->
+      <section class="panel wide">
+        <h2>Brand Traffic-Light Performance</h2>
+        <div class="legend">
+          <span><i style="background:var(--green)"></i>all-green product</span>
+          <span><i style="background:var(--amber)"></i>amber</span>
+          <span><i style="background:var(--red)"></i>any-red product</span>
+          <span style="margin-left:auto">16 brands · 2+ products · greenest → reddest</span>
+        </div>
+        <div id="brands"></div>
+      </section>
+    </div>
+
+    <p class="foot">Live from D1 (forms) + Notion Priority Actions · on-street I500 + brand chart from the canonical workbook (snapshot) · auto-refreshes every 90s. Private surface — <a href="/hub">Hub</a>.</p>
+  </div>
+</div>
+
+<script>
+"use strict";
+var PULSE_FEED = 'https://api.scansmart.uk/pulse';
+
+// Static, canon-derived datasets (the artifact baked these; recomputed from the workbook 18 Jun).
+var BRANDS = [
+  {b:"Spicy Hill Farms",g:3,n:3,r:0},{b:"Doves Farm",g:2,n:2,r:0},{b:"Rajah",g:25,n:32,r:1},
+  {b:"Tropical Sun",g:13,n:21,r:7},{b:"Jalpur Millers",g:1,n:2,r:0},{b:"Village Pride",g:2,n:5,r:3},
+  {b:"Dunn's River",g:7,n:26,r:11},{b:"Kingsford (by Badia)",g:1,n:4,r:3},{b:"Portland Mills",g:1,n:7,r:6},
+  {b:"Shan",g:0,n:3,r:3},{b:"Badia",g:0,n:6,r:6},{b:"Jumbo",g:0,n:4,r:2},
+  {b:"Walkerswood (inferred)",g:0,n:2,r:2},{b:"KTC",g:0,n:2,r:1},{b:"Atkins & Potts",g:0,n:10,r:4},{b:"DEES",g:0,n:2,r:0}
+];
+var KEY_DATES = [{label:"KTP 2026–27 R2 closes", date:"2026-06-24"}];
+var FORM_LABEL = {partner:"Partner",subscribe:"Subscription",contact:"Contact",story:"Story",shops:"Shops / I500",i500:"I500 access",checkout:"Checkout",press:"Press"};
+
+function esc(s){ return String(s==null?"":s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];}); }
+function ago(iso){
+  var t = Date.parse(iso); if(isNaN(t)) return "";
+  var s = Math.max(0,(Date.now()-t)/1000);
+  if(s<3600) return Math.floor(s/60)+"m ago";
+  if(s<86400) return Math.floor(s/3600)+"h ago";
+  var d=Math.floor(s/86400); return d===1?"yesterday":d+"d ago";
+}
+function dueLabel(iso){
+  var day = String(iso).slice(0,10), t = Date.parse(day);
+  if(isNaN(t)) return day;
+  var diff = Math.round((t - Date.parse(new Date().toISOString().slice(0,10)))/86400000);
+  if(diff===0) return "today"; if(diff===1) return "tomorrow";
+  if(diff<0) return Math.abs(diff)+"d ago"; return "in "+diff+"d";
+}
+function stars(n){ return n>0 ? '<span class="star">'+Array(n+1).join('★')+'</span> ' : ''; }
+
+function renderStatic(){
+  // Brand diverging bars (already ranked greenest-first in BRANDS)
+  var html = BRANDS.map(function(x){
+    var gp=(x.g/x.n*100), rp=(x.r/x.n*100), ap=Math.max(0,100-gp-rp);
+    return '<div class="brand-row"><span class="bn" title="'+esc(x.b)+'">'+esc(x.b)+'</span>'+
+      '<span class="bar"><i class="r" style="width:'+rp+'%"></i><i class="a" style="width:'+ap+'%"></i><i class="g" style="width:'+gp+'%"></i></span>'+
+      '<span class="bv">'+x.g+'/'+x.n+' ✓</span></div>';
+  }).join('');
+  document.getElementById('brands').innerHTML = html;
+}
+
+function renderDates(actions){
+  // KTP fixed date + the next-due Notion actions, merged and sorted by date.
+  var rows = KEY_DATES.map(function(d){return {label:d.label, due:d.date};});
+  if(actions && actions.next) actions.next.forEach(function(a){ rows.push({label:a.text, due:a.due, imp:a.importance}); });
+  rows.sort(function(a,b){ return String(a.due).localeCompare(String(b.due)); });
+  var el = document.getElementById('dates-feed');
+  if(!rows.length){ el.innerHTML='<li class="empty">no dated items</li>'; return; }
+  el.innerHTML = rows.slice(0,5).map(function(r){
+    return '<li><span>'+stars(r.imp||0)+esc(r.label)+'</span><span class="when">'+esc(dueLabel(r.due))+'</span></li>';
+  }).join('');
+}
+
+function setStatus(ok, txt){
+  var s=document.getElementById('status');
+  s.className = 'status' + (ok?'':' off');
+  document.getElementById('status-txt').textContent = txt;
+}
+function healthChips(h){
+  var defs=[['Notion', h&&h.actions, h&&h.actions?'ok':'bad'],
+            ['Forms DB', h&&h.forms, h&&h.forms?'ok':'bad'],
+            ['Airtable', null, 'warn']];
+  document.getElementById('health').innerHTML = defs.map(function(d){
+    var cls = d[2], note = cls==='warn'?' · snapshot':(d[1]?' · live':' · down');
+    return '<span class="chip '+cls+'"><span class="cd"></span>'+esc(d[0])+esc(note)+'</span>';
+  }).join('');
+}
+
+function render(data){
+  setStatus(true, 'live · '+new Date().toLocaleTimeString('en-GB',{hour:'2-digit',minute:'2-digit'}));
+  // Forms
+  var f=data.forms;
+  document.getElementById('forms-total').textContent = f ? f.total : '—';
+  document.getElementById('forms-week').textContent  = f ? f.thisWeek : '—';
+  var feed=document.getElementById('forms-feed');
+  if(f && f.recent && f.recent.length){
+    feed.innerHTML = f.recent.map(function(x){
+      return '<li><span>'+esc(FORM_LABEL[x.form]||x.form)+'</span><span class="when">'+esc(ago(x.at))+'</span></li>';
+    }).join('');
+  } else { feed.innerHTML = '<li class="empty">'+(f?'no submissions yet':'forms feed unavailable')+'</li>'; }
+  // Actions
+  var a=data.actions;
+  document.getElementById('act-open').textContent     = a ? a.open : '—';
+  document.getElementById('act-overdue').textContent  = a ? a.overdue : '—';
+  var af=document.getElementById('act-feed');
+  if(a && a.next && a.next.length){
+    af.innerHTML = a.next.map(function(x){
+      return '<li><span>'+stars(x.importance)+esc(x.text)+'</span><span class="when">'+esc(dueLabel(x.due))+'</span></li>';
+    }).join('');
+  } else { af.innerHTML = '<li class="empty">'+(a?'nothing upcoming dated':'actions feed unavailable')+'</li>'; }
+  renderDates(a);
+  healthChips(data.health);
+}
+
+function showOffline(){
+  setStatus(false, 'offline · showing static panels');
+  document.getElementById('forms-feed').innerHTML = '<li class="empty">feed unavailable — check connection</li>';
+  document.getElementById('act-feed').innerHTML   = '<li class="empty">feed unavailable</li>';
+  renderDates(null);
+  healthChips({forms:false, actions:false});
+}
+
+function loadPulse(){
+  setStatus(true, 'refreshing…');
+  fetch(PULSE_FEED, {credentials:'omit'})
+    .then(function(r){ if(!r.ok) throw new Error('pulse '+r.status); return r.json(); })
+    .then(render)
+    .catch(showOffline);
+}
+
+renderStatic();
+loadPulse();
+document.getElementById('refresh').addEventListener('click', loadPulse);
+setInterval(loadPulse, 90000);
+</script>
+</body>
+</html>

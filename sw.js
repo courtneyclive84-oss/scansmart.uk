@@ -3560,6 +3560,17 @@
 //   touch the marketing site), bumped .bo-method 9px → 9.5px, and gave its bold labels (OFF field
 //   state: / Match method: …) a brighter #d6d6d6 non-italic treatment so they anchor as labels.
 //   CSS only; no logic change.
+// v5.0.173 — 18 June 2026: Operations Pulse dashboard (ops-pulse)
+//   New private founder dashboard at scansmart.uk/pulse (noindex) + a Pulse tile on all Hub surfaces.
+//   Re-platforms the Cowork "scansmart-ops-pulse" artifact (which could only run inside Cowork via
+//   window.cowork.callMcpTool) onto the site so it is actually viewable. Panels: I500 collection
+//   (155 catalogue + on-street snapshot), Enquiries & Forms (live D1), Priority Actions open/overdue
+//   (live Notion), Key Dates + connector-health chips, and a Brand Traffic-Light diverging chart (16
+//   brands, recomputed from the canonical I500 workbook, baked static). Data via a new GET
+//   api.scansmart.uk/pulse aggregate on the kip-forms Worker (reuses the existing D1 + Notion
+//   bindings; PII-free on the wire — counts/form-type/time only; health derived AFTER
+//   Promise.allSettled). On-street I500 is the verified 18-Jun snapshot until a read-only Airtable
+//   token is wired (Phase 2). pulse.html NOT precached (live-data page).
 // v5.0.172 — 17 June 2026: /todo Overdue lane (todo-overdue-lane)
 //   Resolves the parked Issue #1: nearly every Notion task carries a March–April 2026 due date,
 //   so the current-week grid rendered empty (the tasks sat on long-past columns). New red-accented
@@ -3856,7 +3867,7 @@
 //   on the near-black panel, still secondary to the #e7e7e7 body text). Confirmed no neutral
 //   mid-greys bypass the token (the hardcoded greys are tinted accents, not body text). CSS only.
 //
-const CACHE_VERSION = 'scansmart-v5.0.172-todo-overdue-lane';
+const CACHE_VERSION = 'scansmart-v5.0.173-ops-pulse';
 const PRECACHE = [
   '/',
   '/install.html',
