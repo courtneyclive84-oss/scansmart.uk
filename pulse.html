@@ -64,6 +64,8 @@
   .num.warn { color:var(--red); } .num.good { color:var(--green); } .num.muted { color:var(--ink-3); }
   .tag { display:inline-block; font-size:.62rem; font-weight:800; letter-spacing:.05em; text-transform:uppercase; padding:.1rem .4rem; border-radius:4px; vertical-align:middle; }
   .tag.snap { background:#fbeccb; color:#8a6300; }
+  .tag.live { background:#d7f3e1; color:#0a7a40; }
+  .tag.down { background:#f8d7d2; color:#a02a14; }
   .sub { font-size:.86rem; color:var(--ink-2); }
   ul.feed { list-style:none; margin:.7rem 0 0; padding:0; }
   ul.feed li { display:flex; justify-content:space-between; gap:.6rem; padding:.4rem 0; border-top:1px solid var(--rule); font-size:.9rem; }
@@ -75,7 +77,7 @@
   .chips { display:flex; flex-wrap:wrap; gap:.45rem; margin-top:.3rem; }
   .chip { font-size:.76rem; font-weight:700; padding:.28rem .6rem; border-radius:20px; border:1px solid var(--rule); color:var(--ink-2); display:inline-flex; align-items:center; gap:.35rem; }
   .chip .cd { width:8px; height:8px; border-radius:50%; background:var(--ink-3); }
-  .chip.ok .cd { background:var(--green); } .chip.bad .cd { background:var(--red); } .chip.warn .cd { background:var(--amber); }
+  .chip.ok .cd { background:var(--green); } .chip.bad .cd { background:var(--red); }
 
   /* Brand traffic-light diverging bars */
   .brand-row { display:grid; grid-template-columns:140px 1fr 64px; align-items:center; gap:.7rem; padding:.28rem 0; }
@@ -109,13 +111,13 @@
     <div class="grid">
       <!-- I500 Collection -->
       <section class="panel">
-        <h2>I500 Collection</h2>
+        <h2>I500 Collection <span class="tag snap" id="i500-state">on-street: loading…</span></h2>
         <div class="stat-row">
-          <div class="stat"><span class="num" id="i500-cat">155</span><span class="lbl">Catalogue · audited</span></div>
-          <div class="stat"><span class="num muted" id="i500-shops">1</span><span class="lbl">On-street shops</span></div>
-          <div class="stat"><span class="num muted" id="i500-skus">8</span><span class="lbl">On-street SKUs <span class="tag snap">snapshot</span></span></div>
+          <div class="stat"><span class="num" id="i500-cat">155</span><span class="lbl">Catalogue · audited <span class="tag snap" id="cat-age">canon</span></span></div>
+          <div class="stat"><span class="num muted" id="i500-shops">—</span><span class="lbl">On-street shops</span></div>
+          <div class="stat"><span class="num muted" id="i500-skus">—</span><span class="lbl">On-street SKUs</span></div>
         </div>
-        <p class="sub" id="i500-note" style="margin:.9rem 0 0">148 audited · 93.2% absent from OFF. On-street = <span id="i500-shopname">MN Norwood Halal Butchers</span> (snapshot 18 Jun).</p>
+        <p class="sub" id="i500-note" style="margin:.9rem 0 0">148 audited · 93.2% absent from OFF. On-street = <span id="i500-shopname">—</span>.</p>
       </section>
 
       <!-- Enquiries & Forms -->
@@ -159,7 +161,7 @@
 
       <!-- Brand Traffic-Light -->
       <section class="panel wide">
-        <h2>Brand Traffic-Light Performance</h2>
+        <h2>Brand Traffic-Light Performance <span class="tag snap" id="brand-age">snapshot</span></h2>
         <div class="legend">
           <span><i style="background:var(--green)"></i>all-green product</span>
           <span><i style="background:var(--amber)"></i>amber</span>
@@ -170,7 +172,7 @@
       </section>
     </div>
 
-    <p class="foot">Live from D1 (forms + tester decisions, aggregates only) + Notion Priority Actions · on-street I500 + brand chart from the canonical workbook (snapshot) · auto-refreshes every 90s. Private surface — <a href="/hub">Hub</a>.</p>
+    <p class="foot">Live from D1 (forms + tester decisions, aggregates only) + Notion Priority Actions + Airtable (on-street I500) · the catalogue figure + brand chart are baked from the canonical I500 workbook (labelled with their age) · auto-refreshes every 90s. Private surface — <a href="/hub">Hub</a>.</p>
   </div>
 </div>
 
@@ -178,7 +180,10 @@
 "use strict";
 var PULSE_FEED = 'https://api.scansmart.uk/pulse';
 
-// Static, canon-derived datasets (the artifact baked these; recomputed from the workbook 18 Jun).
+// Baked datasets (the brand chart + the I500 catalogue figure) come from the canonical I500
+// workbook via _internal/build-pulse-brandchart.py, which emits BRANDS + SNAPSHOT_DATE as ONE
+// paste block — replace both together so the age labels can never drift from the data they
+// date, and nothing baked can masquerade as live. (On-street shops/SKUs are NOT baked — live.)
 var BRANDS = [
   {b:"Spicy Hill Farms",g:3,n:3,r:0},{b:"Doves Farm",g:2,n:2,r:0},{b:"Rajah",g:25,n:32,r:1},
   {b:"Tropical Sun",g:13,n:21,r:7},{b:"Jalpur Millers",g:1,n:2,r:0},{b:"Village Pride",g:2,n:5,r:3},
@@ -186,6 +191,7 @@ var BRANDS = [
   {b:"Shan",g:0,n:3,r:3},{b:"Badia",g:0,n:6,r:6},{b:"Jumbo",g:0,n:4,r:2},
   {b:"Walkerswood (inferred)",g:0,n:2,r:2},{b:"KTC",g:0,n:2,r:1},{b:"Atkins & Potts",g:0,n:10,r:4},{b:"DEES",g:0,n:2,r:0}
 ];
+var SNAPSHOT_DATE = "2026-06-18";
 var KEY_DATES = [{label:"KTP 2026–27 R2 closes", date:"2026-06-24"}];
 var FORM_LABEL = {partner:"Partner",subscribe:"Subscription",contact:"Contact",story:"Story",shops:"Shops / I500",i500:"I500 access",checkout:"Checkout",press:"Press"};
 
@@ -228,6 +234,33 @@ function renderDecision(dr){
   chips.innerHTML='<span class="chip ok"><span class="cd"></span>Tester DB · live</span>';
 }
 
+function ageLabel(d, word){
+  // Local-calendar day diff. Date.parse("YYYY-MM-DD") anchors at UTC midnight, which reads a
+  // day off around local midnight for non-UTC viewers — compare local midnights instead
+  // (Math.round absorbs DST hour shifts).
+  var p = String(d).split('-'), snap = new Date(+p[0], p[1]-1, +p[2]), now = new Date();
+  var days = Math.round((new Date(now.getFullYear(), now.getMonth(), now.getDate()) - snap)/86400000);
+  word = word || 'snapshot';
+  if(isNaN(days)) return word;
+  return word + ' · ' + (days<=0 ? 'today' : days===1 ? '1 day old' : days+' days old');
+}
+
+function renderI500(i5){
+  var shops=document.getElementById('i500-shops'), skus=document.getElementById('i500-skus'),
+      name=document.getElementById('i500-shopname'), state=document.getElementById('i500-state');
+  if(i5){
+    shops.textContent=i5.shops; skus.textContent=i5.skus;
+    name.textContent = i5.shops===1 ? (i5.shopName||'1 shop (unnamed)') : i5.shops+' shops';
+    state.textContent='on-street: live'; state.className='tag live';
+  } else {
+    // Honest fallback — never show a baked number that could be wrong, and don't name a cause
+    // we can't know (a missing i500 block could be an old Worker, an unset AIRTABLE_TOKEN, or
+    // this client being offline — not necessarily Airtable itself).
+    shops.textContent='—'; skus.textContent='—'; name.textContent='unavailable';
+    state.textContent='on-street: unavailable'; state.className='tag down';
+  }
+}
+
 function renderStatic(){
   // Brand diverging bars (already ranked greenest-first in BRANDS)
   var html = BRANDS.map(function(x){
@@ -237,6 +270,8 @@ function renderStatic(){
       '<span class="bv">'+x.g+'/'+x.n+' ✓</span></div>';
   }).join('');
   document.getElementById('brands').innerHTML = html;
+  var ba=document.getElementById('brand-age'); if(ba) ba.textContent = ageLabel(SNAPSHOT_DATE);
+  var ca=document.getElementById('cat-age');   if(ca) ca.textContent = ageLabel(SNAPSHOT_DATE,'canon');
 }
 
 function renderDates(actions){
@@ -256,14 +291,15 @@ function setStatus(ok, txt){
   s.className = 'status' + (ok?'':' off');
   document.getElementById('status-txt').textContent = txt;
 }
-function healthChips(h){
-  var defs=[['Notion', h&&h.actions, h&&h.actions?'ok':'bad'],
-            ['Forms DB', h&&h.forms, h&&h.forms?'ok':'bad'],
-            ['Tester DB', h&&h.decisions, h&&h.decisions?'ok':'bad'],
-            ['Airtable', null, 'warn']];
+function healthChips(h, i5ok){
+  // The Airtable chip derives from the same i500 block the panel renders (i5ok) — one source,
+  // so chip and panel can never disagree. It also ignores health.airtable entirely: the
+  // previously deployed Worker sent the truthy STRING "snapshot" there, which a truthiness
+  // check would render as a false green "live" while the page-before-Worker deploy skew lasts.
+  var defs=[['Notion', !!(h&&h.actions)], ['Forms DB', !!(h&&h.forms)],
+            ['Tester DB', !!(h&&h.decisions)], ['Airtable', !!i5ok]];
   document.getElementById('health').innerHTML = defs.map(function(d){
-    var cls = d[2], note = cls==='warn'?' · snapshot':(d[1]?' · live':' · down');
-    return '<span class="chip '+cls+'"><span class="cd"></span>'+esc(d[0])+esc(note)+'</span>';
+    return '<span class="chip '+(d[1]?'ok':'bad')+'"><span class="cd"></span>'+esc(d[0])+(d[1]?' · live':' · down')+'</span>';
   }).join('');
 }
 
@@ -290,8 +326,9 @@ function render(data){
     }).join('');
   } else { af.innerHTML = '<li class="empty">'+(a?'nothing upcoming dated':'actions feed unavailable')+'</li>'; }
   renderDecision(data.decisionRecord);
+  renderI500(data.i500);
   renderDates(a);
-  healthChips(data.health);
+  healthChips(data.health, !!data.i500);
 }
 
 function showOffline(){
@@ -299,8 +336,9 @@ function showOffline(){
   document.getElementById('forms-feed').innerHTML = '<li class="empty">feed unavailable — check connection</li>';
   document.getElementById('act-feed').innerHTML   = '<li class="empty">feed unavailable</li>';
   renderDecision(null);
+  renderI500(null);
   renderDates(null);
-  healthChips({forms:false, actions:false, decisions:false});
+  healthChips(null);
 }
 
 function loadPulse(){

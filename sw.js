@@ -3560,6 +3560,26 @@
 //   touch the marketing site), bumped .bo-method 9px → 9.5px, and gave its bold labels (OFF field
 //   state: / Match method: …) a brighter #d6d6d6 non-italic treatment so they anchor as labels.
 //   CSS only; no logic change.
+// v5.0.175 — 18 June 2026 (hardened 4 July pre-ship after a code review): Pulse on-street I500
+//   LIVE + snapshot age labels (pulse-i500-live)
+//   Closes the "looks live but is frozen" gap on /pulse. (1) On-street I500 (shops/SKUs) was
+//   hardcoded HTML ("1 shop / 8 SKUs / snapshot 18 Jun") — now LIVE from the SCANSMART I500
+//   Airtable base (Shops + SKUs tables) via a new READ-ONLY AIRTABLE_TOKEN PAT on the kip-forms
+//   Worker. GET /pulse gains an `i500` block (counts only + shop name when exactly one; paginated;
+//   no row-level data) inside the existing Promise.allSettled — feed missing → "on-street:
+//   unavailable" tag + "—", never a stale baked number. The fallback wording is deliberately
+//   cause-neutral: a missing i500 block can be an old Worker, an unset AIRTABLE_TOKEN, or the
+//   client offline — not necessarily Airtable. The Airtable HEALTH CHIP is single-sourced from
+//   the same i500 block the panel renders (chip and panel can never disagree) and ignores
+//   health.airtable entirely — the previously deployed Worker sent the truthy STRING "snapshot"
+//   there, which a truthiness check would paint as a false green "live" during page-before-Worker
+//   deploy skew. (2) Anything still baked from the I500 workbook now carries an age label from a
+//   SNAPSHOT_DATE const: brand chart "snapshot · N days old" AND the 155 catalogue figure
+//   "canon · N days old" (both from the same const; local-calendar day math so the age doesn't
+//   read a day off around midnight outside UTC). _internal/build-pulse-brandchart.py now emits
+//   BRANDS + SNAPSHOT_DATE as ONE paste block so the date can't drift from the data it dates.
+//   Dead .chip.warn CSS dropped (tri-state chips retired with the hardcoded snapshot chip).
+//   No page CSP change (server-side read). Verified pre-build via Airtable: 1 shop, 8 SKUs.
 // v5.0.174 — 18 June 2026: Pulse "Decision Record" panel (pulse-decision-record)
 //   Adds a Buy / Put back / Just looking panel to scansmart.uk/pulse from the kip-tester-data D1
 //   (scan_events). New READ-ONLY TESTER_DB binding on the kip-forms Worker (a deliberate exception
@@ -3880,7 +3900,7 @@
 //   on the near-black panel, still secondary to the #e7e7e7 body text). Confirmed no neutral
 //   mid-greys bypass the token (the hardcoded greys are tinted accents, not body text). CSS only.
 //
-const CACHE_VERSION = 'scansmart-v5.0.174-pulse-decision-record';
+const CACHE_VERSION = 'scansmart-v5.0.175-pulse-i500-live';
 const PRECACHE = [
   '/',
   '/install.html',
