@@ -113,12 +113,12 @@
       <section class="panel">
         <h2>I500 Collection <span class="tag snap" id="i500-state">on-street: loading…</span></h2>
         <div class="stat-row">
-          <div class="stat"><span class="num" id="i500-cat">155</span><span class="lbl">Catalogue · audited <span class="tag snap" id="cat-age">canon</span></span></div>
+          <div class="stat"><span class="num">155</span><span class="lbl">Catalogue · audited <span class="tag snap" id="cat-age">canon</span></span></div>
           <div class="stat"><span class="num muted" id="i500-shops">—</span><span class="lbl">On-street shops</span></div>
           <div class="stat"><span class="num muted" id="i500-skus-aud">—</span><span class="lbl">Audited SKUs</span></div>
           <div class="stat"><span class="num muted" id="i500-skus-con">—</span><span class="lbl">Contributed SKUs <span class="tag snap">crowd</span></span></div>
         </div>
-        <p class="sub" id="i500-note" style="margin:.9rem 0 0">148 audited · 93.2% absent from OFF. On-street = <span id="i500-shopname">—</span>.</p>
+        <p class="sub" style="margin:.9rem 0 0">148 audited · 93.2% absent from OFF. On-street = <span id="i500-shopname">—</span>.</p>
       </section>
 
       <!-- Enquiries & Forms -->
@@ -204,10 +204,18 @@ function ago(iso){
   if(s<86400) return Math.floor(s/3600)+"h ago";
   var d=Math.floor(s/86400); return d===1?"yesterday":d+"d ago";
 }
+function dayDiff(dateStr){
+  // Whole local-calendar days from today to dateStr (past negative, future positive; NaN if
+  // unparseable). Local midnights, not Date.parse's UTC midnight — so labels don't read a day
+  // off around local midnight for non-UTC viewers. Shared by dueLabel + ageLabel.
+  var p = String(dateStr).slice(0,10).split('-'); if(p.length<3) return NaN;
+  var d = new Date(+p[0], p[1]-1, +p[2]); if(isNaN(d)) return NaN;
+  var now = new Date();
+  return Math.round((d - new Date(now.getFullYear(), now.getMonth(), now.getDate()))/86400000);
+}
 function dueLabel(iso){
-  var day = String(iso).slice(0,10), t = Date.parse(day);
-  if(isNaN(t)) return day;
-  var diff = Math.round((t - Date.parse(new Date().toISOString().slice(0,10)))/86400000);
+  var diff = dayDiff(iso);
+  if(isNaN(diff)) return String(iso).slice(0,10);
   if(diff===0) return "today"; if(diff===1) return "tomorrow";
   if(diff<0) return Math.abs(diff)+"d ago"; return "in "+diff+"d";
 }
@@ -236,11 +244,7 @@ function renderDecision(dr){
 }
 
 function ageLabel(d, word){
-  // Local-calendar day diff. Date.parse("YYYY-MM-DD") anchors at UTC midnight, which reads a
-  // day off around local midnight for non-UTC viewers — compare local midnights instead
-  // (Math.round absorbs DST hour shifts).
-  var p = String(d).split('-'), snap = new Date(+p[0], p[1]-1, +p[2]), now = new Date();
-  var days = Math.round((new Date(now.getFullYear(), now.getMonth(), now.getDate()) - snap)/86400000);
+  var days = -dayDiff(d);            // how far in the past (shared local-calendar helper)
   word = word || 'snapshot';
   if(isNaN(days)) return word;
   return word + ' · ' + (days<=0 ? 'today' : days===1 ? '1 day old' : days+' days old');
