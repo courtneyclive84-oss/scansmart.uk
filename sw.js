@@ -3560,6 +3560,17 @@
 //   touch the marketing site), bumped .bo-method 9px → 9.5px, and gave its bold labels (OFF field
 //   state: / Match method: …) a brighter #d6d6d6 non-italic treatment so they anchor as labels.
 //   CSS only; no logic change.
+// v5.0.176 — 4 July 2026: Pulse on-street SKUs split audited vs crowd-contributed (pulse-sku-provenance)
+//   The §142 pipes check for v5.0.175 surfaced a §50 problem: ALL 9 rows in the Airtable SKUs
+//   table are Source Scope "User contribution" (CheckIT PWA crowd submissions, 12–20 Jun) — zero
+//   audited on-street collection — yet the panel presented one blended "On-street SKUs" count
+//   that read as audited field work. The 18 Jun "1 shop / 8 SKUs" baseline had the same
+//   composition unnoticed. Now: the Worker's i500 block gains ADDITIVE skusAudited /
+//   skusContributed fields (total `skus` kept so the prior page shape stays valid — no deploy
+//   skew), tallied from Source Scope; the panel shows "Audited SKUs" and "Contributed SKUs
+//   [crowd]" as separate stats ('—' not 0 when a pre-split Worker omits the fields, so absence
+//   can't read as zero). Audited climbing from 0 is exactly the signal the SWAP auditor rollout
+//   needs to show. Founder-approved option 2 of 3 (vs audited-only count, vs neutral relabel).
 // v5.0.175 — 18 June 2026 (hardened 4 July pre-ship after a code review): Pulse on-street I500
 //   LIVE + snapshot age labels (pulse-i500-live)
 //   Closes the "looks live but is frozen" gap on /pulse. (1) On-street I500 (shops/SKUs) was
@@ -3900,7 +3911,7 @@
 //   on the near-black panel, still secondary to the #e7e7e7 body text). Confirmed no neutral
 //   mid-greys bypass the token (the hardcoded greys are tinted accents, not body text). CSS only.
 //
-const CACHE_VERSION = 'scansmart-v5.0.175-pulse-i500-live';
+const CACHE_VERSION = 'scansmart-v5.0.176-pulse-sku-provenance';
 const PRECACHE = [
   '/',
   '/install.html',

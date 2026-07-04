@@ -115,7 +115,8 @@
         <div class="stat-row">
           <div class="stat"><span class="num" id="i500-cat">155</span><span class="lbl">Catalogue · audited <span class="tag snap" id="cat-age">canon</span></span></div>
           <div class="stat"><span class="num muted" id="i500-shops">—</span><span class="lbl">On-street shops</span></div>
-          <div class="stat"><span class="num muted" id="i500-skus">—</span><span class="lbl">On-street SKUs</span></div>
+          <div class="stat"><span class="num muted" id="i500-skus-aud">—</span><span class="lbl">Audited SKUs</span></div>
+          <div class="stat"><span class="num muted" id="i500-skus-con">—</span><span class="lbl">Contributed SKUs <span class="tag snap">crowd</span></span></div>
         </div>
         <p class="sub" id="i500-note" style="margin:.9rem 0 0">148 audited · 93.2% absent from OFF. On-street = <span id="i500-shopname">—</span>.</p>
       </section>
@@ -246,17 +247,22 @@ function ageLabel(d, word){
 }
 
 function renderI500(i5){
-  var shops=document.getElementById('i500-shops'), skus=document.getElementById('i500-skus'),
+  var shops=document.getElementById('i500-shops'), aud=document.getElementById('i500-skus-aud'),
+      con=document.getElementById('i500-skus-con'),
       name=document.getElementById('i500-shopname'), state=document.getElementById('i500-state');
   if(i5){
-    shops.textContent=i5.shops; skus.textContent=i5.skus;
+    shops.textContent=i5.shops;
+    // Audited vs crowd-contributed split (§50) — never blend the two provenances into one
+    // number. '—' (not 0) if the Worker predates the split, so absence can't read as zero.
+    aud.textContent = i5.skusAudited==null ? '—' : i5.skusAudited;
+    con.textContent = i5.skusContributed==null ? '—' : i5.skusContributed;
     name.textContent = i5.shops===1 ? (i5.shopName||'1 shop (unnamed)') : i5.shops+' shops';
     state.textContent='on-street: live'; state.className='tag live';
   } else {
     // Honest fallback — never show a baked number that could be wrong, and don't name a cause
     // we can't know (a missing i500 block could be an old Worker, an unset AIRTABLE_TOKEN, or
     // this client being offline — not necessarily Airtable itself).
-    shops.textContent='—'; skus.textContent='—'; name.textContent='unavailable';
+    shops.textContent='—'; aud.textContent='—'; con.textContent='—'; name.textContent='unavailable';
     state.textContent='on-street: unavailable'; state.className='tag down';
   }
 }
