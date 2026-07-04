@@ -3560,6 +3560,17 @@
 //   touch the marketing site), bumped .bo-method 9px → 9.5px, and gave its bold labels (OFF field
 //   state: / Match method: …) a brighter #d6d6d6 non-italic treatment so they anchor as labels.
 //   CSS only; no logic change.
+// v5.0.178 — 4 July 2026: Retract unverifiable "NAS 2023 30×" funding-bias claim (funding-bias-correction)
+//   §50 correction. A Cowork PubMed/Consensus verification pass found the public "National Academies
+//   review found industry bias up to 30×" claim is FALSE as framed: it's a NASEM 2023 workshop
+//   PROCEEDINGS summarising a speaker, not a NAS review/analysis, and the 30× primary source is
+//   unverifiable. It was LIVE on /library + /library-industry-funding-bias (incl. SEO meta + JSON-LD +
+//   the legal-defensibility note). Removed everywhere; replaced with Chartres et al. 2016 (JAMA Intern
+//   Med) meta-analysis — directionally favourable but NOT statistically significant (RR 1.31, 95% CI
+//   0.99–1.72), which calibrates the case rather than overstating it. Kept + verified: Lesser 2007
+//   OR 7.61, Sacks 2020 5.7×, Coca-Cola GEBN. Added a transparent on-page correction note. Verdicts:
+//   Strategy/Industry_Funding_Bias_Evidence_Verification_2026-07-04.md. (Open: Sacks card citation on
+//   library.html points to the wrong 2020 Sacks paper — flagged for a Cowork title-confirm.)
 // v5.0.177 — 4 July 2026: Pulse code-review cleanups, no visible change (pulse-cleanup)
 //   Two tidy-ups the /code-review flagged (cut at the 10-finding cap): (1) removed dead ids
 //   i500-cat / i500-note — never written by any JS, they implied a writer that didn't exist;
@@ -3919,7 +3930,7 @@
 //   on the near-black panel, still secondary to the #e7e7e7 body text). Confirmed no neutral
 //   mid-greys bypass the token (the hardcoded greys are tinted accents, not body text). CSS only.
 //
-const CACHE_VERSION = 'scansmart-v5.0.177-pulse-cleanup';
+const CACHE_VERSION = 'scansmart-v5.0.178-funding-bias-correction';
 const PRECACHE = [
   '/',
   '/install.html',
