@@ -19,6 +19,12 @@
     --p1:#ef3a17; --p2:#f59e0b; --p3:#0bb0a3;
     --green:#13b85b; --amber:#f3a712; --red:#e23b1c; --gold:#ffb000;
     --shadow:24px 36px 72px -26px rgba(0,0,0,0.55);
+    /* ---- design tokens: 4/8 spatial scale, radius, motion (added 5 Jul 2026) ---- */
+    --s1:4px; --s2:8px; --s3:12px; --s4:16px; --s5:24px; --s6:32px;
+    --r:8px; --r-sm:6px; --dur:160ms; --ease:cubic-bezier(.2,.7,.3,1);
+    /* per-panel accents — colour as signal, not decoration */
+    --ac-teal:#0f9c92; --ac-blue:#4f6fb0; --ac-amber:#d98614;
+    --ac-green:#159a52; --ac-plum:#8a5a86; --ac-clay:#d0431f;
   }
   * { box-sizing:border-box; }
   body {
@@ -54,9 +60,28 @@
   .status button:hover { color:var(--p1); border-color:var(--p1); }
 
   .grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(250px,1fr)); gap:1rem; }
-  .panel { background:#fff; border:1px solid var(--rule); border-radius:8px; padding:1.1rem 1.15rem; }
+  .panel {
+    --ac:var(--ink-3);
+    background:color-mix(in srgb, var(--ac) 6%, #fff);
+    border:1px solid color-mix(in srgb, var(--ac) 26%, var(--rule));
+    border-left:4px solid var(--ac);
+    border-radius:var(--r); padding:var(--s4);
+    transition:transform var(--dur) var(--ease), box-shadow var(--dur) var(--ease);
+  }
+  .panel:hover { transform:translateY(-2px); box-shadow:0 10px 26px -16px rgba(31,20,6,.5); }
   .panel.wide { grid-column:1/-1; }
-  .panel h2 { font-size:.7rem; font-weight:800; letter-spacing:.16em; text-transform:uppercase; color:var(--ink-3); margin:0 0 .85rem; }
+  .panel h2 {
+    font-size:.7rem; font-weight:800; letter-spacing:.16em; text-transform:uppercase;
+    color:color-mix(in srgb, var(--ac) 82%, #16181c);
+    background:color-mix(in srgb, var(--ac) 20%, #fff);
+    margin:calc(var(--s4) * -1) calc(var(--s4) * -1) var(--s3);
+    padding:var(--s3) var(--s4); border-radius:var(--r) var(--r) 0 0;
+    border-bottom:1px solid color-mix(in srgb, var(--ac) 30%, var(--rule));
+    display:flex; align-items:center; gap:var(--s2); flex-wrap:wrap;
+  }
+  /* accent assignment per panel */
+  .a-teal{--ac:var(--ac-teal);} .a-blue{--ac:var(--ac-blue);} .a-amber{--ac:var(--ac-amber);}
+  .a-green{--ac:var(--ac-green);} .a-plum{--ac:var(--ac-plum);} .a-clay{--ac:var(--ac-clay);}
   .stat-row { display:flex; gap:1.4rem; align-items:baseline; flex-wrap:wrap; }
   .stat { line-height:1; }
   .stat .num { font-family:"Fraunces",serif; font-weight:600; font-size:2.5rem; letter-spacing:-.02em; }
@@ -110,7 +135,7 @@
 
     <div class="grid">
       <!-- I500 Collection -->
-      <section class="panel">
+      <section class="panel a-teal">
         <h2>I500 Collection <span class="tag snap" id="i500-state">on-street: loading…</span></h2>
         <div class="stat-row">
           <div class="stat"><span class="num">155</span><span class="lbl">Catalogue · audited <span class="tag snap" id="cat-age">canon</span></span></div>
@@ -122,7 +147,7 @@
       </section>
 
       <!-- Enquiries & Forms -->
-      <section class="panel">
+      <section class="panel a-blue">
         <h2>Enquiries &amp; Forms</h2>
         <div class="stat-row">
           <div class="stat"><span class="num" id="forms-total">—</span><span class="lbl">Total received</span></div>
@@ -132,7 +157,7 @@
       </section>
 
       <!-- Priority Actions -->
-      <section class="panel">
+      <section class="panel a-amber">
         <h2>Priority Actions</h2>
         <div class="stat-row">
           <div class="stat"><span class="num" id="act-open">—</span><span class="lbl">Open</span></div>
@@ -142,7 +167,7 @@
       </section>
 
       <!-- Decision Record (early tester signal) -->
-      <section class="panel">
+      <section class="panel a-green">
         <h2>Decision Record <span class="tag snap">⚠ early signal</span></h2>
         <div class="stat-row">
           <div class="stat"><span class="num good" id="dec-buy">—</span><span class="lbl">Buy</span></div>
@@ -154,14 +179,14 @@
       </section>
 
       <!-- Key Dates & Health -->
-      <section class="panel">
+      <section class="panel a-plum">
         <h2>Key Dates &amp; Health</h2>
         <ul class="feed" id="dates-feed"></ul>
         <div class="chips" id="health" style="margin-top:.9rem"></div>
       </section>
 
       <!-- Brand Traffic-Light -->
-      <section class="panel wide">
+      <section class="panel wide a-clay">
         <h2>Brand Traffic-Light Performance <span class="tag snap" id="brand-age">snapshot</span></h2>
         <div class="legend">
           <span><i style="background:var(--green)"></i>all-green product</span>

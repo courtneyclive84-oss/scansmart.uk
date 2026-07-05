@@ -3930,7 +3930,10 @@
 //   on the near-black panel, still secondary to the #e7e7e7 body text). Confirmed no neutral
 //   mid-greys bypass the token (the hardcoded greys are tinted accents, not body text). CSS only.
 //
-const CACHE_VERSION = 'scansmart-v5.0.178-funding-bias-correction';
+// v5.0.179 — 5 Jul 2026: Pulse colour-block redesign — 4/8px token scale, per-panel
+//   accents (teal/blue/amber/green/plum/clay), tinted headers, 160ms compositor hover.
+//   CSS-only; live data wiring untouched.
+const CACHE_VERSION = 'scansmart-v5.0.179-pulse-colourblock';
 const PRECACHE = [
   '/',
   '/install.html',
