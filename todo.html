@@ -144,6 +144,13 @@
   .lane-body::-webkit-scrollbar { width:8px; }
   .lane-body::-webkit-scrollbar-thumb { background:rgba(40,32,16,.22); border-radius:8px; }
 
+  /* Waiting-on lane — blocked on external parties; parked OFF the action list, neutral (not red). */
+  .waiting-lane { flex-shrink:0; border-bottom:1px solid var(--rule); background:linear-gradient(180deg, rgba(79,111,176,.06), transparent); }
+  .waiting-lane .lane-title { color:#42568a; }
+  .waiting-lane .lane-count { background:#5f76b0; color:#fff; }
+  .waiting-lane .lane-chev { color:#42568a; }
+  .wait-badge { color:#42568a !important; background:rgba(79,111,176,.16) !important; }
+
   .card { position:relative; background:#fff; border:1px solid var(--rule); border-radius:7px; padding:.6rem .6rem .6rem .82rem;
     box-shadow:0 1px 2px rgba(40,28,10,.06); display:flex; gap:.5rem; align-items:flex-start; overflow:hidden; animation:pop .26s cubic-bezier(.16,1,.3,1); }
   @keyframes pop { from { opacity:0; transform:scale(.95); } to { opacity:1; transform:none; } }
@@ -238,6 +245,14 @@
         <div class="lane-body" id="overdue-body"></div>
       </section>
       <div class="days" id="days"></div>
+      <section class="waiting-lane" id="waiting" hidden>
+        <button class="lane-head" id="waiting-head" type="button" aria-label="Toggle waiting-on tasks">
+          <span class="lane-title">Waiting on</span>
+          <span class="lane-count" id="waiting-count">0</span>
+          <span class="lane-chev" id="waiting-chev">&#9656;</span>
+        </button>
+        <div class="lane-body" id="waiting-body"></div>
+      </section>
       <section class="tray" id="tray" hidden>
         <button class="tray-head" id="tray-head" type="button" aria-label="Toggle unscheduled tasks">
           <span class="tray-title">Unscheduled</span>
@@ -311,7 +326,7 @@ document.getElementById('mast-date').textContent=(function(){var n=new Date();re
 var CHECK='<svg viewBox="0 0 18 18"><path d="M4.5 9.3l2.8 2.8 6-6.4"/></svg>';
 var STAR='<svg viewBox="0 0 16 16"><path d="M8 1.1l1.94 4.06 4.46.55-3.3 3.02.9 4.42L8 11.5 4 13.15l.9-4.42-3.3-3.02 4.46-.55z"/></svg>';
 var BIGTICK='<svg viewBox="0 0 48 48"><path d="M9 25l11 11 20-24"/></svg>';
-var justDone=null, weekOffset=0, trayOpen=true, overdueOpen=true;
+var justDone=null, weekOffset=0, trayOpen=true, overdueOpen=true, waitingOpen=false;
 
 function ymd(d){ d=new Date(d); return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0'); }
 
@@ -345,7 +360,7 @@ function toast(msg, kind){
 
 function makeCard(t){
   var imp=t.importance||0, now=new Date(), dd=t.due?new Date(t.due):null;
-  var isOver=dd&&!t.done&&(t.hasTime?dd<now:dayKey(dd)<dayKey(now));
+  var isOver=dd&&!t.done&&!t.waiting&&(t.hasTime?dd<now:dayKey(dd)<dayKey(now));
   var isToday=dd&&dayKey(dd)===dayKey(now);
   var c=document.createElement('div');
   c.className='card imp'+imp+(t.done?' done':'')+(isOver?' overdue':'')+(isToday?' today':'')+(t.id===justDone?' anim':'');
@@ -370,6 +385,7 @@ function makeCard(t){
   c.appendChild(tick); c.appendChild(body);
   if(t.cal){var b=document.createElement('span'); b.className='cal-badge'; b.textContent='cal'; c.appendChild(b);}
   if(t.notion){var nb=document.createElement('span'); nb.className='cal-badge'; nb.textContent='auto'; c.appendChild(nb);}
+  if(t.waiting){var wb=document.createElement('span'); wb.className='cal-badge wait-badge'; wb.textContent='waiting'; c.appendChild(wb);}
   if(t.syncErr){ var se=document.createElement('button'); se.type='button'; se.className='c-syncerr'; se.title='Not saved to Notion — tap to retry'; se.textContent='⚠ unsynced';
     se.onclick=function(e){ e.stopPropagation(); syncTask(t); }; c.appendChild(se); }
   var big=document.createElement('div'); big.className='c-bigtick'; big.innerHTML=BIGTICK; c.appendChild(big);
@@ -381,7 +397,12 @@ function render(){
   var now=new Date(), today=startOfDay(now), base=addDays(mondayOf(now), weekOffset*7), byDay={}, noDate=[];
   document.getElementById('weekno').innerHTML='Week <b>'+isoWeek(base)+'</b>';
   var tb=document.getElementById('wk-today'); if(tb) tb.style.display=weekOffset?'inline-flex':'none';
-  todos.forEach(function(t){ if(!t.due){noDate.push(t);return;} var k=dayKey(new Date(t.due)); (byDay[k]=byDay[k]||[]).push(t); });
+  // Waiting-on items (blocked on external parties, flagged in Notion) live in their own lane,
+  // OFF the action list: excluded from the day columns, the Overdue lane, the Tray, the
+  // Important panel, and the "to do" count — so a thing you can't action never reads as behind.
+  var waiting=todos.filter(function(t){ return t.waiting && !t.done; });
+  var actionable=todos.filter(function(t){ return !(t.waiting && !t.done); });
+  actionable.forEach(function(t){ if(!t.due){noDate.push(t);return;} var k=dayKey(new Date(t.due)); (byDay[k]=byDay[k]||[]).push(t); });
   var WK=['SUN','MON','TUE','WED','THU','FRI','SAT'], MO=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
   for(var i=0;i<7;i++){
     var d=addDays(base,i), k=dayKey(d), wd=d.getDay();
@@ -396,7 +417,7 @@ function render(){
   // Overdue lane — current week only; surfaces past-due, not-done tasks from BEFORE this week
   // (so they're not stranded on long-past columns). Within-this-week late tasks already show red.
   var ov=document.getElementById('overdue'), ovBody=document.getElementById('overdue-body');
-  var overdue=(weekOffset===0)?todos.filter(function(t){ return t.due && !t.done && dayKey(new Date(t.due))<base.getTime(); }):[];
+  var overdue=(weekOffset===0)?actionable.filter(function(t){ return t.due && !t.done && dayKey(new Date(t.due))<base.getTime(); }):[];
   if(overdue.length){
     ov.hidden=false;
     document.getElementById('overdue-count').textContent=overdue.length;
@@ -404,6 +425,17 @@ function render(){
     ovBody.innerHTML='';
     if(overdueOpen){ overdue.sort(function(a,b){return new Date(a.due)-new Date(b.due);}).forEach(function(t){ ovBody.appendChild(makeCard(t)); }); }
   } else { ov.hidden=true; }
+  // Waiting-on lane (default collapsed — the count stays visible so nothing goes silently dead,
+  // but the cards don't clutter the week). Only current-week view, like Overdue.
+  var wl=document.getElementById('waiting'), wlBody=document.getElementById('waiting-body');
+  var waitNow=(weekOffset===0)?waiting:[];
+  if(waitNow.length){
+    wl.hidden=false;
+    document.getElementById('waiting-count').textContent=waitNow.length;
+    document.getElementById('waiting-chev').innerHTML=waitingOpen?'&#9662;':'&#9656;';
+    wlBody.innerHTML='';
+    if(waitingOpen){ waitNow.sort(function(a,b){return (b.importance||0)-(a.importance||0);}).forEach(function(t){ wlBody.appendChild(makeCard(t)); }); }
+  } else { wl.hidden=true; }
   var tray=document.getElementById('tray'), tbody=document.getElementById('tray-body');
   if(noDate.length){
     tray.hidden=false;
@@ -413,7 +445,7 @@ function render(){
     if(trayOpen) noDate.forEach(function(t){ tbody.appendChild(makeCard(t)); });
   } else { tray.hidden=true; }
   var fEl=document.getElementById('flagged'); fEl.innerHTML='';
-  var important=todos.filter(function(t){return !t.done&&(t.importance||0)>0;}).sort(function(a,b){return (b.importance||0)-(a.importance||0);});
+  var important=actionable.filter(function(t){return !t.done&&(t.importance||0)>0;}).sort(function(a,b){return (b.importance||0)-(a.importance||0);});
   if(!important.length) fEl.innerHTML='<div class="flag-none">Nothing starred yet — tap the stars on a task.</div>';
   important.forEach(function(t){ var imp=t.importance||0;
     var r=document.createElement('div'); r.className='flag-item';
@@ -426,8 +458,8 @@ function render(){
     for(var i=1;i<=3;i++){ (function(n){ var s=document.createElement('span'); s.className='c-star'+(n<=imp?' on':''); s.innerHTML=STAR;
       s.title='Importance '+n; s.onclick=function(e){ e.stopPropagation(); t.importance=(imp===n?0:n); save(); render(); syncTask(t); }; ss.appendChild(s); })(i); }
     r.appendChild(tk); r.appendChild(tx); r.appendChild(ss); fEl.appendChild(r); });
-  var active=todos.filter(function(t){return !t.done;}).length, done=todos.length-active;
-  document.getElementById('count').textContent=active+' to do'+(done?' · '+done+' done':'');
+  var active=actionable.filter(function(t){return !t.done;}).length, done=actionable.filter(function(t){return t.done;}).length;
+  document.getElementById('count').textContent=active+' to do'+(done?' · '+done+' done':'')+(waiting.length?' · '+waiting.length+' waiting':'');
   justDone=null;
 }
 
@@ -458,6 +490,7 @@ function jumpTo(t){
 }
 document.getElementById('tray-head').onclick=function(){ trayOpen=!trayOpen; render(); };
 document.getElementById('overdue-head').onclick=function(){ overdueOpen=!overdueOpen; render(); };
+document.getElementById('waiting-head').onclick=function(){ waitingOpen=!waitingOpen; render(); };
 
 /* ---------- Google Calendar sync ---------- */
 var token=null, tokenClient=null;
@@ -520,8 +553,8 @@ function syncNotion(){
     items.forEach(function(it){
       if(!it.id) return; ret[it.id]=1;
       var ex=null; for(var j=0;j<todos.length;j++){ if(todos[j].id===it.id){ ex=todos[j]; break; } }
-      if(ex){ ex.text=it.text; if(!ex.syncErr){ ex.due=it.due; ex.hasTime=it.hasTime; } ex.notion=true; }   // preserve local done/importance (and local due while a write is pending)
-      else { todos.push({id:it.id,text:it.text,due:it.due,hasTime:it.hasTime,done:!!it.done,importance:it.importance||0,notion:true}); }
+      if(ex){ ex.text=it.text; if(!ex.syncErr){ ex.due=it.due; ex.hasTime=it.hasTime; } ex.notion=true; ex.waiting=!!it.waiting; }   // preserve local done/importance (and local due while a write is pending)
+      else { todos.push({id:it.id,text:it.text,due:it.due,hasTime:it.hasTime,done:!!it.done,importance:it.importance||0,notion:true,waiting:!!it.waiting}); }
     });
     todos=todos.filter(function(t){ return !t.notion || ret[t.id]; });   // prune vanished agent items
     save(); render();

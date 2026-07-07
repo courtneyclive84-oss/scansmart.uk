@@ -3933,7 +3933,11 @@
 // v5.0.179 — 5 Jul 2026: Pulse colour-block redesign — 4/8px token scale, per-panel
 //   accents (teal/blue/amber/green/plum/clay), tinted headers, 160ms compositor hover.
 //   CSS-only; live data wiring untouched.
-const CACHE_VERSION = 'scansmart-v5.0.179-pulse-colourblock';
+// v5.0.180 — 5 Jul 2026: To-Do "Waiting on" lane — items flagged Status=Waiting in Notion
+//   (via the todos Worker's new `waiting` field) are pulled off the action list into their own
+//   neutral collapsed lane; excluded from Overdue/day-grid/Important/count. Needs the kip-forms
+//   Worker redeploy (emits `waiting`) to activate; no-op until then.
+const CACHE_VERSION = 'scansmart-v5.0.180-todo-waiting-lane';
 const PRECACHE = [
   '/',
   '/install.html',
