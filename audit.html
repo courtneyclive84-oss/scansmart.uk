@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="robots" content="noindex,nofollow">
+<title>SCANSMART — I500 Field Collection</title>
+<link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32x32.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/assets/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --navy:#0A1628; --navy-deep:#060F1C; --navy-soft:#14253D;
+    --cream:#F5F0E8; --cream-dim:#E8E1D4;
+    --green:#1D9E75; --green-soft:#2BB888;
+    --amber:#E67E22; --amber-soft:#F0913A;
+    --muted:#8899AA; --line:rgba(245,240,232,0.10);
+    --font-display:'Syne',system-ui,-apple-system,sans-serif;
+    --font-body:'DM Sans',system-ui,-apple-system,sans-serif;
+  }
+  *{box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+  html,body{margin:0;height:100%;}
+  body{
+    background:var(--navy); color:var(--cream);
+    font-family:var(--font-body);
+    display:flex; flex-direction:column;
+    min-height:100dvh; padding:env(safe-area-inset-top) 20px env(safe-area-inset-bottom);
+  }
+  .top{display:flex; align-items:center; gap:12px; padding:22px 4px 6px;}
+  .top img{height:34px; width:auto; display:block;}
+  .top .name{font-family:var(--font-display); font-weight:800; letter-spacing:0.02em; font-size:1.05rem;}
+  .head{padding:14px 4px 22px;}
+  .head h1{font-family:var(--font-display); font-weight:800; font-size:clamp(1.5rem,7vw,2.1rem); line-height:1.1; margin:0 0 6px;}
+  .head p{color:var(--muted); font-size:0.98rem; margin:0;}
+  main{flex:1; display:flex; flex-direction:column; gap:16px; justify-content:center; padding-bottom:8px;}
+  .btn{
+    display:flex; align-items:center; gap:18px; text-decoration:none;
+    background:var(--navy-soft); color:var(--cream);
+    border:1px solid var(--line); border-radius:18px;
+    padding:26px 22px; min-height:118px;
+    transition:transform .12s ease, background .12s ease;
+  }
+  .btn:active{transform:scale(0.98);}
+  .btn .ico{
+    flex:0 0 62px; height:62px; border-radius:14px;
+    display:flex; align-items:center; justify-content:center;
+    font-size:32px; font-weight:800; font-family:var(--font-display);
+  }
+  .btn.shop .ico{background:rgba(29,158,117,0.16); color:var(--green-soft);}
+  .btn.sku  .ico{background:rgba(230,126,34,0.16); color:var(--amber-soft);}
+  .btn .txt .t{font-family:var(--font-display); font-weight:800; font-size:1.32rem; line-height:1.15;}
+  .btn .txt .s{color:var(--muted); font-size:0.95rem; margin-top:3px;}
+  .btn.shop{border-left:4px solid var(--green);}
+  .btn.sku{border-left:4px solid var(--amber);}
+  .foot{text-align:center; color:var(--muted); font-size:0.8rem; padding:16px 0 20px; letter-spacing:0.04em;}
+  @media (min-height:760px){ main{gap:20px;} .btn{min-height:132px;} }
+</style>
+</head>
+<body>
+  <div class="top">
+    <img src="assets/marque-v1-hero.png" alt="SCANSMART">
+    <span class="name">SCANSMART</span>
+  </div>
+  <div class="head">
+    <h1>I500 Field Collection</h1>
+    <p>Pick a task to begin.</p>
+  </div>
+  <main>
+    <a class="btn shop" href="https://tally.so/r/J9o6qY">
+      <span class="ico">＋</span>
+      <span class="txt">
+        <span class="t">Register a Shop</span>
+        <span class="s">Add a new shop to the I500</span>
+      </span>
+    </a>
+    <a class="btn sku" href="https://tally.so/r/RGjRPv">
+      <span class="ico">▦</span>
+      <span class="txt">
+        <span class="t">Scan a Product</span>
+        <span class="s">Log a barcode, details &amp; photo</span>
+      </span>
+    </a>
+  </main>
+  <div class="foot">SCANSMART I500 · Auditor Device</div>
+</body>
+</html>
