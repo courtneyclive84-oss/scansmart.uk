@@ -15,6 +15,7 @@
     --cream:#F5F0E8; --cream-dim:#E8E1D4;
     --green:#1D9E75; --green-soft:#2BB888;
     --amber:#E67E22; --amber-soft:#F0913A;
+    --sky:#2E8BE6; --sky-soft:#4AA0F0;
     --muted:#8899AA; --line:rgba(245,240,232,0.10);
     --font-display:'Syne',system-ui,-apple-system,sans-serif;
     --font-body:'DM Sans',system-ui,-apple-system,sans-serif;
@@ -51,8 +52,23 @@
   .btn.sku  .ico{background:rgba(230,126,34,0.16); color:var(--amber-soft);}
   .btn .txt .t{font-family:var(--font-display); font-weight:800; font-size:1.32rem; line-height:1.15;}
   .btn .txt .s{color:var(--muted); font-size:0.95rem; margin-top:3px;}
+  .btn.check .ico{background:rgba(46,139,230,0.16); color:var(--sky-soft);}
   .btn.shop{border-left:4px solid var(--green);}
   .btn.sku{border-left:4px solid var(--amber);}
+  .btn.check{border-left:4px solid var(--sky);}
+  /* Need help */
+  .help{border-top:1px solid var(--line); margin-top:8px; padding:18px 4px 4px;}
+  .help .lbl{font-family:var(--font-display); font-weight:800; text-transform:uppercase; letter-spacing:0.1em; font-size:0.78rem; color:var(--amber-soft); margin:0 0 3px;}
+  .help .who{color:var(--muted); font-size:0.92rem; margin:0 0 12px;}
+  .help .row{display:flex; gap:12px;}
+  .help .hbtn{flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:5px; text-decoration:none; color:var(--cream); background:var(--navy-soft); border:1px solid var(--line); border-radius:14px; padding:16px 8px; min-height:80px; transition:transform .12s ease;}
+  .help .hbtn:active{transform:scale(0.98);}
+  .help .hbtn .hi{font-size:24px;}
+  .help .hbtn .hn{font-family:var(--font-display); font-weight:800; font-size:1rem;}
+  .help .hbtn.call{border-color:rgba(29,158,117,0.45);}
+  .help .hbtn.wa{border-color:rgba(37,211,102,0.5);}
+  .help .office{text-align:center; color:var(--muted); font-size:0.9rem; margin:13px 0 0;}
+  .help .office a{color:var(--cream); text-decoration:none; border-bottom:1px solid rgba(245,240,232,0.28);}
   .foot{text-align:center; color:var(--muted); font-size:0.8rem; padding:16px 0 20px; letter-spacing:0.04em;}
   @media (min-height:760px){ main{gap:20px;} .btn{min-height:132px;} }
 </style>
@@ -81,7 +97,29 @@
         <span class="s">Log a barcode, details &amp; photo</span>
       </span>
     </a>
+    <a class="btn check" href="https://app.scansmart.uk">
+      <span class="ico">◎</span>
+      <span class="txt">
+        <span class="t">CheckIT</span>
+        <span class="s">Scan a barcode · decode a label</span>
+      </span>
+    </a>
   </main>
+  <section class="help">
+    <p class="lbl">Need help?</p>
+    <p class="who">Contact Audrey — your team lead.</p>
+    <div class="row">
+      <a class="hbtn call" href="tel:+447480554404">
+        <span class="hi">📞</span>
+        <span class="hn">Call Audrey</span>
+      </a>
+      <a class="hbtn wa" href="https://wa.me/447480554404">
+        <span class="hi">💬</span>
+        <span class="hn">WhatsApp Audrey</span>
+      </a>
+    </div>
+    <p class="office">SCANSMART office: <a href="tel:+447519877311">07519&nbsp;877311</a> &middot; <a href="https://wa.me/447519877311">WhatsApp</a></p>
+  </section>
   <div class="foot">SCANSMART I500 · Auditor Device</div>
 </body>
 </html>
