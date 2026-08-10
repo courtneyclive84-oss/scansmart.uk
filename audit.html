@@ -107,19 +107,37 @@
   </main>
   <section class="help">
     <p class="lbl">Need help?</p>
-    <p class="who">Contact Audrey — your team lead.</p>
+    <p class="who" id="helpWho">Contact Audrey — your team lead.</p>
     <div class="row">
-      <a class="hbtn call" href="tel:+447480554404">
+      <a class="hbtn call" id="helpCall" href="tel:+447480554404">
         <span class="hi">📞</span>
         <span class="hn">Call Audrey</span>
       </a>
-      <a class="hbtn wa" href="https://wa.me/447480554404">
+      <a class="hbtn wa" id="helpWa" href="https://wa.me/447480554404">
         <span class="hi">💬</span>
         <span class="hn">WhatsApp Audrey</span>
       </a>
     </div>
-    <p class="office">SCANSMART office: <a href="tel:+447519877311">07519&nbsp;877311</a> &middot; <a href="https://wa.me/447519877311">WhatsApp</a></p>
+    <p class="office" id="helpOffice">SCANSMART office: <a href="tel:+447519877311">07519&nbsp;877311</a> &middot; <a href="https://wa.me/447519877311">WhatsApp</a></p>
   </section>
   <div class="foot">SCANSMART I500 · Auditor Device</div>
+  <script>
+    // Lead-tablet variant: scansmart.uk/audit?lead=1 shows the SCANSMART office
+    // as the primary "Need help" contact instead of Audrey (Audrey's own tablet
+    // shouldn't tell her to call/WhatsApp herself). Added 10 Aug 2026.
+    (function () {
+      var params = new URLSearchParams(location.search);
+      if (params.get('lead') !== '1') return;
+      document.getElementById('helpWho').textContent = 'Contact the SCANSMART office.';
+      var callBtn = document.getElementById('helpCall');
+      callBtn.href = 'tel:+447519877311';
+      callBtn.querySelector('.hn').textContent = 'Call SCANSMART';
+      var waBtn = document.getElementById('helpWa');
+      waBtn.href = 'https://wa.me/447519877311';
+      waBtn.querySelector('.hn').textContent = 'WhatsApp SCANSMART';
+      var office = document.getElementById('helpOffice');
+      if (office) office.style.display = 'none';
+    })();
+  </script>
 </body>
 </html>
