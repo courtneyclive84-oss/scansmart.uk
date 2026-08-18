@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="robots" content="noindex,nofollow">
+<title>SCANSMART — I500 Supervisor</title>
+<link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32x32.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/assets/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --navy:#0A1628; --navy-deep:#060F1C; --navy-soft:#14253D;
+    --cream:#F5F0E8; --cream-dim:#E8E1D4;
+    --green:#1D9E75; --green-soft:#2BB888;
+    --amber:#E67E22; --amber-soft:#F0913A;
+    --sky:#2E8BE6; --sky-soft:#4AA0F0;
+    --teal:#1597ab; --teal-soft:#3FB3C6;
+    --muted:#8899AA; --line:rgba(245,240,232,0.10);
+    --font-display:'Syne',system-ui,-apple-system,sans-serif;
+    --font-body:'DM Sans',system-ui,-apple-system,sans-serif;
+  }
+  *{box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+  html,body{margin:0;height:100%;}
+  body{
+    background:var(--navy); color:var(--cream);
+    font-family:var(--font-body);
+    display:flex; flex-direction:column;
+    min-height:100dvh; padding:env(safe-area-inset-top) 20px env(safe-area-inset-bottom);
+  }
+  .top{display:flex; align-items:center; gap:12px; padding:22px 4px 6px;}
+  .top img{height:34px; width:auto; display:block;}
+  .top .name{font-family:var(--font-display); font-weight:800; letter-spacing:0.02em; font-size:1.05rem;}
+  .top .role{margin-left:auto; font-family:var(--font-display); font-weight:800; font-size:0.7rem; letter-spacing:0.12em; text-transform:uppercase; color:var(--teal-soft); border:1px solid rgba(21,151,171,0.45); border-radius:999px; padding:5px 11px;}
+  .head{padding:14px 4px 18px;}
+  .head h1{font-family:var(--font-display); font-weight:800; font-size:clamp(1.5rem,7vw,2.1rem); line-height:1.1; margin:0 0 6px;}
+  .head p{color:var(--muted); font-size:0.98rem; margin:0;}
+  main{flex:1; display:flex; flex-direction:column; gap:16px; justify-content:center; padding-bottom:8px;}
+
+  /* ---- Coverage panel (live) ---- */
+  .panel{background:var(--navy-soft); border:1px solid var(--line); border-left:4px solid var(--teal); border-radius:18px; padding:18px 18px 16px;}
+  .panel .phead{display:flex; align-items:baseline; gap:10px; margin-bottom:14px;}
+  .panel .ptitle{font-family:var(--font-display); font-weight:800; text-transform:uppercase; letter-spacing:0.1em; font-size:0.78rem; color:var(--teal-soft);}
+  .panel .pstamp{margin-left:auto; color:var(--muted); font-size:0.78rem;}
+  .stats{display:flex; gap:10px;}
+  .stat{flex:1; background:rgba(245,240,232,0.03); border:1px solid var(--line); border-radius:14px; padding:13px 12px;}
+  .stat .n{font-family:var(--font-display); font-weight:800; font-size:1.85rem; line-height:1;}
+  .stat .l{color:var(--muted); font-size:0.79rem; margin-top:6px; line-height:1.25;}
+  .stat.shops .n{color:var(--green-soft);}
+  .stat.audited .n{color:var(--amber-soft);}
+  .stat.crowd .n{color:var(--muted);}
+  .tag{display:inline-block; font-size:0.62rem; letter-spacing:0.08em; text-transform:uppercase; font-weight:700; border:1px solid var(--line); border-radius:999px; padding:1px 6px; margin-left:5px; color:var(--muted); vertical-align:middle;}
+  .latest{color:var(--muted); font-size:0.86rem; margin:13px 0 0;}
+  .latest b{color:var(--cream-dim); font-weight:500;}
+
+  /* ---- Action buttons ---- */
+  .btn{
+    display:flex; align-items:center; gap:16px; text-decoration:none;
+    background:var(--navy-soft); color:var(--cream);
+    border:1px solid var(--line); border-radius:18px;
+    padding:20px 20px; min-height:96px;
+    transition:transform .12s ease;
+  }
+  .btn:active{transform:scale(0.98);}
+  .btn .ico{
+    flex:0 0 54px; height:54px; border-radius:14px;
+    display:flex; align-items:center; justify-content:center;
+    font-size:28px; font-weight:800; font-family:var(--font-display);
+  }
+  .btn .txt .t{font-family:var(--font-display); font-weight:800; font-size:1.22rem; line-height:1.15;}
+  .btn .txt .s{color:var(--muted); font-size:0.92rem; margin-top:3px;}
+  .btn.shop .ico{background:rgba(29,158,117,0.16); color:var(--green-soft);}
+  .btn.sku  .ico{background:rgba(230,126,34,0.16); color:var(--amber-soft);}
+  .btn.check .ico{background:rgba(46,139,230,0.16); color:var(--sky-soft);}
+  .btn.shop{border-left:4px solid var(--green);}
+  .btn.sku{border-left:4px solid var(--amber);}
+  .btn.check{border-left:4px solid var(--sky);}
+
+  /* ---- Team ---- */
+  .team{border-top:1px solid var(--line); margin-top:6px; padding:18px 4px 4px;}
+  .team .lbl{font-family:var(--font-display); font-weight:800; text-transform:uppercase; letter-spacing:0.1em; font-size:0.78rem; color:var(--amber-soft); margin:0 0 3px;}
+  .team .sub{color:var(--muted); font-size:0.92rem; margin:0 0 12px;}
+  .mate{display:flex; align-items:center; gap:12px; background:var(--navy-soft); border:1px solid var(--line); border-radius:14px; padding:12px 14px; margin-bottom:10px;}
+  .mate .who{flex:1; min-width:0;}
+  .mate .who .mn{font-family:var(--font-display); font-weight:800; font-size:1.02rem;}
+  .mate .who .mr{color:var(--muted); font-size:0.82rem; margin-top:2px;}
+  .mate .acts{display:flex; gap:8px;}
+  .mate .acts a{display:flex; align-items:center; justify-content:center; width:46px; height:46px; border-radius:12px; text-decoration:none; font-size:20px; background:rgba(245,240,232,0.04); border:1px solid var(--line); transition:transform .12s ease;}
+  .mate .acts a:active{transform:scale(0.94);}
+  .mate .acts a.call{border-color:rgba(29,158,117,0.45);}
+  .mate .acts a.wa{border-color:rgba(37,211,102,0.5);}
+  .empty{color:var(--muted); font-size:0.88rem; background:rgba(245,240,232,0.03); border:1px dashed var(--line); border-radius:14px; padding:14px; text-align:center;}
+  .office{text-align:center; color:var(--muted); font-size:0.9rem; margin:14px 0 0;}
+  .office a{color:var(--cream); text-decoration:none; border-bottom:1px solid rgba(245,240,232,0.28);}
+  .foot{text-align:center; color:var(--muted); font-size:0.8rem; padding:16px 0 20px; letter-spacing:0.04em;}
+  @media (min-height:760px){ main{gap:20px;} .btn{min-height:108px;} }
+</style>
+</head>
+<body>
+  <div class="top">
+    <img src="assets/marque-v1-hero.png" alt="SCANSMART">
+    <span class="name">SCANSMART</span>
+    <span class="role">Supervisor</span>
+  </div>
+  <div class="head">
+    <h1>I500 Field Team</h1>
+    <p>Coverage, your team, and your own audit tasks.</p>
+  </div>
+
+  <main>
+    <!-- ===== Coverage (live via api.scansmart.uk/pulse) ===== -->
+    <section class="panel">
+      <div class="phead">
+        <span class="ptitle">I500 on-street</span>
+        <span class="pstamp" id="stamp">loading…</span>
+      </div>
+      <div class="stats">
+        <div class="stat shops">
+          <div class="n" id="nShops">—</div>
+          <div class="l">Shops registered</div>
+        </div>
+        <div class="stat audited">
+          <div class="n" id="nAudited">—</div>
+          <div class="l">Audited SKUs</div>
+        </div>
+        <div class="stat crowd">
+          <div class="n" id="nCrowd">—</div>
+          <div class="l">Contributed<span class="tag">crowd</span></div>
+        </div>
+      </div>
+      <p class="latest" id="latest"></p>
+    </section>
+
+    <!-- ===== Supervisor's own audit tasks ===== -->
+    <a class="btn shop" href="https://tally.so/r/J9o6qY">
+      <span class="ico">＋</span>
+      <span class="txt">
+        <span class="t">Register a Shop</span>
+        <span class="s">Add a new shop to the I500</span>
+      </span>
+    </a>
+    <a class="btn sku" href="https://tally.so/r/RGjRPv">
+      <span class="ico">▦</span>
+      <span class="txt">
+        <span class="t">Scan a Product</span>
+        <span class="s">Log a barcode, details &amp; photo</span>
+      </span>
+    </a>
+    <a class="btn check" href="https://app.scansmart.uk">
+      <span class="ico">◎</span>
+      <span class="txt">
+        <span class="t">CheckIT</span>
+        <span class="s">Scan a barcode · decode a label</span>
+      </span>
+    </a>
+  </main>
+
+  <!-- ===== Team ===== -->
+  <section class="team">
+    <p class="lbl">Your team</p>
+    <p class="sub">Tap to call or WhatsApp an auditor.</p>
+    <div id="roster"></div>
+    <p class="office">Escalate — SCANSMART office:
+      <a href="tel:+447519877311">07519&nbsp;877311</a> &middot;
+      <a href="https://wa.me/447519877311">WhatsApp</a>
+    </p>
+  </section>
+
+  <div class="foot">SCANSMART I500 · Supervisor Device</div>
+
+<script>
+/* ------------------------------------------------------------------
+   TEAM ROSTER — extensible. Add auditors here as they are onboarded.
+   `tel` is the international form used for both call and WhatsApp.
+   ------------------------------------------------------------------ */
+var ROSTER = [
+  // { name: 'Auditor name', role: 'I500 auditor', tel: '447000000000' },
+];
+
+(function renderRoster () {
+  var box = document.getElementById('roster');
+  if (!ROSTER.length) {
+    box.innerHTML = '<div class="empty">No auditors added yet — the office number below reaches SCANSMART.</div>';
+    return;
+  }
+  box.innerHTML = ROSTER.map(function (m) {
+    return '<div class="mate">' +
+      '<div class="who"><div class="mn"></div><div class="mr"></div></div>' +
+      '<div class="acts">' +
+        '<a class="call" href="tel:+' + m.tel + '" aria-label="Call">📞</a>' +
+        '<a class="wa" href="https://wa.me/' + m.tel + '" aria-label="WhatsApp">💬</a>' +
+      '</div></div>';
+  }).join('');
+  // set text via textContent so a name can never inject markup
+  var mates = box.querySelectorAll('.mate');
+  ROSTER.forEach(function (m, i) {
+    mates[i].querySelector('.mn').textContent = m.name;
+    mates[i].querySelector('.mr').textContent = m.role || 'I500 auditor';
+  });
+})();
+
+/* ------------------------------------------------------------------
+   COVERAGE — live from the kip-forms Worker aggregate.
+   PII-free by construction: counts + shop name only, never auditor
+   names or contributor identities.
+   Honesty rules carried from the 4 Jul Pulse review:
+     - a missing block is "unavailable", NOT zero (cause-neutral: could
+       be an old Worker, an unset PAT, or this tablet being offline)
+     - a missing field renders as an em dash, never as 0
+     - audited and contributed are never blended into one number
+   ------------------------------------------------------------------ */
+(function loadCoverage () {
+  var stamp = document.getElementById('stamp');
+  var latest = document.getElementById('latest');
+
+  function unavailable (why) {
+    stamp.textContent = why;
+    document.getElementById('nShops').textContent = '—';
+    document.getElementById('nAudited').textContent = '—';
+    document.getElementById('nCrowd').textContent = '—';
+    latest.textContent = '';
+  }
+
+  function num (v) { return (typeof v === 'number') ? String(v) : '—'; }
+
+  function ago (ts) {
+    if (!ts) return 'updated just now';
+    var mins = Math.round((Date.now() - ts) / 60000);
+    if (mins < 1) return 'updated just now';
+    if (mins < 60) return 'updated ' + mins + ' min ago';
+    var hrs = Math.round(mins / 60);
+    if (hrs < 24) return 'updated ' + hrs + (hrs === 1 ? ' hour ago' : ' hours ago');
+    var days = Math.round(hrs / 24);
+    return 'updated ' + days + (days === 1 ? ' day ago' : ' days ago');
+  }
+
+  fetch('https://api.scansmart.uk/pulse', { cache: 'no-store' })
+    .then(function (r) { if (!r.ok) throw new Error('http ' + r.status); return r.json(); })
+    .then(function (d) {
+      var i = d && d.i500;
+      if (!i) { unavailable('on-street: unavailable'); return; }
+      document.getElementById('nShops').textContent   = num(i.shops);
+      document.getElementById('nAudited').textContent = num(i.skusAudited);
+      document.getElementById('nCrowd').textContent   = num(i.skusContributed);
+      stamp.textContent = ago(d.ts);
+      if (i.shopName) {
+        latest.textContent = '';
+        latest.appendChild(document.createTextNode('Most recent shop: '));
+        var b = document.createElement('b');
+        b.textContent = i.shopName;
+        latest.appendChild(b);
+      } else {
+        latest.textContent = '';
+      }
+    })
+    .catch(function () { unavailable('on-street: unavailable'); });
+})();
+</script>
+</body>
+</html>
